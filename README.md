@@ -1,4 +1,4 @@
-# Be the strong, be the last
+# Be strong, be the last
 chi va piano, va sano e va lontano
 
 ## Introduction
