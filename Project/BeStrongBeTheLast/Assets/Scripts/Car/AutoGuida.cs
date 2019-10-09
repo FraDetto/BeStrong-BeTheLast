@@ -161,12 +161,12 @@ public class AutoGuida : MonoBehaviour
             {
                 case eTrazione.anteriore:
                     if (Colliders[i].tag.Equals("FrontWheel"))
-                        Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione;
+                        Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione * -1;
                     break;
 
                 case eTrazione.posteriore:
                     if (Colliders[i].tag.Equals("BackWheel"))
-                        Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione;
+                        Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione * -1;
                     break;
             }
 
