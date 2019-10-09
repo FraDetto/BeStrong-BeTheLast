@@ -22,7 +22,7 @@ public class AutoGuida : MonoBehaviour
     private bool RibaltaDisabilitato = false;
 
     private Quaternion OriginalRotation;
-    //private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
+    private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
     private WheelCollider[] Colliders = new WheelCollider[4];
     //private TrailRenderer[] Scie = new TrailRenderer[4];
     private GameObject[] Wheels = new GameObject[4];
@@ -58,7 +58,7 @@ public class AutoGuida : MonoBehaviour
             foreach (var o in obj_figli)
                 if (o.gameObject.name.Equals(w.name))
                 {
-                    //WheelErrorCorrectionR[i] = o.gameObject.transform.rotation;
+                    WheelErrorCorrectionR[i] = o.gameObject.transform.rotation;
                     Colliders[i] = w;
                     Wheels[i] = o.gameObject;
                     //Scie[i] = w.GetComponent<TrailRenderer>();
@@ -112,14 +112,14 @@ public class AutoGuida : MonoBehaviour
         fullBrake = (Input.GetKey(KeyCode.K) ? generalCar.brakingTorque : 0);
         handBrake = (Input.GetKey(KeyCode.M) ? generalCar.brakingTorque * 2 : 0);
 
-        var xAXIX = Input.GetAxis("Horizontal");
-        var yAXIX = Input.GetAxis("Vertical");
+        var xAxis = Input.GetAxis("Horizontal");
+        var yAxix = Input.GetAxis("Vertical");
 
         //DX-SX
-        instantSteeringAngle = generalCar.maxSteeringAngle * xAXIX;
+        instantSteeringAngle = generalCar.maxSteeringAngle * xAxis;
 
         //Avanti-dietro
-        instantTorque = generalCar.maxTorque * yAXIX;
+        instantTorque = generalCar.maxTorque * yAxix;
 
         Decellerazione = (instantTorque == 0 ? 1 : 0);
 
@@ -188,8 +188,7 @@ public class AutoGuida : MonoBehaviour
             Colliders[i].GetWorldPose(out worldPose_position, out worldPose_rotation);
 
             Wheels[i].transform.position = worldPose_position;
-            Wheels[i].transform.rotation = worldPose_rotation;
-            //Wheels[i].transform.rotation = worldPose_rotation * WheelErrorCorrectionR[i];
+            Wheels[i].transform.rotation = worldPose_rotation * WheelErrorCorrectionR[i];
         }
 
         var mySpeed = TheCarRigidBody.velocity.magnitude;
