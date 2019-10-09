@@ -24,7 +24,7 @@ public class AutoGuida : MonoBehaviour
     private Quaternion OriginalRotation;
     private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
     private WheelCollider[] Colliders = new WheelCollider[4];
-    private TrailRenderer[] Scie = new TrailRenderer[4];
+    //private TrailRenderer[] Scie = new TrailRenderer[4];
     private GameObject[] Wheels = new GameObject[4];
 
     private CameraManager MyCamera;
@@ -36,15 +36,15 @@ public class AutoGuida : MonoBehaviour
 
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 
-    private HudScriptManager HUD;
+    //private HudScriptManager HUD;
     private int Decellerazione = 0;
 
     private float fullBrake, handBrake, instantSteeringAngle, instantTorque;
 
     //To manage the sand particle effect
-    private ParticleSystem sandParticle;
+    //private ParticleSystem sandParticle;
 
-    private AudioSource carAudioSource, audienceConstantSoundAudioSource, hypeAudioSource;
+    //private AudioSource carAudioSource, audienceConstantSoundAudioSource, hypeAudioSource;
 
 
     void Start()
@@ -56,12 +56,12 @@ public class AutoGuida : MonoBehaviour
         foreach (var w in wc)
         {
             foreach (var o in obj_figli)
-                if (o.gameObject.name.Equals($"Wheel_{w.name}"))
+                if (o.gameObject.name.Equals(w.name))
                 {
                     WheelErrorCorrectionR[i] = o.gameObject.transform.rotation;
                     Colliders[i] = w;
                     Wheels[i] = o.gameObject;
-                    Scie[i] = w.GetComponent<TrailRenderer>();
+                    //Scie[i] = w.GetComponent<TrailRenderer>();
                     break;
                 }
 
@@ -73,11 +73,11 @@ public class AutoGuida : MonoBehaviour
         MyCamera = Camera.main.GetComponent<CameraManager>();
         CentroDiMassa = transform.Find("CentroDiMassa");
         LookHere = transform.Find("CameraAnchor/LookHere");
-        Position = transform.Find("CameraAnchor/Position");        
+        Position = transform.Find("CameraAnchor/Position");
         OriginalRotation = TheCarRigidBody.transform.rotation;
 
-        var HUDo = GameObject.FindGameObjectWithTag("HUD");
-        HUD = HUDo.GetComponent<HudScriptManager>();
+        //var HUDo = GameObject.FindGameObjectWithTag("HUD");
+        //HUD = HUDo.GetComponent<HudScriptManager>();
 
         MyCamera.lookAtTarget = LookHere;
         MyCamera.positionTarget = Position;
@@ -86,12 +86,12 @@ public class AutoGuida : MonoBehaviour
         CentroDiMassaAssettoCorsa = CentroDiMassa.position - transform.position;
         TheCarRigidBody.centerOfMass = CentroDiMassaAssettoCorsa;
 
-        sandParticle = gameObject.GetComponentInChildren<ParticleSystem>();
+        //sandParticle = gameObject.GetComponentInChildren<ParticleSystem>();
 
-        carAudioSource = gameObject.GetComponent<AudioSource>();
-        hypeAudioSource = GameObject.Find("HypeVoicesManager").GetComponent<AudioSource>();
-        audienceConstantSoundAudioSource = GameObject.Find("ConstantVoicesManager").GetComponent<AudioSource>();
-        audienceConstantSoundAudioSource.Play();
+        //carAudioSource = gameObject.GetComponent<AudioSource>();
+        //hypeAudioSource = GameObject.Find("HypeVoicesManager").GetComponent<AudioSource>();
+        //audienceConstantSoundAudioSource = GameObject.Find("ConstantVoicesManager").GetComponent<AudioSource>();
+        //audienceConstantSoundAudioSource.Play();
     }
 
     private IEnumerator AbilitaRibalta()
@@ -193,7 +193,7 @@ public class AutoGuida : MonoBehaviour
 
         var mySpeed = TheCarRigidBody.velocity.magnitude;
 
-        sandParticle.playbackSpeed = (generalCar.transform.position.y < PosizionePavimento ? mySpeed / 10 : 0);
+        //sandParticle.playbackSpeed = (generalCar.transform.position.y < PosizionePavimento ? mySpeed / 10 : 0);
 
         var RuoteCheCollidono = 0u;
         for (var j = 0u; j < Colliders.Length; j++)
@@ -207,16 +207,16 @@ public class AutoGuida : MonoBehaviour
 
         generalCar.actualSpeed = mySpeed;
 
-        HUD.generalCar = generalCar;
-        GB.PlayCarEngine(carAudioSource, mySpeed);
+        //HUD.generalCar = generalCar;
+        //GB.PlayCarEngine(carAudioSource, mySpeed);
     }
 
     private void GestioneScie(uint RuoteCheCollidono, float speed)
     {
         var mostra = (speed > 15 && RuoteCheCollidono == 0);
 
-        for (var i = 0u; i < Scie.Length; i++)
-            Scie[i].emitting = mostra;
+        //for (var i = 0u; i < Scie.Length; i++)
+        //    Scie[i].emitting = mostra;
     }
 
 
