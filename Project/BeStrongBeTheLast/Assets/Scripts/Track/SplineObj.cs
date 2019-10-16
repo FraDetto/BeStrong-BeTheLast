@@ -12,10 +12,18 @@ public class SplineObj : MonoBehaviour
 {
     public enum eSpeed
     {
-        Fast, Medium, Slow
+        Super, Fast, Medium, Slow
     }
 
     public eSpeed speed = eSpeed.Fast;
+
+    internal event System.Action triggered;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CPU"))
+            triggered();
+    }
 
 
 }

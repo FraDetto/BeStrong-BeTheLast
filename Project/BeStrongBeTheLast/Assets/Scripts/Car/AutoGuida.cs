@@ -113,7 +113,7 @@ public class AutoGuida : MonoBehaviour
         handBrake = (Input.GetKey(KeyCode.M) ? generalCar.brakingTorque * 2 : 0);
 
         var xAxis = Input.GetAxis("Horizontal");
-        var yAxix = Input.GetAxis("Vertical");
+        var yAxix = 1;//Input.GetAxis("Vertical");
 
         //DX-SX
         instantSteeringAngle = generalCar.maxSteeringAngle * xAxis;

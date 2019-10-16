@@ -6,7 +6,6 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -45,7 +44,8 @@ public class AutoCPU : MonoBehaviour
     public GameObject CPUSpline;
     private Transform[] CPUSplines;
     private SplineObj[] CPUSplineObjs;
-    private short CurrentSpline = -1;
+    private int CurrentSplinePrev = -1;
+    private int CurrentSpline = -1;
 
 
     void Start()
@@ -58,6 +58,7 @@ public class AutoCPU : MonoBehaviour
         {
             CPUSplines[x] = el as Transform;
             CPUSplineObjs[x] = CPUSplines[x].GetComponent<SplineObj>();
+            CPUSplineObjs[x].triggered += autoCPU_triggered;
             x++;
         }
 
@@ -84,52 +85,52 @@ public class AutoCPU : MonoBehaviour
     void Update()
     {
         if (CurrentSpline == -1 && agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-            StartCoroutine(checkCpuReachPoint());
-    }
-
-    IEnumerator checkCpuReachPoint()
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        if (CurrentSpline < 0)
-        {
             setDestination();
-        }
-        else if (Vector3.Distance(agent.destination, transform.position) < 2)
-        {
-            CurrentSpline++;
-            setDestination();
-        }
-
-        StartCoroutine(checkCpuReachPoint());
     }
 
     void setDestination()
     {
-        if (CurrentSpline < 0)
-            CurrentSpline = 0;
-        else if (CurrentSpline == CPUSplines.Length)
-            CurrentSpline = 0;
+        if (CurrentSpline > -1)
+            CPUSplines[CurrentSpline].gameObject.SetActive(false);
 
-        if (CurrentSpline > 0)
-            CPUSplines[CurrentSpline - 1].gameObject.GetComponent<Renderer>().material.color = Color.white;
+        CurrentSplinePrev = CurrentSpline;
+        CurrentSpline++;
 
-        switch (CPUSplineObjs[CurrentSpline].speed)
+        if (CurrentSpline == CPUSplines.Length)
         {
-            case SplineObj.eSpeed.Fast:
-                agent.speed = 20;
-                break;
-            case SplineObj.eSpeed.Medium:
-                agent.speed = 9;
-                break;
-            case SplineObj.eSpeed.Slow:
-                agent.speed = 3;
-                break;
+            CurrentSpline = 0;
+
+            foreach (var s in CPUSplines)
+                s.gameObject.SetActive(true);
         }
+
+        if (CurrentSplinePrev > -1)
+            CPUSplines[CurrentSplinePrev].gameObject.GetComponent<Renderer>().material.color = Color.white;
+
+        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.red;
 
         agent.destination = CPUSplines[CurrentSpline].position;
 
-        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.red;
+        switch (CPUSplineObjs[CurrentSpline].speed)
+        {
+            case SplineObj.eSpeed.Super:
+                agent.speed = 20;
+                break;
+            case SplineObj.eSpeed.Fast:
+                agent.speed = 11;
+                break;
+            case SplineObj.eSpeed.Medium:
+                agent.speed = 8;
+                break;
+            case SplineObj.eSpeed.Slow:
+                agent.speed = 6;
+                break;
+        }
+    }
+
+    private void autoCPU_triggered()
+    {
+        setDestination();
     }
 
 
