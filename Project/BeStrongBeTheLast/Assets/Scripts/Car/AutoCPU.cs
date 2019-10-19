@@ -116,10 +116,11 @@ public class AutoCPU : MonoBehaviour
         if (Vector3.Distance(transform.position, CPUSplines[CurrentSpline].position) < 4)
             setDestination();
 
-        transform.LookAt(CPUSplines[CurrentSpline].position);
+        var offset = transform.position - CPUSplines[CurrentSpline].position;
+        transform.LookAt(transform.position + offset);
 
         var xAxis = 0;
-        var yAxix = -1;
+        var yAxix = 1;
 
         //DX-SX
         instantSteeringAngle = generalCar.maxSteeringAngle * xAxis;
