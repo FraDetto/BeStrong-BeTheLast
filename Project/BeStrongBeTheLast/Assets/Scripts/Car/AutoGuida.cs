@@ -36,10 +36,9 @@ public class AutoGuida : MonoBehaviour
 
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 
-    //private HudScriptManager HUD;
-    private int Decellerazione = 0;
+    //private HudScriptManager HUD;    
 
-    private float fullBrake, handBrake, instantSteeringAngle, instantTorque;
+    private float instantSteeringAngle, instantTorque;
 
     //To manage the sand particle effect
     //private ParticleSystem sandParticle;
@@ -108,20 +107,14 @@ public class AutoGuida : MonoBehaviour
 
     void Update()
     {
-        //freni
-        fullBrake = (Input.GetKey(KeyCode.K) ? generalCar.brakingTorque : 0);
-        handBrake = (Input.GetKey(KeyCode.M) ? generalCar.brakingTorque * 2 : 0);
-
         var xAxis = Input.GetAxis("Horizontal");
-        var yAxix = 1;//Input.GetAxis("Vertical");
+        var yAxix = 1;
 
         //DX-SX
         instantSteeringAngle = generalCar.maxSteeringAngle * xAxis;
 
         //Avanti-dietro
         instantTorque = generalCar.maxTorque * yAxix;
-
-        Decellerazione = (instantTorque == 0 ? 1 : 0);
 
         if (GB.ms_to_kmh(TheCarRigidBody.velocity.magnitude) >= generalCar.Speed)
             instantTorque = 0;
@@ -168,20 +161,6 @@ public class AutoGuida : MonoBehaviour
                     if (Colliders[i].tag.Equals("BackWheel"))
                         Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione * -1;
                     break;
-            }
-
-            if (fullBrake > 0)
-            {
-                Colliders[i].brakeTorque = fullBrake * generalCar.Accellerazione;
-            }
-            else if (handBrake > 0)
-            {
-                if (Colliders[i].tag.Equals("BackWheel"))
-                    Colliders[i].brakeTorque = handBrake * generalCar.Accellerazione;
-            }
-            else
-            {
-                Colliders[i].brakeTorque = 0 + Decellerazione;
             }
 
             //rotate the 3d object
