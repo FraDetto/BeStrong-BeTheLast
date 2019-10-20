@@ -29,7 +29,7 @@ public class AutoGuida : MonoBehaviour
     private Quaternion OriginalRotation;
     private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
     private WheelCollider[] Colliders = new WheelCollider[4];
-    //private TrailRenderer[] Scie = new TrailRenderer[4];
+    private TrailRenderer[] Scie = new TrailRenderer[4];
     private GameObject[] Wheels = new GameObject[4];
 
     private CameraManager MyCamera;
@@ -65,7 +65,7 @@ public class AutoGuida : MonoBehaviour
                     WheelErrorCorrectionR[i] = o.gameObject.transform.rotation;
                     Colliders[i] = w;
                     Wheels[i] = o.gameObject;
-                    //Scie[i] = w.GetComponent<TrailRenderer>();
+                    Scie[i] = w.GetComponent<TrailRenderer>();
                     break;
                 }
 
@@ -157,18 +157,20 @@ public class AutoGuida : MonoBehaviour
             sf.stiffness = (derapata ? 1.7f : 1.2f);
             Colliders[i].sidewaysFriction = sf;
 
-            if (Colliders[i].tag.Equals("FrontWheel"))
+            var FrontWheel = Colliders[i].CompareTag("FrontWheel");
+
+            if (FrontWheel)
                 Colliders[i].steerAngle = instantSteeringAngle;
 
             switch (Trazione)
             {
                 case eTrazione.anteriore:
-                    if (Colliders[i].tag.Equals("FrontWheel"))
+                    if (FrontWheel)
                         Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione * -1;
                     break;
 
                 case eTrazione.posteriore:
-                    if (Colliders[i].tag.Equals("BackWheel"))
+                    if (!FrontWheel)
                         Colliders[i].motorTorque = instantTorque * generalCar.Accellerazione * -1;
                     break;
             }
@@ -202,10 +204,10 @@ public class AutoGuida : MonoBehaviour
 
     private void GestioneScie(uint RuoteCheCollidono, float speed)
     {
-        var mostra = (speed > 15 && RuoteCheCollidono == 0);
+        var mostra = (speed > 10 && RuoteCheCollidono == 0);
 
-        //for (var i = 0u; i < Scie.Length; i++)
-        //    Scie[i].emitting = mostra;
+        for (var i = 0u; i < Scie.Length; i++)
+            Scie[i].emitting = mostra;
     }
 
 
