@@ -16,6 +16,11 @@ public class AutoGuida : MonoBehaviour
         anteriore, posteriore
     }
 
+    private bool derapata = false;
+
+    [Range(1, 9)]
+    public ushort MoltiplicatoreEffettoVelocitaCamera = 3;
+
     public eTrazione Trazione = eTrazione.anteriore;
 
     private const short PosizionePavimento = -5;
@@ -102,11 +107,12 @@ public class AutoGuida : MonoBehaviour
 
     private void EffettoVelocitaCamera()
     {
-        Camera.main.fieldOfView = 60 + (TheCarRigidBody.velocity.magnitude / 3);
+        Camera.main.fieldOfView = 60 + (TheCarRigidBody.velocity.magnitude / MoltiplicatoreEffettoVelocitaCamera);
     }
 
     void Update()
     {
+        derapata = Input.GetKey(KeyCode.Space);
         var xAxis = Input.GetAxis("Horizontal");
         var yAxix = 1;
 
@@ -147,6 +153,10 @@ public class AutoGuida : MonoBehaviour
 
         for (var i = 0u; i < Colliders.Length; i++)
         {
+            var sf = Colliders[i].sidewaysFriction;
+            sf.stiffness = (derapata ? 1.7f : 1.2f);
+            Colliders[i].sidewaysFriction = sf;
+
             if (Colliders[i].tag.Equals("FrontWheel"))
                 Colliders[i].steerAngle = instantSteeringAngle;
 
