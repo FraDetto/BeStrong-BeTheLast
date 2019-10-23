@@ -13,17 +13,19 @@ public class AutoGuida : aAuto
 
     private bool derapata = false;
 
-    [Range(1, 9)]
+    [Range(0, 9)]
     public ushort MoltiplicatoreEffettoVelocitaCamera = 3;
 
     private CameraManager MyCamera;
     private Transform LookHere, Position;
-
+    private float fieldOfView;
 
     void Start()
     {
         LookHere = transform.Find("CameraAnchor/LookHere");
         Position = transform.Find("CameraAnchor/Position");
+
+        fieldOfView = Camera.main.fieldOfView;
 
         MyCamera = Camera.main.GetComponent<CameraManager>();
         MyCamera.lookAtTarget = LookHere;
@@ -34,7 +36,8 @@ public class AutoGuida : aAuto
 
     private void EffettoVelocitaCamera()
     {
-        Camera.main.fieldOfView = 60 + (TheCarRigidBody.velocity.magnitude / MoltiplicatoreEffettoVelocitaCamera);
+        if (MoltiplicatoreEffettoVelocitaCamera > 0)
+            Camera.main.fieldOfView = fieldOfView + (TheCarRigidBody.velocity.magnitude / MoltiplicatoreEffettoVelocitaCamera);
     }
 
     void Update()
