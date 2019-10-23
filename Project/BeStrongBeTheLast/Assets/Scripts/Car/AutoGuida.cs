@@ -17,20 +17,16 @@ public class AutoGuida : aAuto
     [Range(0, 9)]
     public float MoltiplicatoreEffettoVelocitaCamera = 0.333f;
 
-    private CameraManager MyCamera;
     private Transform LookHere, Position;
     private float fieldOfView;
 
     void Start()
     {
-        LookHere = transform.Find("CameraAnchor/LookHere");
-        Position = transform.Find("CameraAnchor/Position");
-
         fieldOfView = Camera.main.fieldOfView;
 
-        MyCamera = Camera.main.GetComponent<CameraManager>();
-        MyCamera.lookAtTarget = LookHere;
-        MyCamera.positionTarget = Position;
+        var MyCamera = Camera.main.GetComponent<CameraManager>();
+        MyCamera.lookAtTarget = transform.Find("CameraAnchor/LookHere");
+        MyCamera.positionTarget = transform.Find("CameraAnchor/Position");
 
         Start_();
     }
