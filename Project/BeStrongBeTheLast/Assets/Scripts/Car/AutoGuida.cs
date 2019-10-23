@@ -17,7 +17,7 @@ public class AutoGuida : aAuto
     public ushort MoltiplicatoreEffettoVelocitaCamera = 3;
 
     private CameraManager MyCamera;
-    private Transform LookHere, Position, CentroDiMassa;
+    private Transform LookHere, Position;
 
 
     void Start()
