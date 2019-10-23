@@ -13,15 +13,15 @@ public class CameraManager : MonoBehaviour
 
     internal Transform lookAtTarget, positionTarget;
 
-    [Range(0, 100)]
-    public float smoothing = 6;
+    [Range(0.000001f, 1)]
+    public float smoothing = 0.7f;
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (lookAtTarget != null && positionTarget != null)
         {
-            var pos = Vector3.Lerp(transform.position, positionTarget.position, Time.deltaTime * smoothing);
+            var pos = Vector3.Lerp(transform.position, positionTarget.position, smoothing);
 
             if (pos.y < 0)
                 pos.y = 0;

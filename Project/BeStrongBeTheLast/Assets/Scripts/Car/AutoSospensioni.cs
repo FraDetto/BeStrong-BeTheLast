@@ -9,6 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(Rigidbody))]
 public class AutoSospensioni : MonoBehaviour
 {
     [Range(0.1f, 20f)]
