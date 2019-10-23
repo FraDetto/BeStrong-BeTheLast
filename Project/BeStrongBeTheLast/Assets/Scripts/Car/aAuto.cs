@@ -33,7 +33,7 @@ public abstract class aAuto : MonoBehaviour
     protected Rigidbody TheCarRigidBody;
 
     //The class that owns the stats of the faction    
-    private GeneralCar generalCar;
+    protected GeneralCar generalCar;
 
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 

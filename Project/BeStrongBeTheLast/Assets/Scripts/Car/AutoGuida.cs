@@ -43,8 +43,9 @@ public class AutoGuida : aAuto
 
     void Update()
     {
-        derapata = Input.GetKey(KeyCode.Space);
         var xAxis = Input.GetAxis("Horizontal");
+
+        derapata = Input.GetKey(KeyCode.Space);
 
         Update_(xAxis);
 
@@ -55,9 +56,16 @@ public class AutoGuida : aAuto
     {
         for (var i = 0u; i < Colliders.Length; i++)
         {
-            var sf = Colliders[i].sidewaysFriction;
-            sf.stiffness = (derapata ? 1.7f : 1.2f);
-            Colliders[i].sidewaysFriction = sf;
+            var FrontWheel = Colliders[i].CompareTag("FrontWheel");
+
+            if (!FrontWheel)
+            {
+                //var sf = Colliders[i].sidewaysFriction;
+                //sf.stiffness = (derapata ? 1.7f : 1.2f);
+                //Colliders[i].sidewaysFriction = sf;
+
+                Colliders[i].brakeTorque = (derapata ? 2 * generalCar.brakingTorque * generalCar.Accellerazione : 0);
+            }
         }
 
         FixedUpdate_();
