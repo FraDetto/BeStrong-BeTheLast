@@ -14,7 +14,7 @@ public class AutoGuida : aAuto
     private bool derapata = false;
 
     [Range(0, 9)]
-    public ushort MoltiplicatoreEffettoVelocitaCamera = 3;
+    public float MoltiplicatoreEffettoVelocitaCamera = 0.333f;
 
     private CameraManager MyCamera;
     private Transform LookHere, Position;
@@ -37,7 +37,7 @@ public class AutoGuida : aAuto
     private void EffettoVelocitaCamera()
     {
         if (MoltiplicatoreEffettoVelocitaCamera > 0)
-            Camera.main.fieldOfView = fieldOfView + (TheCarRigidBody.velocity.magnitude / MoltiplicatoreEffettoVelocitaCamera);
+            Camera.main.fieldOfView = fieldOfView + (TheCarRigidBody.velocity.magnitude * MoltiplicatoreEffettoVelocitaCamera);
     }
 
     void Update()
