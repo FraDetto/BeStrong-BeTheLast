@@ -72,7 +72,7 @@ public class HudScriptManager : MonoBehaviour
 
     private void setValues()
     {
-        var l = generalCar?.Health ?? 0;
+        var l = 0;
         var s = generalCar?.actualSpeed ?? 0;
 
         setHealth(0, l, l);

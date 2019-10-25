@@ -103,7 +103,7 @@ public abstract class aAuto : MonoBehaviour
         //Avanti-dietro
         instantTorque = generalCar.maxTorque;
 
-        if (GB.ms_to_kmh(TheCarRigidBody.velocity.magnitude) >= generalCar.Speed)
+        if (GB.ms_to_kmh(TheCarRigidBody.velocity.magnitude) > generalCar.Speed)
             instantTorque = 0;
 
         if (!RibaltaDisabilitato)

@@ -10,18 +10,11 @@ using UnityEngine;
 
 public class GeneralCar : MonoBehaviour
 {
-    internal float Health = 1000;
     internal float actualSpeed = 0;
 
 
-    [Range(40, 250)]
-    public int Speed;
-
-    [Range(0, 10)]
-    public int Defense;
-
-    [Range(0, 10)]
-    public int Attack;
+    [Range(0, 250)]
+    public float Speed;
 
     [Range(1f, 50f)]
     public float Accellerazione;

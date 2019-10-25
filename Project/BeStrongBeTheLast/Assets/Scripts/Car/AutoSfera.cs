@@ -7,12 +7,12 @@ public class AutoSfera : MonoBehaviour
 
     public Rigidbody sphere;
     public Vector3 diffSphere;
-    public GameObject KartModel;
+    public GameObject KartModel, WheelFLModel, WheelFRModel;
 
-    public float steering, accellaration;
+    public float steering;
+    private float steering_neg;
 
-
-    private float currentSpeed, currentRotate, maxS;
+    private float currentSpeed, currentRotate;
 
     private GeneralCar generalCar;
 
@@ -24,30 +24,49 @@ public class AutoSfera : MonoBehaviour
         MyCamera.positionTarget = Position;
 
         generalCar = GetComponent<GeneralCar>();
-        maxS = generalCar.Speed / 15;
+
+        steering_neg = steering * -1;
     }
+
+    const float wheelAngleMultiplyer = 4;
 
     private void Update()
     {
-        KartModel.transform.position = sphere.transform.position - diffSphere;
-        //KartModel.transform.eulerAngles = new Vector3(KartModel.transform.eulerAngles.x, sphere.transform.eulerAngles.y, KartModel.transform.eulerAngles.z);
-
         var H = Input.GetAxis("Horizontal");
 
-        currentRotate = Mathf.Lerp(currentRotate, steering * H, Time.deltaTime);
-        currentSpeed = Mathf.SmoothStep(currentSpeed, accellaration, Time.deltaTime);
+        switch (H)
+        {
+            case 0:
+                if (currentRotate > 0)
+                    currentRotate -= wheelAngleMultiplyer;
+                else if (currentRotate < 0)
+                    currentRotate += wheelAngleMultiplyer;
+                break;
+            default:
+                currentRotate += (H * wheelAngleMultiplyer);
+                break;
+        }
 
-        if (currentSpeed > maxS)
-            currentSpeed = maxS;
+        if (currentRotate > steering)
+            currentRotate = steering;
+        else if (currentRotate < steering_neg)
+            currentRotate = steering_neg;
 
-        // Debug.Log(currentRotate + " | " + currentSpeed);
+        var kmh = GB.ms_to_kmh(sphere.velocity.magnitude);
+
+        if (kmh < generalCar.Speed)
+            currentSpeed++;
+
+        WheelFLModel.transform.localEulerAngles = new Vector3(0, currentRotate, 0);
+        WheelFRModel.transform.localEulerAngles = new Vector3(0, currentRotate, 0);
+
+        KartModel.transform.position = sphere.transform.position - diffSphere;
+        KartModel.transform.localEulerAngles = Vector3.Lerp(KartModel.transform.localEulerAngles, new Vector3(0, KartModel.transform.localEulerAngles.y + currentRotate, 0), Time.deltaTime * 3f);
     }
 
     private void FixedUpdate()
     {
-        //sphere.transform.RotateAroundLocal(Vector3.up, currentRotate * Time.deltaTime * 5f);
-        KartModel.transform.eulerAngles = Vector3.Lerp(KartModel.transform.eulerAngles, new Vector3(0, KartModel.transform.eulerAngles.y + currentRotate, 0), Time.deltaTime);
-        sphere.AddForce(-1 * KartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+        sphere.AddTorque(-1f * KartModel.transform.forward * generalCar.maxTorque);
     }
 
 
