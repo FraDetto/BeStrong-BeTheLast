@@ -66,7 +66,7 @@ public class AutoSfera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        sphere.AddTorque(-1f * KartModel.transform.forward * generalCar.maxTorque);
+
     }
 
 
