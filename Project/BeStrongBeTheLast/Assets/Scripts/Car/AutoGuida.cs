@@ -18,7 +18,7 @@ public class AutoGuida : aAuto
     public float MoltiplicatoreEffettoVelocitaCamera = 0.333f;
 
     private Transform LookHere, Position;
-    private float fieldOfView;
+    private float fieldOfView, stiffnessFront, stiffnessBack;
 
     void Start()
     {
@@ -53,15 +53,20 @@ public class AutoGuida : aAuto
         for (var i = 0u; i < Colliders.Length; i++)
         {
             var FrontWheel = Colliders[i].CompareTag("FrontWheel");
+            var sf = Colliders[i].sidewaysFriction;
 
-            if (!FrontWheel)
-            {
-                //var sf = Colliders[i].sidewaysFriction;
-                //sf.stiffness = (derapata ? 1.7f : 1.2f);
-                //Colliders[i].sidewaysFriction = sf;
+            if (stiffnessFront == 0 && FrontWheel)
+                stiffnessFront = sf.stiffness;
 
-                Colliders[i].brakeTorque = (derapata ? 2 * generalCar.brakingTorque * generalCar.Accellerazione : 0);
-            }
+            if (stiffnessBack == 0 && !FrontWheel)
+                stiffnessBack = sf.stiffness;
+
+            if (FrontWheel)
+                sf.stiffness = (derapata ? 1.7f : stiffnessFront);
+            else
+                sf.stiffness = (derapata ? 1.1f : stiffnessBack);
+
+            Colliders[i].sidewaysFriction = sf;
         }
 
         FixedUpdate_();

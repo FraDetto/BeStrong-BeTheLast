@@ -13,10 +13,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class aAuto : MonoBehaviour
 {
+
     public enum eTrazione
     {
         anteriore, posteriore
     }
+
 
     public eTrazione Trazione = eTrazione.anteriore;
 
@@ -38,7 +40,7 @@ public abstract class aAuto : MonoBehaviour
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 
     //private HudScriptManager HUD;    
-    private float instantSteeringAngle, instantTorque;
+    protected float instantSteeringAngle, instantTorque;
 
     //To manage the sand particle effect
     //private ParticleSystem sandParticle;
