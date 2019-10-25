@@ -40,7 +40,8 @@ public abstract class aAuto : MonoBehaviour
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 
     //private HudScriptManager HUD;    
-    protected float instantSteeringAngle, instantTorque;
+    private float instantSteeringAngle, instantTorque;
+    protected float xAxis;
 
     //To manage the sand particle effect
     //private ParticleSystem sandParticle;
@@ -97,7 +98,7 @@ public abstract class aAuto : MonoBehaviour
         RibaltaDisabilitato = false;
     }
 
-    protected void Update_(float xAxis)
+    protected void Update_()
     {
         //DX-SX
         instantSteeringAngle = generalCar.maxSteeringAngle * xAxis;

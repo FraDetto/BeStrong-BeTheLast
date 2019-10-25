@@ -42,7 +42,7 @@ public class AutoCPU : aAuto
         var offset = transform.position - CPUSplines[CurrentSpline].position;
         transform.LookAt(transform.position + offset);
 
-        Update_(0);
+        Update_();
     }
 
     void FixedUpdate()

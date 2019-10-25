@@ -12,13 +12,13 @@ using UnityEngine;
 public class AutoGuida : aAuto
 {
 
-    private bool derapata = false;
-
     [Range(0, 9)]
     public float MoltiplicatoreEffettoVelocitaCamera = 0.333f;
 
     private Transform LookHere, Position;
     private float fieldOfView, stiffnessFront, stiffnessBack;
+    private bool derapata = false;
+
 
     void Start()
     {
@@ -39,17 +39,20 @@ public class AutoGuida : aAuto
 
     void Update()
     {
-        var xAxis = Input.GetAxis("Horizontal");
+        xAxis = Input.GetAxis("Horizontal");
 
         derapata = Input.GetKey(KeyCode.Space);
 
-        Update_(xAxis);
+        Update_();
 
         EffettoVelocitaCamera();
     }
 
     void FixedUpdate()
     {
+        if (derapata)
+            TheCarRigidBody.AddRelativeForce(new Vector3(-200 * xAxis, -100, -800));
+
         for (var i = 0u; i < Colliders.Length; i++)
         {
             var FrontWheel = Colliders[i].CompareTag("FrontWheel");
@@ -64,7 +67,7 @@ public class AutoGuida : aAuto
             if (FrontWheel)
                 sf.stiffness = (derapata ? 1.7f : stiffnessFront);
             else
-                sf.stiffness = (derapata ? 1.1f : stiffnessBack);
+                sf.stiffness = (derapata ? 1.2f : stiffnessBack);
 
             Colliders[i].sidewaysFriction = sf;
         }
