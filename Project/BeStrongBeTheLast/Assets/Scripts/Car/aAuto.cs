@@ -23,7 +23,8 @@ public abstract class aAuto : MonoBehaviour
     public eTrazione Trazione = eTrazione.anteriore;
 
     private const short PosizionePavimento = -5;
-    private bool RibaltaDisabilitato = false;
+    protected bool RibaltaDisabilitato = false;
+    protected bool Ribalta = false;
 
     private Quaternion OriginalRotation;
     private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
@@ -40,7 +41,7 @@ public abstract class aAuto : MonoBehaviour
     private Vector3 CentroDiMassaAssettoCorsa, CentroDiMassa3D;
 
     //private HudScriptManager HUD;    
-    private float instantSteeringAngle, instantTorque;
+    protected float instantSteeringAngle, instantTorque;
     protected float xAxis;
 
     //To manage the sand particle effect
@@ -110,9 +111,6 @@ public abstract class aAuto : MonoBehaviour
             instantTorque = 0;
 
         if (!RibaltaDisabilitato)
-        {
-            var Ribalta = Input.GetKey(KeyCode.T);
-
             if (Ribalta)
             {
                 RibaltaDisabilitato = true;
@@ -125,7 +123,6 @@ public abstract class aAuto : MonoBehaviour
 
                 StartCoroutine(AbilitaRibalta());
             }
-        }
     }
 
     protected void FixedUpdate_()

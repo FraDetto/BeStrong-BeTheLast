@@ -16,9 +16,15 @@ public class AutoCPU : aAuto
     private int CurrentSplinePrev = -1;
     private int CurrentSpline = -1;
 
+    private GameObject[] CPUCars;
+
+    private float LastStuck = -1;
+    private Vector3 lastPosition;
+
 
     void Start()
     {
+        CPUCars = GameObject.FindGameObjectsWithTag("CPU");
         CPUSplines = new Transform[CPUSpline.transform.childCount];
 
         var x = 0u;
@@ -43,6 +49,22 @@ public class AutoCPU : aAuto
         transform.LookAt(transform.position + offset);
 
         Update_();
+
+        foreach (var cpu in CPUCars)
+            if (!cpu.name.Equals(name))
+                if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
+                    instantTorque = 0;
+
+        if (transform.position == lastPosition && TheCarRigidBody.velocity.magnitude < 1)
+        {
+            if (LastStuck > -1)
+                LastStuck = Time.time;
+
+            if (Time.time - LastStuck > 5)
+                transform.position = new Vector3(CPUSplines[CurrentSpline].position.x, CPUSplines[CurrentSpline].position.y + 2, CPUSplines[CurrentSpline].position.z);
+        }
+
+        lastPosition = transform.position;
     }
 
     void FixedUpdate()

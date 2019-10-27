@@ -43,6 +43,9 @@ public class AutoGuida : aAuto
 
         derapata = Input.GetKey(KeyCode.Space);
 
+        if (!RibaltaDisabilitato)
+            Ribalta = Input.GetKey(KeyCode.T);
+
         Update_();
 
         EffettoVelocitaCamera();

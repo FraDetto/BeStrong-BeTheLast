@@ -46,7 +46,6 @@ public static class GB
         b.enabled = abilitato;
     }
 
-    //da testare
     public static T FindComponentInChildWithTag<T>(GameObject parent, string tag) where T : Component
     {
         var t = parent.transform;
