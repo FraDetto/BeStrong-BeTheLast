@@ -110,6 +110,9 @@ public abstract class aAuto : MonoBehaviour
         if (GB.ms_to_kmh(TheCarRigidBody.velocity.magnitude) > generalCar.Speed)
             instantTorque = 0;
 
+        if (TheCarRigidBody.velocity.magnitude < 0)
+            instantTorque *= 3;
+
         if (!RibaltaDisabilitato)
             if (Ribalta)
             {
