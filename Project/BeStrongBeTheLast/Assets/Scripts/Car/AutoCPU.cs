@@ -60,7 +60,7 @@ public class AutoCPU : aAuto
             if (LastStuck > -1)
                 LastStuck = Time.time;
 
-            if (Time.time - LastStuck > 5)
+            if (Time.time - LastStuck > 60)
                 transform.position = new Vector3(CPUSplines[CurrentSpline].position.x, CPUSplines[CurrentSpline].position.y + 2, CPUSplines[CurrentSpline].position.z);
         }
 
