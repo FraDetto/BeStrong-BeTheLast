@@ -26,7 +26,6 @@ public abstract class aAuto : MonoBehaviour
     protected bool RibaltaDisabilitato = false;
     protected bool Ribalta = false;
 
-    private Quaternion OriginalRotation;
     private Quaternion[] WheelErrorCorrectionR = new Quaternion[4];
     protected WheelCollider[] Colliders = new WheelCollider[4];
     private TrailRenderer[] Scie = new TrailRenderer[4];
@@ -75,7 +74,6 @@ public abstract class aAuto : MonoBehaviour
         TheCarRigidBody = GetComponent<Rigidbody>();
 
         CentroDiMassa = transform.Find("CentroDiMassa");
-        OriginalRotation = TheCarRigidBody.transform.rotation;
 
         //var HUDo = GameObject.FindGameObjectWithTag("HUD");
         //HUD = HUDo.GetComponent<HudScriptManager>();
@@ -122,7 +120,9 @@ public abstract class aAuto : MonoBehaviour
                 instantSteeringAngle = 0;
 
                 var ppp = TheCarRigidBody.gameObject.transform.position;
-                TheCarRigidBody.gameObject.transform.SetPositionAndRotation(new Vector3(ppp.x, 0, ppp.z), OriginalRotation);
+                var rrr = TheCarRigidBody.gameObject.transform.rotation.eulerAngles;
+                TheCarRigidBody.gameObject.transform.SetPositionAndRotation(new Vector3(ppp.x, 0.5f, ppp.z), Quaternion.Euler(0, rrr.y, 0));
+                TheCarRigidBody.velocity = Vector3.zero;
 
                 StartCoroutine(AbilitaRibalta());
             }
