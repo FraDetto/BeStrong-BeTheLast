@@ -17,7 +17,7 @@ public class KartController : MonoBehaviour
     public List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
     public List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
 
-    float speed, currentSpeed;
+    public float speed, currentSpeed;
     float rotate, currentRotate;
     int driftDirection;
     float driftPower;
@@ -79,8 +79,8 @@ public class KartController : MonoBehaviour
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
 
         //Accelerate
-        if (Input.GetButton("Fire1"))
-            speed = acceleration;
+        //if (Input.GetButton("Fire1"))
+            speed = acceleration; // auto-acceleration
 
         //Steer
         if (Input.GetAxis("Horizontal") != 0)
@@ -179,7 +179,8 @@ public class KartController : MonoBehaviour
 
         if (driftMode > 0)
         {
-            DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed);
+            //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
+            DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
             kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
             kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
