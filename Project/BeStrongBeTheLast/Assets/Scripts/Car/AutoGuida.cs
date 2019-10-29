@@ -41,7 +41,7 @@ public class AutoGuida : aAuto
     {
         xAxis = Input.GetAxis("Horizontal");
 
-        derapata = Input.GetKey(KeyCode.Space);
+        derapata = Input.GetKey(KeyCode.Space) && xAxis != 0;
 
         if (!RibaltaDisabilitato)
             Ribalta = Input.GetKey(KeyCode.T);
