@@ -48,7 +48,6 @@ public abstract class aAuto : MonoBehaviour
 
     //private AudioSource carAudioSource, audienceConstantSoundAudioSource, hypeAudioSource;
 
-
     protected void Start_()
     {
         var i = 0u;
@@ -121,7 +120,7 @@ public abstract class aAuto : MonoBehaviour
 
                 var ppp = TheCarRigidBody.gameObject.transform.position;
                 var rrr = TheCarRigidBody.gameObject.transform.rotation.eulerAngles;
-                TheCarRigidBody.gameObject.transform.SetPositionAndRotation(new Vector3(ppp.x, 0.5f, ppp.z), Quaternion.Euler(0, rrr.y, 0));
+                TheCarRigidBody.gameObject.transform.SetPositionAndRotation(new Vector3(ppp.x, 2, ppp.z), Quaternion.Euler(0, rrr.y, 0));
                 TheCarRigidBody.velocity = Vector3.zero;
 
                 StartCoroutine(AbilitaRibalta());
