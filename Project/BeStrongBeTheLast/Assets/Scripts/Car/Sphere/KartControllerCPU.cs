@@ -55,7 +55,7 @@ public class KartControllerCPU : aKartController
         var cpuS = new Vector3(CPUSplines[CurrentSpline].position.x, transform.position.y, CPUSplines[CurrentSpline].position.z);
         transform.LookAt(cpuS);
 
-        Update_(0, false);
+        Update_(0, false, false);
 
         foreach (var cpu in CPUCars)
             if (!cpu.name.Equals(name))

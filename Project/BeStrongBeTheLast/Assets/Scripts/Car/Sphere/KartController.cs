@@ -19,7 +19,7 @@ public class KartController : aKartController
 
     private void Update()
     {
-        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"));
+        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
     }
 
     private void FixedUpdate()
