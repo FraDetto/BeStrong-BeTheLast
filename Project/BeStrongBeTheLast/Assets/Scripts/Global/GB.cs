@@ -46,6 +46,24 @@ public static class GB
         b.enabled = abilitato;
     }
 
+    public static Transform FindTransformInChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform tr in parent)
+            if (tr.gameObject.CompareTag(tag))
+            {
+                return tr;
+            }
+            else
+            {
+                var R = FindTransformInChildWithTag(tr, tag);
+
+                if (R != null)
+                    return R;
+            }
+
+        return null;
+    }
+
     public static T FindComponentInChildWithTag<T>(GameObject parent, string tag) where T : Component
     {
         var t = parent.transform;
