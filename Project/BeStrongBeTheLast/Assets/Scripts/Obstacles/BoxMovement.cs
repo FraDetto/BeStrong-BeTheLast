@@ -22,6 +22,7 @@ public class BoxMovement : MonoBehaviour
 
     void Start()
     {
+        //a che serve? non viene mai usato in questa classe
         //boxDestroyer = FindObjectOfType<BoxDestroyer>().gameObject;
     }
 
