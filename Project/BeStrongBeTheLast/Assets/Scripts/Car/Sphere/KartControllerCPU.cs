@@ -14,7 +14,7 @@ public class KartControllerCPU : aKartController
     public GameObject CPUSpline;
     private Transform[] CPUSplines;
     private sbyte CurrentSpline = -1;
-    private const byte splineDistance = 4;
+    private const byte splineDistance = 5;
     private const byte errorDelta = 8;
     private float xRndError, zRndError;
 
