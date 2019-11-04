@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class BoxMovement : MonoBehaviour
 {
 
@@ -20,16 +21,20 @@ public class BoxMovement : MonoBehaviour
     public bool automaticallyMove = true;
     //private GameObject boxDestroyer;
 
+    private Rigidbody thisRigidbody;
+
+
     void Start()
     {
         //a che serve? non viene mai usato in questa classe
         //boxDestroyer = FindObjectOfType<BoxDestroyer>().gameObject;
+        thisRigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
         if (automaticallyMove)
-            GetComponent<Rigidbody>().AddForce(transform.forward, ForceMode.Force);
+            thisRigidbody.AddForce(transform.forward, ForceMode.Force);
     }
 
     private void OnCollisionEnter(Collision collision)
