@@ -14,7 +14,10 @@ public class KartControllerCPU : aKartController
 
     public GameObject CPUSpline;
     private Transform[] CPUSplines;
-    private int CurrentSpline = -1;
+    private sbyte CurrentSpline = -1;
+    private const byte splineDistance = 4;
+    private const byte errorDelta = 8;
+    private float xRndError, zRndError;
 
     private GameObject[] CPUCars;
 
@@ -31,7 +34,7 @@ public class KartControllerCPU : aKartController
         var renderer = Box001.gameObject.GetComponent<Renderer>();
         renderer.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
 
-        var x = 0u;
+        byte x = 0;
         foreach (var el in CPUSpline.transform)
         {
             CPUSplines[x] = el as Transform;
@@ -45,10 +48,10 @@ public class KartControllerCPU : aKartController
 
     private void Update()
     {
-        if (CurrentSpline == -1)
+        if (CurrentSpline < 0)
             setDestination();
 
-        if (Vector3.Distance(transform.position, CPUSplines[CurrentSpline].position) < 4)
+        if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
             setDestination();
 
         lookAtDest.y = transform.position.y;
@@ -81,15 +84,18 @@ public class KartControllerCPU : aKartController
 
     void setDestination()
     {
+        xRndError = Random.Range(-1f, 1f) * errorDelta;
+        zRndError = Random.Range(-1f, 1f) * errorDelta;
+
         CurrentSpline++;
 
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 
         lookAtDest = new Vector3(
-            CPUSplines[CurrentSpline].position.x,
+            CPUSplines[CurrentSpline].position.x + xRndError,
             transform.position.y,
-            CPUSplines[CurrentSpline].position.z
+            CPUSplines[CurrentSpline].position.z + zRndError
         );
     }
 
