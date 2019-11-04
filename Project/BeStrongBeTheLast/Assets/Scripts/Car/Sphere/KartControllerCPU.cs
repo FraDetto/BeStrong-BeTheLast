@@ -14,7 +14,6 @@ public class KartControllerCPU : aKartController
 
     public GameObject CPUSpline;
     private Transform[] CPUSplines;
-    private int CurrentSplinePrev = -1;
     private int CurrentSpline = -1;
 
     private GameObject[] CPUCars;
@@ -42,6 +41,8 @@ public class KartControllerCPU : aKartController
         Start_();
     }
 
+    private Vector3 lookAtDest;
+
     private void Update()
     {
         if (CurrentSpline == -1)
@@ -50,10 +51,9 @@ public class KartControllerCPU : aKartController
         if (Vector3.Distance(transform.position, CPUSplines[CurrentSpline].position) < 4)
             setDestination();
 
-        //var offset = transform.position - CPUSplines[CurrentSpline].position;
-        //transform.LookAt(transform.position + offset);
-        var cpuS = new Vector3(CPUSplines[CurrentSpline].position.x, transform.position.y, CPUSplines[CurrentSpline].position.z);
-        transform.LookAt(cpuS);
+        lookAtDest.y = transform.position.y;
+
+        transform.LookAt(lookAtDest);
 
         Update_(0, false, false);
 
@@ -81,24 +81,16 @@ public class KartControllerCPU : aKartController
 
     void setDestination()
     {
-        if (CurrentSpline > -1)
-            CPUSplines[CurrentSpline].gameObject.SetActive(false);
-
-        CurrentSplinePrev = CurrentSpline;
         CurrentSpline++;
 
         if (CurrentSpline == CPUSplines.Length)
-        {
             CurrentSpline = 0;
 
-            foreach (var s in CPUSplines)
-                s.gameObject.SetActive(true);
-        }
-
-        if (CurrentSplinePrev > -1)
-            CPUSplines[CurrentSplinePrev].gameObject.GetComponent<Renderer>().material.color = Color.white;
-
-        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.red;
+        lookAtDest = new Vector3(
+            CPUSplines[CurrentSpline].position.x,
+            transform.position.y,
+            CPUSplines[CurrentSpline].position.z
+        );
     }
 
 }
