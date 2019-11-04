@@ -113,7 +113,7 @@ public abstract class aKartController : MonoBehaviour
 
             Steer(driftDirection, control);
             driftPower += powerControl;
-            Debug.Log(driftPower);
+            //Debug.Log(driftPower);
 
             ColorDrift();
         }
@@ -177,8 +177,8 @@ public abstract class aKartController : MonoBehaviour
             //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
             DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-            kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-            kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+            //kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+            //kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
         }
 
         driftPower = 0;
