@@ -13,8 +13,6 @@ public class BoxDestroyer : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-       
-
         if (other.GetComponent<BoxMovement>())
         {
             Destroy(other.gameObject);
