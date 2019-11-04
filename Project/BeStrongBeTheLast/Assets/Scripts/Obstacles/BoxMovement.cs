@@ -23,4 +23,28 @@ public class BoxMovement : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(transform.forward, ForceMode.Force);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+       
+        if (collision.collider.tag.Equals("Player"))
+        {
+            if (gameObject.name.Equals("Box-slowing(Clone)"))
+            {
+                Debug.Log("Collisione con macchina rallento " + collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed);
+                collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed = collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed * 0.40f;
+                Debug.Log("rallentata " + collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed);
+                Destroy(gameObject);
+                
+            }
+            else
+            {
+                Debug.Log("Collisione con macchina accelero" + collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed);
+                collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed = collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed * 1.8f;
+                Debug.Log("accelerazione " + collision.collider.transform.parent.GetComponentInChildren<aKartController>().currentSpeed);
+                Destroy(gameObject);
+                
+            }
+            
+        }
+    }
 }
