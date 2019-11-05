@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using Cinemachine;
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -22,11 +23,16 @@ public abstract class aKartController : MonoBehaviour
 
     List<ParticleSystem> primaryParticles, secondaryParticles;
 
+    private const short PosizionePavimento = 2;
+    protected bool RibaltaDisabilitato = false;
+    protected bool Ribalta = false;
+
     public Transform kartModel;
     public Transform kartNormal;
     public Rigidbody sphere;
 
-    public float speed, currentSpeed;
+    protected float speed;
+    internal float currentSpeed;
 
     float rotate, currentRotate, driftPower;
     int driftDirection, driftMode;
@@ -52,9 +58,24 @@ public abstract class aKartController : MonoBehaviour
     public Transform flashParticles;
     public Color[] turboColors;
 
+    public GameObject CPUSpline;
+    protected Transform[] CPUSplines;
+    protected sbyte CurrentSpline = -1;
+    protected const byte splineDistance = 5;
+    protected Vector3 lookAtDest;
+
 
     protected void Start_()
     {
+        CPUSplines = new Transform[CPUSpline.transform.childCount];
+
+        byte x = 0;
+        foreach (var el in CPUSpline.transform)
+        {
+            CPUSplines[x] = el as Transform;
+            x++;
+        }
+
         postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
@@ -141,6 +162,23 @@ public abstract class aKartController : MonoBehaviour
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
+
+        if (!RibaltaDisabilitato)
+            if (Ribalta)
+            {
+                RibaltaDisabilitato = true;
+
+                currentSpeed = 0;
+                currentRotate = 0;
+
+                var io = gameObject.transform.parent;
+
+                var ppp = CPUSplines[CurrentSpline].position; //forse quella prima è meglio
+                var rrr = io.rotation.eulerAngles;
+                io.SetPositionAndRotation(new Vector3(ppp.x, PosizionePavimento, ppp.z), Quaternion.Euler(0, rrr.y, 0));
+
+                StartCoroutine(AbilitaRibalta());
+            }
     }
 
     protected void FixedUpdate_()
@@ -163,6 +201,13 @@ public abstract class aKartController : MonoBehaviour
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
+    }
+
+    private IEnumerator AbilitaRibalta()
+    {
+        yield return new WaitForSeconds(4);
+        StopCoroutine(AbilitaRibalta());
+        RibaltaDisabilitato = false;
     }
 
     void Boost()

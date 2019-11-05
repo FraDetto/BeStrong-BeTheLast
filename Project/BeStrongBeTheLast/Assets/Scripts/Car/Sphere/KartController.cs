@@ -11,6 +11,9 @@ using UnityEngine;
 public class KartController : aKartController
 {
 
+    private float lastSplineDistance;
+
+
     private void Start()
     {
         Start_();
@@ -19,11 +22,49 @@ public class KartController : aKartController
     private void Update()
     {
         Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+
+        if (CurrentSpline < 0)
+            setDestination();
+
+        var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
+
+        if (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance)
+            wrongWay();
+
+        lastSplineDistance = currentSplineDistance;
+
+        if (currentSplineDistance < splineDistance)
+            setDestination();
     }
 
     private void FixedUpdate()
     {
         FixedUpdate_();
+    }
+
+    void wrongWay()
+    {
+        Debug.LogError("Wrong Way!");
+
+        //mettere un timerino        
+
+        if (!RibaltaDisabilitato)
+            Ribalta = true;
+    }
+
+    void setDestination()
+    {
+        CurrentSpline++;
+        lastSplineDistance = 0;
+
+        if (CurrentSpline == CPUSplines.Length)
+            CurrentSpline = 0;
+
+        lookAtDest = new Vector3(
+            CPUSplines[CurrentSpline].position.x,
+            transform.position.y,
+            CPUSplines[CurrentSpline].position.z
+        );
     }
 
 }

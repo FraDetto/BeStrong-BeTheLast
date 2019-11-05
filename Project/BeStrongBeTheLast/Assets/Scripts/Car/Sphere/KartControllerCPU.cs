@@ -11,10 +11,6 @@ using UnityEngine;
 public class KartControllerCPU : aKartController
 {
 
-    public GameObject CPUSpline;
-    private Transform[] CPUSplines;
-    private sbyte CurrentSpline = -1;
-    private const byte splineDistance = 5;
     private const byte errorDelta = 8;
     private float xRndError, zRndError;
 
@@ -27,23 +23,13 @@ public class KartControllerCPU : aKartController
     private void Start()
     {
         CPUCars = GameObject.FindGameObjectsWithTag("CPU");
-        CPUSplines = new Transform[CPUSpline.transform.childCount];
 
         var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
         var renderer = Box001.gameObject.GetComponent<Renderer>();
         renderer.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
 
-        byte x = 0;
-        foreach (var el in CPUSpline.transform)
-        {
-            CPUSplines[x] = el as Transform;
-            x++;
-        }
-
         Start_();
     }
-
-    private Vector3 lookAtDest;
 
     private void Update()
     {
