@@ -13,7 +13,7 @@ public class MovingRamp : MonoBehaviour
 
     private void Start()
     {
-        
+        ramp = transform;
     }
 
     void FixedUpdate() {
