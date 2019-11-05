@@ -8,6 +8,7 @@ public class MovingRamp : MonoBehaviour
     public Transform ramp;
     public float speed = 10;
     private bool down = true;
+    public float rotationThreshold = 0.123f;
     private int frames = 0;
 
     private void Start()
@@ -16,7 +17,7 @@ public class MovingRamp : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (ramp.transform.rotation.x <= 0.123f && ramp.transform.rotation.x >= 0)
+        if (ramp.transform.rotation.x <= rotationThreshold && ramp.transform.rotation.x >= 0)
         {
             if (frames != 0)
             {
@@ -37,7 +38,7 @@ public class MovingRamp : MonoBehaviour
         }
         else
         {
-            if (ramp.transform.rotation.x > 0.123f)
+            if (ramp.transform.rotation.x > rotationThreshold)
             {
                 down = false;
                 transform.RotateAround(ramp.position, ramp.right, -speed * Time.deltaTime);
