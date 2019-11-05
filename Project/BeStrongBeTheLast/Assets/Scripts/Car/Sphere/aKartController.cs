@@ -34,7 +34,7 @@ public abstract class aKartController : MonoBehaviour
     Color currentDriftColor;
 
     [Range(1, 6)]
-    public byte TempestivityOfDriftGearChange = 4;
+    public float TempestivityOfDriftGearChange = 4;
 
     [Header("Parameters")]
     public float acceleration = 30f;
