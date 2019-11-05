@@ -25,7 +25,7 @@ public abstract class aKartController : MonoBehaviour
     internal List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
     internal List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
 
-    internal float speed, currentSpeed;
+    public  float speed, currentSpeed;
 
     float rotate, currentRotate;
     int driftDirection;
@@ -121,7 +121,7 @@ public abstract class aKartController : MonoBehaviour
         if (jumpBUp && drifting)
             Boost();
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 6f); speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
         //Animations    

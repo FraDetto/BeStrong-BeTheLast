@@ -12,22 +12,16 @@ using UnityEngine;
 public class BoxMovement : MonoBehaviour
 {
 
-    public enum eTypeOfBox
-    {
-        slowing, accelerating
-    }
-
-    public eTypeOfBox typeOfBox;
+    public float accelerationFromBox;  
+    public float ImpulseFromBox;
     public bool automaticallyMove = true;
-    //private GameObject boxDestroyer;
 
     private Rigidbody thisRigidbody;
 
 
     void Start()
     {
-        //a che serve? non viene mai usato in questa classe
-        //boxDestroyer = FindObjectOfType<BoxDestroyer>().gameObject;
+       
         thisRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -42,20 +36,12 @@ public class BoxMovement : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-
-            switch (typeOfBox)
-            {
-                case eTypeOfBox.slowing:
-                    Debug.Log("Collisione con macchina accelero " + kartController.currentSpeed);
-                    kartController.currentSpeed *= 1.8f;
-                    Debug.Log("accelerazione " + kartController.currentSpeed);
-                    break;
-                case eTypeOfBox.accelerating:
-                    Debug.Log("Collisione con cubo rallento " + kartController.currentSpeed);
-                    kartController.currentSpeed *= 0.4f;
-                    Debug.Log("rallentata " + kartController.currentSpeed);
-                    break;
-            }
+            var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
+           
+            Debug.Log("nome transform " + kartController.name);
+            sphereKartRb.AddForce(-kartController.transform.forward * ImpulseFromBox* kartController.currentSpeed, ForceMode.Impulse);
+            kartController.currentSpeed *= accelerationFromBox;
+        
 
             Destroy(gameObject);
         }

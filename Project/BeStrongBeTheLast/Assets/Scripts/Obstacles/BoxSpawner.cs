@@ -13,27 +13,24 @@ public class BoxSpawner : MonoBehaviour
 {
 
     public GameObject BoxAccelerating, BoxSlowing;
+    public float waitSpawn= 1.3f;
     public bool GreenTrueRedFalse;
+    public Vector3 spawnPos2;
 
-    int startSpawn = 0;
+  
     int startColour;
 
     void Start()
     {
         startColour = Random.Range(0, 10);
         GreenTrueRedFalse = (startColour < 5);
+        spawnPos2 = transform.GetChild(0).transform.position;
         StartCoroutine(spawnBox());
     }
 
     IEnumerator spawnBox()
     {
         GameObject go;
-
-        if (startSpawn == 0)
-        {
-            int waitTime = Random.Range(1, 3);
-            yield return new WaitForSeconds(waitTime);
-        }
 
         while (true)
         {
@@ -43,7 +40,15 @@ public class BoxSpawner : MonoBehaviour
             startColour = Random.Range(0, 10);
             GreenTrueRedFalse = (startColour < 5);
 
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(waitSpawn);
+
+            go = Instantiate(GreenTrueRedFalse ? BoxAccelerating : BoxSlowing, spawnPos2, Quaternion.identity);
+            go.transform.Rotate(0, -90, 0);
+
+            startColour = Random.Range(0, 10);
+            GreenTrueRedFalse = (startColour < 5);
+
+            yield return new WaitForSeconds(waitSpawn);
         }
     }
 
