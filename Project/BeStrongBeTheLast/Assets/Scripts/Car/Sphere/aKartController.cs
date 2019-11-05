@@ -121,7 +121,7 @@ public abstract class aKartController : MonoBehaviour
         if (jumpBUp && drifting)
             Boost();
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 6f); speed = 0f;
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f); speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
         //Animations    
