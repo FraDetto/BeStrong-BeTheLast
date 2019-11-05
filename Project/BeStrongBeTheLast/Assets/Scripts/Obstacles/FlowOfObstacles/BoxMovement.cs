@@ -15,13 +15,14 @@ public class BoxMovement : MonoBehaviour
     public float accelerationFromBox;  
     public float ImpulseFromBox;
     public bool automaticallyMove = true;
+    public Transform kartModel;
 
     private Rigidbody thisRigidbody;
 
 
     void Start()
     {
-       
+        kartModel = FindObjectOfType<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
         thisRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -40,7 +41,12 @@ public class BoxMovement : MonoBehaviour
            
             sphereKartRb.AddForce(-kartController.transform.forward * ImpulseFromBox* kartController.currentSpeed, ForceMode.Impulse);
             kartController.currentSpeed *= accelerationFromBox;
-        
+            if (ImpulseFromBox==0)
+            {
+                kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+                kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+            }
+
 
             Destroy(gameObject);
         }
