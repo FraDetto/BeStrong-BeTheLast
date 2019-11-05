@@ -15,37 +15,34 @@ using UnityEngine.Rendering.PostProcessing;
 public abstract class aKartController : MonoBehaviour
 {
 
-    private PostProcessVolume postVolume;
-    private PostProcessProfile postProfile;
+    PostProcessVolume postVolume;
+    PostProcessProfile postProfile;
+
+    RaycastHit hitOn, hitNear;
+
+    List<ParticleSystem> primaryParticles, secondaryParticles;
 
     public Transform kartModel;
     public Transform kartNormal;
     public Rigidbody sphere;
 
-    internal List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
-    internal List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
+    public float speed, currentSpeed;
 
-    public  float speed, currentSpeed;
+    float rotate, currentRotate, driftPower;
+    int driftDirection, driftMode;
+    bool drifting, first, second, third;
+    Color currentDriftColor;
 
-    float rotate, currentRotate;
-    int driftDirection;
-    float driftPower;
-    int driftMode = 0;
-    bool first, second, third;
-    Color c;
-
-    [Header("Bools")]
-    public bool drifting;
+    [Range(1, 6)]
+    public byte TempestivityOfDriftGearChange = 4;
 
     [Header("Parameters")]
-
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 10f;
     public LayerMask layerMask;
 
     [Header("Model Parts")]
-
     public Transform frontWheels;
     public Transform backWheels;
     public Transform steeringWheel;
@@ -55,22 +52,22 @@ public abstract class aKartController : MonoBehaviour
     public Transform flashParticles;
     public Color[] turboColors;
 
-    RaycastHit hitOn;
-    RaycastHit hitNear;
-
 
     protected void Start_()
     {
         postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
-        for (int i = 0; i < wheelParticles.GetChild(0).childCount; i++)
+        primaryParticles = new List<ParticleSystem>();
+        secondaryParticles = new List<ParticleSystem>();
+
+        for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
 
-        for (int i = 0; i < wheelParticles.GetChild(1).childCount; i++)
+        for (var i = 0; i < wheelParticles.GetChild(1).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
 
-        foreach (ParticleSystem p in flashParticles.GetComponentsInChildren<ParticleSystem>())
+        foreach (var p in flashParticles.GetComponentsInChildren<ParticleSystem>())
             secondaryParticles.Add(p);
     }
 
@@ -112,7 +109,7 @@ public abstract class aKartController : MonoBehaviour
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .2f, 1) : ExtensionMethods.Remap(xAxis, -1, 1, 1, .2f);
 
             Steer(driftDirection, control);
-            driftPower += powerControl;
+            driftPower += powerControl * TempestivityOfDriftGearChange;
             //Debug.Log(driftPower);
 
             ColorDrift();
@@ -134,7 +131,7 @@ public abstract class aKartController : MonoBehaviour
         else
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .5f, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, .5f);
-            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, (control * 15) * driftDirection, .2f), 0);
+            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, control * 15 * driftDirection, .2f), 0);
         }
 
         //b) Wheels
@@ -143,7 +140,7 @@ public abstract class aKartController : MonoBehaviour
         backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //c) Steering Wheel
-        steeringWheel.localEulerAngles = new Vector3(-25, 90, ((xAxis * 45)));
+        steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
     }
 
     protected void FixedUpdate_()
@@ -187,7 +184,7 @@ public abstract class aKartController : MonoBehaviour
         second = false;
         third = false;
 
-        foreach (ParticleSystem p in primaryParticles)
+        foreach (var p in primaryParticles)
         {
             p.startColor = Color.clear;
             p.Stop();
@@ -204,45 +201,45 @@ public abstract class aKartController : MonoBehaviour
     void ColorDrift()
     {
         if (!first)
-            c = Color.clear;
+            currentDriftColor = Color.clear;
 
         if (driftPower > 50 && driftPower < 100 - 1 && !first)
         {
             first = true;
-            c = turboColors[0];
+            currentDriftColor = turboColors[0];
             driftMode = 1;
 
-            PlayFlashParticle(c);
+            PlayFlashParticle(currentDriftColor);
         }
 
         if (driftPower > 100 && driftPower < 150 - 1 && !second)
         {
             second = true;
-            c = turboColors[1];
+            currentDriftColor = turboColors[1];
             driftMode = 2;
 
-            PlayFlashParticle(c);
+            PlayFlashParticle(currentDriftColor);
         }
 
         if (driftPower > 150 && !third)
         {
             third = true;
-            c = turboColors[2];
+            currentDriftColor = turboColors[2];
             driftMode = 3;
 
-            PlayFlashParticle(c);
+            PlayFlashParticle(currentDriftColor);
         }
 
-        foreach (ParticleSystem p in primaryParticles)
+        foreach (var p in primaryParticles)
         {
             var pmain = p.main;
-            pmain.startColor = c;
+            pmain.startColor = currentDriftColor;
         }
 
-        foreach (ParticleSystem p in secondaryParticles)
+        foreach (var p in secondaryParticles)
         {
             var pmain = p.main;
-            pmain.startColor = c;
+            pmain.startColor = currentDriftColor;
         }
     }
 
@@ -250,7 +247,7 @@ public abstract class aKartController : MonoBehaviour
     {
         GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
 
-        foreach (ParticleSystem p in secondaryParticles)
+        foreach (var p in secondaryParticles)
         {
             var pmain = p.main;
             pmain.startColor = c;
