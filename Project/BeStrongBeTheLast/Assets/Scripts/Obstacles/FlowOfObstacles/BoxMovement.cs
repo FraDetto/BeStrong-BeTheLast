@@ -21,8 +21,7 @@ public class BoxMovement : MonoBehaviour
 
 
     void Start()
-    {
-        kartModel = FindObjectOfType<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
+    {        
         thisRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -43,6 +42,7 @@ public class BoxMovement : MonoBehaviour
             kartController.currentSpeed *= accelerationFromBox;
             if (ImpulseFromBox==0)
             {
+                kartModel = collision.collider.transform.parent.GetComponentInChildren<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
                 kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
                 kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
             }

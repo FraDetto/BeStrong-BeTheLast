@@ -16,10 +16,9 @@ public class PlaneEffect : MonoBehaviour
     public float accelerationFromBox;
     public Transform kartModel;
 
-    private void Awake()
-    {
-        kartModel = FindObjectOfType<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
-    }
+   
+        
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -29,6 +28,7 @@ public class PlaneEffect : MonoBehaviour
             kartController.currentSpeed *= accelerationFromBox;
             if (accelerationFromBox > 1)
             {
+                kartModel = collision.collider.transform.parent.GetComponentInChildren<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
                 kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
                 kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
             }
