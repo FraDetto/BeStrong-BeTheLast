@@ -12,13 +12,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class WanderingMob : MonoBehaviour
 {
-    private int rotationSpeed, maxRotationSpeed = 200, rotationFrames, maxRotationFrames, 
-        maxRotationFramesSetting = 100, movementFrames, maxMovementFrames, maxMovementFramesSetting = 200;
+    private int rotationSpeed,
+        maxRotationSpeed = 200,
+        rotationFrames,
+        maxRotationFrames,
+        maxRotationFramesSetting = 100,
+        movementFrames,
+        maxMovementFrames,
+        maxMovementFramesSetting = 200;
+    long lastAvoidanceFrame = 0;
     private Rigidbody thisRigidbody;
     public float slowAmount = 0.5f;
     private enum Phases
     {
-        moving, rotating, flying
+        moving, rotating, flying, avoidingA, avoidingB
     }
     private Phases phase = Phases.moving;
 
@@ -32,6 +39,26 @@ public class WanderingMob : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
+        int i = 0;
+        while (i < hitColliders.Length)
+        {
+            if (hitColliders[i].CompareTag("Player"))
+            {
+                if (phase != Phases.avoidingA && phase != Phases.avoidingB && lastAvoidanceFrame >= 250)
+                {
+                    phase = Phases.avoidingA;
+                    lastAvoidanceFrame = 0;
+                    rotationFrames = 0;
+                    movementFrames = 0;
+                    maxRotationFrames = Random.Range(0, 10);
+                    rotationSpeed = Random.Range(100, 500);
+                    break;
+                }
+            }
+            i++;
+        }
+        lastAvoidanceFrame++;
         if (phase == Phases.moving)
         {
             thisRigidbody.AddForce(transform.forward*Random.Range(3000, 4000), ForceMode.Force);
@@ -51,6 +78,7 @@ public class WanderingMob : MonoBehaviour
             {
                 phase = Phases.moving;
                 rotationFrames = 0;
+                maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
             }
         }else if (phase == Phases.flying)
         {
@@ -59,6 +87,21 @@ public class WanderingMob : MonoBehaviour
                 Destroy(gameObject);
                 transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew();
             }
+        }else if (phase == Phases.avoidingA)
+        {
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+            rotationFrames++;
+            if (rotationFrames >= maxRotationFrames)
+            {
+                phase = Phases.avoidingB;
+                rotationFrames = 0;
+            }
+        }else if (phase == Phases.avoidingB)
+        {
+            thisRigidbody.AddForce(transform.forward*Random.Range(2000, 3000), ForceMode.Impulse);
+            phase = Phases.rotating;
+            maxRotationFrames = Random.Range(0, maxRotationFramesSetting);
+            rotationSpeed = Random.Range(20, maxRotationSpeed);
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -68,10 +111,13 @@ public class WanderingMob : MonoBehaviour
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
             var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
 
+            Vector3 hitDirection = collision.collider.transform.position - transform.position;
             sphereKartRb.AddForce(-kartController.transform.forward * 200 * kartController.currentSpeed, ForceMode.Impulse);
             kartController.currentSpeed *= slowAmount;
             phase = Phases.flying;
-            thisRigidbody.AddForce(transform.up*10000, ForceMode.Impulse);
+            rotationFrames = 0;
+            movementFrames = 0;
+            thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
         }
     }
 }
