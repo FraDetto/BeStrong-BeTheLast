@@ -20,7 +20,7 @@ public class WanderingMob : MonoBehaviour
         movementFrames,
         maxMovementFrames,
         maxMovementFramesSetting = 200;
-    long lastAvoidanceFrame = 0;
+    long lastAvoidanceFrame = 300;
     private Rigidbody thisRigidbody;
     public float slowAmount = 0.5f;
     private enum Phases
