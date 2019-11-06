@@ -173,7 +173,7 @@ public abstract class aKartController : MonoBehaviour
 
                 var io = gameObject.transform.parent;
 
-                var ppp = CPUSplines[CurrentSpline].position; //forse quella prima è meglio
+                var ppp = io.position; //forse quella prima è meglio
                 var rrr = io.rotation.eulerAngles;
                 io.SetPositionAndRotation(new Vector3(ppp.x, PosizionePavimento, ppp.z), Quaternion.Euler(0, rrr.y, 0));
 

@@ -13,7 +13,6 @@ public class KartController : aKartController
 
     private float lastSplineDistance;
 
-
     private void Start()
     {
         Start_();
@@ -29,7 +28,7 @@ public class KartController : aKartController
         var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
         if (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance)
-            wrongWay();
+            Debug.LogError("Wrong Way!");
 
         lastSplineDistance = currentSplineDistance;
 
@@ -40,16 +39,6 @@ public class KartController : aKartController
     private void FixedUpdate()
     {
         FixedUpdate_();
-    }
-
-    void wrongWay()
-    {
-        Debug.LogError("Wrong Way!");
-
-        //mettere un timerino        
-
-        if (!RibaltaDisabilitato)
-            Ribalta = true;
     }
 
     void setDestination()
