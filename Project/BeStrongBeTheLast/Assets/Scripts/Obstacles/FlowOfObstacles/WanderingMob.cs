@@ -36,9 +36,10 @@ public class WanderingMob : MonoBehaviour
 
     private Rigidbody thisRigidbody;
     private Phases phase = Phases.moving;
+    public Transform spawner;
 
     public float slowAmount = 0.5f;
-
+    public float roadWidth = 10;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
 
@@ -59,7 +60,6 @@ public class WanderingMob : MonoBehaviour
             {
                 if (AvoidTag(hitColliders[i]))
                 {
-                    Debug.Log("AVOID!");
                     if (phase != Phases.avoidingA && phase != Phases.avoidingB)
                     {
                         phase = Phases.avoidingA;
@@ -89,7 +89,7 @@ public class WanderingMob : MonoBehaviour
                 phase = Phases.rotating;
                 movementFrames = 0;
                 maxRotationFrames = Random.Range(0, maxRotationFramesSetting);
-                rotationSpeed = Random.Range(20, maxRotationSpeed);
+                rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
             }
         }
         else if (phase == Phases.rotating)
@@ -99,9 +99,24 @@ public class WanderingMob : MonoBehaviour
 
             if (rotationFrames >= maxRotationFrames)
             {
-                phase = Phases.moving;
-                rotationFrames = 0;
-                maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
+                if (Vector3.Distance(transform.position, spawner.position) <= (roadWidth / 2))
+                {
+                    phase = Phases.moving;
+                    rotationFrames = 0;
+                    maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
+                }
+                else
+                {
+                    rotationSpeed = 100;
+                    Vector3 targetDir = transform.position - spawner.position;
+                    if (Vector3.Angle(transform.forward, -targetDir) < 40f)
+                    {
+                        phase = Phases.moving;
+                        rotationFrames = 0;
+                        maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
+                    }
+                }
+                
             }
         }
         else if (phase == Phases.flying)
