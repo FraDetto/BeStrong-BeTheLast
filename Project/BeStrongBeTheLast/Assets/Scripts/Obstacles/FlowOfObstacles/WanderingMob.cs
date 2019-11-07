@@ -13,7 +13,7 @@ using UnityEngine;
 public class WanderingMob : MonoBehaviour
 {
 
-    public enum eTag
+    public enum avoidBehaviourOptions
     {
         CPU, Player, Mob
     }
@@ -39,7 +39,7 @@ public class WanderingMob : MonoBehaviour
 
     public float slowAmount = 0.5f;
 
-    public List<eTag> tagDaEvitare = new List<eTag>();
+    public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
 
     void Start()
@@ -50,29 +50,35 @@ public class WanderingMob : MonoBehaviour
 
     void FixedUpdate()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
-
-        int i = 0;
-        while (i < hitColliders.Length)
+        if (lastAvoidanceFrame >= 250)
         {
-            if (hitColliders[i].CompareTag("Player"))
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
+
+            int i = 0;
+            while (i < hitColliders.Length)
             {
-                if (phase != Phases.avoidingA && phase != Phases.avoidingB && lastAvoidanceFrame >= 250)
+                if (AvoidTag(hitColliders[i]))
                 {
-                    phase = Phases.avoidingA;
-                    lastAvoidanceFrame = 0;
-                    rotationFrames = 0;
-                    movementFrames = 0;
-                    maxRotationFrames = Random.Range(0, 10);
-                    rotationSpeed = Random.Range(100, 500);
-                    break;
+                    Debug.Log("AVOID!");
+                    if (phase != Phases.avoidingA && phase != Phases.avoidingB)
+                    {
+                        phase = Phases.avoidingA;
+                        lastAvoidanceFrame = 0;
+                        rotationFrames = 0;
+                        movementFrames = 0;
+                        maxRotationFrames = Random.Range(0, 10);
+                        rotationSpeed = Random.Range(100, 500);
+                        break;
+                    }
                 }
-            }
-            i++;
+                i++;
+            } 
         }
-
-        lastAvoidanceFrame++;
-
+        else
+        {
+            lastAvoidanceFrame++;
+        }
+        
         if (phase == Phases.moving)
         {
             thisRigidbody.AddForce(transform.forward * Random.Range(3000, 4000), ForceMode.Force);
@@ -144,6 +150,19 @@ public class WanderingMob : MonoBehaviour
 
             thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
         }
+    }
+
+    private bool AvoidTag(Collider collider)
+    {
+        for (int i = 0; i < avoidBehaviour.Count; i++)
+        {
+            if (collider.CompareTag(avoidBehaviour[i].ToString()))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
