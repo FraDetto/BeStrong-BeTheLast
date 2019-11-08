@@ -12,7 +12,7 @@ using UnityEngine;
 public class BoxMovement : MonoBehaviour
 {
 
-    public float accelerationFromBox;  
+    public float accelerationFromBox;
     public float ImpulseFromBox;
     public bool automaticallyMove = true;
     public Transform kartModel;
@@ -21,7 +21,7 @@ public class BoxMovement : MonoBehaviour
 
 
     void Start()
-    {        
+    {
         thisRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -36,17 +36,15 @@ public class BoxMovement : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-            var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
-           
-            sphereKartRb.AddForce(-kartController.transform.forward * ImpulseFromBox* kartController.currentSpeed, ForceMode.Impulse);
-            kartController.currentSpeed *= accelerationFromBox;
-            if (ImpulseFromBox==0)
-            {
-                kartModel = collision.collider.transform.parent.GetComponentInChildren<aKartController>().transform.GetChild(0).transform.GetChild(0).transform.GetChild(0);
-                kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-                kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
-            }
 
+            kartController.sphere.AddForce(-kartController.transform.forward * ImpulseFromBox * kartController.currentSpeed, ForceMode.Impulse);
+            kartController.currentSpeed *= accelerationFromBox;
+
+            if (ImpulseFromBox == 0)
+            {
+                kartController.kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+                kartController.kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+            }
 
             Destroy(gameObject);
         }
