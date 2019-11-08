@@ -38,6 +38,25 @@ public static class GB
             Object.Destroy(o);
     }
 
+    public static Transform RootParent(Transform t)
+    {
+        if (t.parent == null)
+            return t;
+        else
+            return RootParent(t.parent);
+    }
+
+    public static Transform RootParentUntilTag(Transform t, string tag)
+    {
+        if (t == null)
+            return null;
+
+        if (t.CompareTag(tag))
+            return t;
+
+        return RootParentUntilTag(t.parent, tag);
+    }
+
     public static void AbilitaButton(UnityEngine.UI.Button b, bool abilitato)
     {
         var img = b.GetComponent<UnityEngine.UI.Image>();
@@ -154,6 +173,5 @@ public static class GB
 
         GotoSceneName(name);
     }
-
 
 }

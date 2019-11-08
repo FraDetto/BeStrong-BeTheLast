@@ -11,6 +11,7 @@ using UnityEngine;
 public class KartController : aKartController
 {
 
+    private bool wrongWay = false;
     private float lastSplineDistance;
 
     private void Start()
@@ -20,20 +21,32 @@ public class KartController : aKartController
 
     private void Update()
     {
-        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+        if (wrongWay)
+            Update_(0, false, false);
+        else
+            Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
 
         if (CurrentSpline < 0)
             setDestination();
 
         var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
-        if (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance)
-            Debug.LogError("Wrong Way!");
+        wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
+
+        if (wrongWay)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 0.15f);
+            var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+            sphere.AddForce(dir * 400f, ForceMode.Impulse);
+        }
 
         lastSplineDistance = currentSplineDistance;
+    }
 
-        if (currentSplineDistance < splineDistance)
-            setDestination();
+    internal void nextSpline()
+    {
+        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.white;
+        setDestination();
     }
 
     private void FixedUpdate()
@@ -49,11 +62,14 @@ public class KartController : aKartController
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 
+        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.magenta;
+
         lookAtDest = new Vector3(
             CPUSplines[CurrentSpline].position.x,
             transform.position.y,
             CPUSplines[CurrentSpline].position.z
         );
     }
+
 
 }
