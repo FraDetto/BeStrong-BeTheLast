@@ -30,23 +30,27 @@ public class WanderingMob : MonoBehaviour
         maxRotationFramesSetting = 100,
         movementFrames,
         maxMovementFrames,
-        maxMovementFramesSetting = 200;
+        minMovementFramesSetting = 35,
+        minRotationFramesSetting = 20,
+        maxMovementFramesSetting = 130,
+        force;
 
     long lastAvoidanceFrame = 300;
 
     private Rigidbody thisRigidbody;
     private Phases phase = Phases.moving;
-    public Transform spawner;
+    private Transform spawner;
 
     public float slowAmount = 0.5f;
-    public float roadWidth = 10;
+    public float roadWidth = 100;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
 
     void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
-        maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
+        maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
+        spawner = transform.parent.GetChild(0);
     }
 
     void FixedUpdate()
@@ -81,50 +85,55 @@ public class WanderingMob : MonoBehaviour
         
         if (phase == Phases.moving)
         {
-            thisRigidbody.AddForce(transform.forward * Random.Range(3000, 4000), ForceMode.Force);
+            thisRigidbody.AddForce(transform.forward * force, ForceMode.Force);
             movementFrames++;
 
             if (movementFrames >= maxMovementFrames)
             {
                 phase = Phases.rotating;
                 movementFrames = 0;
-                maxRotationFrames = Random.Range(0, maxRotationFramesSetting);
+                maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
                 rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
             }
         }
         else if (phase == Phases.rotating)
         {
-            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-            rotationFrames++;
-
-            if (rotationFrames >= maxRotationFrames)
+            if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
             {
-                if (Vector3.Distance(transform.position, spawner.position) <= (roadWidth / 2))
+                transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+                rotationSpeed = 100;
+                Vector3 targetDir = transform.position - spawner.position;
+                if (Vector3.Angle(transform.forward, -targetDir) < 40f)
                 {
                     phase = Phases.moving;
+                    force = Random.Range(3300, 3400);
                     rotationFrames = 0;
-                    maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
+                    maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
                 }
-                else
-                {
-                    rotationSpeed = 100;
-                    Vector3 targetDir = transform.position - spawner.position;
-                    if (Vector3.Angle(transform.forward, -targetDir) < 40f)
-                    {
-                        phase = Phases.moving;
-                        rotationFrames = 0;
-                        maxMovementFrames = Random.Range(0, maxMovementFramesSetting);
-                    }
-                }
-                
             }
+            else
+            {
+                transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+                rotationFrames++;
+
+                if (rotationFrames >= maxRotationFrames)
+                {
+                    phase = Phases.moving;
+                    force = Random.Range(3300, 3400);
+                    rotationFrames = 0;
+                    maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
+                }  
+            }
+            
+
+            
         }
         else if (phase == Phases.flying)
         {
             if (thisRigidbody.position.y > 30)
             {
                 Destroy(gameObject);
-                transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew();
+                transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
             }
         }
         else if (phase == Phases.avoidingA)
@@ -141,7 +150,7 @@ public class WanderingMob : MonoBehaviour
         {
             thisRigidbody.AddForce(transform.forward * Random.Range(2000, 3000), ForceMode.Impulse);
             phase = Phases.rotating;
-            maxRotationFrames = Random.Range(0, maxRotationFramesSetting);
+            maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
             rotationSpeed = Random.Range(20, maxRotationSpeed);
         }
     }
