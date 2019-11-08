@@ -31,9 +31,6 @@ public class KartController : aKartController
 
         var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
-
-        if (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance)
-            //Debug.LogError("Wrong Way!");
         wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
 
         if (wrongWay)
