@@ -35,7 +35,7 @@ public class KartController : aKartController
 
         if (wrongWay)
         {
-            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 5f);
+            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
 
             var eul = rot.eulerAngles;
             eul.x = 0;
@@ -44,7 +44,7 @@ public class KartController : aKartController
             transform.eulerAngles = eul;
 
             var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-            sphere.AddForce(dir * 200f, ForceMode.Impulse);
+            sphere.AddForce(dir * 100f, ForceMode.Impulse);
         }
 
         lastSplineDistance = currentSplineDistance;
