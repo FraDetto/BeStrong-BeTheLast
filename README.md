@@ -39,3 +39,4 @@ Licensed under the [MIT](LICENSE) License.
 * Francesco Dettori
 * Riccardo Lombardi
 * Maione Michele
+* Jacopo Frasson
