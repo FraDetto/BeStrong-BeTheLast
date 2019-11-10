@@ -11,6 +11,8 @@ using UnityEngine;
 public class KartController : aKartController
 {
 
+    public bool UsaWrongWay = false;
+
     private bool wrongWay = false;
     private float lastSplineDistance;
 
@@ -26,28 +28,31 @@ public class KartController : aKartController
         else
             Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
 
-        if (CurrentSpline < 0)
-            setDestination();
-
-        var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
-
-        wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
-
-        if (wrongWay)
+        if (UsaWrongWay)
         {
-            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
+            if (CurrentSpline < 0)
+                setDestination();
 
-            var eul = rot.eulerAngles;
-            eul.x = 0;
-            eul.z = 0;
+            var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
-            transform.eulerAngles = eul;
+            wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
 
-            var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-            sphere.AddForce(dir * 100f, ForceMode.Impulse);
+            if (wrongWay)
+            {
+                var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
+
+                var eul = rot.eulerAngles;
+                eul.x = 0;
+                eul.z = 0;
+
+                transform.eulerAngles = eul;
+
+                var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+                sphere.AddForce(dir * 100f, ForceMode.Impulse);
+            }
+
+            lastSplineDistance = currentSplineDistance;
         }
-
-        lastSplineDistance = currentSplineDistance;
     }
 
     internal void nextSpline()
