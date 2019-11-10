@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 [RequireComponent(typeof(Rigidbody))]
 public class WanderingMob : MonoBehaviour
 {
@@ -18,12 +18,12 @@ public class WanderingMob : MonoBehaviour
         CPU, Player, Mob
     }
 
-    private enum Phases
+    protected enum Phases
     {
         moving, rotating, flying, avoidingA, avoidingB
     }
 
-    private int rotationSpeed,
+    protected int rotationSpeed,
         maxRotationSpeed = 200,
         rotationFrames,
         maxRotationFrames,
@@ -35,25 +35,94 @@ public class WanderingMob : MonoBehaviour
         maxMovementFramesSetting = 130,
         force;
 
-    long lastAvoidanceFrame = 300;
+    protected long lastAvoidanceFrame = 300;
 
-    private Rigidbody thisRigidbody;
-    private Phases phase = Phases.moving;
-    private Transform spawner;
+    protected Rigidbody thisRigidbody;
+    protected Phases phase = Phases.moving;
+    protected Transform spawner;
 
     public float slowAmount = 0.5f;
-    public float roadWidth = 100;
+    public float roadWidth;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
 
-    void Start()
+    protected virtual void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
+    {
+        AvoidingCheck();
+        
+        if (phase == Phases.moving)
+        {
+            Moving();
+        }
+        else if (phase == Phases.rotating)
+        {
+            Rotating();
+        }
+        else if (phase == Phases.flying)
+        {
+            Flying();
+        }
+        else if (phase == Phases.avoidingA)
+        {
+            AvoidingA();
+        }
+        else if (phase == Phases.avoidingB)
+        {
+            AvoidingB();
+        }
+    }
+
+    protected virtual void Moving()
+    {
+        thisRigidbody.AddForce(transform.forward * force, ForceMode.Force);
+        movementFrames++;
+
+        if (movementFrames >= maxMovementFrames)
+        {
+            phase = Phases.rotating;
+            movementFrames = 0;
+            maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
+            rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
+        }
+    }
+    protected virtual void Rotating()
+    {
+        if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
+        {
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+            rotationSpeed = 100;
+            Vector3 targetDir = transform.position - spawner.position;
+            if (Vector3.Angle(transform.forward, -targetDir) < 20f)
+            {
+                phase = Phases.moving;
+                force = Random.Range(3300, 3400);
+                rotationFrames = 0;
+                maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
+            }
+        }
+        else
+        {
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+            rotationFrames++;
+
+            if (rotationFrames >= maxRotationFrames)
+            {
+                phase = Phases.moving;
+                force = Random.Range(3300, 3400);
+                rotationFrames = 0;
+                maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
+            }  
+        }
+    }
+
+    protected virtual void AvoidingCheck()
     {
         if (lastAvoidanceFrame >= 250)
         {
@@ -82,82 +151,38 @@ public class WanderingMob : MonoBehaviour
         {
             lastAvoidanceFrame++;
         }
-        
-        if (phase == Phases.moving)
+    }
+    protected virtual void AvoidingA()
+    {
+        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        rotationFrames++;
+        if (rotationFrames >= maxRotationFrames)
         {
-            thisRigidbody.AddForce(transform.forward * force, ForceMode.Force);
-            movementFrames++;
-
-            if (movementFrames >= maxMovementFrames)
-            {
-                phase = Phases.rotating;
-                movementFrames = 0;
-                maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
-                rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
-            }
-        }
-        else if (phase == Phases.rotating)
-        {
-            if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
-            {
-                transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-                rotationSpeed = 100;
-                Vector3 targetDir = transform.position - spawner.position;
-                if (Vector3.Angle(transform.forward, -targetDir) < 40f)
-                {
-                    phase = Phases.moving;
-                    force = Random.Range(3300, 3400);
-                    rotationFrames = 0;
-                    maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
-                }
-            }
-            else
-            {
-                transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-                rotationFrames++;
-
-                if (rotationFrames >= maxRotationFrames)
-                {
-                    phase = Phases.moving;
-                    force = Random.Range(3300, 3400);
-                    rotationFrames = 0;
-                    maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
-                }  
-            }
-            
-
-            
-        }
-        else if (phase == Phases.flying)
-        {
-            if (thisRigidbody.position.y > 30)
-            {
-                Destroy(gameObject);
-                transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
-            }
-        }
-        else if (phase == Phases.avoidingA)
-        {
-            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-            rotationFrames++;
-            if (rotationFrames >= maxRotationFrames)
-            {
-                phase = Phases.avoidingB;
-                rotationFrames = 0;
-            }
-        }
-        else if (phase == Phases.avoidingB)
-        {
-            thisRigidbody.AddForce(transform.forward * Random.Range(2000, 3000), ForceMode.Impulse);
-            phase = Phases.rotating;
-            maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
-            rotationSpeed = Random.Range(20, maxRotationSpeed);
+            phase = Phases.avoidingB;
+            rotationFrames = 0;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void AvoidingB()
     {
-        if (collision.collider.CompareTag("Player"))
+        thisRigidbody.AddForce(transform.forward * Random.Range(2000, 3000), ForceMode.Impulse);
+        phase = Phases.rotating;
+        maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
+        rotationSpeed = Random.Range(20, maxRotationSpeed);
+    }
+
+    protected virtual void Flying()
+    {
+        if (thisRigidbody.position.y > 30)
+        {
+            Destroy(gameObject);
+            transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
+        }
+    }
+
+    virtual protected void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
             var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
@@ -176,7 +201,7 @@ public class WanderingMob : MonoBehaviour
         }
     }
 
-    private bool AvoidTag(Collider collider)
+    protected virtual bool AvoidTag(Collider collider)
     {
         for (int i = 0; i < avoidBehaviour.Count; i++)
         {
