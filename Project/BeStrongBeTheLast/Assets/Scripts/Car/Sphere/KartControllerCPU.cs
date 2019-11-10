@@ -25,33 +25,50 @@ public class KartControllerCPU : aBSBTLKart
 
     public KartControllerCPU()
     {
-        // AI
-        SM = new AI.SM(this);
+        SM = CreateSM();
+    }
 
-        var Base = SM.addState(new Action(() =>
+    AI.SM CreateSM()
+    {
+        var sm = new AI.SM(this);
+
+
+        // Inner Driving
+        var Base = sm.addState(new Action(() =>
         {
 
         }));
 
-        var Pushing = SM.addState(new Action(() =>
+        var Pushing = sm.addState(new Action(() =>
         {
 
         }));
 
-        var Turbo = SM.addState(
+        var OpponentsApproaching = sm.addState(new Action(() =>
+        {
+
+        }));
+        // Inner Driving
+
+
+        // Outer Driving
+        var Driving = sm.addState(new Action(() =>
+        {
+
+        }));
+
+        var Turbo = sm.addState(
             new Action(() =>
             {
-
+                //Call turbo function
+                //Turbo();
             }),
             new Wait4Seconds(2),
             Base
         );
+        // Outer Driving
 
-        var OpponentsApproaching = SM.addState(new Action(() =>
-        {
-
-        }));
-        // AI
+        return sm;
     }
 
     private void Start()

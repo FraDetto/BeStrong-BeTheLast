@@ -9,19 +9,51 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 public abstract class aBSBTLKart : aKartController
 {
 
+    public enum eProjectile
+    {
+        Homing, Bouncing, Trishot, Attracting
+    }
+
+    public enum eSpecial
+    {
+        Tanking, Annoying, Blinding, Rotating
+    }
+
+
+    public eProjectile ProjectileType;
+    public eSpecial SpecialType;
+
+
     protected void Counter()
     {
 
     }
+
+    protected bool canUseCounter()
+    {
+        return true;
+    }
+
 
     protected void Projectile()
     {
 
     }
 
+    protected bool canUseProjectile()
+    {
+        return true;
+    }
+
+
     protected void Special()
     {
 
+    }
+
+    protected bool canUseSpecial()
+    {
+        return true;
     }
 
 }
