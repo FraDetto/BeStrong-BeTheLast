@@ -25,7 +25,7 @@ public class KartControllerCPU : aBSBTLKart
 
     public KartControllerCPU()
     {
-        SM = CreateSM();
+        //SM = CreateSM();
     }
 
     AI.SM CreateSM()
@@ -52,16 +52,20 @@ public class KartControllerCPU : aBSBTLKart
 
 
         // Outer Driving
-        var Driving = sm.addState(new Action(() =>
-        {
+        var Driving = sm.addState();
 
-        }));
+        Driving.addTransition(new AI.Transition(
+          Driving,
+          Driving,
+          () => canUseSpecial()
+        ));
+
+        //canUseSpecial
 
         var Turbo = sm.addState(
             new Action(() =>
             {
-                //Call turbo function
-                //Turbo();
+                PlayTurboEffect();
             }),
             new Wait4Seconds(2),
             Base

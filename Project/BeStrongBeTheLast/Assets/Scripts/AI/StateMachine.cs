@@ -15,25 +15,25 @@ namespace AI
 {
     internal class Transition
     {
-        internal State toState, fromState;
-        internal Func<bool> condition;
-        internal IEnumerator waiter;
+        internal State _toState, _fromState;
+        internal Func<bool> _condition;
+        internal IEnumerator _waiter;
 
 
         internal Transition(State fromState, State toState)
         {
-            this.fromState = fromState;
-            this.toState = toState;
+            _fromState = fromState;
+            _toState = toState;
         }
 
         internal Transition(State fromState, Func<bool> condition, State toState) : this(fromState, toState)
         {
-            this.condition = condition;
+            _condition = condition;
         }
 
         internal Transition(State fromState, State toState, IEnumerator waiter) : this(fromState, toState)
         {
-            this.waiter = waiter;
+            _waiter = waiter;
         }
 
         internal Transition(State fromState, State toState, Func<bool> endCondition) : this(fromState, toState, new WaitUntil(endCondition)) { }
@@ -41,16 +41,21 @@ namespace AI
 
     internal class State
     {
-        internal MonoBehaviour monoBehaviour;
-        internal Delegate enterAction, exitAction;
-        internal object[] enterParameters, exitParameters;
+        internal MonoBehaviour _monoBehaviour;
+        internal Delegate _enterAction, _exitAction;
+        internal object[] _enterParameters, _exitParameters;
 
         internal HashSet<Transition> transitions;
 
 
         internal State(MonoBehaviour monoBehaviour)
         {
-            this.monoBehaviour = monoBehaviour;
+            _monoBehaviour = monoBehaviour;
+        }
+
+        internal void addTransition(Transition t)
+        {
+            transitions.Add(t);
         }
 
         internal void addTransition(State fromState, State toState)
@@ -58,28 +63,32 @@ namespace AI
             addTransition(new Transition(fromState, toState));
         }
 
-        internal void addTransition(Transition t)
+        internal void addTransitionFromMe(State toState)
         {
-            transitions.Add(t);
+            addTransition(new Transition(this, toState));
+        }
+
+        internal void addTransitionToMe(State fromState)
+        {
+            addTransition(new Transition(fromState, this));
         }
     }
 
     internal class SM
     {
-        MonoBehaviour monoBehaviour;
-
-        State current;
-        HashSet<State> states = new HashSet<State>();
+        MonoBehaviour _monoBehaviour;
+        State _current;
+        HashSet<State> _states = new HashSet<State>();
 
 
         internal SM(MonoBehaviour monoBehaviour)
         {
-            this.monoBehaviour = monoBehaviour;
+            _monoBehaviour = monoBehaviour;
         }
 
         internal void run(State to_)
         {
-            run(to_, current);
+            run(to_, _current);
         }
 
         void run(State to_, State from_)
@@ -88,8 +97,7 @@ namespace AI
 
             if (!transactionToThisStateIsPossible)
                 foreach (var t in from_.transitions)
-
-                    if (t.toState == to_)
+                    if (t._toState == to_)
                     {
                         transactionToThisStateIsPossible = true;
                         break;
@@ -97,18 +105,17 @@ namespace AI
 
             if (transactionToThisStateIsPossible)
             {
-                current = to_;
+                _current = to_;
 
-                if (current.enterAction != null)
-                    current.enterAction.DynamicInvoke(current.enterParameters);
+                if (_current._enterAction != null)
+                    _current._enterAction.DynamicInvoke(_current._enterParameters);
 
-                foreach (var t in current.transitions)
-                {
-                    if (t.waiter == null)
+                foreach (var t in _current.transitions)
+                    if (t._waiter == null)
                     {
-                        if (t.condition != null)
-                            if (t.condition())
-                                run(t.toState);
+                        if (t._condition != null)
+                            if (t._condition())
+                                run(t._toState);
                     }
                     else
                     {
@@ -117,19 +124,18 @@ namespace AI
                             new Action<State, State>(run)
                         );
 
-                        current.monoBehaviour.StartCoroutine(ge.GetEnumerator());
+                        _current._monoBehaviour.StartCoroutine(ge.GetEnumerator());
                     }
-                }
             }
         }
 
         internal State addState()
         {
-            var fromState = new State(monoBehaviour);
+            var fromState = new State(_monoBehaviour);
 
             fromState.transitions = new HashSet<Transition>();
 
-            states.Add(fromState);
+            _states.Add(fromState);
 
             return fromState;
         }
@@ -138,7 +144,7 @@ namespace AI
         {
             var fromState = addState();
 
-            fromState.enterAction = enterAction;
+            fromState._enterAction = enterAction;
 
             return fromState;
         }
@@ -147,7 +153,7 @@ namespace AI
         {
             var fromState = addState(enterAction);
 
-            fromState.enterParameters = enterParameters;
+            fromState._enterParameters = enterParameters;
 
             return fromState;
         }
@@ -156,7 +162,7 @@ namespace AI
         {
             var fromState = addState();
 
-            fromState.exitAction = exitAction;
+            fromState._exitAction = exitAction;
             fromState.transitions.Add(new Transition(fromState, toState, waiter));
 
             return fromState;
@@ -166,7 +172,7 @@ namespace AI
         {
             var fromState = addState();
 
-            fromState.enterAction = enterAction;
+            fromState._enterAction = enterAction;
             fromState.transitions.Add(new Transition(fromState, toState, waiter));
 
             return fromState;
@@ -176,7 +182,7 @@ namespace AI
         {
             var fromState = addState();
 
-            fromState.enterAction = enterAction;
+            fromState._enterAction = enterAction;
             fromState.transitions.Add(new Transition(fromState, toState, endCondition));
 
             return fromState;
@@ -186,7 +192,7 @@ namespace AI
         {
             var fromState = addState();
 
-            fromState.exitAction = exitAction;
+            fromState._exitAction = exitAction;
             fromState.transitions.Add(new Transition(fromState, toState, endCondition));
 
             return fromState;
@@ -215,20 +221,18 @@ namespace AI
             this.callback_function = callback_function;
         }
 
-        public object Current => transition.waiter.Current;
-
         public bool MoveNext()
         {
-            var fromState = transition.fromState;
+            var fromState = transition._fromState;
 
-            var more_elements_available = transition.waiter.MoveNext();
+            var more_elements_available = transition._waiter.MoveNext();
 
             if (!more_elements_available)
             {
-                if (fromState.exitAction != null)
-                    fromState.exitAction.DynamicInvoke(fromState.exitParameters);
+                if (fromState._exitAction != null)
+                    fromState._exitAction.DynamicInvoke(fromState._exitParameters);
 
-                var next_state = transition.toState;
+                var next_state = transition._toState;
 
                 if (callback_function != null)
                     callback_function.DynamicInvoke(next_state, fromState);
@@ -239,8 +243,10 @@ namespace AI
 
         public void Reset()
         {
-            transition.waiter.Reset();
+            transition._waiter.Reset();
         }
+
+        public object Current => transition._waiter.Current;
     }
 
     sealed class SMEnumerable : IEnumerable
@@ -249,7 +255,7 @@ namespace AI
 
         public SMEnumerable(Transition transition, Delegate callback_function)
         {
-            this.smEnumerator = new SMEnumerator(transition, callback_function);
+            smEnumerator = new SMEnumerator(transition, callback_function);
         }
 
         public IEnumerator GetEnumerator()
