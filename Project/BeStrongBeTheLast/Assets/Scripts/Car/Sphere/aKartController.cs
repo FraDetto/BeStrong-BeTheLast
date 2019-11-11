@@ -21,7 +21,7 @@ public abstract class aKartController : MonoBehaviour
 
     RaycastHit hitOn, hitNear;
 
-    List<ParticleSystem> primaryParticles, secondaryParticles;
+    List<ParticleSystem> primaryParticles, secondaryParticles, tubeTurboParticles;
 
     private const short PosizionePavimento = 2;
     protected bool RibaltaDisabilitato = false;
@@ -64,6 +64,8 @@ public abstract class aKartController : MonoBehaviour
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
 
+    private string[] tubes = { "Tube001", "Tube002" };
+
 
     protected void Start_()
     {
@@ -81,6 +83,7 @@ public abstract class aKartController : MonoBehaviour
 
         primaryParticles = new List<ParticleSystem>();
         secondaryParticles = new List<ParticleSystem>();
+        tubeTurboParticles = new List<ParticleSystem>();
 
         for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
@@ -90,6 +93,9 @@ public abstract class aKartController : MonoBehaviour
 
         foreach (var p in flashParticles.GetComponentsInChildren<ParticleSystem>())
             secondaryParticles.Add(p);
+
+        foreach (var tube in tubes)
+            tubeTurboParticles.Add(kartModel.Find(tube).GetComponentInChildren<ParticleSystem>());
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
@@ -219,8 +225,6 @@ public abstract class aKartController : MonoBehaviour
             //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
             DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-            //kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-            //kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
         }
 
         driftPower = 0;
@@ -308,6 +312,12 @@ public abstract class aKartController : MonoBehaviour
     void ChromaticAmount(float x)
     {
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
+    }
+
+    internal void PlayTurboEffect()
+    {
+        foreach (var p in tubeTurboParticles)
+            p.Play();
     }
 
 }

@@ -41,10 +41,7 @@ public class BoxMovement : MonoBehaviour
             kartController.currentSpeed *= accelerationFromBox;
 
             if (ImpulseFromBox == 0)
-            {
-                kartController.kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-                kartController.kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
-            }
+                kartController.PlayTurboEffect();
 
             Destroy(gameObject);
         }
