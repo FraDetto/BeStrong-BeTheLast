@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
+
 [RequireComponent(typeof(Rigidbody))]
 public class WanderingMob : MonoBehaviour
 {
@@ -38,48 +38,52 @@ public class WanderingMob : MonoBehaviour
     protected long lastAvoidanceFrame = 300;
 
     protected Rigidbody thisRigidbody;
-    protected Phases phase = Phases.moving;
     protected Transform spawner;
+
+    protected Phases phase;
 
     public float slowAmount = 0.5f;
     public float roadWidth;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
 
-    protected virtual void Start()
+    public WanderingMob()
+    {
+        phase = Phases.moving;
+    }
+
+    private void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
     }
 
-    protected virtual void FixedUpdate()
+    private void FixedUpdate()
     {
         AvoidingCheck();
-        
-        if (phase == Phases.moving)
+
+        switch (phase)
         {
-            Moving();
-        }
-        else if (phase == Phases.rotating)
-        {
-            Rotating();
-        }
-        else if (phase == Phases.flying)
-        {
-            Flying();
-        }
-        else if (phase == Phases.avoidingA)
-        {
-            AvoidingA();
-        }
-        else if (phase == Phases.avoidingB)
-        {
-            AvoidingB();
+            case Phases.moving:
+                Moving();
+                break;
+            case Phases.rotating:
+                Rotating();
+                break;
+            case Phases.flying:
+                Flying();
+                break;
+            case Phases.avoidingA:
+                AvoidingA();
+                break;
+            case Phases.avoidingB:
+                AvoidingB();
+                break;
         }
     }
 
-    protected virtual void Moving()
+    void Moving()
     {
         thisRigidbody.AddForce(transform.forward * force, ForceMode.Force);
         movementFrames++;
@@ -92,13 +96,16 @@ public class WanderingMob : MonoBehaviour
             rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
         }
     }
-    protected virtual void Rotating()
+
+    void Rotating()
     {
         if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
         {
             transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
             rotationSpeed = 100;
+
             Vector3 targetDir = transform.position - spawner.position;
+
             if (Vector3.Angle(transform.forward, -targetDir) < 20f)
             {
                 phase = Phases.moving;
@@ -118,21 +125,18 @@ public class WanderingMob : MonoBehaviour
                 force = Random.Range(3300, 3400);
                 rotationFrames = 0;
                 maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
-            }  
+            }
         }
     }
 
-    protected virtual void AvoidingCheck()
+    void AvoidingCheck()
     {
         if (lastAvoidanceFrame >= 250)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
 
-            int i = 0;
-            while (i < hitColliders.Length)
-            {
+            for (int i = 0; i < hitColliders.Length; i++)
                 if (AvoidTag(hitColliders[i]))
-                {
                     if (phase != Phases.avoidingA && phase != Phases.avoidingB)
                     {
                         phase = Phases.avoidingA;
@@ -143,16 +147,14 @@ public class WanderingMob : MonoBehaviour
                         rotationSpeed = Random.Range(100, 500);
                         break;
                     }
-                }
-                i++;
-            } 
         }
         else
         {
             lastAvoidanceFrame++;
         }
     }
-    protected virtual void AvoidingA()
+
+    void AvoidingA()
     {
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         rotationFrames++;
@@ -163,7 +165,7 @@ public class WanderingMob : MonoBehaviour
         }
     }
 
-    protected virtual void AvoidingB()
+    void AvoidingB()
     {
         thisRigidbody.AddForce(transform.forward * Random.Range(2000, 3000), ForceMode.Impulse);
         phase = Phases.rotating;
@@ -171,7 +173,7 @@ public class WanderingMob : MonoBehaviour
         rotationSpeed = Random.Range(20, maxRotationSpeed);
     }
 
-    protected virtual void Flying()
+    void Flying()
     {
         if (thisRigidbody.position.y > 30)
         {
@@ -180,7 +182,7 @@ public class WanderingMob : MonoBehaviour
         }
     }
 
-    virtual protected void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
         {
@@ -201,15 +203,11 @@ public class WanderingMob : MonoBehaviour
         }
     }
 
-    protected virtual bool AvoidTag(Collider collider)
+    bool AvoidTag(Collider collider)
     {
         for (int i = 0; i < avoidBehaviour.Count; i++)
-        {
             if (collider.CompareTag(avoidBehaviour[i].ToString()))
-            {
                 return true;
-            }
-        }
 
         return false;
     }

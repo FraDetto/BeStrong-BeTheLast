@@ -37,4 +37,5 @@ public class JumpingMobSpawner : MonoBehaviour
 
         StopCoroutine(timedSpawn(avoidBehaviour));
     }
+
 }
