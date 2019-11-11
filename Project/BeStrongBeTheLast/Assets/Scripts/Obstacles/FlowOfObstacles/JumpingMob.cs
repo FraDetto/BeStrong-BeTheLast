@@ -106,7 +106,7 @@ public class JumpingMob : WanderingMob
             {
                 var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
                 Vector3 hitDirection = collision.collider.transform.position - transform.position;
-                
+
                 kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
                 kartController.Accelerate(slowAmount);
 
@@ -116,8 +116,9 @@ public class JumpingMob : WanderingMob
                 rotationFrames = 0;
                 movementFrames = 0;
 
-                thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse); 
-            }else if (phase == Phases.moving)
+                thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
+            }
+            else if (phase == Phases.moving)
             {
                 var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(slowAmountSquished);

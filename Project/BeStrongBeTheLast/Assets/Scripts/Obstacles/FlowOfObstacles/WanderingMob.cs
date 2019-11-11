@@ -188,7 +188,7 @@ public class WanderingMob : MonoBehaviour
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
             Vector3 hitDirection = collision.collider.transform.position - transform.position;
-            
+
             kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
             kartController.Accelerate(slowAmount);
 

@@ -22,12 +22,12 @@ public class JumpingMobSpawner : MonoBehaviour
         spawnPos = transform.GetChild(0).transform.position;
     }
 
-    public void SpawnNew(List<JumpingMob.avoidBehaviourOptions> avoidBehaviour)
+    public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour)
     {
         StartCoroutine(timedSpawn(avoidBehaviour));
     }
 
-    IEnumerator timedSpawn(List<JumpingMob.avoidBehaviourOptions> avoidBehaviour)
+    IEnumerator timedSpawn(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour)
     {
         yield return new WaitForSeconds(spawnWaitSeconds);
 
