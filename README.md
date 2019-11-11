@@ -29,24 +29,27 @@ coming soon
 2. Unity 2018.3.7 (http://store.unity.com/download)
 
 
-## License
-Copyright 2019 (c). All rights reserved.
+## BSBTL team
 
-Licensed under the [MIT](LICENSE) License.
-
-
-### Development Team
+### Development
 * Francesco Dettori
 * Riccardo Lombardi
 * Maione Michele
 * Jacopo Frasson
 
-### VFX Team
+### VFX
 * Marras Andrea
-### Sound Team
+
+### Sound
 * Carlessi Ettore
 
-### Art Team
+### Art
 * Bernardi Eugenia
 * Rossi Giulia
 * Todaro Eleonora
+
+
+## License
+Copyright 2019 (c). All rights reserved.
+
+Licensed under the [MIT](LICENSE) License.
