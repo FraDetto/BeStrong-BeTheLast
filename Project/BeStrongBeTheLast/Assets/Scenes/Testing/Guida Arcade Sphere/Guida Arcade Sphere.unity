@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -184,11 +184,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: steering
@@ -204,6 +199,11 @@ PrefabInstance:
       propertyPath: CPUSpline
       value: 
       objectReference: {fileID: 863217288}
+    - target: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489182346429, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_TagString
@@ -216,12 +216,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8835830491063254056, guid: 34e413d6b4cc60a4886061fc7db27bfc,
     type: 3}
   m_PrefabInstance: {fileID: 9133615}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &22476457 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1862521838, guid: 6f429f780fa28ab43be5f7db5422c4f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 650553452}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &35646332
 PrefabInstance:
@@ -2033,14 +2027,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WanderingMobSpawner
       objectReference: {fileID: 0}
-    - target: {fileID: 1246290910, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862521838, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 58.56
-      objectReference: {fileID: 0}
     - target: {fileID: 1246290912, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 63.4
@@ -2084,34 +2070,6 @@ PrefabInstance:
     - target: {fileID: 1246290912, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496818, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: tagDaEvitare.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496818, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: avoidBehaviour.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496818, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: avoidBehaviour.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496818, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: spawner
-      value: 
-      objectReference: {fileID: 22476457}
-    - target: {fileID: 1339496818, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: roadWidth
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496831, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.77
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339496817, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f429f780fa28ab43be5f7db5422c4f8, type: 3}
@@ -5163,11 +5121,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: JumpingMobSpawner
       objectReference: {fileID: 0}
-    - target: {fileID: 5117028821859537541, guid: 912500ae2fc894b47b399ed419d74280,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3942287295976400520, guid: 912500ae2fc894b47b399ed419d74280,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5222,17 +5175,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950247829526289472, guid: 912500ae2fc894b47b399ed419d74280,
-        type: 3}
-      propertyPath: jumpingMobPrefab
-      value: 
-      objectReference: {fileID: 6959869386704260948, guid: cdd377cc35f1cc44d84eea5c08576f2d,
-        type: 3}
-    - target: {fileID: 1079346425562454266, guid: 912500ae2fc894b47b399ed419d74280,
-        type: 3}
-      propertyPath: roadWidth
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 912500ae2fc894b47b399ed419d74280, type: 3}

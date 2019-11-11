@@ -19,14 +19,7 @@ public class PlaneEffect : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-            kartController.currentSpeed *= accelerationFromBox;
-
-            if (accelerationFromBox > 1)
-            {
-                var kartModel = GB.FindTransformInChildWithName(kartController.transform, "KartModel");
-                kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-                kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
-            }
+            kartController.Accelerate(accelerationFromBox);
         }
     }
 

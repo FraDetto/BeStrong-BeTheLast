@@ -63,6 +63,8 @@ public abstract class aKartController : MonoBehaviour
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
+    public bool isSquished = false, limitSpeed = false;
+    private float limitSpeedValue;
 
 
     protected void Start_()
@@ -140,6 +142,10 @@ public abstract class aKartController : MonoBehaviour
             Boost();
 
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f); speed = 0f;
+        if (limitSpeed && currentSpeed > limitSpeedValue)
+        {
+            currentSpeed = limitSpeedValue;
+        }
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
         //Animations    
@@ -308,6 +314,60 @@ public abstract class aKartController : MonoBehaviour
     void ChromaticAmount(float x)
     {
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
+    }
+
+    public void Accelerate(float amount)
+    {
+        currentSpeed *= amount;
+
+        if (amount > 1)
+        {
+            PlayTurboEffect();
+        }
+    }
+    
+    public void LimitSpeed(float speedLimit, int duration)
+    {
+        limitSpeedValue = speedLimit;
+        limitSpeed = true;
+        StartCoroutine(RestoreSpeedLimit(duration));
+    }
+
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
+    {
+        sphere.AddForce(direction * force, forceMode);
+    }
+
+    public void PlayTurboEffect()
+    {
+        kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+        kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+    }
+
+    public void BeSquished(int duration)
+    {
+        if (!isSquished)
+        {
+            isSquished = true;
+            transform.parent.transform.localScale += new Vector3(0, -0.5f, 0);
+            GetComponent<SphereCollider>().radius = 0.6f;
+            StartCoroutine(RestoreSquishedShape(duration));
+        }
+    }
+    IEnumerator RestoreSquishedShape(int duration)
+    {
+        yield return new WaitForSeconds(duration);
+        transform.parent.transform.localScale += new Vector3(0, +0.5f, 0);
+        GetComponent<SphereCollider>().radius = 1f;
+        StopCoroutine(RestoreSquishedShape(duration));
+        isSquished = false;
+    }
+    
+    IEnumerator RestoreSpeedLimit(int duration)
+    {
+        yield return new WaitForSeconds(duration);
+        limitSpeed = false;
+        StopCoroutine(RestoreSquishedShape(duration));
     }
 
 }

@@ -8,7 +8,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
 [RequireComponent(typeof(Rigidbody))]
 public class WanderingMob : MonoBehaviour
 {
@@ -185,12 +184,10 @@ public class WanderingMob : MonoBehaviour
         if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-            var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
-
             Vector3 hitDirection = collision.collider.transform.position - transform.position;
-            sphereKartRb.AddForce(-kartController.transform.forward * 200 * kartController.currentSpeed, ForceMode.Impulse);
-
-            kartController.currentSpeed *= slowAmount;
+            
+            kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
+            kartController.Accelerate(slowAmount);
 
             phase = Phases.flying;
 

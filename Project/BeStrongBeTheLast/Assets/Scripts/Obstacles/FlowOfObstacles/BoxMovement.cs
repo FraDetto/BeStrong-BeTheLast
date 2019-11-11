@@ -37,13 +37,11 @@ public class BoxMovement : MonoBehaviour
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
 
-            kartController.sphere.AddForce(-kartController.transform.forward * ImpulseFromBox * kartController.currentSpeed, ForceMode.Impulse);
-            kartController.currentSpeed *= accelerationFromBox;
-
+            kartController.AddForce(ImpulseFromBox, ForceMode.Impulse, -kartController.transform.forward);
+            kartController.Accelerate(accelerationFromBox);
             if (ImpulseFromBox == 0)
             {
-                kartController.kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-                kartController.kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+                kartController.PlayTurboEffect();
             }
 
             Destroy(gameObject);

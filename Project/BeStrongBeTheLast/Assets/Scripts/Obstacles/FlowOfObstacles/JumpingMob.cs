@@ -10,22 +10,22 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-[System.Serializable]
 [RequireComponent(typeof(Rigidbody))]
 public class JumpingMob : WanderingMob
 {
     private new Phases phase = Phases.moving;
     private bool jumped = false;
-    public float slowAmountSquished = 0.1f;
+    public float slowAmountSquished = 0.1f, squishedSpeedLimit = 30f;
+    public int squishDuration = 7;
     
-    private new void Start()
+    private void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
     }
 
-    private new void FixedUpdate()
+    private void FixedUpdate()
     {
         if (phase == Phases.moving)
         {
@@ -41,7 +41,7 @@ public class JumpingMob : WanderingMob
         }
     }
 
-    protected override void Moving()
+    protected void Moving()
     {
         force = Random.Range(1000, 2000);
         int jumpForce = Random.Range(1000, 2000);
@@ -55,7 +55,7 @@ public class JumpingMob : WanderingMob
 
         movementFrames++;
     }
-    protected override void Rotating()
+    protected void Rotating()
     {
         if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
         {
@@ -80,7 +80,7 @@ public class JumpingMob : WanderingMob
             }  
         }
     }
-    protected new void Flying()
+    protected void Flying()
     {
         if (thisRigidbody.position.y > 30)
         {
@@ -89,19 +89,18 @@ public class JumpingMob : WanderingMob
         }
     }
 
-    private new void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
         {
             if (phase == Phases.rotating)
             {
                 var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-                var sphereKartRb = collision.collider.transform.parent.GetComponentInChildren<Rigidbody>();
-
                 Vector3 hitDirection = collision.collider.transform.position - transform.position;
-                sphereKartRb.AddForce(-kartController.transform.forward * 200 * kartController.currentSpeed, ForceMode.Impulse);
+                
+                kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
+                kartController.Accelerate(slowAmount);
 
-                kartController.currentSpeed *= slowAmount;
 
                 phase = Phases.flying;
 
@@ -111,10 +110,10 @@ public class JumpingMob : WanderingMob
                 thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse); 
             }else if (phase == Phases.moving)
             {
-                collision.gameObject.transform.parent.transform.localScale += new Vector3(0, -0.5f, 0);
                 var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.currentSpeed *= slowAmountSquished;
-                collision.gameObject.GetComponent<SphereCollider>().radius = 0.6f;
+                kartController.Accelerate(slowAmountSquished);
+                kartController.BeSquished(squishDuration);
+                kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
             }
         }
         else
