@@ -6,18 +6,21 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class JumpingMob : WanderingMob
 {
-    private new Phases phase = Phases.moving;
     private bool jumped = false;
     public float slowAmountSquished = 0.1f, squishedSpeedLimit = 30f;
     public int squishDuration = 7;
-    
+
+    public JumpingMob()
+    {
+        phase = Phases.moving;
+    }
+
+
     private void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
@@ -27,24 +30,27 @@ public class JumpingMob : WanderingMob
 
     private void FixedUpdate()
     {
-        if (phase == Phases.moving)
+        switch (phase)
         {
-            Moving();
-        }
-        else if (phase == Phases.rotating)
-        {
-            Rotating();
-        }
-        else if (phase == Phases.flying)
-        {
-            Flying();
+            case Phases.moving:
+                Moving();
+                break;
+            case Phases.rotating:
+                Rotating();
+                break;
+            case Phases.flying:
+                Flying();
+                break;
         }
     }
 
-    protected void Moving()
+
+    void Moving()
     {
         force = Random.Range(1000, 2000);
+
         int jumpForce = Random.Range(1000, 2000);
+
         if (!jumped)
         {
             thisRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
@@ -55,13 +61,15 @@ public class JumpingMob : WanderingMob
 
         movementFrames++;
     }
-    protected void Rotating()
+
+    void Rotating()
     {
         if (Vector3.Distance(transform.position, spawner.position) > (roadWidth / 2))
         {
             transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
             rotationSpeed = 100;
             Vector3 targetDir = transform.position - spawner.position;
+
             if (Vector3.Angle(transform.forward, -targetDir) < 20f)
             {
                 phase = Phases.moving;
@@ -77,10 +85,11 @@ public class JumpingMob : WanderingMob
             {
                 phase = Phases.moving;
                 rotationFrames = 0;
-            }  
+            }
         }
     }
-    protected void Flying()
+
+    void Flying()
     {
         if (thisRigidbody.position.y > 30)
         {

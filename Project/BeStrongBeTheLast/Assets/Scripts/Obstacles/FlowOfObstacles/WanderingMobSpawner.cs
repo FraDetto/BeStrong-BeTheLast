@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
+
 public class WanderingMobSpawner : MonoBehaviour
 {
     public Vector3 spawnPos;
