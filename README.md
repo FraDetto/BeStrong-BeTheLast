@@ -35,8 +35,18 @@ Copyright 2019 (c). All rights reserved.
 Licensed under the [MIT](LICENSE) License.
 
 
-### Team
+### Development Team
 * Francesco Dettori
 * Riccardo Lombardi
 * Maione Michele
 * Jacopo Frasson
+
+### VFX Team
+* Marras Andrea
+### Sound Team
+* Carlessi Ettore
+
+### Art Team
+* Bernardi Eugenia
+* Rossi Giulia
+* Todaro Eleonora
