@@ -60,6 +60,7 @@ public abstract class aKartController : MonoBehaviour
 
     public GameObject CPUSpline;
     protected SplineObject[] CPUSplines;
+    protected SplineObject CurrentSplineObject;
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
@@ -101,7 +102,7 @@ public abstract class aKartController : MonoBehaviour
             tubeTurboParticles.Add(kartModel.Find(tube).GetComponentInChildren<ParticleSystem>());
     }
 
-    protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
+    protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp, bool forceDrifting)
     {
         //Follow Collider
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
@@ -117,13 +118,13 @@ public abstract class aKartController : MonoBehaviour
             Steer(dir, amount);
         }
 
-        //Drift
-        if (jumpBDown && !drifting && xAxis != 0)
+        //Drift        
+        if (forceDrifting || (jumpBDown && !drifting && xAxis != 0))
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
 
-            foreach (ParticleSystem p in primaryParticles)
+            foreach (var p in primaryParticles)
             {
                 p.startColor = Color.clear;
                 p.Play();
@@ -334,9 +335,7 @@ public abstract class aKartController : MonoBehaviour
         currentSpeed *= amount;
 
         if (amount > 1)
-        {
             PlayTurboEffect();
-        }
     }
 
     public void LimitSpeed(float speedLimit, int duration)
@@ -418,7 +417,7 @@ public abstract class aKartController : MonoBehaviour
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 
-        var p = CPUSplines[CurrentSpline].transform.position;
+        CurrentSplineObject = CPUSplines[CurrentSpline];
 
         if (CPUSplines[CurrentSpline].forkNumber > 0)
         {
@@ -426,9 +425,13 @@ public abstract class aKartController : MonoBehaviour
 
             foreach (var fork in forks)
                 if (Random.value > fork.probability)
-                    p = fork.transform.position;
+                {
+                    CurrentSplineObject = fork;
+                    break;
+                }
         }
 
+        var p = CurrentSplineObject.transform.position;
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
     }
 
