@@ -56,7 +56,7 @@ public sealed class KartControllerCPU : aBSBTLKart
 
         transform.LookAt(lookAtDest);
 
-        Update_(0, false, false);
+        Update_(0, false, false, CurrentSplineObject.splineType == SplineObject.eSplineType.Drift);
 
         foreach (var cpu in CPUCars)
             if (!cpu.name.Equals(name))

@@ -25,9 +25,9 @@ public sealed class KartController : aBSBTLKart
     private void Update()
     {
         if (wrongWay)
-            Update_(0, false, false);
+            Update_(0, false, false, false);
         else
-            Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+            Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
 
         if (UsaWrongWay)
         {
