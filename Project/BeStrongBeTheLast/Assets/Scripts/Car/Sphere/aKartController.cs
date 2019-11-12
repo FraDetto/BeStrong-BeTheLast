@@ -63,7 +63,7 @@ public abstract class aKartController : MonoBehaviour
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
-    private bool isSquished = false, limitSpeed = false;
+    private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
     private string[] tubes = { "Tube001", "Tube002" };
@@ -152,7 +152,15 @@ public abstract class aKartController : MonoBehaviour
         {
             currentSpeed = limitSpeedValue;
         }
-        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
+
+        if (!hardRotate)
+        {
+            currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
+        }
+        else
+        {
+            currentRotate = Mathf.Lerp(currentRotate, rotate/2, Time.deltaTime * 4f); rotate = 0f;
+        }
 
         //Animations    
 
@@ -332,9 +340,36 @@ public abstract class aKartController : MonoBehaviour
     
     public void LimitSpeed(float speedLimit, int duration)
     {
-        limitSpeedValue = speedLimit;
-        limitSpeed = true;
-        StartCoroutine(RestoreSpeedLimit(duration));
+        if (!limitSpeed)
+        {
+            limitSpeedValue = speedLimit;
+            limitSpeed = true;
+            StartCoroutine(RestoreSpeedLimit(duration));
+        }
+    }
+    
+    public void LimitSpeed(float speedLimit)
+    {
+        if (!limitSpeed)
+        {
+            limitSpeedValue = speedLimit;
+            limitSpeed = true;
+        }
+    }
+
+    public void RestoreSpeedLimit()
+    {
+        limitSpeed = false;
+    }
+
+    public void EnableHardRotate()
+    {
+        hardRotate = true;
+    }
+
+    public void DisableHardRotate()
+    {
+        hardRotate = false;
     }
 
     public void AddForce(float force, ForceMode forceMode, Vector3 direction)
@@ -366,7 +401,7 @@ public abstract class aKartController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         limitSpeed = false;
-        StopCoroutine(RestoreSquishedShape(duration));
+        StopCoroutine(RestoreSpeedLimit(duration));
     }
 
     public void PlayTurboEffect()
