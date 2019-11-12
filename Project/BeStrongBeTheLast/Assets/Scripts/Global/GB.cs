@@ -15,9 +15,9 @@ public static class GB
     //Mantenere ordine corretto, serve per tornare indietro alla scende precedente con il tasto ESC
     public enum EScenes
     {
-        StartTitle,
-        PlayerSelection,
-        LobbyM,
+        StartMenu,
+        TrackSelection,
+        KartSelection,
         Game
     }
 
@@ -161,8 +161,7 @@ public static class GB
 
     public static void GotoSceneName(string name)
     {
-        var LobbyMName = EScenes.LobbyM.ToString();
-        var p = (name.Contains("Scenes/") ? name : $"Scenes/{name}");
+        var p = (name.Contains("Scenes/Menus/") ? name : $"Scenes/Menus/{name}");
 
         SceneManager.LoadScene(p, LoadSceneMode.Single);
     }
