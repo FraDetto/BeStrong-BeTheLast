@@ -33,7 +33,7 @@ public class BoxMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
 
