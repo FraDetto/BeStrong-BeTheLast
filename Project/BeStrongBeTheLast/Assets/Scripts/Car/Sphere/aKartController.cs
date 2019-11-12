@@ -160,7 +160,7 @@ public abstract class aKartController : MonoBehaviour
         }
         else
         {
-            currentRotate = Mathf.Lerp(currentRotate, rotate/2, Time.deltaTime * 4f); rotate = 0f;
+            currentRotate = Mathf.Lerp(currentRotate, rotate / 2, Time.deltaTime * 4f); rotate = 0f;
         }
 
         //Animations    
@@ -348,7 +348,7 @@ public abstract class aKartController : MonoBehaviour
             StartCoroutine(RestoreSpeedLimit(duration));
         }
     }
-    
+
     public void LimitSpeed(float speedLimit)
     {
         if (!limitSpeed)
