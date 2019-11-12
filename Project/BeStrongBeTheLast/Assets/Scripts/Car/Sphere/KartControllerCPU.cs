@@ -6,10 +6,9 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using System;
 using UnityEngine;
 
-public class KartControllerCPU : aBSBTLKart
+public sealed class KartControllerCPU : aBSBTLKart
 {
 
     private const byte errorDelta = 8;
@@ -20,60 +19,12 @@ public class KartControllerCPU : aBSBTLKart
     private float LastStuck = -1;
     private Vector3 lastPosition;
 
-    private AI.SM SM;
 
-
-    public KartControllerCPU()
+    private void CPUAI()
     {
-        //SM = CreateSM();
+
     }
 
-    AI.SM CreateSM()
-    {
-        var sm = new AI.SM(this);
-
-
-        // Inner Driving
-        var Base = sm.addState(new Action(() =>
-        {
-
-        }));
-
-        var Pushing = sm.addState(new Action(() =>
-        {
-
-        }));
-
-        var OpponentsApproaching = sm.addState(new Action(() =>
-        {
-
-        }));
-        // Inner Driving
-
-
-        // Outer Driving
-        var Driving = sm.addState();
-
-        Driving.addTransition(new AI.Transition(
-          Driving,
-          Driving,
-          () => canUseSpecial()
-        ));
-
-        //canUseSpecial
-
-        var Turbo = sm.addState(
-            new Action(() =>
-            {
-                PlayTurboEffect();
-            }),
-            new Wait4Seconds(2),
-            Base
-        );
-        // Outer Driving
-
-        return sm;
-    }
 
     private void Start()
     {
@@ -81,7 +32,14 @@ public class KartControllerCPU : aBSBTLKart
 
         var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
         var renderer = Box001.gameObject.GetComponent<Renderer>();
-        renderer.material.color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+
+        var c = Color.black;
+
+        while (c == Color.black || GB.usedColors.Contains(renderer.material.color))
+            c = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+
+        GB.usedColors.Add(c);
+        renderer.material.color = c;
 
         Start_();
     }
@@ -89,10 +47,10 @@ public class KartControllerCPU : aBSBTLKart
     private void Update()
     {
         if (CurrentSpline < 0)
-            setDestination();
+            setDestinationWithError();
 
         if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
-            setDestination();
+            setDestinationWithError();
 
         lookAtDest.y = transform.position.y;
 
@@ -111,10 +69,15 @@ public class KartControllerCPU : aBSBTLKart
                 LastStuck = Time.time;
 
             if (Time.time - LastStuck > 60)
-                transform.position = new Vector3(CPUSplines[CurrentSpline].position.x, CPUSplines[CurrentSpline].position.y + 2, CPUSplines[CurrentSpline].position.z);
+            {
+                var p = CPUSplines[CurrentSpline].transform.position;
+                transform.position = new Vector3(p.x, p.y + 2, p.z);
+            }
         }
 
         lastPosition = transform.position;
+
+        CPUAI();
     }
 
     private void FixedUpdate()
@@ -122,21 +85,12 @@ public class KartControllerCPU : aBSBTLKart
         FixedUpdate_();
     }
 
-    void setDestination()
+    void setDestinationWithError()
     {
-        xRndError = UnityEngine.Random.Range(-1f, 1f) * errorDelta;
-        zRndError = UnityEngine.Random.Range(-1f, 1f) * errorDelta;
+        xRndError = Random.Range(-1f, 1f) * errorDelta;
+        zRndError = Random.Range(-1f, 1f) * errorDelta;
 
-        CurrentSpline++;
-
-        if (CurrentSpline == CPUSplines.Length)
-            CurrentSpline = 0;
-
-        lookAtDest = new Vector3(
-            CPUSplines[CurrentSpline].position.x + xRndError,
-            transform.position.y,
-            CPUSplines[CurrentSpline].position.z + zRndError
-        );
+        setDestination(xRndError, zRndError, errorDelta);
     }
 
 }

@@ -8,13 +8,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class KartController : aBSBTLKart
+public sealed class KartController : aBSBTLKart
 {
 
     public bool UsaWrongWay = false;
 
     private bool wrongWay = false;
     private float lastSplineDistance;
+
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class KartController : aBSBTLKart
         if (UsaWrongWay)
         {
             if (CurrentSpline < 0)
-                setDestination();
+                setDestination(0, 0, 0);
 
             var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
@@ -57,31 +58,12 @@ public class KartController : aBSBTLKart
 
     internal void nextSpline()
     {
-        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.white;
-        setDestination();
+        setDestination(0, 0, 0);
     }
 
     private void FixedUpdate()
     {
         FixedUpdate_();
     }
-
-    void setDestination()
-    {
-        CurrentSpline++;
-        lastSplineDistance = 0;
-
-        if (CurrentSpline == CPUSplines.Length)
-            CurrentSpline = 0;
-
-        CPUSplines[CurrentSpline].gameObject.GetComponent<Renderer>().material.color = Color.magenta;
-
-        lookAtDest = new Vector3(
-            CPUSplines[CurrentSpline].position.x,
-            transform.position.y,
-            CPUSplines[CurrentSpline].position.z
-        );
-    }
-
 
 }

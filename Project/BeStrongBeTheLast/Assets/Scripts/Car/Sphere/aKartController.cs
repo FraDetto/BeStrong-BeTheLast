@@ -59,7 +59,7 @@ public abstract class aKartController : MonoBehaviour
     public Color[] turboColors;
 
     public GameObject CPUSpline;
-    protected Transform[] CPUSplines;
+    protected SplineObject[] CPUSplines;
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
@@ -71,12 +71,13 @@ public abstract class aKartController : MonoBehaviour
 
     protected void Start_()
     {
-        CPUSplines = new Transform[CPUSpline.transform.childCount];
+        CPUSplines = new SplineObject[CPUSpline.transform.childCount];
 
         byte x = 0;
         foreach (var el in CPUSpline.transform)
         {
-            CPUSplines[x] = el as Transform;
+            var t = el as Transform;
+            CPUSplines[x] = t.gameObject.GetComponent<SplineObject>();
             x++;
         }
 
@@ -329,7 +330,7 @@ public abstract class aKartController : MonoBehaviour
             PlayTurboEffect();
         }
     }
-    
+
     public void LimitSpeed(float speedLimit, int duration)
     {
         limitSpeedValue = speedLimit;
@@ -352,7 +353,7 @@ public abstract class aKartController : MonoBehaviour
             StartCoroutine(RestoreSquishedShape(duration));
         }
     }
-    
+
     IEnumerator RestoreSquishedShape(int duration)
     {
         yield return new WaitForSeconds(duration);
@@ -373,6 +374,42 @@ public abstract class aKartController : MonoBehaviour
     {
         foreach (var p in tubeTurboParticles)
             p.Play();
+    }
+
+    protected void setDestination(float xRndError, float zRndError, byte errorDelta)
+    {
+        CurrentSpline++;
+
+        if (CurrentSpline == CPUSplines.Length)
+            CurrentSpline = 0;
+
+        var p = CPUSplines[CurrentSpline].transform.position;
+
+        if (CPUSplines[CurrentSpline].forkNumber > 0)
+        {
+            var forks = getForks(CurrentSpline);
+
+            foreach (var fork in forks)
+                if (Random.value > fork.probability)
+                    p = fork.transform.position;
+        }
+
+        lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+    }
+
+    protected List<SplineObject> getForks(sbyte i)
+    {
+        var forks = new List<SplineObject>();
+
+        var x = i;
+        while (x < CPUSplines.Length - 1)
+        {
+            x++;
+            if (CPUSplines[i].forkNumber == CPUSplines[x].forkNumber) // è una forcazione  
+                forks.Add(CPUSplines[x]);
+        }
+
+        return forks;
     }
 
 }
