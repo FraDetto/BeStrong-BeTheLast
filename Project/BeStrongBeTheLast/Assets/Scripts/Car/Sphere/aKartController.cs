@@ -63,7 +63,7 @@ public abstract class aKartController : MonoBehaviour
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest;
-    public bool isSquished = false, limitSpeed = false;
+    private bool isSquished = false, limitSpeed = false;
     private float limitSpeedValue;
 
     private string[] tubes = { "Tube001", "Tube002" };
@@ -348,7 +348,7 @@ public abstract class aKartController : MonoBehaviour
         {
             isSquished = true;
             transform.parent.transform.localScale += new Vector3(0, -0.5f, 0);
-            GetComponent<SphereCollider>().radius = 0.6f;
+            transform.parent.GetComponentInChildren<SphereCollider>().radius = 0.6f;
             StartCoroutine(RestoreSquishedShape(duration));
         }
     }
@@ -357,7 +357,7 @@ public abstract class aKartController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         transform.parent.transform.localScale += new Vector3(0, +0.5f, 0);
-        GetComponent<SphereCollider>().radius = 1f;
+        transform.parent.GetComponentInChildren<SphereCollider>().radius = 0.85f;
         StopCoroutine(RestoreSquishedShape(duration));
         isSquished = false;
     }
