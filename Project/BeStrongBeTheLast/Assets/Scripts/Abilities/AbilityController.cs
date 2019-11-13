@@ -42,19 +42,21 @@ public class AbilityController : MonoBehaviour
     void Update()
     {
         if (powerGauge != null)
+        {
             powerGauge.value += regenSpeed * Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && powerGauge.value >= 0.5f)
-            if (Input.GetKey(KeyCode.W))
-            {
-                Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
-                powerGauge.value -= 0.5f;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
-                powerGauge.value -= 0.5f;
-            }
+            if (Input.GetMouseButtonDown(0) && powerGauge.value >= 0.5f)
+                if (Input.GetKey(KeyCode.W))
+                {
+                    Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
+                    powerGauge.value -= 0.5f;
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
+                    powerGauge.value -= 0.5f;
+                }
+        }
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
