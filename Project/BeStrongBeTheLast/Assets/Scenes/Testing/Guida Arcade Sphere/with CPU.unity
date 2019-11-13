@@ -413,14 +413,28 @@ PrefabInstance:
       propertyPath: UsaWrongWay
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!4 &9133616 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254056, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 9133615}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &49246859
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +502,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &72401028
 GameObject:
@@ -1259,17 +1273,17 @@ PrefabInstance:
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.17999983
+      value: 7.82
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.53
+      value: 2.33
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.676
+      value: 19.676
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1294,7 +1308,7 @@ PrefabInstance:
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1670,6 +1684,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -1755,100 +1779,35 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &410307579 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307580 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307581 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307582 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307583 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307584 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307585 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &410307586 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &410307587 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 410307578}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &410307588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410307587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 410307581}
-  kartNormal: {fileID: 410307580}
-  sphere: {fileID: 410307579}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 410307586}
-  backWheels: {fileID: 410307585}
-  steeringWheel: {fileID: 410307584}
-  wheelParticles: {fileID: 410307583}
-  flashParticles: {fileID: 410307582}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1 &416680612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +2607,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -2733,100 +2702,35 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &792372112 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372113 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372114 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372115 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372116 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372117 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372118 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &792372119 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &792372120 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 792372111}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &792372121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792372120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 792372114}
-  kartNormal: {fileID: 792372113}
-  sphere: {fileID: 792372112}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 792372119}
-  backWheels: {fileID: 792372118}
-  steeringWheel: {fileID: 792372117}
-  wheelParticles: {fileID: 792372116}
-  flashParticles: {fileID: 792372115}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1001 &816903576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3366,17 +3270,17 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.17999983
+      value: 7.82
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.53
+      value: 2.33
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.676
+      value: 19.676
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3401,7 +3305,7 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3422,12 +3326,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 9133616}
+      objectReference: {fileID: 1567298550}
     - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 9133616}
+      objectReference: {fileID: 1567298550}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_FollowOffset.y
@@ -4625,6 +4529,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -4710,100 +4624,35 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &1260885764 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885765 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885766 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885767 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885768 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885769 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885770 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1260885771 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1260885772 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260885763}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1260885773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260885772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 1260885766}
-  kartNormal: {fileID: 1260885765}
-  sphere: {fileID: 1260885764}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 1260885771}
-  backWheels: {fileID: 1260885770}
-  steeringWheel: {fileID: 1260885769}
-  wheelParticles: {fileID: 1260885768}
-  flashParticles: {fileID: 1260885767}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1001 &1263002365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5821,6 +5670,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -5906,99 +5765,40 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &1538215058 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215059 stripped
+--- !u!4 &1567298550 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+  m_CorrespondingSourceObject: {fileID: 1284683511250782236, guid: 34e413d6b4cc60a4886061fc7db27bfc,
     type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
+  m_PrefabInstance: {fileID: 9133615}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215060 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215061 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215062 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215063 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215064 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1538215065 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1538215066 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1538215057}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1538215067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538215066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 1538215060}
-  kartNormal: {fileID: 1538215059}
-  sphere: {fileID: 1538215058}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 1538215065}
-  backWheels: {fileID: 1538215064}
-  steeringWheel: {fileID: 1538215063}
-  wheelParticles: {fileID: 1538215062}
-  flashParticles: {fileID: 1538215061}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1 &1592204949
 GameObject:
   m_ObjectHideFlags: 0
@@ -6063,7 +5863,7 @@ Transform:
   - {fileID: 1810643421}
   - {fileID: 326163310}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1637181094
 GameObject:
@@ -6214,7 +6014,7 @@ Transform:
   m_Children:
   - {fileID: 2065815223}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1651134646
 GameObject:
@@ -6347,6 +6147,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -6432,100 +6242,35 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &1653176958 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176959 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176960 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176961 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176962 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176963 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176964 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1653176965 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1653176966 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1653176957}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1653176967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653176966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 1653176960}
-  kartNormal: {fileID: 1653176959}
-  sphere: {fileID: 1653176958}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 1653176965}
-  backWheels: {fileID: 1653176964}
-  steeringWheel: {fileID: 1653176963}
-  wheelParticles: {fileID: 1653176962}
-  flashParticles: {fileID: 1653176961}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1001 &1657547730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6989,6 +6734,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -7074,100 +6829,35 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Carrozzeria
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &1822260829 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260830 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260831 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260832 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260833 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260834 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260835 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1822260836 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1822260837 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822260828}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1822260838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822260837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 1822260831}
-  kartNormal: {fileID: 1822260830}
-  sphere: {fileID: 1822260829}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 1822260836}
-  backWheels: {fileID: 1822260835}
-  steeringWheel: {fileID: 1822260834}
-  wheelParticles: {fileID: 1822260833}
-  flashParticles: {fileID: 1822260832}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!4 &1835682424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1862521838, guid: 6f429f780fa28ab43be5f7db5422c4f8,
@@ -7545,7 +7235,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1948090940
 PrefabInstance:
@@ -7757,6 +7447,16 @@ PrefabInstance:
       propertyPath: steering
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405287, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: CPU
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -7877,100 +7577,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!54 &2016573774 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8835830489182346430, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573775 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830490508579640, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573776 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643035, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573777 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489453225089, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573778 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489641939144, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573779 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573780 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830491047265970, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2016573781 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8835830489386110036, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2016573782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8835830491063254071, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2016573773}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2016573783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016573782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4b959547aae0248bf0dd62ba361887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kartModel: {fileID: 2016573776}
-  kartNormal: {fileID: 2016573775}
-  sphere: {fileID: 2016573774}
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
-  gravity: 25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 307
-  frontWheels: {fileID: 2016573781}
-  backWheels: {fileID: 2016573780}
-  steeringWheel: {fileID: 2016573779}
-  wheelParticles: {fileID: 2016573778}
-  flashParticles: {fileID: 2016573777}
-  turboColors:
-  - {r: 1, g: 0, b: 0.7529564, a: 1}
-  - {r: 0.05095637, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.33128166, b: 1, a: 1}
-  CPUSpline: {fileID: 1323296980}
-  isSquished: 0
-  limitSpeed: 0
-  ProjectileType: 0
-  SpecialType: 0
 --- !u!1001 &2054060784
 PrefabInstance:
   m_ObjectHideFlags: 0
