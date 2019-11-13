@@ -34,7 +34,7 @@ public sealed class KartController : aBSBTLKart
 
     private float LastStuck = -1;
     private Vector3 lastPosition;
-    // =============== CPU ===============
+    // =============== CPU ===============    
 
 
     private void Start()
@@ -45,15 +45,15 @@ public sealed class KartController : aBSBTLKart
                 CPUCars = GameObject.FindGameObjectsWithTag("CPU");
 
                 var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
-                var renderer = Box001.gameObject.GetComponent<Renderer>();
+                var renderer_ = Box001.gameObject.GetComponent<Renderer>();
 
                 var c = Color.black;
 
-                while (c == Color.black || GB.usedColors.Contains(renderer.material.color))
+                while (c == Color.black || GB.usedColors.Contains(renderer_.material.color))
                     c = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
 
                 GB.usedColors.Add(c);
-                renderer.material.color = c;
+                renderer_.material.color = c;
                 break;
         }
 
@@ -141,21 +141,20 @@ public sealed class KartController : aBSBTLKart
         setDestination(xRndError, zRndError, errorDelta);
     }
 
-    internal void nextSpline()
-    {
+    internal void nextSpline() =>
         setDestination(0, 0, 0);
-    }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() =>
         FixedUpdate_();
-    }
-
 
     private void CPUAI()
     {
 
     }
 
+    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)
+    {
+        //
+    }
 
 }

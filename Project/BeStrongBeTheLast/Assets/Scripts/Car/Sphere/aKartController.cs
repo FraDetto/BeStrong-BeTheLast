@@ -258,10 +258,8 @@ public abstract class aKartController : MonoBehaviour
         kartModel.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
     }
 
-    void Steer(int direction, float amount)
-    {
+    void Steer(int direction, float amount) =>
         rotate = steering * direction * amount;
-    }
 
     void ColorDrift()
     {
@@ -320,15 +318,11 @@ public abstract class aKartController : MonoBehaviour
         }
     }
 
-    void Speed(float x)
-    {
+    void Speed(float x) =>
         currentSpeed = x;
-    }
 
-    void ChromaticAmount(float x)
-    {
+    void ChromaticAmount(float x) =>
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
-    }
 
     public void Accelerate(float amount)
     {
@@ -357,25 +351,17 @@ public abstract class aKartController : MonoBehaviour
         }
     }
 
-    public void RestoreSpeedLimit()
-    {
+    public void RestoreSpeedLimit() =>
         limitSpeed = false;
-    }
 
-    public void EnableHardRotate()
-    {
+    public void EnableHardRotate() =>
         hardRotate = true;
-    }
 
-    public void DisableHardRotate()
-    {
+    public void DisableHardRotate() =>
         hardRotate = false;
-    }
 
-    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
-    {
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction) =>
         sphere.AddForce(direction * force, forceMode);
-    }
 
     public void BeSquished(int duration)
     {
