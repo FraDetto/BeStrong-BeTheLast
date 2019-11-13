@@ -11,49 +11,134 @@ using UnityEngine;
 public sealed class KartController : aBSBTLKart
 {
 
+    public enum eKCType
+    {
+        Human, CPU
+    }
+
+    public eKCType KCType = eKCType.Human;
+
+
+    // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
     private bool wrongWay = false;
     private float lastSplineDistance;
+    // ============== HUMAN ==============
+
+    // =============== CPU ===============
+    private const byte errorDelta = 8;
+    private float xRndError, zRndError;
+
+    private GameObject[] CPUCars;
+
+    private float LastStuck = -1;
+    private Vector3 lastPosition;
+    // =============== CPU ===============
 
 
     private void Start()
     {
+        switch (KCType)
+        {
+            case eKCType.CPU:
+                CPUCars = GameObject.FindGameObjectsWithTag("CPU");
+
+                var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
+                var renderer = Box001.gameObject.GetComponent<Renderer>();
+
+                var c = Color.black;
+
+                while (c == Color.black || GB.usedColors.Contains(renderer.material.color))
+                    c = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+
+                GB.usedColors.Add(c);
+                renderer.material.color = c;
+                break;
+        }
+
         Start_();
     }
 
     private void Update()
     {
-        if (wrongWay)
-            Update_(0, false, false, false);
-        else
-            Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
-
-        if (UsaWrongWay)
+        switch (KCType)
         {
-            if (CurrentSpline < 0)
-                setDestination(0, 0, 0);
+            case eKCType.Human:
+                if (wrongWay)
+                    Update_(0, false, false, false);
+                else
+                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
 
-            var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
+                if (UsaWrongWay)
+                {
+                    if (CurrentSpline < 0)
+                        setDestination(0, 0, 0);
 
-            wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
+                    var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
 
-            if (wrongWay)
-            {
-                var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
+                    wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
 
-                var eul = rot.eulerAngles;
-                eul.x = 0;
-                eul.z = 0;
+                    if (wrongWay)
+                    {
+                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
 
-                transform.eulerAngles = eul;
+                        var eul = rot.eulerAngles;
+                        eul.x = 0;
+                        eul.z = 0;
 
-                var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-                sphere.AddForce(dir * 100f, ForceMode.Impulse);
-            }
+                        transform.eulerAngles = eul;
 
-            lastSplineDistance = currentSplineDistance;
+                        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+                        sphere.AddForce(dir * 100f, ForceMode.Impulse);
+                    }
+
+                    lastSplineDistance = currentSplineDistance;
+                }
+                break;
+            case eKCType.CPU:
+                if (CurrentSpline < 0)
+                    setDestinationWithError();
+
+                if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
+                    setDestinationWithError();
+
+                lookAtDest.y = transform.position.y;
+
+                transform.LookAt(lookAtDest);
+
+                Update_(0, false, false, CurrentSplineObject.splineType == SplineObject.eSplineType.Drift);
+
+                foreach (var cpu in CPUCars)
+                    if (!cpu.name.Equals(name))
+                        if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
+                            speed = 0;
+
+                if (transform.position == lastPosition && currentSpeed < 1)
+                {
+                    if (LastStuck > -1)
+                        LastStuck = Time.time;
+
+                    if (Time.time - LastStuck > 60)
+                    {
+                        var p = CPUSplines[CurrentSpline].transform.position;
+                        transform.position = new Vector3(p.x, p.y + 2, p.z);
+                    }
+                }
+
+                lastPosition = transform.position;
+
+                CPUAI();
+                break;
         }
+    }
+
+    void setDestinationWithError()
+    {
+        xRndError = Random.Range(-1f, 1f) * errorDelta;
+        zRndError = Random.Range(-1f, 1f) * errorDelta;
+
+        setDestination(xRndError, zRndError, errorDelta);
     }
 
     internal void nextSpline()
@@ -65,5 +150,12 @@ public sealed class KartController : aBSBTLKart
     {
         FixedUpdate_();
     }
+
+
+    private void CPUAI()
+    {
+
+    }
+
 
 }
