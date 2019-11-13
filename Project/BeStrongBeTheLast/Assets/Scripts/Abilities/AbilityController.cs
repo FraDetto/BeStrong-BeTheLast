@@ -65,7 +65,7 @@ public class AbilityController : MonoBehaviour
             if (MouseScrollWheel > 0)
                 index = (index == 3 ? 0 : index + 1);
             else if (MouseScrollWheel < 0)
-                index = (index == 3 ? 0 : index - 1);
+                index = (index == 0 ? 3 : index - 1);
 
             selectedProjectile = projectiles[index];
 
