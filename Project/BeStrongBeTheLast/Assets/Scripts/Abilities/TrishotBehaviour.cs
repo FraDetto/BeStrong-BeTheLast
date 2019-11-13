@@ -14,6 +14,8 @@ public class TrishotBehaviour : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    public float accelerationFromShot;
+
     private GameObject centralShot;
     private GameObject rightShot;
     private GameObject leftShot;
