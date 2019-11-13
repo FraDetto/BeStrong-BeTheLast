@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -140,13 +140,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3548260}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.9999998, z: -0, w: 0.0006901459}
   m_LocalPosition: {x: 66.3, y: 0, z: -42.5}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 179.921, z: 0}
 --- !u!114 &3548262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +413,16 @@ PrefabInstance:
       propertyPath: UsaWrongWay
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: UsaWrongWay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -428,11 +438,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
 --- !u!1 &49246859
@@ -986,13 +991,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216738247}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.99467665, z: -0, w: 0.10304565}
   m_LocalPosition: {x: 54.39, y: 0, z: 14.52}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 168.171, z: 0}
 --- !u!23 &216738249
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1288,7 +1293,7 @@ PrefabInstance:
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.002040634
+      value: 0.0020406372
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1298,12 +1303,12 @@ PrefabInstance:
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.10606824
+      value: -0.106068216
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.019127931
+      value: 0.019127967
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1774,10 +1779,20 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: UsaWrongWay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -1794,16 +1809,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -2697,11 +2707,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2717,16 +2732,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -3083,13 +3093,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914965318}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.9, y: 0, z: -110.6}
+  m_LocalRotation: {x: -0, y: 0.9999854, z: -0, w: -0.0054110815}
+  m_LocalPosition: {x: 54.900005, y: 0, z: -110.6}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.62, z: 0}
 --- !u!23 &914965320
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3285,7 +3295,7 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.002040634
+      value: 0.0020406372
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3295,12 +3305,12 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.10606824
+      value: -0.106068216
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.019127931
+      value: 0.019127967
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3731,13 +3741,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1049157055}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.87, y: 0, z: -160.76}
+  m_LocalRotation: {x: -0, y: 0.97049266, z: -0, w: -0.24113078}
+  m_LocalPosition: {x: 53.87001, y: 0, z: -160.76}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 207.907, z: 0}
 --- !u!23 &1049157057
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3851,13 +3861,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1100686382}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.1, y: 0, z: -81.96}
+  m_LocalRotation: {x: -0, y: 0.9998414, z: -0, w: -0.01781298}
+  m_LocalPosition: {x: 55.1, y: 0, z: -81.96001}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 182.04099, z: 0}
 --- !u!23 &1100686384
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4165,13 +4175,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204534905}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 37.98, y: 3.5410132e-13, z: 34.07}
+  m_LocalRotation: {x: -0, y: 0.8289489, z: -0, w: 0.5593244}
+  m_LocalPosition: {x: 37.980003, y: 3.5410138e-13, z: 34.07}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 111.982, z: 0}
 --- !u!23 &1204534907
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4619,11 +4629,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4639,16 +4654,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -4971,13 +4981,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370772223}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.31367925, z: -0, w: 0.949529}
   m_LocalPosition: {x: 10.09, y: 0, z: 26.86}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 36.562, z: 0}
 --- !u!23 &1370772225
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5567,13 +5577,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434984111}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.2, y: 0, z: -42.5}
+  m_LocalRotation: {x: -0, y: 0.9999778, z: -0, w: 0.006668226}
+  m_LocalPosition: {x: 44.200005, y: 0, z: -42.5}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 179.23601, z: 0}
 --- !u!114 &1434984113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5760,11 +5770,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5780,16 +5795,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -5893,13 +5903,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637181094}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.29, y: -9.315913e-14, z: -163.01}
+  m_LocalRotation: {x: -0, y: -0.24738617, z: -0, w: 0.96891695}
+  m_LocalPosition: {x: 7.29, y: -9.3159137e-14, z: -163.01}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -28.646002, z: 0}
 --- !u!23 &1637181096
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6237,11 +6247,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6257,16 +6272,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -6824,11 +6834,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
+      propertyPath: KCType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
     - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6844,16 +6859,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
-      propertyPath: KCType
-      value: 1
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -6892,13 +6902,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852673399}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 30.02, y: -3.5584884e-13, z: -175.3}
+  m_LocalRotation: {x: -0, y: 0.70944494, z: -0, w: -0.7047609}
+  m_LocalPosition: {x: 30.02, y: -3.558489e-13, z: -175.30002}
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1323296981}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 269.62, z: 0}
 --- !u!23 &1852673401
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7537,6 +7547,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: KCType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 1323296980}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_TagString
@@ -7577,26 +7607,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683510941405281, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: KCType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 1323296980}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
