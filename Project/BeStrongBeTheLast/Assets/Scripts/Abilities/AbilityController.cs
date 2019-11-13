@@ -16,13 +16,17 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private Transform rearSpawnpoint;
 
     private GameObject selectedProjectile;
+    private GameObject[] projectiles;
+    private int index;
 
     // Start is called before the first frame update
     void Start()
     {
         powerGauge.value = 0;
-        selectedProjectile = trishot;
-        selectedProjectileText.text = "Trishot";
+        index = 0;
+        projectiles = new GameObject[] { trishot, homing, bouncing, attracting};
+        selectedProjectile = projectiles[index];
+        selectedProjectileText.text = selectedProjectile.name;
     }
 
     // Update is called once per frame
@@ -32,29 +36,30 @@ public class AbilityController : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.W) && powerGauge.value >= 0.5f)
         {
             Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
+            powerGauge.value -= 0.5f;
         }
         if(Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.S) && powerGauge.value >= 0.5f)
         {
             Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
+            powerGauge.value -= 0.5f;
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow)){
-            selectedProjectile = homing;
-            selectedProjectileText.text = "Homing";
-        }
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            selectedProjectile = trishot;
-            selectedProjectileText.text = "Trishot";
+            if(index == 3)
+                index = 0;
+            else
+                index += 1;
+            selectedProjectile = projectiles[index];
+            selectedProjectileText.text = selectedProjectile.name;
         }
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            selectedProjectile = bouncing;
-            selectedProjectileText.text = "Bouncing";
-        }
-        if(Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            selectedProjectile = attracting;
-            selectedProjectileText.text = "Attracting";
+            if(index == 0)
+                index = 3;
+            else
+                index -= 1;
+            selectedProjectile = projectiles[index];
+            selectedProjectileText.text = selectedProjectile.name;
         }
     }
 }
