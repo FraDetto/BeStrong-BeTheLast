@@ -25,7 +25,7 @@ public sealed class KartController : aBSBTLKart
     private bool wrongWay = false;
     private float lastSplineDistance;
 
-    private float wrongWayTimer, wrongWayMaxTimer = 3;
+    private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
     // ============== HUMAN ==============
 
     // =============== CPU ===============
@@ -68,11 +68,14 @@ public sealed class KartController : aBSBTLKart
         {
             case eKCType.Human:
                 if (wrongWay || (!wrongWay && wrongWayTimer < wrongWayMaxTimer))
+                {
+                    //TODO Disattivare la derapata, al momento se entro in derapata ci rimango nonostante la chiamata con jumpB a false
                     Update_(0, false, false, false);
+                    wrongWayTimer += Time.deltaTime;
+                }
                 else
                 {
                     Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
-                    wrongWayTimer = 0;
                 }
 
                 if (UsaWrongWay)
@@ -85,12 +88,13 @@ public sealed class KartController : aBSBTLKart
 
                     if (wrongWay)
                     {
-                        wrongWayTimer += Time.deltaTime;
+                        wrongWayTimer = 0;
                         var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1f);
 
                         var eul = rot.eulerAngles;
                         eul.x = 0;
                         eul.z = 0;
+                        eul.y = 180;
 
                         transform.eulerAngles = eul;
 
