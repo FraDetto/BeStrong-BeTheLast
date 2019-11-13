@@ -29,6 +29,8 @@ public class WanderingMob : MonoBehaviour
         maxRotationFrames,
         maxRotationFramesSetting = 100,
         movementFrames,
+        flyingFrames,
+        maxFlyingFrames = 120,
         maxMovementFrames,
         minMovementFramesSetting = 35,
         minRotationFramesSetting = 20,
@@ -175,11 +177,12 @@ public class WanderingMob : MonoBehaviour
 
     void Flying()
     {
-        if (thisRigidbody.position.y > 30)
+        if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
             Destroy(gameObject);
             transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
         }
+        flyingFrames++;
     }
 
     void OnCollisionEnter(Collision collision)

@@ -24,6 +24,8 @@ public sealed class KartController : aBSBTLKart
 
     private bool wrongWay = false;
     private float lastSplineDistance;
+
+    private float wrongWayTimer, wrongWayMaxTimer = 3;
     // ============== HUMAN ==============
 
     // =============== CPU ===============
@@ -65,10 +67,13 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
-                if (wrongWay)
+                if (wrongWay || (!wrongWay && wrongWayTimer < wrongWayMaxTimer))
                     Update_(0, false, false, false);
                 else
+                {
                     Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
+                    wrongWayTimer = 0;
+                }
 
                 if (UsaWrongWay)
                 {
@@ -76,12 +81,12 @@ public sealed class KartController : aBSBTLKart
                         setDestination(0, 0, 0);
 
                     var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
-
                     wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
 
                     if (wrongWay)
                     {
-                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
+                        wrongWayTimer += Time.deltaTime;
+                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1f);
 
                         var eul = rot.eulerAngles;
                         eul.x = 0;
