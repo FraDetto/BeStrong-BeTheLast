@@ -410,7 +410,7 @@ public abstract class aKartController : MonoBehaviour
             var forks = getForks(CurrentSpline);
 
             foreach (var fork in forks)
-                if (Random.value > fork.probability)
+                if (Random.value < fork.probability)
                 {
                     CurrentSplineObject = fork;
                     break;
