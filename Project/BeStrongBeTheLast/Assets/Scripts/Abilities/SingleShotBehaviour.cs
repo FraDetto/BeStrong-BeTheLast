@@ -10,13 +10,15 @@ using UnityEngine;
 
 public class SingleShotBehaviour : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             var kartController = other.transform.parent.GetComponentInChildren<KartController>();
             kartController.Accelerate(GetComponentInParent<TrishotBehaviour>().accelerationFromShot);
             Destroy(this.gameObject);
         }
     }
+
 }
