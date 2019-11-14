@@ -39,10 +39,9 @@ public class BoxMovement : MonoBehaviour
 
             kartController.AddForce(ImpulseFromBox, ForceMode.Impulse, -kartController.transform.forward);
             kartController.Accelerate(accelerationFromBox);
+
             if (ImpulseFromBox == 0)
-            {
                 kartController.PlayTurboEffect();
-            }
 
             Destroy(gameObject);
         }
