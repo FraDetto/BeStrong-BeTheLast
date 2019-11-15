@@ -57,7 +57,7 @@ public abstract class aKartController : MonoBehaviour
 
     [Header("Model Parts")]
     //public Transform frontWheels, backWheels;    
-    public Transform frontRightWheels, frontLeftWheels, backRightWheels, backLeftWheels, steeringWheel;
+    public Transform frontRightWheel, frontLeftWheel, backRightWheel, backLeftWheel, steeringWheel;
 
     [Header("Particles")]
     public Transform wheelParticles, flashParticles;
@@ -180,15 +180,15 @@ public abstract class aKartController : MonoBehaviour
         //b) Wheels
         //frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
         //frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        frontRightWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontRightWheels.localEulerAngles.z);
-        frontLeftWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontLeftWheels.localEulerAngles.z);
+        frontRightWheel.localEulerAngles = new Vector3(0, (xAxis * 15), frontRightWheel.localEulerAngles.z);
+        frontLeftWheel.localEulerAngles = new Vector3(0, (xAxis * 15), frontLeftWheel.localEulerAngles.z);
 
-        frontRightWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        frontLeftWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        backRightWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        backLeftWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
