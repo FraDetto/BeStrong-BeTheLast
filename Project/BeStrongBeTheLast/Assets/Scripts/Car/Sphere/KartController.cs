@@ -69,13 +69,12 @@ public sealed class KartController : aBSBTLKart
             case eKCType.Human:
                 if (wrongWay || (!wrongWay && wrongWayTimer < wrongWayMaxTimer))
                 {
-                    //TODO Disattivare la derapata, al momento se entro in derapata ci rimango nonostante la chiamata con jumpB a false
-                    Update_(0, false, false, false);
+                    Update_(0, false, false);
                     wrongWayTimer += Time.deltaTime;
                 }
                 else
                 {
-                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"), false);
+                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
                 }
 
                 if (UsaWrongWay)
@@ -116,7 +115,12 @@ public sealed class KartController : aBSBTLKart
 
                 transform.LookAt(lookAtDest);
 
-                Update_(0, false, false, CurrentSplineObject.splineType == SplineObject.eSplineType.Drift);
+                var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
+                var jumpBUP = drift_ && third;
+                var jumpBDown = drift_ && !jumpBUP;
+                var driftAxis = (drift_ ? 0.0001f : 0);
+
+                Update_(driftAxis, jumpBDown, jumpBUP);
 
                 foreach (var cpu in CPUCars)
                     if (!cpu.name.Equals(name))

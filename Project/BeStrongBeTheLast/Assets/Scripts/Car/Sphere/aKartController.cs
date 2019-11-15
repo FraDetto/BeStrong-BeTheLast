@@ -36,7 +36,7 @@ public abstract class aKartController : MonoBehaviour
 
     float rotate, currentRotate, driftPower;
     int driftDirection, driftMode;
-    bool drifting, first, second, third;
+    protected bool drifting, first, second, third;
     Color currentDriftColor;
 
     [Range(1, 6)]
@@ -102,7 +102,7 @@ public abstract class aKartController : MonoBehaviour
             tubeTurboParticles.Add(kartModel.Find(tube).GetComponentInChildren<ParticleSystem>());
     }
 
-    protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp, bool forceDrifting)
+    protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         //Follow Collider
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
@@ -113,13 +113,14 @@ public abstract class aKartController : MonoBehaviour
         //Steer
         if (xAxis != 0)
         {
-            int dir = xAxis > 0 ? 1 : -1;
-            float amount = Mathf.Abs(xAxis);
+            var dir = xAxis > 0 ? 1 : -1;
+            var amount = Mathf.Abs(xAxis);
+
             Steer(dir, amount);
         }
 
         //Drift        
-        if (forceDrifting || (jumpBDown && !drifting && xAxis != 0))
+        if (jumpBDown && !drifting && xAxis != 0)
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
@@ -149,20 +150,14 @@ public abstract class aKartController : MonoBehaviour
         if (jumpBUp && drifting)
             Boost();
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f); speed = 0f;
-        if (limitSpeed && currentSpeed > limitSpeedValue)
-        {
-            currentSpeed = limitSpeedValue;
-        }
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f);
+        speed = 0f;
 
-        if (!hardRotate)
-        {
-            currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
-        }
-        else
-        {
-            currentRotate = Mathf.Lerp(currentRotate, rotate / 2, Time.deltaTime * 4f); rotate = 0f;
-        }
+        if (limitSpeed && currentSpeed > limitSpeedValue)
+            currentSpeed = limitSpeedValue;
+
+        currentRotate = Mathf.Lerp(currentRotate, rotate / (hardRotate ? 2 : 1), Time.deltaTime * 4f);
+        rotate = 0f;
 
         //Animations    
 

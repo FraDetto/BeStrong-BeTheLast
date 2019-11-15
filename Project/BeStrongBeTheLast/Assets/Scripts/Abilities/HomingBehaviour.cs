@@ -11,6 +11,7 @@ using UnityEngine;
 
 public class HomingBehaviour : MonoBehaviour
 {
+
     [SerializeField]
     private float speed;
 
@@ -22,16 +23,15 @@ public class HomingBehaviour : MonoBehaviour
 
     private int colliderCounter;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         StartCoroutine(Lifetime());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(target != null)
+        if (target != null)
             transform.LookAt(target.transform);
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -39,28 +39,29 @@ public class HomingBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if(colliderCounter == 0 && target == null)
+            if (colliderCounter == 0 && target == null)
             {
-                if(user == null)
+                if (user == null)
                     user = other.gameObject;
-                else if(!other.gameObject.Equals(user))
+                else if (!other.gameObject.Equals(user))
                     target = other.gameObject;
             }
-            else if(colliderCounter == 1 && user != null && !other.gameObject.Equals(user))
+            else if (colliderCounter == 1 && user != null && !other.gameObject.Equals(user))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<KartController>();
                 kartController.Accelerate(accelerationFromShot);
                 Destroy(this.gameObject);
             }
+
             colliderCounter += 1;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
             colliderCounter -= 1;
     }
 
