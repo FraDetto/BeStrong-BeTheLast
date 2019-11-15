@@ -16,7 +16,15 @@ using UnityEngine.Rendering.PostProcessing;
 public abstract class aKartController : MonoBehaviour
 {
 
-    PostProcessVolume postVolume;
+    public enum eKCType
+    {
+        Human, CPU
+    }
+
+    public eKCType KCType = eKCType.Human;
+
+
+    //PostProcessVolume postVolume;
     PostProcessProfile postProfile;
 
     RaycastHit hitOn, hitNear;
@@ -78,7 +86,7 @@ public abstract class aKartController : MonoBehaviour
             x++;
         }
 
-        postVolume = Camera.main.GetComponent<PostProcessVolume>();
+        var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
         primaryParticles = new List<ParticleSystem>();
@@ -236,11 +244,14 @@ public abstract class aKartController : MonoBehaviour
         drifting = false;
 
         if (driftMode > 0)
-        {
-            //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
-            DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
-            DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-        }
+            switch (KCType)
+            {
+                case eKCType.Human:
+                    //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
+                    DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
+                    DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
+                    break;
+            }
 
         driftPower = 0;
         driftMode = 0;
@@ -307,7 +318,12 @@ public abstract class aKartController : MonoBehaviour
 
     void PlayFlashParticle(Color c)
     {
-        GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+        switch (KCType)
+        {
+            case eKCType.Human:
+                GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                break;
+        }
 
         foreach (var p in secondaryParticles)
         {
