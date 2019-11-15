@@ -49,8 +49,12 @@ public abstract class aKartController : MonoBehaviour
     public LayerMask layerMask;
 
     [Header("Model Parts")]
-    public Transform frontWheels;
-    public Transform backWheels;
+    //public Transform frontWheels;
+    //public Transform backWheels;
+    public Transform frontRightWheels;
+    public Transform frontLeftWheels;
+    public Transform backRightWheels;
+    public Transform backLeftWheels;
     public Transform steeringWheel;
 
     [Header("Particles")]
@@ -178,9 +182,17 @@ public abstract class aKartController : MonoBehaviour
         }
 
         //b) Wheels
-        frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
-        frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        //frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
+        //frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontRightWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontRightWheels.localEulerAngles.z);
+        frontLeftWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontLeftWheels.localEulerAngles.z);
+
+        frontRightWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontLeftWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+
+        //backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backRightWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backLeftWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
