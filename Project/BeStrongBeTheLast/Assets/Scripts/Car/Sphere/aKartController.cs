@@ -240,10 +240,24 @@ public abstract class aKartController : MonoBehaviour
         RibaltaDisabilitato = false;
     }
 
-    void Boost()
+    protected void clearDrift()
     {
+        driftPower = 0;
+        driftMode = 0;
+        first = false;
+        second = false;
+        third = false;
         drifting = false;
 
+        foreach (var p in primaryParticles)
+        {
+            p.startColor = Color.clear;
+            p.Stop();
+        }
+    }
+
+    void Boost()
+    {
         if (driftMode > 0)
             switch (KCType)
             {
@@ -254,17 +268,7 @@ public abstract class aKartController : MonoBehaviour
                     break;
             }
 
-        driftPower = 0;
-        driftMode = 0;
-        first = false;
-        second = false;
-        third = false;
-
-        foreach (var p in primaryParticles)
-        {
-            p.startColor = Color.clear;
-            p.Stop();
-        }
+        clearDrift();
 
         kartModel.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
     }

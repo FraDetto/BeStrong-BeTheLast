@@ -115,6 +115,9 @@ public sealed class KartController : aBSBTLKart
                 if (bJumpReleased)
                     bJumpReleased = false;
 
+                if (!drift_)
+                    clearDrift();
+
                 Update_(driftAxis, jumpBDown, jumpBUP);
 
                 if (jumpBUP)
