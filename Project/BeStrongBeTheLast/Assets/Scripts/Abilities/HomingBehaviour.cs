@@ -68,7 +68,8 @@ public class HomingBehaviour : MonoBehaviour
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(7.5f);
-        Destroy(this.gameObject);
+        if(enabled)
+            Destroy(this.gameObject);
     }
 
 }

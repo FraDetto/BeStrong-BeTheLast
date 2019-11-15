@@ -13,18 +13,21 @@ public class AbilityController : MonoBehaviour
 {
 
     [SerializeField] private Slider powerGauge;
-    [SerializeField] private Text selectedProjectileText;
     [SerializeField] private float regenSpeed;
-    [SerializeField] private GameObject trishot;
-    [SerializeField] private GameObject homing;
-    [SerializeField] private GameObject bouncing;
-    [SerializeField] private GameObject attracting;
+    [SerializeField] private Text selectedProjectileText;
     [SerializeField] private Transform frontSpawnpoint;
     [SerializeField] private Transform rearSpawnpoint;
 
-    private GameObject selectedProjectile;
+    public GameObject trishot;
+    public GameObject homing;
+    public GameObject bouncing;
+    public GameObject attracting;
+    public GameObject selectedProjectile;
+
     private GameObject[] projectiles;
     private int index;
+
+    public bool attracted;
 
 
     void Start()
@@ -45,17 +48,40 @@ public class AbilityController : MonoBehaviour
         {
             powerGauge.value += regenSpeed * Time.deltaTime;
 
-            if (Input.GetMouseButtonDown(0) && powerGauge.value >= 0.5f)
-                if (Input.GetKey(KeyCode.W))
+            if (Input.GetMouseButtonDown(0))
+            {
+                if(powerGauge.value >= 0.5f || attracted)
                 {
-                    Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
-                    powerGauge.value -= 0.5f;
+                    if(Input.GetKey(KeyCode.W))
+                    {
+                        if(!selectedProjectile.Equals(attracting))
+                            Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
+                        else
+                            Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation, this.transform);
+                        if(!attracted)
+                            powerGauge.value -= 0.5f;
+                        else
+                        {
+                            selectedProjectile = attracting;
+                            attracted = false;
+                        }
+                    }
+                    else if(Input.GetKey(KeyCode.S))
+                    {
+                        if(!selectedProjectile.Equals(attracting))
+                            Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
+                        else
+                            Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation, this.transform);
+                        if(!attracted)
+                            powerGauge.value -= 0.5f;
+                        else
+                        {
+                            selectedProjectile = attracting;
+                            attracted = false;
+                        }   
+                    }
                 }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
-                    powerGauge.value -= 0.5f;
-                }
+            }  
         }
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -68,10 +94,10 @@ public class AbilityController : MonoBehaviour
                 index = (index == 0 ? 3 : index - 1);
 
             selectedProjectile = projectiles[index];
-
-            if (selectedProjectileText != null)
-                selectedProjectileText.text = selectedProjectile.name;
         }
+
+        if(selectedProjectileText != null)
+            selectedProjectileText.text = selectedProjectile.name;
     }
 
 }
