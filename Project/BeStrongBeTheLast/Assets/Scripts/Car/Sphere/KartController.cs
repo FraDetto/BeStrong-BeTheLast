@@ -52,6 +52,8 @@ public sealed class KartController : aBSBTLKart
         Start_();
     }
 
+    bool bJumpReleased;
+
     private void Update()
     {
         switch (KCType)
@@ -106,11 +108,17 @@ public sealed class KartController : aBSBTLKart
                 transform.LookAt(lookAtDest);
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
-                var jumpBUP = drift_ && third;
+                var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
                 var jumpBDown = drift_ && !jumpBUP;
                 var driftAxis = (drift_ ? 0.0001f : 0);
 
+                if (bJumpReleased)
+                    bJumpReleased = false;
+
                 Update_(driftAxis, jumpBDown, jumpBUP);
+
+                if (jumpBUP)
+                    bJumpReleased = true;
 
                 foreach (var cpu in CPUCars)
                     if (!cpu.name.Equals(name))

@@ -40,9 +40,10 @@ public abstract class aKartController : MonoBehaviour
     protected float speed;
     internal float currentSpeed;
 
-    float rotate, currentRotate, driftPower;
+    float rotate, currentRotate;
+    protected float driftPower;
     int driftDirection, driftMode;
-    protected bool drifting, first, second, third;
+    bool drifting, first, second, third;
     Color currentDriftColor;
 
     [Range(1, 6)]
