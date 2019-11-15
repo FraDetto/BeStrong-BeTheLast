@@ -35,7 +35,7 @@ public class BoxSpawner : MonoBehaviour
         while (true)
         {
             go = Instantiate(GreenTrueRedFalse ? BoxAccelerating : BoxSlowing, transform.position, Quaternion.identity);
-            go.transform.Rotate(0, -90, 0);
+            //go.transform.Rotate(0, -90, 0);
 
             startColour = Random.Range(0, 10);
             GreenTrueRedFalse = (startColour < 5);
@@ -43,7 +43,7 @@ public class BoxSpawner : MonoBehaviour
             yield return new WaitForSeconds(waitSpawn);
 
             go = Instantiate(GreenTrueRedFalse ? BoxAccelerating : BoxSlowing, spawnPos2, Quaternion.identity);
-            go.transform.Rotate(0, -90, 0);
+            //go.transform.Rotate(0, -90, 0);
 
             startColour = Random.Range(0, 10);
             GreenTrueRedFalse = (startColour < 5);
