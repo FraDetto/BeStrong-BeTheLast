@@ -24,11 +24,9 @@ public abstract class aKartController : MonoBehaviour
     List<ParticleSystem> primaryParticles, secondaryParticles, tubeTurboParticles;
 
     private const short PosizionePavimento = 2;
-    protected bool RibaltaDisabilitato = false;
-    protected bool Ribalta = false;
+    protected bool RibaltaDisabilitato, Ribalta;
 
-    public Transform kartModel;
-    public Transform kartNormal;
+    public Transform kartModel, kartNormal;
     public Rigidbody sphere;
 
     protected float speed;
@@ -49,17 +47,11 @@ public abstract class aKartController : MonoBehaviour
     public LayerMask layerMask;
 
     [Header("Model Parts")]
-    //public Transform frontWheels;
-    //public Transform backWheels;
-    public Transform frontRightWheels;
-    public Transform frontLeftWheels;
-    public Transform backRightWheels;
-    public Transform backLeftWheels;
-    public Transform steeringWheel;
+    //public Transform frontWheels, backWheels;    
+    public Transform frontRightWheels, frontLeftWheels, backRightWheels, backLeftWheels, steeringWheel;
 
     [Header("Particles")]
-    public Transform wheelParticles;
-    public Transform flashParticles;
+    public Transform wheelParticles, flashParticles;
     public Color[] turboColors;
 
     public GameObject CPUSpline;

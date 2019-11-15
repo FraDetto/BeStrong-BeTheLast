@@ -23,9 +23,7 @@ public sealed class KartController : aBSBTLKart
     public bool UsaWrongWay = false;
 
     private bool wrongWay = false;
-    private float lastSplineDistance;
-
-    private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
+    private float lastSplineDistance = 0, wrongWayTimer = 2, wrongWayMaxTimer = 1;
     // ============== HUMAN ==============
 
     // =============== CPU ===============
