@@ -11,14 +11,6 @@ using UnityEngine;
 public sealed class KartController : aBSBTLKart
 {
 
-    public enum eKCType
-    {
-        Human, CPU
-    }
-
-    public eKCType KCType = eKCType.Human;
-
-
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
