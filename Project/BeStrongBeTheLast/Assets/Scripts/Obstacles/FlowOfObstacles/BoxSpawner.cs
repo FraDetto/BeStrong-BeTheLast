@@ -13,11 +13,11 @@ public class BoxSpawner : MonoBehaviour
 {
 
     public GameObject BoxAccelerating, BoxSlowing;
-    public float waitSpawn= 1.3f;
+    public float waitSpawn = 1.3f;
     public bool GreenTrueRedFalse;
     public Vector3 spawnPos2;
 
-  
+
     int startColour;
 
     void Start()

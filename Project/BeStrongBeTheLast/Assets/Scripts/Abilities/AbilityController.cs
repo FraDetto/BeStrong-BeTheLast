@@ -50,15 +50,15 @@ public class AbilityController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                if(powerGauge.value >= 0.5f || attracted)
+                if (powerGauge.value >= 0.5f || attracted)
                 {
-                    if(Input.GetKey(KeyCode.W))
+                    if (Input.GetKey(KeyCode.W))
                     {
-                        if(!selectedProjectile.Equals(attracting))
+                        if (!selectedProjectile.Equals(attracting))
                             Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
                         else
                             Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation, this.transform);
-                        if(!attracted)
+                        if (!attracted)
                             powerGauge.value -= 0.5f;
                         else
                         {
@@ -66,22 +66,22 @@ public class AbilityController : MonoBehaviour
                             attracted = false;
                         }
                     }
-                    else if(Input.GetKey(KeyCode.S))
+                    else if (Input.GetKey(KeyCode.S))
                     {
-                        if(!selectedProjectile.Equals(attracting))
+                        if (!selectedProjectile.Equals(attracting))
                             Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
                         else
                             Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation, this.transform);
-                        if(!attracted)
+                        if (!attracted)
                             powerGauge.value -= 0.5f;
                         else
                         {
                             selectedProjectile = attracting;
                             attracted = false;
-                        }   
+                        }
                     }
                 }
-            }  
+            }
         }
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -96,7 +96,7 @@ public class AbilityController : MonoBehaviour
             selectedProjectile = projectiles[index];
         }
 
-        if(selectedProjectileText != null)
+        if (selectedProjectileText != null)
             selectedProjectileText.text = selectedProjectile.name;
     }
 

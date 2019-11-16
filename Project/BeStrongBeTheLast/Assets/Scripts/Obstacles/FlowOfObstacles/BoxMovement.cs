@@ -16,7 +16,7 @@ public class BoxMovement : MonoBehaviour
     public float ImpulseFromBox;
     public bool automaticallyMove = true;
     public Transform kartModel;
-    public float oldX=0;
+    public float oldX = 0;
 
     private Rigidbody thisRigidbody;
 
@@ -31,10 +31,9 @@ public class BoxMovement : MonoBehaviour
         if (automaticallyMove)
         {
             oldX += 0.5f;
-            thisRigidbody.AddForce(-transform.right*0.04f, ForceMode.Impulse);
+            thisRigidbody.AddForce(-transform.right * 0.04f, ForceMode.Impulse);
             transform.localEulerAngles = new Vector3(oldX, 0, 0);
         }
-            
     }
 
     private void OnCollisionEnter(Collision collision)

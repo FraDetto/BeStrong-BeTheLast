@@ -49,7 +49,7 @@ public class TrishotBehaviour : MonoBehaviour
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(5f);
-        if(enabled)
+        if (enabled)
             Destroy(this.gameObject);
     }
 
