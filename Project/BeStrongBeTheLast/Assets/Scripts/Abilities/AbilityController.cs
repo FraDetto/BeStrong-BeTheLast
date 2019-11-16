@@ -86,7 +86,7 @@ public class AbilityController : MonoBehaviour
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
-        if (MouseScrollWheel != 0)
+        if (MouseScrollWheel != 0 && !attracted)
         {
             if (MouseScrollWheel > 0)
                 index = (index == 3 ? 0 : index + 1);
