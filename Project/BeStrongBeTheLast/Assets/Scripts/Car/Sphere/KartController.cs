@@ -89,8 +89,7 @@ public sealed class KartController : aBSBTLKart
                         driftDisabled = true;
                         wrongWayTimer = 0;
 
-                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1f);
-                        Debug.Log(CPUSplines[CurrentSpline].gameObject+ " " +rot.eulerAngles.ToString());
+                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
 
                         var eul = rot.eulerAngles;
                         eul.x = 0;
@@ -99,7 +98,7 @@ public sealed class KartController : aBSBTLKart
                         transform.eulerAngles = eul;
 
                         var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-                        sphere.AddForce(dir * 100f, ForceMode.Impulse);
+                        sphere.AddForce(dir * 500f, ForceMode.Impulse);
                     }
 
                     lastSplineDistance = currentSplineDistance1;
