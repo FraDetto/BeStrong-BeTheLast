@@ -75,7 +75,7 @@ public sealed class KartController : aBSBTLKart
                         setDestination(0, 0, 0);
 
                     var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
-                    wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
+                    wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance + splineDistance);
 
                     if (wrongWay)
                     {
