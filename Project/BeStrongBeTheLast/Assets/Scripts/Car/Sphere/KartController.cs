@@ -15,7 +15,7 @@ public sealed class KartController : aBSBTLKart
     public bool UsaWrongWay = false;
 
     private bool wrongWay = false;
-    private float lastSplineDistance = 0, wrongWayTimer = 2, wrongWayMaxTimer = 1;
+    private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
     // ============== HUMAN ==============
 
     // =============== CPU ===============
@@ -66,6 +66,7 @@ public sealed class KartController : aBSBTLKart
                 }
                 else
                 {
+                    driftDisabled = false;
                     Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
                 }
 
@@ -74,12 +75,20 @@ public sealed class KartController : aBSBTLKart
                     if (CurrentSpline < 0)
                         setDestination(0, 0, 0);
 
-                    var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
-                    wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
+                    var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
+                    var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
+
+                    wrongWay =
+                        lastSplineDistance > 0 &&
+                        prevSplineDistance > 0 &&
+                        currentSplineDistance1 > lastSplineDistance &&
+                        currentSplineDistance0 < prevSplineDistance;
 
                     if (wrongWay)
                     {
+                        driftDisabled = true;
                         wrongWayTimer = 0;
+
                         var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1f);
                         Debug.Log(CPUSplines[CurrentSpline].gameObject+ " " +rot.eulerAngles.ToString());
 
@@ -93,7 +102,8 @@ public sealed class KartController : aBSBTLKart
                         sphere.AddForce(dir * 100f, ForceMode.Impulse);
                     }
 
-                    lastSplineDistance = currentSplineDistance;
+                    lastSplineDistance = currentSplineDistance1;
+                    prevSplineDistance = currentSplineDistance0;
                 }
                 break;
             case eKCType.CPU:

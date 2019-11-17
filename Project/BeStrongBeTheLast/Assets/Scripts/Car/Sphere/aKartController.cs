@@ -44,6 +44,7 @@ public abstract class aKartController : MonoBehaviour
     protected float driftPower;
     int driftDirection, driftMode;
     bool drifting, first, second, third;
+    protected bool driftDisabled;
     Color currentDriftColor;
 
     [Range(1, 6)]
@@ -68,9 +69,11 @@ public abstract class aKartController : MonoBehaviour
     protected SplineObject CurrentSplineObject;
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
-    protected Vector3 lookAtDest;
+    protected Vector3 lookAtDest, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
+
+    protected float lastSplineDistance, prevSplineDistance;
 
     private string[] tubes = { "Tube001", "Tube002" };
 
@@ -114,6 +117,13 @@ public abstract class aKartController : MonoBehaviour
 
         //Accelerate       
         speed = acceleration; // auto-acceleration
+
+        if (driftDisabled)
+        {
+            jumpBDown = false;
+            jumpBUp = false;
+            clearDrift();
+        }
 
         //Steer
         if (xAxis != 0)
@@ -437,8 +447,36 @@ public abstract class aKartController : MonoBehaviour
                 }
         }
 
+        prevSplinePos = prevSpline(CurrentSpline);
+        curSplinePos = nextSpline(CurrentSpline);
+
         var p = CurrentSplineObject.transform.position;
+
+        lastSplineDistance = 0;
+        prevSplineDistance = 0;
+
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+    }
+
+    private Vector3 nextSpline(int i)
+    {
+        if (i == CPUSplines.Length)
+            i = 0;
+
+        if (CPUSplines[i].forkNumber > 0)
+            return nextSpline(i + 1);
+
+        return CPUSplines[i].transform.position;
+    }
+
+    private Vector3 prevSpline(int i)
+    {
+        if (i == 0)
+            i = CPUSplines.Length;
+
+        i--;
+
+        return CPUSplines[i].transform.position;
     }
 
     protected List<SplineObject> getForks(sbyte i)
