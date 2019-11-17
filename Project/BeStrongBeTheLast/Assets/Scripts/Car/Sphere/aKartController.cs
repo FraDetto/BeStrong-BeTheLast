@@ -419,7 +419,7 @@ public abstract class aKartController : MonoBehaviour
     protected void setDestination(float xRndError, float zRndError, byte errorDelta)
     {
         CurrentSpline++;
-
+        
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 

@@ -81,11 +81,11 @@ public sealed class KartController : aBSBTLKart
                     {
                         wrongWayTimer = 0;
                         var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1f);
+                        Debug.Log(CPUSplines[CurrentSpline].gameObject+ " " +rot.eulerAngles.ToString());
 
                         var eul = rot.eulerAngles;
                         eul.x = 0;
                         eul.z = 0;
-                        eul.y = 180;
 
                         transform.eulerAngles = eul;
 
@@ -169,6 +169,11 @@ public sealed class KartController : aBSBTLKart
     internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)
     {
         //
+    }
+
+    public void resetLastSplineDistance()
+    {
+        lastSplineDistance = 0;
     }
 
 }

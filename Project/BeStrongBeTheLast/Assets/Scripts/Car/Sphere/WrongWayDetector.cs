@@ -20,6 +20,7 @@ public class WrongWayDetector : MonoBehaviour
             var kart = GB.FindTransformInChildWithName(go, "Kart");
             var kartController = kart.gameObject.GetComponent<KartController>();
             kartController.nextSpline();
+            kartController.resetLastSplineDistance();
         }
     }
 
