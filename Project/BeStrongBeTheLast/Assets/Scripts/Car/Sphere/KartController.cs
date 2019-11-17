@@ -86,19 +86,9 @@ public sealed class KartController : aBSBTLKart
 
                     if (wrongWay)
                     {
-                        driftDisabled = true;
+                        SetOnTrack();
                         wrongWayTimer = 0;
-
-                        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
-
-                        var eul = rot.eulerAngles;
-                        eul.x = 0;
-                        eul.z = 0;
-
-                        transform.eulerAngles = eul;
-
-                        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-                        sphere.AddForce(dir * 500f, ForceMode.Impulse);
+                        driftDisabled = true;
                     }
 
                     lastSplineDistance = currentSplineDistance1;
@@ -154,6 +144,20 @@ public sealed class KartController : aBSBTLKart
                 CPUAI();
                 break;
         }
+    }
+
+    public void SetOnTrack()
+    {
+        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
+
+        var eul = rot.eulerAngles;
+        eul.x = 0;
+        eul.z = 0;
+
+        transform.eulerAngles = eul;
+
+        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+        sphere.AddForce(dir * 300f, ForceMode.Impulse);
     }
 
     void setDestinationWithError()

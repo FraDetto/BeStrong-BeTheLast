@@ -13,11 +13,11 @@ public class RepulsiveWallStraight : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-
-        kartController.AddForce(2000f, ForceMode.Impulse, -transform.forward + transform.right);
-        kartController.Accelerate(2f);
-        //use WRONGWAY code here when ready
+        if (other.CompareTag("Player") || other.CompareTag("CPU"))
+        {
+            var kartController = other.transform.parent.GetComponentInChildren<KartController>();
+            kartController.SetOnTrack();
+        }
     }
 
 }
