@@ -13,7 +13,7 @@ using UnityEngine;
 public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 {
     private Vector3 spawnPos;
-    private GameObject mobPrefab;
+    public GameObject mobPrefab;
 
     public int spawnWaitSeconds = 5;
 
@@ -21,7 +21,6 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     void Start()
     {
         spawnPos = transform.GetChild(0).position;
-        mobPrefab = transform.GetChild(0).gameObject;
     }
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>

@@ -73,6 +73,7 @@ public abstract class aKartController : MonoBehaviour
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
+    private byte lastUsedFork;
     protected float lastSplineDistance, prevSplineDistance;
 
     private string[] tubes = { "Tube001", "Tube002" };
@@ -429,19 +430,26 @@ public abstract class aKartController : MonoBehaviour
         CurrentSplineObject = CPUSplines[CurrentSpline];
 
         if (CPUSplines[CurrentSpline].forkNumber > 0)
-        {
-            var forks = getForks(CurrentSpline);
+            if (CPUSplines[CurrentSpline].forkNumber == lastUsedFork)
+            {
+                CurrentSplineObject = CPUSplines[nextSpline(CurrentSpline)];
+            }
+            else
+            {
+                lastUsedFork = CPUSplines[CurrentSpline].forkNumber;
 
-            foreach (var fork in forks)
-                if (Random.value < fork.probability)
-                {
-                    CurrentSplineObject = fork;
-                    break;
-                }
-        }
+                var forks = getForks(CurrentSpline);
 
-        prevSplinePos = prevSpline(CurrentSpline);
-        curSplinePos = nextSpline(CurrentSpline);
+                foreach (var fork in forks)
+                    if (Random.value < fork.probability)
+                    {
+                        CurrentSplineObject = fork;
+                        break;
+                    }
+            }
+
+        prevSplinePos = CPUSplines[prevSpline(CurrentSpline)].transform.position;
+        curSplinePos = CPUSplines[nextSpline(CurrentSpline)].transform.position;
 
         var p = CurrentSplineObject.transform.position;
 
@@ -451,7 +459,7 @@ public abstract class aKartController : MonoBehaviour
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
     }
 
-    private Vector3 nextSpline(int i)
+    private int nextSpline(int i)
     {
         if (i == CPUSplines.Length)
             i = 0;
@@ -459,10 +467,10 @@ public abstract class aKartController : MonoBehaviour
         if (CPUSplines[i].forkNumber > 0)
             return nextSpline(i + 1);
 
-        return CPUSplines[i].transform.position;
+        return i;
     }
 
-    private Vector3 prevSpline(int i)
+    private int prevSpline(int i)
     {
         if (i < 1)
             i = CPUSplines.Length;
@@ -472,7 +480,7 @@ public abstract class aKartController : MonoBehaviour
         if (CPUSplines[i].forkNumber > 0)
             return prevSpline(i - 1);
 
-        return CPUSplines[i].transform.position;
+        return i;
     }
 
     protected List<SplineObject> getForks(sbyte i)

@@ -24,6 +24,7 @@ public sealed class KartController : aBSBTLKart
 
     private GameObject[] CPUCars;
 
+    private bool bJumpReleased;
     private float LastStuck = -1;
     private Vector3 lastPosition;
     // =============== CPU ===============    
@@ -51,8 +52,6 @@ public sealed class KartController : aBSBTLKart
 
         Start_();
     }
-
-    bool bJumpReleased;
 
     private void Update()
     {
