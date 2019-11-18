@@ -12,14 +12,17 @@ using UnityEngine;
 
 public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 {
-    public Vector3 spawnPos;
-    public GameObject mobPrefab;
+    private Vector3 spawnPos;
+    private GameObject mobPrefab;
 
     public int spawnWaitSeconds = 5;
 
 
-    void Start() =>
-      spawnPos = transform.GetChild(0).transform.position;
+    void Start()
+    {
+        spawnPos = transform.GetChild(0).position;
+        mobPrefab = transform.GetChild(0).gameObject;
+    }
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
         StartCoroutine(timedSpawn(avoidBehaviour));
