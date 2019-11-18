@@ -246,12 +246,12 @@ public abstract class aKartController : MonoBehaviour
     private IEnumerator AbilitaRibalta()
     {
         yield return new WaitForSeconds(4);
-        StopCoroutine(AbilitaRibalta());
         RibaltaDisabilitato = false;
     }
 
     protected void clearDrift()
     {
+        driftDirection = 0;
         driftPower = 0;
         driftMode = 0;
         first = false;
@@ -264,6 +264,8 @@ public abstract class aKartController : MonoBehaviour
             p.startColor = Color.clear;
             p.Stop();
         }
+
+        kartModel.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
     }
 
     void Boost()
@@ -279,8 +281,6 @@ public abstract class aKartController : MonoBehaviour
             }
 
         clearDrift();
-
-        kartModel.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
     }
 
     void Steer(int direction, float amount) =>
@@ -364,12 +364,10 @@ public abstract class aKartController : MonoBehaviour
 
     public void LimitSpeed(float speedLimit, int duration)
     {
+        LimitSpeed(speedLimit);
+
         if (!limitSpeed)
-        {
-            limitSpeedValue = speedLimit;
-            limitSpeed = true;
             StartCoroutine(RestoreSpeedLimit(duration));
-        }
     }
 
     public void LimitSpeed(float speedLimit)
@@ -384,11 +382,8 @@ public abstract class aKartController : MonoBehaviour
     public void RestoreSpeedLimit() =>
         limitSpeed = false;
 
-    public void EnableHardRotate() =>
-        hardRotate = true;
-
-    public void DisableHardRotate() =>
-        hardRotate = false;
+    public void EnableHardRotate(bool enable_) =>
+        hardRotate = enable_;
 
     public void AddForce(float force, ForceMode forceMode, Vector3 direction) =>
         sphere.AddForce(direction * force, forceMode);
@@ -409,7 +404,6 @@ public abstract class aKartController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         transform.parent.transform.localScale += new Vector3(0, +0.5f, 0);
         transform.parent.GetComponentInChildren<SphereCollider>().radius = 0.85f;
-        StopCoroutine(RestoreSquishedShape(duration));
         isSquished = false;
     }
 
@@ -417,7 +411,6 @@ public abstract class aKartController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         limitSpeed = false;
-        StopCoroutine(RestoreSpeedLimit(duration));
     }
 
     public void PlayTurboEffect()
@@ -429,7 +422,7 @@ public abstract class aKartController : MonoBehaviour
     protected void setDestination(float xRndError, float zRndError, byte errorDelta)
     {
         CurrentSpline++;
-        
+
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 
@@ -471,10 +464,13 @@ public abstract class aKartController : MonoBehaviour
 
     private Vector3 prevSpline(int i)
     {
-        if (i == 0)
+        if (i < 1)
             i = CPUSplines.Length;
 
         i--;
+
+        if (CPUSplines[i].forkNumber > 0)
+            return prevSpline(i - 1);
 
         return CPUSplines[i].transform.position;
     }

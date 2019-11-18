@@ -184,9 +184,5 @@ public sealed class KartController : aBSBTLKart
         //
     }
 
-    public void resetLastSplineDistance()
-    {
-        lastSplineDistance = 0;
-    }
 
 }

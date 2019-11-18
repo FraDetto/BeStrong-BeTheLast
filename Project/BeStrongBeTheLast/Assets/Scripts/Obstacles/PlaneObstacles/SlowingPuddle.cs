@@ -20,7 +20,7 @@ public class SlowingPuddle : MonoBehaviour
         {
             var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
             kartController.RestoreSpeedLimit();
-            kartController.DisableHardRotate();
+            kartController.EnableHardRotate(false);
         }
     }
 
@@ -30,7 +30,7 @@ public class SlowingPuddle : MonoBehaviour
         {
             var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
             kartController.LimitSpeed(speedLimit);
-            kartController.EnableHardRotate();
+            kartController.EnableHardRotate(true);
         }
     }
 
