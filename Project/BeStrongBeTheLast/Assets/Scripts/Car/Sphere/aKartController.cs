@@ -27,7 +27,8 @@ public abstract class aKartController : MonoBehaviour
     //PostProcessVolume postVolume;
     PostProcessProfile postProfile;
 
-    RaycastHit hitOn, hitNear;
+    RaycastHit hitNear;
+    //RaycastHit hitOn, hitNear;
 
     List<ParticleSystem> primaryParticles, secondaryParticles, tubeTurboParticles;
 
@@ -178,21 +179,22 @@ public abstract class aKartController : MonoBehaviour
         //Animations    
 
         //a) Kart
-        if (!drifting)
-        {
-            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90 + (xAxis * 15), kartModel.localEulerAngles.z), .2f);
-        }
-        else
+        if (drifting)
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .5f, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, .5f);
             kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, control * 15 * driftDirection, .2f), 0);
+        }
+        else
+        {
+            kartModel.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.localEulerAngles.y, xAxis * 15, .2f), 0);
+            //kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, xAxis * 15, kartModel.localEulerAngles.z), .2f);            
         }
 
         //b) Wheels
         //frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
         //frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        frontRightWheel.localEulerAngles = new Vector3(0, (xAxis * 15), frontRightWheel.localEulerAngles.z);
-        frontLeftWheel.localEulerAngles = new Vector3(0, (xAxis * 15), frontLeftWheel.localEulerAngles.z);
+        frontRightWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontRightWheel.localEulerAngles.z);
+        frontLeftWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontLeftWheel.localEulerAngles.z);
 
         frontRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
         frontLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
@@ -225,10 +227,15 @@ public abstract class aKartController : MonoBehaviour
     protected void FixedUpdate_()
     {
         //Forward Acceleration
-        if (!drifting)
-            sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
-        else
+        //if (!drifting)
+        //    sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
+        //else
+        //    sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+
+        if (drifting)
             sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+        else
+            sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
         sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
@@ -236,8 +243,9 @@ public abstract class aKartController : MonoBehaviour
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-        Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitOn, 1.1f, layerMask);
-        Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitNear, 2.0f, layerMask);
+        var theRay = transform.position + (transform.up * .1f);
+        //Physics.Raycast(theRay, Vector3.down, out hitOn, 1.1f, layerMask);
+        Physics.Raycast(theRay, Vector3.down, out hitNear, 2.0f, layerMask);
 
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
