@@ -107,9 +107,9 @@ public abstract class aKartController : MonoBehaviour
 
         foreach (var p in flashParticles.GetComponentsInChildren<ParticleSystem>())
             secondaryParticles.Add(p);
-
+        
         foreach (var tube in tubes)
-            tubeTurboParticles.Add(kartModel.Find(tube).GetComponentInChildren<ParticleSystem>());
+            tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
