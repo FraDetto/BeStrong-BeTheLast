@@ -38,7 +38,7 @@ public abstract class aKartController : MonoBehaviour
     public Rigidbody sphere;
 
     protected float speed;
-    internal float currentSpeed;
+    public float currentSpeed;
 
     float rotate, currentRotate;
     protected float driftPower;
