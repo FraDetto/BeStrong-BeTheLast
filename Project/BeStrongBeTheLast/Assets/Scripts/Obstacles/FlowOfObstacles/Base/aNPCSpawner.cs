@@ -21,6 +21,7 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     void Start()
     {
         spawnPos = transform.GetChild(0).position;
+        Instantiate(mobPrefab, spawnPos, Quaternion.identity, transform);
     }
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
