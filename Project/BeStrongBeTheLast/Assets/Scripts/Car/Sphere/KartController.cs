@@ -101,6 +101,8 @@ public sealed class KartController : aBSBTLKart
                 if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
                     setDestinationWithError();
 
+                CPUAI();
+
                 lookAtDest.y = transform.position.y;
 
                 transform.LookAt(lookAtDest);
@@ -139,8 +141,6 @@ public sealed class KartController : aBSBTLKart
                 }
 
                 lastPosition = transform.position;
-
-                CPUAI();
                 break;
         }
     }
@@ -175,7 +175,24 @@ public sealed class KartController : aBSBTLKart
 
     private void CPUAI()
     {
+        var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
+        foreach (var root in roots)
+            if (root.name.Equals("Obstacles"))
+            {
+                var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
+
+                foreach (var obstacle in obstacles)
+                {
+                    var d = Vector3.Distance(transform.position, obstacle.position);
+
+                    if (d < 50)
+                    {
+                        lookAtDest = obstacle.position;
+                        break;
+                    }
+                }
+            }
     }
 
     internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)
