@@ -23,7 +23,6 @@ public abstract class aKartController : MonoBehaviour
 
     public eKCType KCType = eKCType.Human;
 
-
     //PostProcessVolume postVolume;
     PostProcessProfile postProfile;
 
@@ -107,15 +106,17 @@ public abstract class aKartController : MonoBehaviour
 
         foreach (var p in flashParticles.GetComponentsInChildren<ParticleSystem>())
             secondaryParticles.Add(p);
-        
+
         foreach (var tube in tubes)
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
     }
 
+    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
+
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         //Follow Collider
-        transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
+        transform.position = sphere.transform.position - vettoreCorrezioneSfera;
 
         //Accelerate       
         speed = acceleration; // auto-acceleration
@@ -182,12 +183,12 @@ public abstract class aKartController : MonoBehaviour
         if (drifting)
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .5f, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, .5f);
+
             kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, control * 15 * driftDirection, .2f), 0);
         }
         else
         {
             kartModel.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.localEulerAngles.y, xAxis * 15, .2f), 0);
-            //kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, xAxis * 15, kartModel.localEulerAngles.z), .2f);            
         }
 
         //b) Wheels
