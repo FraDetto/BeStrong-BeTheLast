@@ -346,7 +346,8 @@ public abstract class aKartController : MonoBehaviour
         switch (KCType)
         {
             case eKCType.Human:
-                GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                //GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                GameObject.FindGameObjectWithTag("VCam").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
                 break;
         }
 
