@@ -21,8 +21,10 @@ public class ChangeCamera : MonoBehaviour
         {
             Debug.Log("Colliso player");
 
-            vCam1.SetActive(!vCam1.active);
-            vCam2.SetActive(vCam1.active);
+            var camActive = vCam1.active;
+
+            vCam1.SetActive(!camActive);
+            vCam2.SetActive(camActive);
         }
     }
 
