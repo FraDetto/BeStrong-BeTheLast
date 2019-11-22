@@ -57,13 +57,10 @@ public class WanderingMob : MonoBehaviour
     private void Start()
     {
         thisRigidbody = GetComponent<Rigidbody>();
+        thisRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
-    }
-    
-    private void Update()
-    {
-        transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
     }
 
     private void FixedUpdate()
@@ -138,12 +135,11 @@ public class WanderingMob : MonoBehaviour
 
     void AvoidingCheck()
     {
-        if (lastAvoidanceFrame >= 250)
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
-
-            for (int i = 0; i < hitColliders.Length; i++)
-                if (AvoidTag(hitColliders[i]))
+        if (lastAvoidanceFrame < 250)
+            lastAvoidanceFrame++;
+        else
+            foreach (var hitCollider in Physics.OverlapSphere(transform.position, 10))
+                if (AvoidTag(hitCollider))
                     if (phase != Phases.avoidingA && phase != Phases.avoidingB)
                     {
                         phase = Phases.avoidingA;
@@ -154,11 +150,6 @@ public class WanderingMob : MonoBehaviour
                         rotationSpeed = Random.Range(100, 500);
                         break;
                     }
-        }
-        else
-        {
-            lastAvoidanceFrame++;
-        }
     }
 
     void AvoidingA()
@@ -192,7 +183,7 @@ public class WanderingMob : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
+        if (GB.CompareORTags(collision.collider, "Player", "CPU"))
         {
             var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
             Vector3 hitDirection = collision.collider.transform.position - transform.position;
@@ -211,7 +202,7 @@ public class WanderingMob : MonoBehaviour
 
     bool AvoidTag(Collider collider)
     {
-        for (int i = 0; i < avoidBehaviour.Count; i++)
+        for (var i = 0; i < avoidBehaviour.Count; i++)
             if (collider.CompareTag(avoidBehaviour[i].ToString()))
                 return true;
 
