@@ -31,7 +31,7 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
         var mob = Instantiate(mobPrefab, spawnPos, Quaternion.identity, gameObject.transform);
 
         mob.GetComponent<T>().avoidBehaviour = avoidBehaviour;
-        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
 }
