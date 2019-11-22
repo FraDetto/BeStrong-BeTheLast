@@ -80,6 +80,8 @@ public abstract class aKartController : MonoBehaviour
 
     private string[] tubes = { "Tube001", "Tube002" };
 
+    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
+
 
     protected void Start_()
     {
@@ -112,8 +114,6 @@ public abstract class aKartController : MonoBehaviour
         foreach (var tube in tubes)
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
     }
-
-    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
