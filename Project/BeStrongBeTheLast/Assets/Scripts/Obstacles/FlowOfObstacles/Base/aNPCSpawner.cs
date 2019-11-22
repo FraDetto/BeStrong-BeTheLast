@@ -18,12 +18,8 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     public int spawnWaitSeconds = 5;
 
 
-    void Start()
-    {
+    void Start() =>
         spawnPos = transform.GetChild(0).position;
-        //The first mob has to be present in the scene from the beginning
-        //Instantiate(mobPrefab, spawnPos, Quaternion.identity, transform);
-    }
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
         StartCoroutine(timedSpawn(avoidBehaviour));
@@ -32,12 +28,10 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     {
         yield return new WaitForSeconds(spawnWaitSeconds);
 
-        var mob = Instantiate(mobPrefab, spawnPos, Quaternion.identity);
+        var mob = Instantiate(mobPrefab, spawnPos, Quaternion.identity, gameObject.transform);
 
-        mob.transform.parent = gameObject.transform;
         mob.GetComponent<T>().avoidBehaviour = avoidBehaviour;
-        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
-        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
+        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
 
 }

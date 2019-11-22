@@ -7,7 +7,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -52,7 +51,7 @@ public class JumpingMob : WanderingMob
     {
         force = Random.Range(1000, 2000);
 
-        int jumpForce = Random.Range(1000, 2000);
+        var jumpForce = Random.Range(1000, 2000);
 
         if (!jumped)
         {
@@ -61,6 +60,7 @@ public class JumpingMob : WanderingMob
             jumped = true;
             movementFrames = 0;
         }
+
         movementFrames++;
     }
 
@@ -113,7 +113,6 @@ public class JumpingMob : WanderingMob
                 kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
                 kartController.Accelerate(slowAmount);
 
-
                 phase = Phases.flying;
 
                 rotationFrames = 0;
@@ -123,9 +122,10 @@ public class JumpingMob : WanderingMob
             }
             else if (phase == Phases.moving)
             {
-                if (transform.GetComponent<Rigidbody>().velocity.y < 0)
+                if (thisRigidbody.velocity.y < 0)
                 {
                     var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
+
                     kartController.Accelerate(slowAmountSquished);
                     kartController.BeSquished(squishDuration);
                     kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
