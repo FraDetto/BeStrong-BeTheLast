@@ -36,8 +36,7 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 
         mob.transform.parent = gameObject.transform;
         mob.GetComponent<T>().avoidBehaviour = avoidBehaviour;
-        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
-        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
+        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
 }
