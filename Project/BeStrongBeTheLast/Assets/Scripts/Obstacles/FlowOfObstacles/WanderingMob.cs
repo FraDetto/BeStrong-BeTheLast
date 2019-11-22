@@ -56,6 +56,11 @@ public class WanderingMob : MonoBehaviour
 
     private void Start()
     {
+        Start_();
+    }
+
+    protected void Start_()
+    {
         thisRigidbody = GetComponent<Rigidbody>();
         thisRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
 
@@ -175,8 +180,8 @@ public class WanderingMob : MonoBehaviour
     {
         if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
-            Destroy(gameObject);
             transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
+            Destroy(gameObject);
         }
         flyingFrames++;
     }

@@ -22,12 +22,11 @@ public class JumpingMob : WanderingMob
         phase = Phases.moving;
     }
 
-
     private void Start()
     {
-        thisRigidbody = GetComponent<Rigidbody>();
+        Start_();
+
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
-        spawner = transform.parent.GetChild(0);
     }
 
     private void FixedUpdate()
@@ -95,15 +94,15 @@ public class JumpingMob : WanderingMob
     {
         if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
-            Destroy(gameObject);
             transform.parent.GetComponent<JumpingMobSpawner>().SpawnNew(avoidBehaviour);
+            Destroy(gameObject);
         }
         flyingFrames++;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
+        if (GB.CompareORTags(collision.collider, "Player", "CPU"))
         {
             if (phase == Phases.rotating)
             {
