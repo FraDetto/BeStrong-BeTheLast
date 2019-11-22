@@ -134,7 +134,6 @@ public class JumpingMob : WanderingMob
                 phase = Phases.rotating;
                 maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
                 rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
-
             }
         }
     }

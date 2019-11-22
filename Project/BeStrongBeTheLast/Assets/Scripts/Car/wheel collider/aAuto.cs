@@ -92,7 +92,6 @@ public abstract class aAuto : MonoBehaviour
     private IEnumerator AbilitaRibalta()
     {
         yield return new WaitForSeconds(4);
-        StopCoroutine(AbilitaRibalta());
         RibaltaDisabilitato = false;
     }
 

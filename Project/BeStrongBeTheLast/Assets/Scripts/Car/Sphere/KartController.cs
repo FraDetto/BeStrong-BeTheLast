@@ -11,59 +11,194 @@ using UnityEngine;
 public sealed class KartController : aBSBTLKart
 {
 
+    // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
     private bool wrongWay = false;
-    private float lastSplineDistance;
+    private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
+    // ============== HUMAN ==============
+
+    // =============== CPU ===============
+    private const byte errorDelta = 8;
+    private float xRndError, zRndError;
+
+    private GameObject[] CPUCars;
+
+    private bool bJumpReleased;
+    private float LastStuck = -1;
+    private Vector3 lastPosition;
+    // =============== CPU ===============    
 
 
     private void Start()
     {
+        switch (KCType)
+        {
+            case eKCType.CPU:
+                CPUCars = GameObject.FindGameObjectsWithTag("CPU");
+
+                var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
+                var renderer_ = Box001.gameObject.GetComponent<Renderer>();
+
+                var c = Color.black;
+
+                while (c == Color.black || GB.usedColors.Contains(renderer_.material.color))
+                    c = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+
+                GB.usedColors.Add(c);
+                renderer_.material.color = c;
+                break;
+        }
+
         Start_();
     }
 
     private void Update()
     {
-        if (wrongWay)
-            Update_(0, false, false);
-        else
-            Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
-
-        if (UsaWrongWay)
+        switch (KCType)
         {
-            if (CurrentSpline < 0)
-                setDestination(0, 0, 0);
+            case eKCType.Human:
+                if (wrongWay || (!wrongWay && wrongWayTimer < wrongWayMaxTimer))
+                {
+                    Update_(0, false, false);
+                    wrongWayTimer += Time.deltaTime;
+                }
+                else
+                {
+                    driftDisabled = false;
+                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                }
 
-            var currentSplineDistance = Vector3.Distance(transform.position, lookAtDest);
+                if (UsaWrongWay)
+                {
+                    if (CurrentSpline < 0)
+                        setDestination(0, 0, 0);
 
-            wrongWay = (lastSplineDistance > 0 && currentSplineDistance > lastSplineDistance);
+                    var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
+                    var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
 
-            if (wrongWay)
-            {
-                var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position), 1.5f);
+                    wrongWay =
+                        lastSplineDistance > 0 &&
+                        prevSplineDistance > 0 &&
+                        currentSplineDistance1 > lastSplineDistance &&
+                        currentSplineDistance0 < prevSplineDistance;
 
-                var eul = rot.eulerAngles;
-                eul.x = 0;
-                eul.z = 0;
+                    if (wrongWay)
+                    {
+                        SetOnTrack();
+                        wrongWayTimer = 0;
+                        driftDisabled = true;
+                    }
 
-                transform.eulerAngles = eul;
+                    lastSplineDistance = currentSplineDistance1;
+                    prevSplineDistance = currentSplineDistance0;
+                }
+                break;
+            case eKCType.CPU:
+                if (CurrentSpline < 0)
+                    setDestinationWithError();
 
-                var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
-                sphere.AddForce(dir * 100f, ForceMode.Impulse);
-            }
+                if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
+                    setDestinationWithError();
 
-            lastSplineDistance = currentSplineDistance;
+                CPUAI();
+
+                lookAtDest.y = transform.position.y;
+
+                transform.LookAt(lookAtDest);
+
+                var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
+                var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
+                var jumpBDown = drift_ && !jumpBUP;
+                var driftAxis = (drift_ ? 0.0001f : 0);
+
+                if (bJumpReleased)
+                    bJumpReleased = false;
+
+                if (!drift_)
+                    clearDrift();
+
+                Update_(driftAxis, jumpBDown, jumpBUP);
+
+                if (jumpBUP)
+                    bJumpReleased = true;
+
+                foreach (var cpu in CPUCars)
+                    if (!cpu.name.Equals(name))
+                        if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
+                            speed = 0;
+
+                if (transform.position == lastPosition && currentSpeed < 1)
+                {
+                    if (LastStuck > -1)
+                        LastStuck = Time.time;
+
+                    if (Time.time - LastStuck > 60)
+                    {
+                        var p = CPUSplines[CurrentSpline].transform.position;
+                        transform.position = new Vector3(p.x, p.y + 2, p.z);
+                    }
+                }
+
+                lastPosition = transform.position;
+                break;
         }
     }
 
-    internal void nextSpline()
+    public void SetOnTrack()
     {
-        setDestination(0, 0, 0);
+        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
+
+        var eul = rot.eulerAngles;
+        eul.x = 0;
+        eul.z = 0;
+
+        transform.eulerAngles = eul;
+
+        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+        sphere.AddForce(dir * 300f, ForceMode.Impulse);
     }
 
-    private void FixedUpdate()
+    void setDestinationWithError()
     {
-        FixedUpdate_();
+        xRndError = Random.Range(-1f, 1f) * errorDelta;
+        zRndError = Random.Range(-1f, 1f) * errorDelta;
+
+        setDestination(xRndError, zRndError, errorDelta);
     }
+
+    internal void nextSpline() =>
+        setDestination(0, 0, 0);
+
+    private void FixedUpdate() =>
+        FixedUpdate_();
+
+    private void CPUAI()
+    {
+        var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+        foreach (var root in roots)
+            if (root.name.Equals("Obstacles"))
+            {
+                var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
+
+                foreach (var obstacle in obstacles)
+                {
+                    var d = Vector3.Distance(transform.position, obstacle.position);
+
+                    if (d < 50)
+                    {
+                        lookAtDest = obstacle.position;
+                        break;
+                    }
+                }
+            }
+    }
+
+    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)
+    {
+        //
+    }
+
 
 }

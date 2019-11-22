@@ -16,27 +16,35 @@ using UnityEngine.Rendering.PostProcessing;
 public abstract class aKartController : MonoBehaviour
 {
 
-    PostProcessVolume postVolume;
+    public enum eKCType
+    {
+        Human, CPU
+    }
+
+    public eKCType KCType = eKCType.Human;
+
+    //PostProcessVolume postVolume;
     PostProcessProfile postProfile;
 
-    RaycastHit hitOn, hitNear;
+    RaycastHit hitNear;
+    //RaycastHit hitOn, hitNear;
 
     List<ParticleSystem> primaryParticles, secondaryParticles, tubeTurboParticles;
 
     private const short PosizionePavimento = 2;
-    protected bool RibaltaDisabilitato = false;
-    protected bool Ribalta = false;
+    protected bool RibaltaDisabilitato, Ribalta;
 
-    public Transform kartModel;
-    public Transform kartNormal;
+    public Transform kartModel, kartNormal;
     public Rigidbody sphere;
 
     protected float speed;
-    internal float currentSpeed;
+    public float currentSpeed;
 
-    float rotate, currentRotate, driftPower;
+    float rotate, currentRotate;
+    protected float driftPower;
     int driftDirection, driftMode;
     bool drifting, first, second, third;
+    protected bool driftDisabled;
     Color currentDriftColor;
 
     [Range(1, 6)]
@@ -49,22 +57,24 @@ public abstract class aKartController : MonoBehaviour
     public LayerMask layerMask;
 
     [Header("Model Parts")]
-    public Transform frontWheels;
-    public Transform backWheels;
-    public Transform steeringWheel;
+    //public Transform frontWheels, backWheels;    
+    public Transform frontRightWheel, frontLeftWheel, backRightWheel, backLeftWheel, steeringWheel;
 
     [Header("Particles")]
-    public Transform wheelParticles;
-    public Transform flashParticles;
+    public Transform wheelParticles, flashParticles;
     public Color[] turboColors;
 
     public GameObject CPUSpline;
     protected SplineObject[] CPUSplines;
+    protected SplineObject CurrentSplineObject;
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
-    protected Vector3 lookAtDest;
+    protected Vector3 lookAtDest, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
+
+    private byte lastUsedFork;
+    protected float lastSplineDistance, prevSplineDistance;
 
     private string[] tubes = { "Tube001", "Tube002" };
 
@@ -81,7 +91,7 @@ public abstract class aKartController : MonoBehaviour
             x++;
         }
 
-        postVolume = Camera.main.GetComponent<PostProcessVolume>();
+        var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
         primaryParticles = new List<ParticleSystem>();
@@ -98,32 +108,42 @@ public abstract class aKartController : MonoBehaviour
             secondaryParticles.Add(p);
 
         foreach (var tube in tubes)
-            tubeTurboParticles.Add(kartModel.Find(tube).GetComponentInChildren<ParticleSystem>());
+            tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
     }
+
+    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         //Follow Collider
-        transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
+        transform.position = sphere.transform.position - vettoreCorrezioneSfera;
 
         //Accelerate       
         speed = acceleration; // auto-acceleration
 
+        if (driftDisabled)
+        {
+            jumpBDown = false;
+            jumpBUp = false;
+            clearDrift();
+        }
+
         //Steer
         if (xAxis != 0)
         {
-            int dir = xAxis > 0 ? 1 : -1;
-            float amount = Mathf.Abs(xAxis);
+            var dir = xAxis > 0 ? 1 : -1;
+            var amount = Mathf.Abs(xAxis);
+
             Steer(dir, amount);
         }
 
-        //Drift
+        //Drift        
         if (jumpBDown && !drifting && xAxis != 0)
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
 
-            foreach (ParticleSystem p in primaryParticles)
+            foreach (var p in primaryParticles)
             {
                 p.startColor = Color.clear;
                 p.Play();
@@ -148,38 +168,41 @@ public abstract class aKartController : MonoBehaviour
         if (jumpBUp && drifting)
             Boost();
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f); speed = 0f;
-        if (limitSpeed && currentSpeed > limitSpeedValue)
-        {
-            currentSpeed = limitSpeedValue;
-        }
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f);
+        speed = 0f;
 
-        if (!hardRotate)
-        {
-            currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
-        }
-        else
-        {
-            currentRotate = Mathf.Lerp(currentRotate, rotate / 2, Time.deltaTime * 4f); rotate = 0f;
-        }
+        if (limitSpeed && currentSpeed > limitSpeedValue)
+            currentSpeed = limitSpeedValue;
+
+        currentRotate = Mathf.Lerp(currentRotate, rotate / (hardRotate ? 2 : 1), Time.deltaTime * 4f);
+        rotate = 0f;
 
         //Animations    
 
         //a) Kart
-        if (!drifting)
+        if (drifting)
         {
-            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90 + (xAxis * 15), kartModel.localEulerAngles.z), .2f);
+            float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .5f, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, .5f);
+
+            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, control * 15 * driftDirection, .2f), 0);
         }
         else
         {
-            float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .5f, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, .5f);
-            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, control * 15 * driftDirection, .2f), 0);
+            kartModel.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.localEulerAngles.y, xAxis * 15, .2f), 0);
         }
 
         //b) Wheels
-        frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
-        frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        //frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
+        //frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontRightWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontRightWheel.localEulerAngles.z);
+        frontLeftWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontLeftWheel.localEulerAngles.z);
+
+        frontRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        frontLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+
+        //backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
@@ -205,10 +228,15 @@ public abstract class aKartController : MonoBehaviour
     protected void FixedUpdate_()
     {
         //Forward Acceleration
-        if (!drifting)
-            sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
-        else
+        //if (!drifting)
+        //    sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
+        //else
+        //    sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+
+        if (drifting)
             sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+        else
+            sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
         sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
@@ -216,8 +244,9 @@ public abstract class aKartController : MonoBehaviour
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-        Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitOn, 1.1f, layerMask);
-        Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitNear, 2.0f, layerMask);
+        var theRay = transform.position + (transform.up * .1f);
+        //Physics.Raycast(theRay, Vector3.down, out hitOn, 1.1f, layerMask);
+        Physics.Raycast(theRay, Vector3.down, out hitNear, 2.0f, layerMask);
 
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
@@ -227,26 +256,18 @@ public abstract class aKartController : MonoBehaviour
     private IEnumerator AbilitaRibalta()
     {
         yield return new WaitForSeconds(4);
-        StopCoroutine(AbilitaRibalta());
         RibaltaDisabilitato = false;
     }
 
-    void Boost()
+    protected void clearDrift()
     {
-        drifting = false;
-
-        if (driftMode > 0)
-        {
-            //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
-            DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
-            DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-        }
-
+        driftDirection = 0;
         driftPower = 0;
         driftMode = 0;
         first = false;
         second = false;
         third = false;
+        drifting = false;
 
         foreach (var p in primaryParticles)
         {
@@ -257,10 +278,23 @@ public abstract class aKartController : MonoBehaviour
         kartModel.parent.DOLocalRotate(Vector3.zero, .5f).SetEase(Ease.OutBack);
     }
 
-    void Steer(int direction, float amount)
+    void Boost()
     {
-        rotate = steering * direction * amount;
+        if (driftMode > 0)
+            switch (KCType)
+            {
+                case eKCType.Human:
+                    //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
+                    DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
+                    DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
+                    break;
+            }
+
+        clearDrift();
     }
+
+    void Steer(int direction, float amount) =>
+        rotate = steering * direction * amount;
 
     void ColorDrift()
     {
@@ -309,7 +343,13 @@ public abstract class aKartController : MonoBehaviour
 
     void PlayFlashParticle(Color c)
     {
-        GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+        switch (KCType)
+        {
+            case eKCType.Human:
+                //GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                GameObject.FindGameObjectWithTag("VCam").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                break;
+        }
 
         foreach (var p in secondaryParticles)
         {
@@ -319,34 +359,26 @@ public abstract class aKartController : MonoBehaviour
         }
     }
 
-    void Speed(float x)
-    {
+    void Speed(float x) =>
         currentSpeed = x;
-    }
 
-    void ChromaticAmount(float x)
-    {
+    void ChromaticAmount(float x) =>
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
-    }
 
     public void Accelerate(float amount)
     {
         currentSpeed *= amount;
 
         if (amount > 1)
-        {
             PlayTurboEffect();
-        }
     }
 
     public void LimitSpeed(float speedLimit, int duration)
     {
+        LimitSpeed(speedLimit);
+
         if (!limitSpeed)
-        {
-            limitSpeedValue = speedLimit;
-            limitSpeed = true;
             StartCoroutine(RestoreSpeedLimit(duration));
-        }
     }
 
     public void LimitSpeed(float speedLimit)
@@ -358,25 +390,14 @@ public abstract class aKartController : MonoBehaviour
         }
     }
 
-    public void RestoreSpeedLimit()
-    {
+    public void RestoreSpeedLimit() =>
         limitSpeed = false;
-    }
 
-    public void EnableHardRotate()
-    {
-        hardRotate = true;
-    }
+    public void EnableHardRotate(bool enable_) =>
+        hardRotate = enable_;
 
-    public void DisableHardRotate()
-    {
-        hardRotate = false;
-    }
-
-    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
-    {
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction) =>
         sphere.AddForce(direction * force, forceMode);
-    }
 
     public void BeSquished(int duration)
     {
@@ -394,7 +415,6 @@ public abstract class aKartController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         transform.parent.transform.localScale += new Vector3(0, +0.5f, 0);
         transform.parent.GetComponentInChildren<SphereCollider>().radius = 0.85f;
-        StopCoroutine(RestoreSquishedShape(duration));
         isSquished = false;
     }
 
@@ -402,7 +422,6 @@ public abstract class aKartController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         limitSpeed = false;
-        StopCoroutine(RestoreSpeedLimit(duration));
     }
 
     public void PlayTurboEffect()
@@ -418,18 +437,60 @@ public abstract class aKartController : MonoBehaviour
         if (CurrentSpline == CPUSplines.Length)
             CurrentSpline = 0;
 
-        var p = CPUSplines[CurrentSpline].transform.position;
+        CurrentSplineObject = CPUSplines[CurrentSpline];
 
         if (CPUSplines[CurrentSpline].forkNumber > 0)
-        {
-            var forks = getForks(CurrentSpline);
+            if (CPUSplines[CurrentSpline].forkNumber == lastUsedFork)
+            {
+                CurrentSplineObject = CPUSplines[nextSpline(CurrentSpline)];
+            }
+            else
+            {
+                lastUsedFork = CPUSplines[CurrentSpline].forkNumber;
 
-            foreach (var fork in forks)
-                if (Random.value > fork.probability)
-                    p = fork.transform.position;
-        }
+                var forks = getForks(CurrentSpline);
+
+                foreach (var fork in forks)
+                    if (Random.value < fork.probability)
+                    {
+                        CurrentSplineObject = fork;
+                        break;
+                    }
+            }
+
+        prevSplinePos = CPUSplines[prevSpline(CurrentSpline)].transform.position;
+        curSplinePos = CPUSplines[nextSpline(CurrentSpline)].transform.position;
+
+        var p = CurrentSplineObject.transform.position;
+
+        lastSplineDistance = 0;
+        prevSplineDistance = 0;
 
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+    }
+
+    private int nextSpline(int i)
+    {
+        if (i == CPUSplines.Length)
+            i = 0;
+
+        if (CPUSplines[i].forkNumber > 0)
+            return nextSpline(i + 1);
+
+        return i;
+    }
+
+    private int prevSpline(int i)
+    {
+        if (i < 1)
+            i = CPUSplines.Length;
+
+        i--;
+
+        if (CPUSplines[i].forkNumber > 0)
+            return prevSpline(i - 1);
+
+        return i;
     }
 
     protected List<SplineObject> getForks(sbyte i)

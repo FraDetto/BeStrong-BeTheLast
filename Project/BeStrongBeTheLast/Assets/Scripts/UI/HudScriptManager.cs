@@ -66,7 +66,6 @@ public class HudScriptManager : MonoBehaviour
     private IEnumerator TempoDiLettura()
     {
         yield return new WaitForSeconds(0.999f);
-        StopCoroutine(TempoDiLettura());
         HoAvutoIlTempoDiLeggere = true;
     }
 

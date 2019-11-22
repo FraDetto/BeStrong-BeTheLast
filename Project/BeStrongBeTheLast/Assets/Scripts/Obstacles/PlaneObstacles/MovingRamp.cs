@@ -18,10 +18,8 @@ public class MovingRamp : MonoBehaviour
     private int frames = 0;
 
 
-    private void Start()
-    {
+    private void Start() =>
         ramp = transform;
-    }
 
     void FixedUpdate()
     {
@@ -30,15 +28,13 @@ public class MovingRamp : MonoBehaviour
             if (frames != 0)
             {
                 frames++;
+
                 if (frames == 180)
                     frames = 0;
             }
             else
             {
-                if (down == true)
-                    transform.RotateAround(ramp.position, ramp.right, speed * Time.deltaTime);
-                else
-                    transform.RotateAround(ramp.position, ramp.right, -speed * Time.deltaTime);
+                transform.RotateAround(ramp.position, ramp.right, (down ? 1f : -1f) * speed * Time.deltaTime);
             }
         }
         else

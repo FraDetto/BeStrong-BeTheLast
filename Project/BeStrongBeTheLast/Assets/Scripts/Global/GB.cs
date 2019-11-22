@@ -87,6 +87,23 @@ public static class GB
         return null;
     }
 
+    public static List<Transform> FindTransformsInChildWithTag(Transform parent, string tag)
+    {
+        var R = new List<Transform>();
+
+        foreach (Transform tr in parent)
+        {
+            if (tr.gameObject.CompareTag(tag))
+                R.Add(tr);
+
+            var z = FindTransformsInChildWithTag(tr, tag);
+
+            R.AddRange(z);
+        }
+
+        return R;
+    }
+
     public static Transform FindTransformInChildWithTag(Transform parent, string tag)
     {
         foreach (Transform tr in parent)
