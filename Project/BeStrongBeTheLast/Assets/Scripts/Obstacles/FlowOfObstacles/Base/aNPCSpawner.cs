@@ -21,7 +21,8 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     void Start()
     {
         spawnPos = transform.GetChild(0).position;
-        Instantiate(mobPrefab, spawnPos, Quaternion.identity, transform);
+        //The first mob has to be present in the scene from the beginning
+        //Instantiate(mobPrefab, spawnPos, Quaternion.identity, transform);
     }
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
@@ -35,6 +36,8 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 
         mob.transform.parent = gameObject.transform;
         mob.GetComponent<T>().avoidBehaviour = avoidBehaviour;
+        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
+        mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
     }
 
 }

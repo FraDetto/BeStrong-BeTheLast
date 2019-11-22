@@ -6,7 +6,10 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class JumpingMob : WanderingMob
@@ -53,12 +56,11 @@ public class JumpingMob : WanderingMob
 
         if (!jumped)
         {
-            thisRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+            thisRigidbody.AddForce(-transform.right * force, ForceMode.Impulse);
             thisRigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             jumped = true;
             movementFrames = 0;
         }
-
         movementFrames++;
     }
 
@@ -91,11 +93,12 @@ public class JumpingMob : WanderingMob
 
     void Flying()
     {
-        if (thisRigidbody.position.y > 30)
+        if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
             Destroy(gameObject);
             transform.parent.GetComponent<JumpingMobSpawner>().SpawnNew(avoidBehaviour);
         }
+        flyingFrames++;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -120,10 +123,13 @@ public class JumpingMob : WanderingMob
             }
             else if (phase == Phases.moving)
             {
-                var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(slowAmountSquished);
-                kartController.BeSquished(squishDuration);
-                kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
+                if (transform.GetComponent<Rigidbody>().velocity.y < 0)
+                {
+                    var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
+                    kartController.Accelerate(slowAmountSquished);
+                    kartController.BeSquished(squishDuration);
+                    kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
+                }
             }
         }
         else

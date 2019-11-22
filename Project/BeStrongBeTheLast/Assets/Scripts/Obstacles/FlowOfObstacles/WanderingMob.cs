@@ -60,6 +60,11 @@ public class WanderingMob : MonoBehaviour
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
     }
+    
+    private void Update()
+    {
+        transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
+    }
 
     private void FixedUpdate()
     {

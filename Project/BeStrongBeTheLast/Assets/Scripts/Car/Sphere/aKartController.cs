@@ -376,10 +376,11 @@ public abstract class aKartController : MonoBehaviour
 
     public void LimitSpeed(float speedLimit, int duration)
     {
-        LimitSpeed(speedLimit);
-
         if (!limitSpeed)
+        {
+            LimitSpeed(speedLimit);
             StartCoroutine(RestoreSpeedLimit(duration));
+        }
     }
 
     public void LimitSpeed(float speedLimit)
