@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -302,6 +302,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: CPUSpline
+      value: 
+      objectReference: {fileID: 778167074}
+    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: vCam
+      value: 
+      objectReference: {fileID: 463504501}
     - target: {fileID: 1284683511250782236, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -347,11 +357,6 @@ PrefabInstance:
       propertyPath: kartController
       value: 
       objectReference: {fileID: 913981559}
-    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
-        type: 3}
-      propertyPath: CPUSpline
-      value: 
-      objectReference: {fileID: 778167074}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dde357f5c96701438bba83e9a9bd384, type: 3}
 --- !u!4 &39498640 stripped
@@ -606,6 +611,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f, type: 3}
+--- !u!114 &463504501 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3583958630379212490, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 463504500}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99351293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &465953272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -884,6 +901,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3057423753460389291, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: field of view
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 416680613, guid: 011c815107d14fb4797342705d702ed0, type: 3}
       propertyPath: m_LocalPosition.z
       value: 11.86
@@ -923,11 +945,6 @@ PrefabInstance:
     - target: {fileID: 416680613, guid: 011c815107d14fb4797342705d702ed0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.0010002
-      objectReference: {fileID: 0}
-    - target: {fileID: 3057423753460389291, guid: 011c815107d14fb4797342705d702ed0,
-        type: 3}
-      propertyPath: field of view
-      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 011c815107d14fb4797342705d702ed0, type: 3}
@@ -1233,11 +1250,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 120713428}
     m_Modifications:
-    - target: {fileID: 1315552965257106643, guid: aed440881e6d8124c89a9939ed97fd8d,
-        type: 3}
-      propertyPath: m_Name
-      value: CPU Spline 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1315552965257106642, guid: aed440881e6d8124c89a9939ed97fd8d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1292,6 +1304,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315552965257106643, guid: aed440881e6d8124c89a9939ed97fd8d,
+        type: 3}
+      propertyPath: m_Name
+      value: CPU Spline 1
       objectReference: {fileID: 0}
     - target: {fileID: 1315552965527541944, guid: aed440881e6d8124c89a9939ed97fd8d,
         type: 3}
