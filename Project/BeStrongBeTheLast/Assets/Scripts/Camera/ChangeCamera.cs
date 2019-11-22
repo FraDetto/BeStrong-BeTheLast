@@ -13,18 +13,28 @@ public class ChangeCamera : MonoBehaviour
 
     public GameObject vCam1, vCam2;
 
+    private bool doppiaCameraInScena;
+
+    private void Start()
+    {
+        doppiaCameraInScena = vCam1 != null && vCam2 != null;
+    }
+
     private void OnTriggerEnter(Collider co)
     {
-        Debug.Log("Colliso fuori");
-
-        if (co.CompareTag("Player"))
+        if (doppiaCameraInScena)
         {
-            Debug.Log("Colliso player");
+            Debug.Log("Colliso fuori");
 
-            var camActive = vCam1.active;
+            if (co.CompareTag("Player"))
+            {
+                Debug.Log("Colliso player");
 
-            vCam1.SetActive(!camActive);
-            vCam2.SetActive(camActive);
+                var camActive = vCam1.active;
+
+                vCam1.SetActive(!camActive);
+                vCam2.SetActive(camActive);
+            }
         }
     }
 
