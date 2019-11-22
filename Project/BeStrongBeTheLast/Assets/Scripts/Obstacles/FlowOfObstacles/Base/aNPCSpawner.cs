@@ -12,14 +12,9 @@ using UnityEngine;
 
 public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 {
-    private Vector3 spawnPos;
     public GameObject mobPrefab;
 
     public int spawnWaitSeconds = 5;
-
-
-    void Start() =>
-        spawnPos = transform.GetChild(0).position;
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
         StartCoroutine(timedSpawn(avoidBehaviour));
@@ -28,7 +23,7 @@ public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
     {
         yield return new WaitForSeconds(spawnWaitSeconds);
 
-        var mob = Instantiate(mobPrefab, spawnPos, Quaternion.identity, gameObject.transform);
+        var mob = Instantiate(mobPrefab, transform.position, Quaternion.identity, transform);
 
         mob.GetComponent<T>().avoidBehaviour = avoidBehaviour;
         mob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
