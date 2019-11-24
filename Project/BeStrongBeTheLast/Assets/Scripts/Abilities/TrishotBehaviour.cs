@@ -30,10 +30,9 @@ public class TrishotBehaviour : MonoBehaviour
         StartCoroutine(Lifetime());
     }
 
-
     void Update()
     {
-        
+
         if (centralShot != null)
             centralShot.transform.Translate(Vector3.forward * speed * Time.deltaTime);
 

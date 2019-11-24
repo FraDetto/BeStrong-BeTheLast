@@ -37,11 +37,12 @@ public class HomingBehaviour : MonoBehaviour
             transform.LookAt(target.transform);
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
         }
+
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
