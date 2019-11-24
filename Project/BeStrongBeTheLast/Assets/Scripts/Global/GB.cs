@@ -25,6 +25,26 @@ public static class GB
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
 
+    public static bool CompareORTags(Component component, params string[] tags)
+    {
+        foreach (var tag in tags)
+            if (component.CompareTag(tag))
+                return true;
+
+        return false;
+    }
+
+    public static bool CompareANDTags(Component component, params string[] tags)
+    {
+        var x = 0;
+
+        foreach (var tag in tags)
+            if (component.CompareTag(tag))
+                x++;
+
+        return x == tags.Length;
+    }
+
     public static void PlayCarEngine(AudioSource carAudioSource, float generalCar_actualSpeed)
     {
         if (carAudioSource != null)

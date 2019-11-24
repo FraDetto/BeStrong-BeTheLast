@@ -23,6 +23,8 @@ public abstract class aKartController : MonoBehaviour
 
     public eKCType KCType = eKCType.Human;
 
+    public CinemachineImpulseSource vCam;
+
     //PostProcessVolume postVolume;
     PostProcessProfile postProfile;
 
@@ -38,7 +40,7 @@ public abstract class aKartController : MonoBehaviour
     public Rigidbody sphere;
 
     protected float speed;
-    internal float currentSpeed;
+    public float currentSpeed;
 
     float rotate, currentRotate;
     protected float driftPower;
@@ -78,6 +80,8 @@ public abstract class aKartController : MonoBehaviour
 
     private string[] tubes = { "Tube001", "Tube002" };
 
+    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
+
 
     protected void Start_()
     {
@@ -110,8 +114,6 @@ public abstract class aKartController : MonoBehaviour
         foreach (var tube in tubes)
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
     }
-
-    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
@@ -346,7 +348,7 @@ public abstract class aKartController : MonoBehaviour
         switch (KCType)
         {
             case eKCType.Human:
-                GameObject.Find("CM vcam1").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+                vCam.GenerateImpulse();
                 break;
         }
 
@@ -374,10 +376,11 @@ public abstract class aKartController : MonoBehaviour
 
     public void LimitSpeed(float speedLimit, int duration)
     {
-        LimitSpeed(speedLimit);
-
         if (!limitSpeed)
+        {
+            LimitSpeed(speedLimit);
             StartCoroutine(RestoreSpeedLimit(duration));
+        }
     }
 
     public void LimitSpeed(float speedLimit)

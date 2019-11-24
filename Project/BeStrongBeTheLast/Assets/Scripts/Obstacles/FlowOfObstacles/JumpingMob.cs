@@ -17,15 +17,14 @@ public class JumpingMob : WanderingMob
 
     public JumpingMob()
     {
-        phase = Phases.moving;
+        phase = Phases.rotating;
     }
-
 
     private void Start()
     {
-        thisRigidbody = GetComponent<Rigidbody>();
+        Start_();
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
-        spawner = transform.parent.GetChild(0);
+        rotationSpeed = Random.Range(0, 100);
     }
 
     private void FixedUpdate()
@@ -44,16 +43,21 @@ public class JumpingMob : WanderingMob
         }
     }
 
+    private void Update()
+    {
+        if (transform.localEulerAngles.x != 0 || transform.localEulerAngles.y != 0)
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+    }
 
     void Moving()
     {
         force = Random.Range(1000, 2000);
 
-        int jumpForce = Random.Range(1000, 2000);
+        var jumpForce = Random.Range(1000, 2000);
 
         if (!jumped)
         {
-            thisRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+            thisRigidbody.AddForce(-transform.right * force, ForceMode.Impulse);
             thisRigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             jumped = true;
             movementFrames = 0;
@@ -68,7 +72,8 @@ public class JumpingMob : WanderingMob
         {
             transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
             rotationSpeed = 100;
-            Vector3 targetDir = transform.position - spawner.position;
+
+            var targetDir = transform.position - spawner.position;
 
             if (Vector3.Angle(transform.forward, -targetDir) < 20f)
             {
@@ -91,16 +96,17 @@ public class JumpingMob : WanderingMob
 
     void Flying()
     {
-        if (thisRigidbody.position.y > 30)
+        if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
-            Destroy(gameObject);
             transform.parent.GetComponent<JumpingMobSpawner>().SpawnNew(avoidBehaviour);
+            Destroy(gameObject);
         }
+        flyingFrames++;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("CPU"))
+        if (GB.CompareORTags(collision.collider, "Player", "CPU"))
         {
             if (phase == Phases.rotating)
             {
@@ -109,7 +115,6 @@ public class JumpingMob : WanderingMob
 
                 kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
                 kartController.Accelerate(slowAmount);
-
 
                 phase = Phases.flying;
 
@@ -120,10 +125,14 @@ public class JumpingMob : WanderingMob
             }
             else if (phase == Phases.moving)
             {
-                var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(slowAmountSquished);
-                kartController.BeSquished(squishDuration);
-                kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
+                if (thisRigidbody.velocity.y < 0)
+                {
+                    var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
+
+                    kartController.Accelerate(slowAmountSquished);
+                    kartController.BeSquished(squishDuration);
+                    kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
+                }
             }
         }
         else
