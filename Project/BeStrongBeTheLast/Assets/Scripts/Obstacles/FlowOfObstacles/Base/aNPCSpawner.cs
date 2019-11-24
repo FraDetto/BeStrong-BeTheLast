@@ -13,8 +13,8 @@ using UnityEngine;
 public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
 {
     public GameObject mobPrefab;
-
     public int spawnWaitSeconds = 5;
+
 
     public void SpawnNew(List<WanderingMob.avoidBehaviourOptions> avoidBehaviour) =>
         StartCoroutine(timedSpawn(avoidBehaviour));
