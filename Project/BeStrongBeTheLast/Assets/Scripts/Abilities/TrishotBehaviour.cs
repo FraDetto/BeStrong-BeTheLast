@@ -33,6 +33,7 @@ public class TrishotBehaviour : MonoBehaviour
 
     void Update()
     {
+        
         if (centralShot != null)
             centralShot.transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
