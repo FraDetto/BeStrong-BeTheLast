@@ -11,6 +11,8 @@ using UnityEngine;
 
 public class HomingBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    private LayerMask roadMask;
 
     [SerializeField]
     private float speed;
@@ -34,6 +36,12 @@ public class HomingBehaviour : MonoBehaviour
         if (target != null)
             transform.LookAt(target.transform);
 
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
+            transform.Rotate(Vector3.right, 90f);
+        }
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
