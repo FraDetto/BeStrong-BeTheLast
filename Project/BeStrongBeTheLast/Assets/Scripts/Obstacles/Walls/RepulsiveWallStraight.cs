@@ -15,9 +15,12 @@ public class RepulsiveWallStraight : aCollisionManager
 
     private void OnTriggerEnter(Collider other)
     {
-        if (enabled && other.CompareTag("Player") || other.CompareTag("CPU"))
+        if (enabled)
         {
-            kartController.SetOnTrack();
+            onCollisionWithTags(other, (kartController) =>
+            {
+                kartController.SetOnTrack();
+            }, "Player", "CPU");
         };
     }
 
