@@ -183,15 +183,8 @@ public sealed class KartController : aBSBTLKart
                 var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
 
                 foreach (var obstacle in obstacles)
-                {
-                    var d = Vector3.Distance(transform.position, obstacle.position);
-
-                    if (d < 50)
-                    {
+                    if (Vector3.Distance(transform.position, obstacle.position) < 30)
                         lookAtDest = obstacle.position;
-                        break;
-                    }
-                }
             }
     }
 

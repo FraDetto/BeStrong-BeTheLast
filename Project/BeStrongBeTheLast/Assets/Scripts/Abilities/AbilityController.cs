@@ -49,39 +49,13 @@ public class AbilityController : MonoBehaviour
             powerGauge.value += regenSpeed * Time.deltaTime;
 
             if (Input.GetMouseButtonDown(0))
-            {
                 if (powerGauge.value >= 0.5f || attracted)
                 {
                     if (Input.GetKey(KeyCode.W))
-                    {
-                        if (!selectedProjectile.Equals(attracting))
-                            Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation);
-                        else
-                            Instantiate(selectedProjectile, frontSpawnpoint.position, frontSpawnpoint.rotation, this.transform);
-                        if (!attracted)
-                            powerGauge.value -= 0.5f;
-                        else
-                        {
-                            selectedProjectile = attracting;
-                            attracted = false;
-                        }
-                    }
+                        SpawnProjectile(frontSpawnpoint);
                     else if (Input.GetKey(KeyCode.S))
-                    {
-                        if (!selectedProjectile.Equals(attracting))
-                            Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation);
-                        else
-                            Instantiate(selectedProjectile, rearSpawnpoint.position, rearSpawnpoint.rotation, this.transform);
-                        if (!attracted)
-                            powerGauge.value -= 0.5f;
-                        else
-                        {
-                            selectedProjectile = attracting;
-                            attracted = false;
-                        }
-                    }
+                        SpawnProjectile(rearSpawnpoint);
                 }
-            }
         }
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -98,6 +72,22 @@ public class AbilityController : MonoBehaviour
 
         if (selectedProjectileText != null)
             selectedProjectileText.text = selectedProjectile.name;
+    }
+
+    private void SpawnProjectile(Transform spawnPoint)
+    {
+        if (!selectedProjectile.Equals(attracting))
+            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation);
+        else
+            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, this.transform);
+
+        if (!attracted)
+            powerGauge.value -= 0.5f;
+        else
+        {
+            selectedProjectile = attracting;
+            attracted = false;
+        }
     }
 
 }

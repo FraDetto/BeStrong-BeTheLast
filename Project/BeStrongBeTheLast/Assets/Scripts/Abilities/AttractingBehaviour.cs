@@ -59,9 +59,8 @@ public class AttractingBehaviour : MonoBehaviour
             else if (other.name.Equals("Trishot(Clone)")) //TODO:  possiamo fare con il TAG? non vorrei che usando 2 Homing diventasse Trhishot2 e non funziona.
             {
                 other.GetComponent<TrishotBehaviour>().enabled = false;
-                SingleShotBehaviour[] singleShots = other.GetComponentsInChildren<SingleShotBehaviour>();
 
-                foreach (SingleShotBehaviour singleShot in singleShots)
+                foreach (var singleShot in other.GetComponentsInChildren<SingleShotBehaviour>())
                     singleShot.enabled = false;
 
                 abilityController.selectedProjectile = abilityController.trishot;
