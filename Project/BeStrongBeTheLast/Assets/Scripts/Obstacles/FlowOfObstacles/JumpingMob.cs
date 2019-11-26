@@ -106,44 +106,42 @@ public class JumpingMob : WanderingMob
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (GB.CompareORTags(collision.collider, "Player", "CPU"))
+        var collidedWithTags = onCollisionWithTags(collision.collider, (kartController) =>
         {
-            if (phase == Phases.rotating)
+            switch (phase)
             {
-                var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-                Vector3 hitDirection = collision.collider.transform.position - transform.position;
+                case Phases.rotating:
+                    var hitDirection = collision.collider.transform.position - transform.position;
 
-                kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
-                kartController.Accelerate(slowAmount);
+                    kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
+                    kartController.Accelerate(slowAmount);
+                    kartController.currentObstacle = null;
 
-                phase = Phases.flying;
+                    phase = Phases.flying;
 
-                rotationFrames = 0;
-                movementFrames = 0;
+                    rotationFrames = 0;
+                    movementFrames = 0;
 
-                thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
+                    thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
+                    break;
+
+                case Phases.moving:
+                    if (thisRigidbody.velocity.y < 0)
+                    {
+                        kartController.Accelerate(slowAmountSquished);
+                        kartController.BeSquished(squishDuration);
+                        kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
+                    }
+                    break;
             }
-            else if (phase == Phases.moving)
-            {
-                if (thisRigidbody.velocity.y < 0)
-                {
-                    var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
+        }, "Player", "CPU");
 
-                    kartController.Accelerate(slowAmountSquished);
-                    kartController.BeSquished(squishDuration);
-                    kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
-                }
-            }
-        }
-        else
+        if (!collidedWithTags && jumped && phase == Phases.moving && movementFrames > 10)
         {
-            if (jumped && phase == Phases.moving && movementFrames > 10)
-            {
-                jumped = false;
-                phase = Phases.rotating;
-                maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
-                rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
-            }
+            jumped = false;
+            phase = Phases.rotating;
+            maxRotationFrames = Random.Range(minRotationFramesSetting, maxRotationFramesSetting);
+            rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
         }
     }
 

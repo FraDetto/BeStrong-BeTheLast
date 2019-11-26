@@ -14,7 +14,6 @@ public sealed class KartController : aBSBTLKart
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
-    private bool wrongWay = false;
     private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
     // ============== HUMAN ==============
 
@@ -27,6 +26,8 @@ public sealed class KartController : aBSBTLKart
     private bool bJumpReleased;
     private float LastStuck = -1;
     private Vector3 lastPosition;
+
+    internal Transform currentObstacle;
     // =============== CPU ===============    
 
 
@@ -55,10 +56,12 @@ public sealed class KartController : aBSBTLKart
 
     private void Update()
     {
+        var wrong = wrongWay;
+
         switch (KCType)
         {
             case eKCType.Human:
-                if (wrongWay || (!wrongWay && wrongWayTimer < wrongWayMaxTimer))
+                if (wrong || (!wrong && wrongWayTimer < wrongWayMaxTimer))
                 {
                     Update_(0, false, false);
                     wrongWayTimer += Time.deltaTime;
@@ -74,7 +77,12 @@ public sealed class KartController : aBSBTLKart
                     if (CurrentSpline < 0)
                         setDestination(0, 0, 0);
 
-                    calculateWrongWay();
+                    if (wrong)
+                    {
+                        SetOnTrack();
+                        wrongWayTimer = 0;
+                        driftDisabled = true;
+                    }
                 }
                 break;
             case eKCType.CPU:
@@ -82,9 +90,10 @@ public sealed class KartController : aBSBTLKart
                     setDestinationWithError();
 
                 if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
-                    setDestinationWithError();
+                    if (lookAtDest == lookAtDestOriginal)
+                        setDestinationWithError();
 
-                CPUAI();
+                CPUAI(wrong);
 
                 lookAtDest.y = transform.position.y;
 
@@ -131,26 +140,24 @@ public sealed class KartController : aBSBTLKart
     private void FixedUpdate() =>
         FixedUpdate_();
 
-    private void calculateWrongWay()
+    private bool wrongWay
     {
-        var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
-        var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
-
-        wrongWay =
-            lastSplineDistance > 0 &&
-            prevSplineDistance > 0 &&
-            currentSplineDistance1 > lastSplineDistance &&
-            currentSplineDistance0 < prevSplineDistance;
-
-        if (wrongWay)
+        get
         {
-            SetOnTrack();
-            wrongWayTimer = 0;
-            driftDisabled = true;
-        }
+            var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
+            var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
 
-        lastSplineDistance = currentSplineDistance1;
-        prevSplineDistance = currentSplineDistance0;
+            var wrong =
+                lastSplineDistance > 0 &&
+                prevSplineDistance > 0 &&
+                currentSplineDistance1 > lastSplineDistance &&
+                currentSplineDistance0 < prevSplineDistance;
+
+            lastSplineDistance = currentSplineDistance1;
+            prevSplineDistance = currentSplineDistance0;
+
+            return wrong;
+        }
     }
 
     void setDestinationWithError()
@@ -164,19 +171,35 @@ public sealed class KartController : aBSBTLKart
     internal void nextSpline() =>
         setDestination(0, 0, 0);
 
-    private void CPUAI()
+    private void CPUAI(bool wrong)
     {
-        var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        if (wrong)
+        {
+            currentObstacle = null;
+            lookAtDest = lookAtDestOriginal;
+        }
+        else
+        {
+            var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
-        foreach (var root in roots)
-            if (root.name.Equals("Obstacles"))
-            {
-                var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
+            foreach (var root in roots)
+                if (root.name.Equals("Obstacles"))
+                {
+                    var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
 
-                foreach (var obstacle in obstacles)
-                    if (Vector3.Distance(transform.position, obstacle.position) < 30)
-                        lookAtDest = obstacle.position;
-            }
+                    foreach (var obstacle in obstacles)
+                        if (Vector3.Distance(transform.position, obstacle.position) < 30)
+                        {
+                            currentObstacle = obstacle;
+                            break;
+                        }
+                }
+
+            if (currentObstacle != null)
+                lookAtDest = currentObstacle.position;
+        }
+
+        Debug.DrawLine(transform.position, lookAtDest, Color.green);
     }
 
     internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)

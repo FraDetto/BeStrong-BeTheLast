@@ -71,7 +71,7 @@ public abstract class aKartController : MonoBehaviour
     protected SplineObject CurrentSplineObject;
     protected sbyte CurrentSpline = -1;
     protected const byte splineDistance = 5;
-    protected Vector3 lookAtDest, curSplinePos, prevSplinePos;
+    protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
@@ -469,6 +469,7 @@ public abstract class aKartController : MonoBehaviour
         prevSplineDistance = 0;
 
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+        lookAtDestOriginal = lookAtDest;
     }
 
     private int nextSpline(int i)

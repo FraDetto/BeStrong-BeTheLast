@@ -14,19 +14,17 @@ namespace Assets.Scripts.Obstacles.Base
     public abstract class aCollisionManager : MonoBehaviour
     {
 
-        protected void onCollisionWithTags(Collider other, Action<aKartController> callback, params string[] tags) =>
-            onCollisionWithTags(other, callback, tags);
-
-        protected void onCollisionWithTags(Collision collision, Action<aKartController> callback, params string[] tags) =>
-            onCollisionWithTags(collision.collider, callback, tags);
-
-        private void onCollisionWithTags(Component component, Action<aKartController> callback, params string[] tags)
+        protected bool onCollisionWithTags(Component component, Action<KartController> callback, params string[] tags)
         {
-            if (GB.CompareORTags(component, tags))
+            var collidedWithTags = GB.CompareORTags(component, tags);
+
+            if (collidedWithTags)
             {
-                var kartController = component.transform.parent.GetComponentInChildren<aKartController>();
+                var kartController = component.transform.parent.GetComponentInChildren<KartController>();
                 callback(kartController);
             }
+
+            return collidedWithTags;
         }
 
     }

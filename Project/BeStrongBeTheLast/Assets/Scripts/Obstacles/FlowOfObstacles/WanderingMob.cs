@@ -6,11 +6,12 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+using Assets.Scripts.Obstacles.Base;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class WanderingMob : MonoBehaviour
+public class WanderingMob : aCollisionManager
 {
 
     public enum avoidBehaviourOptions
@@ -188,13 +189,13 @@ public class WanderingMob : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (GB.CompareORTags(collision.collider, "Player", "CPU"))
+        onCollisionWithTags(collision.collider, (kartController) =>
         {
-            var kartController = collision.collider.transform.parent.GetComponentInChildren<aKartController>();
-            Vector3 hitDirection = collision.collider.transform.position - transform.position;
+            var hitDirection = collision.collider.transform.position - transform.position;
 
             kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
             kartController.Accelerate(slowAmount);
+            kartController.currentObstacle = null;
 
             phase = Phases.flying;
 
@@ -202,7 +203,7 @@ public class WanderingMob : MonoBehaviour
             movementFrames = 0;
 
             thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
-        }
+        }, "Player", "CPU");
     }
 
     bool AvoidTag(Collider collider)

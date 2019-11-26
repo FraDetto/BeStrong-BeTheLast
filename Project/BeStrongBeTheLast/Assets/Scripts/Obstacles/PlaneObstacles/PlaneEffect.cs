@@ -17,7 +17,7 @@ public class PlaneEffect : aCollisionManager
 
     private void OnCollisionEnter(Collision collision)
     {
-        onCollisionWithTags(collision, (kartController) =>
+        onCollisionWithTags(collision.collider, (kartController) =>
         {
             kartController.Accelerate(accelerationFromBox);
         }, "Player");

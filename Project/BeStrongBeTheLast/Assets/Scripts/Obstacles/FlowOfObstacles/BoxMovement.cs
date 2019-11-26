@@ -39,7 +39,7 @@ public class BoxMovement : aCollisionManager
 
     private void OnCollisionEnter(Collision collision)
     {
-        onCollisionWithTags(collision, (kartController) =>
+        onCollisionWithTags(collision.collider, (kartController) =>
         {
             kartController.AddForce(ImpulseFromBox, ForceMode.Impulse, -kartController.transform.forward);
             kartController.Accelerate(accelerationFromBox);
