@@ -6,6 +6,7 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class KartController : aBSBTLKart
@@ -27,8 +28,13 @@ public sealed class KartController : aBSBTLKart
     private float LastStuck = -1;
     private Vector3 lastPosition;
 
-    internal Transform currentObstacle;
+    internal Stack<GameObject> excludeObstacles = new Stack<GameObject>(5);
+    internal GameObject currentObstacle;
     // =============== CPU ===============    
+
+
+    private GameObject excludeObstacle =>
+        excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
 
     private void Start()
@@ -90,7 +96,7 @@ public sealed class KartController : aBSBTLKart
                     setDestinationWithError();
 
                 if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
-                    if (lookAtDest == lookAtDestOriginal)
+                    if (GB.compareVector3(GB.EAxis.Y, lookAtDest, lookAtDestOriginal))
                         setDestinationWithError();
 
                 CPUAI(wrong);
@@ -175,28 +181,39 @@ public sealed class KartController : aBSBTLKart
     {
         if (wrong)
         {
+            if (currentObstacle != null && excludeObstacle != currentObstacle)
+                excludeObstacles.Push(currentObstacle);
+
             currentObstacle = null;
             lookAtDest = lookAtDestOriginal;
         }
         else
         {
-            var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            if (currentObstacle != null && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < 30)
+            {
+                lookAtDest = currentObstacle.transform.position;
+            }
+            else
+            {
+                var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
-            foreach (var root in roots)
-                if (root.name.Equals("Obstacles"))
-                {
-                    var obstacles = GB.FindTransformsInChildWithTag(root.transform, "Obstacles");
+                foreach (var root in roots)
+                    if (root.name.Equals("Obstacles"))
+                    {
+                        var obstacles = GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles");
 
-                    foreach (var obstacle in obstacles)
-                        if (Vector3.Distance(transform.position, obstacle.position) < 30)
-                        {
-                            currentObstacle = obstacle;
-                            break;
-                        }
-                }
+                        foreach (var obstacle in obstacles)
+                            if (Vector3.Distance(transform.position, obstacle.transform.position) < 30)
+                            {
+                                if (excludeObstacle != obstacle)
+                                    currentObstacle = obstacle;
 
-            if (currentObstacle != null)
-                lookAtDest = currentObstacle.position;
+                                break;
+                            }
+                    }
+
+                lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
+            }
         }
 
         Debug.DrawLine(transform.position, lookAtDest, Color.green);

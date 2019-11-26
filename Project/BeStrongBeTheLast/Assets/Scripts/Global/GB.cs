@@ -22,8 +22,32 @@ public static class GB
         Game
     }
 
+    public enum EAxis
+    {
+        X, Y, Z
+    }
+
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
+
+    public static bool compareVector3(EAxis exclude, Vector3 a, Vector3 b)
+    {
+        var x = (a.x == b.x);
+        var y = (a.y == b.y);
+        var z = (a.z == b.z);
+
+        switch (exclude)
+        {
+            case EAxis.X:
+                return y && z;
+            case EAxis.Y:
+                return x && z;
+            case EAxis.Z:
+                return x && y;
+            default:
+                return false;
+        }
+    }
 
     public static bool CompareORTags(Component component, params string[] tags)
     {
@@ -151,6 +175,19 @@ public static class GB
                 return tr.GetComponent<T>();
 
         return null;
+    }
+
+    public static List<GameObject> FindGameObjectsInChildWithTag(Transform parent, string tag)
+    {
+        var R = new List<GameObject>();
+
+        foreach (Transform tr in parent)
+            if (tr.CompareTag(tag))
+                R.Add(tr.gameObject);
+            else
+                R.AddRange(FindGameObjectsInChildWithTag(tr, tag));
+
+        return R;
     }
 
     public static double ms_to_kmh(float meters_per_seconds)
