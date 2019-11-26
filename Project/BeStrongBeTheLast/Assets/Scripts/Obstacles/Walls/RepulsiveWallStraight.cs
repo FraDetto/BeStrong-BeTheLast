@@ -11,13 +11,22 @@ using UnityEngine;
 
 public class RepulsiveWallStraight : aCollisionManager
 {
+    private bool enabled = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        onCollisionWithTags(other, (kartController) =>
+        if (enabled)
         {
-            kartController.SetOnTrack();
-        }, "Player", "CPU");
+            onCollisionWithTags(other, (kartController) =>
+            {
+                kartController.SetOnTrack();
+            }, "Player", "CPU");
+        };
+    }
+
+    public void SetEnabled(bool setting)
+    {
+        enabled = setting;
     }
 
 }
