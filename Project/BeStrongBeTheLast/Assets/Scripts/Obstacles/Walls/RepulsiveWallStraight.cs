@@ -10,14 +10,20 @@ using UnityEngine;
 
 public class RepulsiveWallStraight : MonoBehaviour
 {
+    private bool enabled = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("CPU"))
+        if (enabled && other.CompareTag("Player") || other.CompareTag("CPU"))
         {
             var kartController = other.transform.parent.GetComponentInChildren<KartController>();
             kartController.SetOnTrack();
         }
+    }
+
+    public void SetEnabled(bool setting)
+    {
+        enabled = setting;
     }
 
 }
