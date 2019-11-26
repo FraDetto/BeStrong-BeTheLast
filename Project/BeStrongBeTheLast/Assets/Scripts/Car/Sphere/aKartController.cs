@@ -510,4 +510,18 @@ public abstract class aKartController : MonoBehaviour
         return forks;
     }
 
+    internal void SetOnTrack()
+    {
+        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
+
+        var eul = rot.eulerAngles;
+        eul.x = 0;
+        eul.z = 0;
+
+        transform.eulerAngles = eul;
+
+        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+        sphere.AddForce(dir * 300f, ForceMode.Impulse);
+    }
+
 }

@@ -1,36 +1,33 @@
 ﻿/*
 MIT License
 Copyright (c) 2019: Francesco Dettori, Jacopo Frasson, Riccardo Lombardi, Michele Maione
-Author: Jacopo Frasson
+Author: Michele Maione
 Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using Assets.Scripts.Obstacles.Base;
+using System;
 using UnityEngine;
 
-public class SlowingPuddle : aCollisionManager
+namespace Assets.Scripts.Obstacles.Base
 {
-
-    public float speedLimit;
-
-
-    private void OnTriggerExit(Collider other)
+    public abstract class aCollisionManager : MonoBehaviour
     {
-        onCollisionWithTags(other, (kartController) =>
-        {
-            kartController.RestoreSpeedLimit();
-            kartController.EnableHardRotate(false);
-        }, "Player", "CPU");
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
-        {
-            kartController.LimitSpeed(speedLimit);
-            kartController.EnableHardRotate(true);
-        }, "Player", "CPU");
-    }
+        protected void onCollisionWithTags(Collider other, Action<aKartController> callback, params string[] tags) =>
+            onCollisionWithTags(other, callback, tags);
 
+        protected void onCollisionWithTags(Collision collision, Action<aKartController> callback, params string[] tags) =>
+            onCollisionWithTags(collision.collider, callback, tags);
+
+        private void onCollisionWithTags(Component component, Action<aKartController> callback, params string[] tags)
+        {
+            if (GB.CompareORTags(component, tags))
+            {
+                var kartController = component.transform.parent.GetComponentInChildren<aKartController>();
+                callback(kartController);
+            }
+        }
+
+    }
 }
