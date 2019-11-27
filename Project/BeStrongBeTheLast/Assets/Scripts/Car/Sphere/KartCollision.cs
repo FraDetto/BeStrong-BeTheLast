@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Obstacles.Base;
 using UnityEngine;
@@ -14,7 +15,6 @@ public class KartCollision : aCollisionManager
 
     private void OnTriggerEnter(Collider collider)
     {
-        Debug.Log(collider);
         onCollisionWithTags(collider, (kartController) =>
         {
             var hitDirection = collider.transform.position - transform.position;
@@ -24,12 +24,19 @@ public class KartCollision : aCollisionManager
             {
                 fast = thisKartController;
                 slow = kartController;
-                Debug.Log("fast " + fast.gameObject.tag + " slow " +  slow.gameObject.tag);
-                if((fast.currentSpeed - slow.currentSpeed) > 5)
-                fast.AddForce(200 * (fast.currentSpeed - slow.currentSpeed)/5, ForceMode.Impulse, hitDirection);
-                slow.AddForce(200 * (fast.currentSpeed - slow.currentSpeed)/5, ForceMode.Impulse, -hitDirection);
-                fast.Accelerate(1.08f);
-                slow.Accelerate(0.8f);
+                float speedDifference = Math.Abs(fast.currentSpeed - slow.currentSpeed);
+                if (speedDifference > 1)
+                {
+                    Debug.Log("fast " + fast.gameObject.tag + " slow " +  slow.gameObject.tag);
+                    Debug.Log("diff " + speedDifference);
+                    float forceModifier = (fast.currentSpeed > slow.currentSpeed)?(speedDifference/fast.currentSpeed):(speedDifference/slow.currentSpeed);
+                    Debug.Log("mod " + forceModifier);
+
+                    fast.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
+                    slow.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+                    fast.Accelerate(1.1f + 1f * forceModifier);
+                    slow.Accelerate(0.9f - 0.5f * forceModifier); 
+                }
             }
             else
             {
