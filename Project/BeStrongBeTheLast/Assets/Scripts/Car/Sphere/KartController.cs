@@ -166,6 +166,11 @@ public sealed class KartController : aBSBTLKart
         }
     }
 
+    public float currentSplineDistance()
+    {
+        return Vector3.Distance(transform.position, curSplinePos);
+    }
+
     void setDestinationWithError() =>
         setDestination(Random.Range(-1f, 1f) * errorDelta, Random.Range(-1f, 1f) * errorDelta);
 
