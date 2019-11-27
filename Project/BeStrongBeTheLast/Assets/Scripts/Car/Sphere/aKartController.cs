@@ -229,12 +229,7 @@ public abstract class aKartController : MonoBehaviour
 
     protected void FixedUpdate_()
     {
-        //Forward Acceleration
-        //if (!drifting)
-        //    sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
-        //else
-        //    sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
-
+        //Forward Acceleration        
         if (drifting)
             sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
         else
@@ -246,12 +241,11 @@ public abstract class aKartController : MonoBehaviour
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-        var theRay = transform.position + (transform.up * .1f);
-        //Physics.Raycast(theRay, Vector3.down, out hitOn, 1.1f, layerMask);
-        Physics.Raycast(theRay, Vector3.down, out hitNear, 2.0f, layerMask);
+        var theRay = transform.position + (transform.up * 0.1f);
+        Physics.Raycast(theRay, Vector3.down, out hitNear, 2f, layerMask);
 
         //Normal Rotation
-        kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
+        kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
     }
 
@@ -287,8 +281,8 @@ public abstract class aKartController : MonoBehaviour
             {
                 case eKCType.Human:
                     //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
-                    DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, .3f * driftMode, Speed); //per rallentare
-                    DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
+                    DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, 0.3f * driftMode, Speed); // per rallentare
+                    DOVirtual.Float(0, 1, 0.5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, 0.5f, ChromaticAmount));
                     break;
             }
 
@@ -463,10 +457,10 @@ public abstract class aKartController : MonoBehaviour
         prevSplinePos = CPUSplines[prevSpline(CurrentSpline)].transform.position;
         curSplinePos = CPUSplines[nextSpline(CurrentSpline)].transform.position;
 
-        var p = CurrentSplineObject.transform.position;
-
         lastSplineDistance = 0;
         prevSplineDistance = 0;
+
+        var p = CurrentSplineObject.transform.position;
 
         lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
         lookAtDestOriginal = lookAtDest;
