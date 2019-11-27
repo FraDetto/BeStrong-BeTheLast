@@ -82,7 +82,6 @@ public abstract class aKartController : MonoBehaviour
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-
     protected void Start_()
     {
         CPUSplines = new SplineObject[CPUSpline.transform.childCount];
@@ -94,6 +93,8 @@ public abstract class aKartController : MonoBehaviour
             CPUSplines[x] = t.gameObject.GetComponent<SplineObject>();
             x++;
         }
+
+        System.Array.Sort(CPUSplines);
 
         var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
@@ -447,7 +448,7 @@ public abstract class aKartController : MonoBehaviour
                 var forks = getForks(CurrentSpline);
 
                 foreach (var fork in forks)
-                    if (Random.value < fork.probability)
+                    if (fork.probability == 0 || Random.value < fork.probability)
                     {
                         CurrentSplineObject = fork;
                         break;
@@ -494,12 +495,13 @@ public abstract class aKartController : MonoBehaviour
     {
         var forks = new List<SplineObject>();
 
-        var x = i;
-        while (x < CPUSplines.Length - 1)
+        var x = 0;
+        while (x < CPUSplines.Length)
         {
-            x++;
             if (CPUSplines[i].forkNumber == CPUSplines[x].forkNumber) // è una forcazione  
                 forks.Add(CPUSplines[x]);
+
+            x++;
         }
 
         return forks;
