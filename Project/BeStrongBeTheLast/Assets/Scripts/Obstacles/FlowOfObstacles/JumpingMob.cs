@@ -115,8 +115,7 @@ public class JumpingMob : WanderingMob
 
                     kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
                     kartController.Accelerate(slowAmount);
-                    kartController.excludeObstacles.Push(gameObject);
-                    kartController.currentObstacle = null;
+                    kartController.SetObstacleDestroyed(gameObject);
 
                     phase = Phases.flying;
 

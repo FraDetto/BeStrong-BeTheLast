@@ -426,7 +426,7 @@ public abstract class aKartController : MonoBehaviour
             p.Play();
     }
 
-    protected void setDestination(float xRndError, float zRndError, byte errorDelta)
+    protected void setDestination(float xRndError, float zRndError)
     {
         CurrentSpline++;
 
