@@ -220,7 +220,7 @@ public sealed class KartController : aBSBTLKart
             }
         }
 
-        // Debug.DrawLine(transform.position, lookAtDest, Color.green);
+        Debug.DrawLine(transform.position, lookAtDest, Color.green);
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)
