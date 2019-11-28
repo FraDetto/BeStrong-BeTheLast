@@ -20,6 +20,7 @@ public class FieldOfViewCollider : MonoBehaviour
     public KartController kartController;
 
 
-    private void OnTriggerEnter(Collider other) => kartController.fieldOfViewCollision(direction, other);
+    private void OnTriggerEnter(Collider other) =>
+        kartController.fieldOfViewCollision(direction, other);
 
 }
