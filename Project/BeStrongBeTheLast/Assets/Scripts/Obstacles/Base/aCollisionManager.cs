@@ -26,18 +26,6 @@ namespace Assets.Scripts.Obstacles.Base
 
             return collidedWithTags;
         }
-        
-        protected bool onCollisionWithTags(Component component, Action<KartController> callback, KartController kartController, params string[] tags)
-        {
-            var collidedWithTags = GB.CompareORTags(component, tags);
-
-            if (collidedWithTags)
-            {
-                callback(kartController);
-            }
-
-            return collidedWithTags;
-        }
 
     }
 }

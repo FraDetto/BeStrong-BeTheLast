@@ -230,9 +230,30 @@ public sealed class KartController : aBSBTLKart
         currentObstacle = null;
     }
 
-    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider other)
+    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider)
     {
-        //
+        onCollisionWithTags(collider, (kartController) =>
+        {
+            var hitDirection = collider.transform.position - transform.position;
+
+            var fast = this;
+            var slow = kartController;
+
+            float speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
+            float forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
+
+            //DA FARE
+
+            switch (direction)
+            {
+                case FieldOfViewCollider.eDirection.left:
+                case FieldOfViewCollider.eDirection.right:
+                    break;
+
+                case FieldOfViewCollider.eDirection.rear:
+                    break;
+            }
+        }, "Player", "CPU");
     }
 
 }
