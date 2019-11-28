@@ -38,7 +38,7 @@ public class AttractingBehaviour : MonoBehaviour
             projectile.transform.Translate(Vector3.forward * speed * Time.deltaTime);
             projectile.transform.localScale -= Vector3.one * shrinkingSpeed * Time.deltaTime;
 
-            if (Vector3.Distance(projectile.transform.position, transform.position) <= 1f)
+            if (Vector3.Distance(projectile.transform.position, transform.position) <= 2f)
             {
                 Destroy(projectile);
                 abilityController.attracted = true;
