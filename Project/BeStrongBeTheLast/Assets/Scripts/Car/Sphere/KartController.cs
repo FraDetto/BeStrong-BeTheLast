@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public sealed class KartController : aBSBTLKart
 {
@@ -54,6 +55,9 @@ public sealed class KartController : aBSBTLKart
 
                 GB.usedColors.Add(c);
                 renderer_.material.color = c;
+
+                setDestinationWithError();
+
                 break;
         }
 
@@ -78,16 +82,14 @@ public sealed class KartController : aBSBTLKart
                     Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
                 }
 
-                if (UsaWrongWay)
+                if (UsaWrongWay && wrong)
                 {
-                    if (wrong)
-                    {
-                        SetOnTrack();
-                        wrongWayTimer = 0;
-                        driftDisabled = true;
-                    }
+                    SetOnTrack();
+                    wrongWayTimer = 0;
+                    driftDisabled = true;
                 }
                 break;
+
             case eKCType.CPU:
                 if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
                     if (GB.compareVector3(GB.EAxis.Y, lookAtDest, lookAtDestOriginal))
@@ -160,16 +162,15 @@ public sealed class KartController : aBSBTLKart
         }
     }
 
-    public float currentSplineDistance()
-    {
-        return Vector3.Distance(transform.position, curSplinePos);
-    }
+    public float currentSplineDistance =>
+        Vector3.Distance(transform.position, curSplinePos);
 
     void setDestinationWithError() =>
         setDestination(Random.Range(-1f, 1f) * errorDelta, Random.Range(-1f, 1f) * errorDelta);
 
     internal void nextSpline() =>
         setDestination(0, 0);
+
 
     private void CPUAI(bool wrong)
     {
@@ -192,7 +193,7 @@ public sealed class KartController : aBSBTLKart
             }
             else
             {
-                foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+                foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
                     if (root.name.Equals("Obstacles"))
                         foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
                             if (Vector3.Distance(transform.position, obstacle.transform.position) < 30)
@@ -222,25 +223,7 @@ public sealed class KartController : aBSBTLKart
     {
         onCollisionWithTags(collider, (kartController) =>
         {
-            var hitDirection = collider.transform.position - transform.position;
 
-            var fast = this;
-            var slow = kartController;
-
-            float speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
-            float forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
-
-            //DA FARE
-
-            switch (direction)
-            {
-                case FieldOfViewCollider.eDirection.left:
-                case FieldOfViewCollider.eDirection.right:
-                    break;
-
-                case FieldOfViewCollider.eDirection.rear:
-                    break;
-            }
         }, "Player", "CPU");
     }
 
