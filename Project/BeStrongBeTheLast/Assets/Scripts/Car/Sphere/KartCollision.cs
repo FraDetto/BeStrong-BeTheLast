@@ -38,26 +38,29 @@ public class KartCollision : aCollisionManager
             var fast = myKartController;
             var slow = kartController;
 
-            var speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
-            var forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
-
-            switch (mode)
+            if (fast != slow)
             {
-                case Mode.left:
-                case Mode.right:
-                    kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
-                    break;
+                var speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
+                var forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
 
-                case Mode.rear:
-                    if (fast.currentSplineDistance() <= kartController.currentSplineDistance() && speedDifference > 1)
-                    {
-                        fast.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
-                        slow.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+                switch (mode)
+                {
+                    case Mode.left:
+                    case Mode.right:
+                        kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
+                        break;
 
-                        fast.Accelerate(1.1f + 1f * forceModifier);
-                        slow.Accelerate(0.9f - 0.5f * forceModifier);
-                    }
-                    break;
+                    case Mode.rear:
+                        if (fast.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
+                        {
+                            fast.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
+                            slow.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+
+                            fast.Accelerate(1.1f + 1f * forceModifier);
+                            slow.Accelerate(0.9f - 0.5f * forceModifier);
+                        }
+                        break;
+                }
             }
         }, "Player", "CPU");
     }
