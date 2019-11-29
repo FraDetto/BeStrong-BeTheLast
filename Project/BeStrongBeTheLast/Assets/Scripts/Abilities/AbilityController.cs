@@ -15,6 +15,7 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private Slider powerGauge;
     [SerializeField] private float regenSpeed;
     [SerializeField] private Text selectedProjectileText;
+    [SerializeField] private Text selectedSpecialText;
     [SerializeField] private Transform frontSpawnpoint;
     [SerializeField] private Transform rearSpawnpoint;
 
@@ -22,9 +23,17 @@ public class AbilityController : MonoBehaviour
     public GameObject homing;
     public GameObject bouncing;
     public GameObject attracting;
+    public GameObject blinding;
+    public GameObject annoying;
+    public GameObject tanking;
+    public GameObject rotating;
+    public Image blindingFront;
+    public Image blindingRear;
     public GameObject selectedProjectile;
+    public GameObject selectedSpecial;
 
     private GameObject[] projectiles;
+    private GameObject[] specials;
     private int index;
 
     public bool attracted;
@@ -40,6 +49,12 @@ public class AbilityController : MonoBehaviour
 
         if (selectedProjectileText != null)
             selectedProjectileText.text = selectedProjectile.name;
+
+        specials = new GameObject[] { blinding, annoying, tanking, rotating};
+        selectedSpecial = specials[index];
+
+        if(selectedSpecialText != null)
+            selectedSpecialText.text = selectedSpecial.name;
     }
 
     void Update()
@@ -56,6 +71,13 @@ public class AbilityController : MonoBehaviour
                     else if (Input.GetKey(KeyCode.S))
                         SpawnProjectile(rearSpawnpoint);
                 }
+
+            if(Input.GetMouseButtonDown(1) && powerGauge.value >= 0.75f)
+            {
+                Instantiate(selectedSpecial, transform);
+                powerGauge.value -= 0.75f;
+            }
+
         }
 
         var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -68,10 +90,14 @@ public class AbilityController : MonoBehaviour
                 index = (index == 0 ? 3 : index - 1);
 
             selectedProjectile = projectiles[index];
+            selectedSpecial = specials[index];
         }
 
         if (selectedProjectileText != null)
             selectedProjectileText.text = selectedProjectile.name;
+
+        if(selectedSpecialText != null)
+            selectedSpecialText.text = selectedSpecial.name;
     }
 
     private void SpawnProjectile(Transform spawnPoint)
@@ -79,7 +105,7 @@ public class AbilityController : MonoBehaviour
         if (!selectedProjectile.Equals(attracting))
             Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation);
         else
-            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, this.transform);
+            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
         if (!attracted)
             powerGauge.value -= 0.5f;
@@ -89,5 +115,4 @@ public class AbilityController : MonoBehaviour
             attracted = false;
         }
     }
-
 }
