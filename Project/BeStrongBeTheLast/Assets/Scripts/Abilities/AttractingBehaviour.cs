@@ -24,6 +24,7 @@ public class AttractingBehaviour : MonoBehaviour
 
     private AbilityController abilityController;
 
+
     void Start()
     {
         StartCoroutine(Lifetime());
@@ -42,7 +43,7 @@ public class AttractingBehaviour : MonoBehaviour
             {
                 Destroy(projectile);
                 abilityController.attracted = true;
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }
@@ -51,12 +52,12 @@ public class AttractingBehaviour : MonoBehaviour
     {
         if (!attracting && other.CompareTag("Projectile"))
         {
-            if (other.name.Equals("Homing(Clone)")) //TODO: possiamo fare con il TAG? non vorrei che usando 2 Homing diventasse Homing2 e non funziona.
+            if (other.name.StartsWith("Homing"))
             {
                 other.GetComponent<HomingBehaviour>().enabled = false;
                 abilityController.selectedProjectile = abilityController.homing;
             }
-            else if (other.name.Equals("Trishot(Clone)")) //TODO:  possiamo fare con il TAG? non vorrei che usando 2 Homing diventasse Trhishot2 e non funziona.
+            else if (other.name.StartsWith("Trishot"))
             {
                 other.GetComponent<TrishotBehaviour>().enabled = false;
 
@@ -74,7 +75,7 @@ public class AttractingBehaviour : MonoBehaviour
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(5f);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
 }

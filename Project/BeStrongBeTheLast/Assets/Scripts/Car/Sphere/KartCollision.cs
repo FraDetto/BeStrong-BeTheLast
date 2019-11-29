@@ -23,6 +23,7 @@ public class KartCollision : aCollisionManager
 
     private KartController myKartController;
 
+
     private void Start()
     {
         myKartController = transform.parent.parent.GetComponent<KartController>();
