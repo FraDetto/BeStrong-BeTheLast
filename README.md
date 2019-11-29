@@ -34,19 +34,19 @@ coming soon
 ### Development
 * Francesco Dettori
 * Riccardo Lombardi
-* Maione Michele
+* Michele Maione
 * Jacopo Frasson
 
 ### VFX
-* Marras Andrea
+* Andrea Marras
 
 ### Sound
-* Carlessi Ettore
+* Ettore Carlessi
 
 ### Art
-* Bernardi Eugenia
-* Rossi Giulia
-* Todaro Eleonora
+* Eugenia Bernardi
+* Giulia Rossi
+* Eleonora Todaro
 
 
 ## License

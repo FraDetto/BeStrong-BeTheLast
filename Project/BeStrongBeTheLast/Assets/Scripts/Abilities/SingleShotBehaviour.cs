@@ -32,6 +32,8 @@ public class SingleShotBehaviour : MonoBehaviour
             kartController.Accelerate(GetComponentInParent<TrishotBehaviour>().accelerationFromShot);
             Destroy(this.gameObject);
         }
+        else if(other.gameObject.layer.Equals(12))
+            Destroy(this.gameObject);
     }
 
 }

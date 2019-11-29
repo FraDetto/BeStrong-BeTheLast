@@ -59,10 +59,16 @@ public class HomingBehaviour : MonoBehaviour
             }
             else if (colliderCounter == 1 && user != null && !other.gameObject.Equals(user))
             {
-                var kartController = other.transform.parent.GetComponentInChildren<KartController>();
+                var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(accelerationFromShot);
                 Destroy(this.gameObject);
             }
+            colliderCounter += 1;
+        }
+        else if(other.gameObject.layer.Equals(12))
+        {
+            if(colliderCounter == 1)
+                Destroy(this.gameObject);
 
             colliderCounter += 1;
         }
@@ -70,7 +76,7 @@ public class HomingBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.gameObject.layer.Equals(12))
             colliderCounter -= 1;
     }
 
