@@ -192,14 +192,9 @@ public sealed class KartController : aBSBTLKart
             }
             else
             {
-                var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-
-                foreach (var root in roots)
+                foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
                     if (root.name.Equals("Obstacles"))
-                    {
-                        var obstacles = GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles");
-
-                        foreach (var obstacle in obstacles)
+                        foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
                             if (Vector3.Distance(transform.position, obstacle.transform.position) < 30)
                                 if (excludeObstacle != obstacle)
                                     if (!currentObstacleOtherCPU.Contains(obstacle))
@@ -208,7 +203,6 @@ public sealed class KartController : aBSBTLKart
                                         currentObstacleOtherCPU.Add(currentObstacle);
                                         break;
                                     }
-                    }
 
                 lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
             }
