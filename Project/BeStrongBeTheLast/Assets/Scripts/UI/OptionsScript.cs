@@ -7,6 +7,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -17,18 +18,27 @@ public class OptionsScript : MonoBehaviour
     public Dropdown resolutionDropdown;
     public Toggle fullscreenToggle;
 
+    private Resolution[] resolutions;
+
 
     private void Start()
     {
         var currentResIndex = 0;
         var options = new List<string>();
 
-        for (var i = 0; i < Screen.resolutions.Length; i++)
+        resolutions = Screen.resolutions.Select(
+            resolution => new Resolution
+            {
+                width = resolution.width,
+                height = resolution.height
+            }).Distinct().ToArray();
+
+        for (var i = 0; i < resolutions.Length; i++)
         {
-            var option = $"{Screen.resolutions[i].width} × {Screen.resolutions[i].height}";
+            var option = $"{resolutions[i].width} × {resolutions[i].height}";
             options.Add(option);
 
-            if (Screen.resolutions[i].width == Screen.currentResolution.width && Screen.resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
                 currentResIndex = i;
         }
 
@@ -42,7 +52,7 @@ public class OptionsScript : MonoBehaviour
 
     public void SetResolution(int resIndex)
     {
-        var resolution = Screen.resolutions[resIndex];
+        var resolution = resolutions[resIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
