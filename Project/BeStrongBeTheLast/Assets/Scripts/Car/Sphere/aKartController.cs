@@ -67,36 +67,22 @@ public abstract class aKartController : aCollisionManager
     public Transform wheelParticles, flashParticles;
     public Color[] turboColors;
 
-    public GameObject CPUSpline;
-    protected SplineObject[] CPUSplines;
-    protected SplineObject CurrentSplineObject;
-    protected sbyte CurrentSpline = -1;
+    public SplineObject CurrentSplineObject;
+
     protected const byte splineDistance = 5;
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
-    private byte lastUsedFork;
     protected float lastSplineDistance, prevSplineDistance;
 
     private string[] tubes = { "Tube001", "Tube002" };
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
+
     protected void Start_()
     {
-        CPUSplines = new SplineObject[CPUSpline.transform.childCount];
-
-        byte x = 0;
-        foreach (var el in CPUSpline.transform)
-        {
-            var t = el as Transform;
-            CPUSplines[x] = t.gameObject.GetComponent<SplineObject>();
-            x++;
-        }
-
-        System.Array.Sort(CPUSplines);
-
         var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
@@ -430,37 +416,22 @@ public abstract class aKartController : aCollisionManager
 
     protected void setDestination(float xRndError, float zRndError)
     {
-        CurrentSpline++;
-
-        if (CurrentSpline == CPUSplines.Length)
-            CurrentSpline = 0;
-
-        CurrentSplineObject = CPUSplines[CurrentSpline];
-
-        if (CPUSplines[CurrentSpline].forkNumber > 0)
-            if (CPUSplines[CurrentSpline].forkNumber == lastUsedFork)
-            {
-                CurrentSplineObject = CPUSplines[nextSpline(CurrentSpline)];
-            }
-            else
-            {
-                lastUsedFork = CPUSplines[CurrentSpline].forkNumber;
-
-                var forks = getForks(CurrentSpline);
-
-                foreach (var fork in forks)
-                    if (fork.probability == 0 || Random.value < fork.probability)
-                    {
-                        CurrentSplineObject = fork;
-                        break;
-                    }
-            }
-
-        prevSplinePos = CPUSplines[prevSpline(CurrentSpline)].transform.position;
-        curSplinePos = CPUSplines[nextSpline(CurrentSpline)].transform.position;
-
         lastSplineDistance = 0;
         prevSplineDistance = 0;
+
+        prevSplinePos = CurrentSplineObject.transform.position;
+
+        CurrentSplineObject = CurrentSplineObject.nextSpline;
+
+        if (CurrentSplineObject.forkNumber > 0)
+            foreach (var fork in CurrentSplineObject.Forks)
+                if (fork.probability == 0 || Random.value < fork.probability)
+                {
+                    CurrentSplineObject = fork;
+                    break;
+                }
+
+        curSplinePos = CurrentSplineObject.transform.position;
 
         var p = CurrentSplineObject.transform.position;
 
@@ -468,49 +439,9 @@ public abstract class aKartController : aCollisionManager
         lookAtDestOriginal = lookAtDest;
     }
 
-    private int nextSpline(int i)
-    {
-        if (i == CPUSplines.Length)
-            i = 0;
-
-        if (CPUSplines[i].forkNumber > 0)
-            return nextSpline(i + 1);
-
-        return i;
-    }
-
-    private int prevSpline(int i)
-    {
-        if (i < 1)
-            i = CPUSplines.Length;
-
-        i--;
-
-        if (CPUSplines[i].forkNumber > 0)
-            return prevSpline(i - 1);
-
-        return i;
-    }
-
-    protected List<SplineObject> getForks(sbyte i)
-    {
-        var forks = new List<SplineObject>();
-
-        var x = 0;
-        while (x < CPUSplines.Length)
-        {
-            if (CPUSplines[i].forkNumber == CPUSplines[x].forkNumber) // è una forcazione  
-                forks.Add(CPUSplines[x]);
-
-            x++;
-        }
-
-        return forks;
-    }
-
     internal void SetOnTrack()
     {
-        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CPUSplines[CurrentSpline].transform.position - transform.position, Vector3.up), 1f);
+        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CurrentSplineObject.transform.position - transform.position, Vector3.up), 1f);
 
         var eul = rot.eulerAngles;
         eul.x = 0;
@@ -518,7 +449,7 @@ public abstract class aKartController : aCollisionManager
 
         transform.eulerAngles = eul;
 
-        var dir = CPUSplines[CurrentSpline].transform.position - transform.position;
+        var dir = CurrentSplineObject.transform.position - transform.position;
         sphere.AddForce(dir * 300f, ForceMode.Impulse);
     }
 

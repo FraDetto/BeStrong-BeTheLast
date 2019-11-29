@@ -80,9 +80,6 @@ public sealed class KartController : aBSBTLKart
 
                 if (UsaWrongWay)
                 {
-                    if (CurrentSpline < 0)
-                        setDestination(0, 0);
-
                     if (wrong)
                     {
                         SetOnTrack();
@@ -92,9 +89,6 @@ public sealed class KartController : aBSBTLKart
                 }
                 break;
             case eKCType.CPU:
-                if (CurrentSpline < 0)
-                    setDestinationWithError();
-
                 if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
                     if (GB.compareVector3(GB.EAxis.Y, lookAtDest, lookAtDestOriginal))
                         setDestinationWithError();
@@ -133,7 +127,7 @@ public sealed class KartController : aBSBTLKart
 
                     if (Time.time - LastStuck > 60)
                     {
-                        var p = CPUSplines[CurrentSpline].transform.position;
+                        var p = CurrentSplineObject.transform.position;
                         transform.position = new Vector3(p.x, p.y + 2, p.z);
                     }
                 }

@@ -26,87 +26,61 @@ public sealed class SplineObject : MonoBehaviour, IComparable
     [Range(0, 1)]
     public float probability = 0;
 
-    private SplineObject[] CPUSplines;
-    private byte CurrentSpline;
+    public List<SplineObject> nextSplines = new List<SplineObject>();
 
-    List<Vector3> lookAtDests_ = new List<Vector3>();
-    List<Vector3> lookAtDests
+
+    internal SplineObject nextSpline
     {
         get
         {
-            if (CPUSplines == null)
-            {
-                var CPUSpline = transform.parent;
+            foreach (var s in nextSplines)
+                return s;
 
-                CPUSplines = new SplineObject[CPUSpline.transform.childCount];
-
-                byte x = 0;
-                foreach (var el in CPUSpline.transform)
-                {
-                    var t = el as Transform;
-                    CPUSplines[x] = t.gameObject.GetComponent<SplineObject>();
-
-                    if (CPUSplines[x].name.Equals(this.name))
-                        CurrentSpline = x;
-
-                    x++;
-                }
-
-                Array.Sort(CPUSplines);
-
-                var next = CurrentSpline + 1;
-
-                while (forkNumber > 0 && CPUSplines[next].forkNumber == forkNumber)
-                {
-                    next++;
-
-                    if (next == CPUSplines.Length)
-                        next = 0;
-                }
-
-                if (next == CPUSplines.Length)
-                    next = 0;
-
-                if (CPUSplines[next].forkNumber > 0 && CPUSplines[next].forkNumber != forkNumber)
-                {
-                    var forks = getForks(next);
-
-                    foreach (var fork in forks)
-                        lookAtDests_.Add(fork.transform.position);
-                }
-
-                lookAtDests_.Add(CPUSplines[next].transform.position);
-            }
-
-            return lookAtDests_;
+            return null;
         }
     }
+
+    internal SplineObject prevSpline
+    {
+        get
+        {
+            var prev = this;
+            var cur = nextSpline;
+
+            while (cur != this)
+            {
+                prev = cur;
+                cur = cur.nextSpline;
+            }
+
+            return prev;
+        }
+    }
+
+    internal List<SplineObject> Forks
+    {
+        get
+        {
+            var forks = new List<SplineObject>();
+
+            foreach (var s in nextSplines)
+                if (forkNumber == s.forkNumber) // è una forcazione  
+                    forks.Add(s);
+
+            return forks;
+        }
+    }
+
 
     private void Start()
     {
         OnDrawGizmosSelected();
     }
 
-    private List<SplineObject> getForks(int i)
-    {
-        var forks = new List<SplineObject>();
-
-        var x = 0;
-        while (x < CPUSplines.Length)
-        {
-            if (CPUSplines[i].forkNumber == CPUSplines[x].forkNumber) // è una forcazione  
-                forks.Add(CPUSplines[x]);
-
-            x++;
-        }
-
-        return forks;
-    }
-
     private void OnDrawGizmosSelected()
     {
-        foreach (var lookAtDest in lookAtDests)
-            Debug.DrawLine(transform.position, lookAtDest, Color.magenta);
+        foreach (var s in nextSplines)
+            Debug.DrawLine(transform.position, s.gameObject.transform.position, Color.magenta);
     }
 
     public int CompareTo(object obj)
