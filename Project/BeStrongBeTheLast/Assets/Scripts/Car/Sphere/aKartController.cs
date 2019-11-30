@@ -83,7 +83,6 @@ public abstract class aKartController : aCollisionManager
 
     protected void Start_()
     {
-
         var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
@@ -106,8 +105,6 @@ public abstract class aKartController : aCollisionManager
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
-
-
         //Follow Collider
         transform.position = sphere.transform.position - vettoreCorrezioneSfera;
 
