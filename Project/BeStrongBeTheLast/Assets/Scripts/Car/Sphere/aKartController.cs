@@ -107,7 +107,7 @@ public abstract class aKartController : aCollisionManager
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
 
-       
+
         //Follow Collider
         transform.position = sphere.transform.position - vettoreCorrezioneSfera;
 
@@ -235,7 +235,7 @@ public abstract class aKartController : aCollisionManager
 
         var theRay = transform.position + (transform.up * 0.1f);
         Physics.Raycast(theRay, Vector3.down, out hitNear, 2f, layerMask);
-       
+
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);

@@ -15,6 +15,7 @@ public class ChangeCamera : MonoBehaviour
 
     private bool doppiaCameraInScena;
 
+
     private void Start()
     {
         doppiaCameraInScena = vCam1 != null && vCam2 != null && vCam3 != null && vCam4 != null;
@@ -34,7 +35,8 @@ public class ChangeCamera : MonoBehaviour
                     //var camActive = vCam1.active;
                     vCam1.SetActive(false);
                     vCam2.SetActive(true);
-                }else if (name.Equals("Gate2"))
+                }
+                else if (name.Equals("Gate2"))
                 {
                     vCam2.SetActive(false);
                     vCam1.SetActive(true);
@@ -54,7 +56,6 @@ public class ChangeCamera : MonoBehaviour
                     vCam4.SetActive(false);
                     vCam1.SetActive(true);
                 }
-                
             }
         }
     }

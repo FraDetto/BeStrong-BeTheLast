@@ -137,6 +137,8 @@ public sealed class KartController : aBSBTLKart
                 lastPosition = transform.position;
                 break;
         }
+
+        Debug.DrawLine(transform.position, lookAtDest, Color.green);
     }
 
     private void FixedUpdate() =>
@@ -208,8 +210,6 @@ public sealed class KartController : aBSBTLKart
                 lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
             }
         }
-
-        Debug.DrawLine(transform.position, lookAtDest, Color.green);
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)
