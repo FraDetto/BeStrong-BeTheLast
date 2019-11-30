@@ -12,6 +12,8 @@ using UnityEngine;
 public class RepulsiveWallStraight : aCollisionManager
 {
 
+    public bool AttivaCollisioniConMura = false;
+
     private bool active = true;
     private KartController kartController;
 
@@ -21,7 +23,7 @@ public class RepulsiveWallStraight : aCollisionManager
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (active)
+        if (AttivaCollisioniConMura && active)
         {
             var meshFilter = collision.gameObject.GetComponent<MeshFilter>();
 
