@@ -19443,6 +19443,7 @@ GameObject:
   - component: {fileID: 1284683510443141252}
   - component: {fileID: 1284683510443141259}
   - component: {fileID: 1284683510443141258}
+  - component: {fileID: 3338202883682997299}
   m_Layer: 2
   m_Name: Collider
   m_TagString: Player
@@ -19493,6 +19494,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3338202883682997299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284683510443141257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5748dae6a874114db044c2809add69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1284683510573998337
 GameObject:
   m_ObjectHideFlags: 0
@@ -58201,7 +58214,7 @@ MonoBehaviour:
   - {r: 0.2117647, g: 0.89920527, b: 1, a: 1}
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
-  CPUSpline: {fileID: 0}
+  CurrentSplineObject: {fileID: 0}
   ProjectileType: 0
   SpecialType: 0
   UsaWrongWay: 1
@@ -58220,6 +58233,7 @@ MonoBehaviour:
   powerGauge: {fileID: 0}
   regenSpeed: 0.1
   selectedProjectileText: {fileID: 0}
+  selectedSpecialText: {fileID: 0}
   frontSpawnpoint: {fileID: 3071088689480068495}
   rearSpawnpoint: {fileID: 6310261452341936535}
   trishot: {fileID: 6535925821718938808, guid: 22a1ac197d3f6e541907ba4299b88f4e, type: 3}
@@ -58228,7 +58242,14 @@ MonoBehaviour:
     type: 3}
   attracting: {fileID: 4437556481304381167, guid: 6d883bac64c818443bc39a94b27cc028,
     type: 3}
+  blinding: {fileID: 0}
+  annoying: {fileID: 0}
+  tanking: {fileID: 0}
+  rotating: {fileID: 0}
+  blindingFront: {fileID: 0}
+  blindingRear: {fileID: 0}
   selectedProjectile: {fileID: 0}
+  selectedSpecial: {fileID: 0}
   attracted: 0
 --- !u!1 &1284683511268405893
 GameObject:
