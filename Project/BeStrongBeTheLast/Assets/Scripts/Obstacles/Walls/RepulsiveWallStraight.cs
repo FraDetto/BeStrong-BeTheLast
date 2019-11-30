@@ -11,22 +11,33 @@ using UnityEngine;
 
 public class RepulsiveWallStraight : aCollisionManager
 {
-    private bool enabled = true;
 
-    private void OnTriggerEnter(Collider other)
+    private bool active = true;
+    private KartController kartController;
+
+
+    private void Start() =>
+        kartController = transform.parent.GetChild(0).GetComponentInChildren<KartController>();
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (enabled)
+        if (active)
         {
-            onCollisionWithTags(other, (kartController) =>
-            {
+            var meshFilter = collision.gameObject.GetComponent<MeshFilter>();
+
+            if (meshFilter && GB.CompareORNames(meshFilter.sharedMesh.name,
+                "barrierWall",
+                "roadCornerSmallWall",
+                "roadCornerSmallBorder",
+                "roadCornerLargeBorder",
+                "roadCornerLargeBorderInner",
+                "roadCornerLargeWallInner"
+            ))
                 kartController.SetOnTrack();
-            }, "Player", "CPU");
-        };
+        }
     }
 
-    public void SetEnabled(bool setting)
-    {
-        enabled = setting;
-    }
+    public void SetEnabled(bool setting) =>
+        active = setting;
 
 }

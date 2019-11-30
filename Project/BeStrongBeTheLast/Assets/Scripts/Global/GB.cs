@@ -49,10 +49,10 @@ public static class GB
         }
     }
 
-    public static bool CompareORNames(Component component, params string[] names)
+    public static bool CompareORNames(string name, params string[] names)
     {
         foreach (var n in names)
-            if (component.name.Equals(n))
+            if (name.Equals(n))
                 return true;
 
         return false;
