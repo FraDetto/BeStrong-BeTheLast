@@ -42,6 +42,10 @@ public sealed class KartController : aBSBTLKart
     {
         switch (KCType)
         {
+            case eKCType.Human:
+                setDestination(0, 0, true);
+                break;
+
             case eKCType.CPU:
                 CPUCars = GameObject.FindGameObjectsWithTag("CPU");
 
@@ -137,6 +141,8 @@ public sealed class KartController : aBSBTLKart
                 lastPosition = transform.position;
                 break;
         }
+
+        Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
     }
 
     private void FixedUpdate() =>
@@ -208,8 +214,6 @@ public sealed class KartController : aBSBTLKart
                 lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
             }
         }
-
-        Debug.DrawLine(transform.position, lookAtDest, Color.green);
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)

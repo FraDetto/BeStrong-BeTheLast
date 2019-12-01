@@ -49,6 +49,15 @@ public static class GB
         }
     }
 
+    public static bool CompareORNames(string name, params string[] names)
+    {
+        foreach (var n in names)
+            if (name.Equals(n))
+                return true;
+
+        return false;
+    }
+
     public static bool CompareORTags(Component component, params string[] tags)
     {
         foreach (var tag in tags)

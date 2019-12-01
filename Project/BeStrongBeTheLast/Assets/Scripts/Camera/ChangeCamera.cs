@@ -11,13 +11,14 @@ using UnityEngine;
 public class ChangeCamera : MonoBehaviour
 {
 
-    public GameObject vCam1, vCam2;
+    public GameObject vCam1, vCam2, vCam3, vCam4;
 
     private bool doppiaCameraInScena;
 
+
     private void Start()
     {
-        doppiaCameraInScena = vCam1 != null && vCam2 != null;
+        doppiaCameraInScena = vCam1 != null && vCam2 != null && vCam3 != null && vCam4 != null;
     }
 
     private void OnTriggerEnter(Collider co)
@@ -29,11 +30,32 @@ public class ChangeCamera : MonoBehaviour
             if (co.CompareTag("Player"))
             {
                 Debug.Log("Colliso player");
-
-                var camActive = vCam1.active;
-
-                vCam1.SetActive(!camActive);
-                vCam2.SetActive(camActive);
+                if (name.Equals("Gate1"))
+                {
+                    //var camActive = vCam1.active;
+                    vCam1.SetActive(false);
+                    vCam2.SetActive(true);
+                }
+                else if (name.Equals("Gate2"))
+                {
+                    vCam2.SetActive(false);
+                    vCam1.SetActive(true);
+                }
+                else if (name.Equals("Gate3"))
+                {
+                    vCam1.SetActive(false);
+                    vCam3.SetActive(true);
+                }
+                else if (name.Equals("Gate4"))
+                {
+                    vCam3.SetActive(false);
+                    vCam4.SetActive(true);
+                }
+                else
+                {
+                    vCam4.SetActive(false);
+                    vCam1.SetActive(true);
+                }
             }
         }
     }

@@ -11,22 +11,48 @@ using UnityEngine;
 
 public class RepulsiveWallStraight : aCollisionManager
 {
-    private bool enabled = true;
 
-    private void OnTriggerEnter(Collider other)
+    public bool AttivaCollisioniConMura = false;
+
+    private bool active = true;
+    private KartController kartController;
+
+
+    private void Start() =>
+        kartController = transform.parent.GetChild(0).GetComponentInChildren<KartController>();
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (enabled)
-        {
-            onCollisionWithTags(other, (kartController) =>
+        var pavimento = false;
+
+        foreach (var contact in collision.contacts)
+            if (contact.normal.x == 0 && contact.normal.z == 0 && contact.normal.y == 1)
             {
+                kartController.gravity_ = kartController.gravity;
+                pavimento = true;
+                break;
+            }
+
+        if (!pavimento)
+            kartController.gravity_ += 5;
+
+        if (AttivaCollisioniConMura && active)
+        {
+            var meshFilter = collision.gameObject.GetComponent<MeshFilter>();
+
+            if (meshFilter && GB.CompareORNames(meshFilter.sharedMesh.name,
+                "barrierWall",
+                "roadCornerSmallWall",
+                "roadCornerSmallBorder",
+                "roadCornerLargeBorder",
+                "roadCornerLargerBorderInner",
+                "roadCornerLargeWallInner"
+            ))
                 kartController.SetOnTrack();
-            }, "Player", "CPU");
-        };
+        }
     }
 
-    public void SetEnabled(bool setting)
-    {
-        enabled = setting;
-    }
+    public void SetEnabled(bool setting) =>
+        active = setting;
 
 }

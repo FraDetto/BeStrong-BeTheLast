@@ -7,62 +7,83 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlindingBehaviour : MonoBehaviour
 {
-    [SerializeField] private GameObject blinded;
 
-    private GameObject[] players;
-    private GameObject[] bots;
+    [SerializeField]
+    private GameObject blinded;
+
     private GameObject user;
 
-    // Start is called before the first frame update
+    public float BlindingTimeInSeconds = 30;
+
+
     void Start()
     {
         user = transform.parent.gameObject;
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject player in players)
-            if(player != user)
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            if (player != user)
             {
-                AbilityController ac = player.GetComponent<AbilityController>();
-                if(ac != null)
+                var ac = player.GetComponent<AbilityController>();
+
+                if (ac != null)
                 {
                     Instantiate(blinded, player.transform);
+
                     ac.blindingFront.enabled = true;
                     ac.blindingRear.enabled = true;
                 }
             }
-        bots = GameObject.FindGameObjectsWithTag("CPU");
-        foreach(GameObject bot in bots)
-        {
-            //TO DO: Make them drive bad
-        }
+
+        MakeBotsEyes(true);
+
         StartCoroutine(Lifetime());
     }
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(30f);
-        foreach(GameObject player in players)
-            if(player != user)
+        yield return new WaitForSeconds(BlindingTimeInSeconds);
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            if (player != user)
             {
-                AbilityController ac = player.GetComponent<AbilityController>();
-                if(ac != null)
+                var ac = player.GetComponent<AbilityController>();
+
+                if (ac != null)
                 {
-                    Destroy(player.transform.Find("Blinded(Clone)").gameObject);
+                    var blinded_game_objects = GB.FindGameObjectsInChildWithTag(player.transform, "Blinded");
+
+                    foreach (var blinded_game_object in blinded_game_objects)
+                        Destroy(blinded_game_object);
+
+                    //Destroy(player.transform.Find("Blinded(Clone)").gameObject);
+
                     ac.blindingFront.enabled = false;
                     ac.blindingRear.enabled = false;
                 }
             }
-        bots = GameObject.FindGameObjectsWithTag("CPU");
-        foreach(GameObject bot in bots)
-        {
-            //TO DO: Make their drive return to normal
-        }
 
-        if(enabled)
+        MakeBotsEyes(false);
+
+        if (enabled)
             Destroy(gameObject);
     }
+
+    private void MakeBotsEyes(bool blinded)
+    {
+        foreach (var bot in GameObject.FindGameObjectsWithTag("CPU"))
+            if (blinded)
+            {
+                //TO DO: Make them drive bad
+            }
+            else
+            {
+                //TO DO: Make their drive return to normal
+            }
+    }
+
+
 }
