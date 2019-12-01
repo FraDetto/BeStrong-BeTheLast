@@ -10,58 +10,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlindingBehaviour : MonoBehaviour
+public class TankingBehaviour : MonoBehaviour
 {
-    [SerializeField] private GameObject blinded;
-
-    private GameObject[] players;
-    private GameObject[] bots;
-    private GameObject user;
+    private Rigidbody rigidbody;
+    private Transform normal;
+    private Vector3 originalScale;
 
     // Start is called before the first frame update
     void Start()
     {
-        user = transform.parent.gameObject;
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject player in players)
-            if(player != user)
-            {
-                AbilityController ac = player.GetComponent<AbilityController>();
-                if(ac != null)
-                {
-                    Instantiate(blinded, player.transform);
-                    ac.blindingFront.enabled = true;
-                    ac.blindingRear.enabled = true;
-                }
-            }
-        bots = GameObject.FindGameObjectsWithTag("CPU");
-        foreach(GameObject bot in bots)
-        {
-            //TO DO: Make them drive bad
-        }
+        normal = transform.parent.GetChild(0);
+        originalScale = normal.localScale;
+        rigidbody = transform.root.GetComponentInChildren<Rigidbody>();
+        normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
+        normal.Translate(Vector3.up * 0.25f);
+        rigidbody.mass *= 2;
+        rigidbody.drag += 1;
         StartCoroutine(Lifetime());
     }
 
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(30f);
-        foreach(GameObject player in players)
-            if(player != user)
-            {
-                AbilityController ac = player.GetComponent<AbilityController>();
-                if(ac != null)
-                {
-                    Destroy(player.transform.Find("Blinded(Clone)").gameObject);
-                    ac.blindingFront.enabled = false;
-                    ac.blindingRear.enabled = false;
-                }
-            }
-        bots = GameObject.FindGameObjectsWithTag("CPU");
-        foreach(GameObject bot in bots)
-        {
-            //TO DO: Make their drive return to normal
-        }
-
+        rigidbody.mass /= 2;
+        rigidbody.drag -= 1;
+        normal.localScale = originalScale;
+        normal.Translate(Vector3.down * 0.25f);
         if(enabled)
             Destroy(gameObject);
     }
