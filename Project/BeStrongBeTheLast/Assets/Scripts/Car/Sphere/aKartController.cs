@@ -57,6 +57,7 @@ public abstract class aKartController : aCollisionManager
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 10f;
+    internal float gravity_;
     public LayerMask layerMask;
 
     [Header("Model Parts")]
@@ -101,6 +102,8 @@ public abstract class aKartController : aCollisionManager
 
         foreach (var tube in tubes)
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
+
+        gravity_ = gravity;
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
@@ -224,7 +227,7 @@ public abstract class aKartController : aCollisionManager
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
-        sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
+        sphere.AddForce(Vector3.down * gravity_, ForceMode.Acceleration);
 
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
@@ -416,22 +419,31 @@ public abstract class aKartController : aCollisionManager
             p.Play();
     }
 
-    internal void setDestination(float xRndError, float zRndError)
+    internal void setDestination(float xRndError, float zRndError) =>
+        setDestination(xRndError, zRndError, false);
+
+    internal void setDestination(float xRndError, float zRndError, bool firstTime) =>
+        setDestination(xRndError, zRndError, first, CurrentSplineObject.nextSpline);
+
+    internal void setDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
     {
         lastSplineDistance = 0;
         prevSplineDistance = 0;
 
         prevSplinePos = CurrentSplineObject.transform.position;
 
-        CurrentSplineObject = CurrentSplineObject.nextSpline;
+        if (!firstTime)
+        {
+            CurrentSplineObject = nextSpline;
 
-        if (CurrentSplineObject.forkNumber > 0)
-            foreach (var fork in CurrentSplineObject.Forks)
-                if (fork.probability == 0 || Random.value < fork.probability)
-                {
-                    CurrentSplineObject = fork;
-                    break;
-                }
+            if (CurrentSplineObject.forkNumber > 0)
+                foreach (var fork in CurrentSplineObject.Forks)
+                    if (fork.probability == 0 || Random.value < fork.probability)
+                    {
+                        CurrentSplineObject = fork;
+                        break;
+                    }
+        }
 
         curSplinePos = CurrentSplineObject.transform.position;
 
