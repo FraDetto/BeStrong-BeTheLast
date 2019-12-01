@@ -217,7 +217,6 @@ public abstract class aKartController : aCollisionManager
 
     protected void FixedUpdate_()
     {
-
         //Forward Acceleration        
         if (drifting)
             sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
@@ -398,8 +397,10 @@ public abstract class aKartController : aCollisionManager
     IEnumerator RestoreSquishedShape(int duration)
     {
         yield return new WaitForSeconds(duration);
+
         transform.parent.transform.localScale += new Vector3(0, +0.5f, 0);
         transform.parent.GetComponentInChildren<SphereCollider>().radius = 0.85f;
+
         isSquished = false;
     }
 
@@ -415,7 +416,7 @@ public abstract class aKartController : aCollisionManager
             p.Play();
     }
 
-    protected void setDestination(float xRndError, float zRndError)
+    internal void setDestination(float xRndError, float zRndError)
     {
         lastSplineDistance = 0;
         prevSplineDistance = 0;
@@ -442,7 +443,8 @@ public abstract class aKartController : aCollisionManager
 
     internal void SetOnTrack()
     {
-        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CurrentSplineObject.transform.position - transform.position, Vector3.up), 1f);
+        var dir = lookAtDestOriginal - transform.position;
+        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
 
         var eul = rot.eulerAngles;
         eul.x = 0;
@@ -450,7 +452,7 @@ public abstract class aKartController : aCollisionManager
 
         transform.eulerAngles = eul;
 
-        var dir = CurrentSplineObject.transform.position - transform.position;
+        //sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
         sphere.AddForce(dir * 300f, ForceMode.Impulse);
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43676913, g: 0.48438847, b: 0.56464493, a: 1}
+  m_IndirectSpecularColor: {r: 0.43676883, g: 0.4843881, b: 0.5646443, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -317,6 +317,11 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1136675549}
+    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: UsaWrongWay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1284683511250782236, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -380,7 +385,12 @@ PrefabInstance:
     - target: {fileID: 3655411398203650251, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3655411398203650251, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: AttivaCollisioniConMura
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dde357f5c96701438bba83e9a9bd384, type: 3}

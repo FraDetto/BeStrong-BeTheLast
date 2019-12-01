@@ -42,6 +42,10 @@ public sealed class KartController : aBSBTLKart
     {
         switch (KCType)
         {
+            case eKCType.Human:
+                setDestination(0, 0);
+                break;
+
             case eKCType.CPU:
                 CPUCars = GameObject.FindGameObjectsWithTag("CPU");
 
