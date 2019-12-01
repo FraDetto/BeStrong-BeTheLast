@@ -88,7 +88,7 @@ public sealed class SplineObject : aCollisionManager, IComparable
             switch (kartController.KCType)
             {
                 case aKartController.eKCType.Human:
-                    kartController.setDestination(0, 0);
+                    kartController.setDestination(0, 0, false, nextSpline);
                     break;
             }
         }, "Player");

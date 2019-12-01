@@ -23,6 +23,19 @@ public class RepulsiveWallStraight : aCollisionManager
 
     private void OnCollisionEnter(Collision collision)
     {
+        var pavimento = false;
+
+        foreach (var contact in collision.contacts)
+            if (contact.normal.x == 0 && contact.normal.z == 0 && contact.normal.y == 1)
+            {
+                kartController.gravity_ = kartController.gravity;
+                pavimento = true;
+                break;
+            }
+
+        if (!pavimento)
+            kartController.gravity_ += 5;
+
         if (AttivaCollisioniConMura && active)
         {
             var meshFilter = collision.gameObject.GetComponent<MeshFilter>();
@@ -32,7 +45,7 @@ public class RepulsiveWallStraight : aCollisionManager
                 "roadCornerSmallWall",
                 "roadCornerSmallBorder",
                 "roadCornerLargeBorder",
-                "roadCornerLargeBorderInner",
+                "roadCornerLargerBorderInner",
                 "roadCornerLargeWallInner"
             ))
                 kartController.SetOnTrack();
