@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43676883, g: 0.4843881, b: 0.5646443, a: 1}
+  m_IndirectSpecularColor: {r: 0.43676913, g: 0.48438847, b: 0.56464493, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -392,11 +392,56 @@ PrefabInstance:
       propertyPath: AttivaCollisioniConMura
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782211, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940427309826113431, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4138224562307777712, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7755952523799339855, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dde357f5c96701438bba83e9a9bd384, type: 3}
 --- !u!4 &39498640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1284683511250782236, guid: 4dde357f5c96701438bba83e9a9bd384,
+    type: 3}
+  m_PrefabInstance: {fileID: 39498639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &39498641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1284683510941405287, guid: 4dde357f5c96701438bba83e9a9bd384,
+    type: 3}
+  m_PrefabInstance: {fileID: 39498639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &39498642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39498641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5402fe5a7fb57d846982a18d5d643959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1230959745}
+--- !u!4 &39498643 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1284683510941405281, guid: 4dde357f5c96701438bba83e9a9bd384,
     type: 3}
   m_PrefabInstance: {fileID: 39498639}
   m_PrefabAsset: {fileID: 0}
@@ -753,12 +798,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 39498640}
+      objectReference: {fileID: 39498643}
     - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 39498640}
+      objectReference: {fileID: 39498643}
     - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_Lens.Dutch
