@@ -416,22 +416,36 @@ public abstract class aKartController : aCollisionManager
             p.Play();
     }
 
-    internal void setDestination(float xRndError, float zRndError)
+    internal void setDestination(float xRndError, float zRndError) =>
+        setDestination(xRndError, zRndError, false);
+
+    internal void setDestination(float xRndError, float zRndError, bool first)
     {
         lastSplineDistance = 0;
         prevSplineDistance = 0;
 
         prevSplinePos = CurrentSplineObject.transform.position;
 
-        CurrentSplineObject = CurrentSplineObject.nextSpline;
+        if (!first)
+        {
+            CurrentSplineObject = CurrentSplineObject.nextSpline;
 
-        if (CurrentSplineObject.forkNumber > 0)
-            foreach (var fork in CurrentSplineObject.Forks)
-                if (fork.probability == 0 || Random.value < fork.probability)
-                {
-                    CurrentSplineObject = fork;
-                    break;
-                }
+            if (CurrentSplineObject.forkNumber > 0)
+                foreach (var fork in CurrentSplineObject.Forks)
+                    if (fork.probability == 0 || Random.value < fork.probability)
+                    {
+                        CurrentSplineObject = fork;
+                        break;
+                    }
+        }
+
+        switch (KCType)
+        {
+            case eKCType.Human:
+                var renderer_ = CurrentSplineObject.gameObject.GetComponent<Renderer>();
+                renderer_.material.color = Color.blue;
+                break;
+        }
 
         curSplinePos = CurrentSplineObject.transform.position;
 

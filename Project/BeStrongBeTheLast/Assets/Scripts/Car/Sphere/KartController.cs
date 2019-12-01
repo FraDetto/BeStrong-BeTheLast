@@ -43,7 +43,7 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
-                setDestination(0, 0);
+                setDestination(0, 0, true);
                 break;
 
             case eKCType.CPU:
@@ -142,7 +142,7 @@ public sealed class KartController : aBSBTLKart
                 break;
         }
 
-        Debug.DrawLine(transform.position, lookAtDest, Color.green);
+        Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
     }
 
     private void FixedUpdate() =>

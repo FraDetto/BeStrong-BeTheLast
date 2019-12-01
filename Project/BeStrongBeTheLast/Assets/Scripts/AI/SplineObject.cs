@@ -85,7 +85,12 @@ public sealed class SplineObject : aCollisionManager, IComparable
     private void OnTriggerEnter(Collider other) =>
         onCollisionWithTags(other, (kartController) =>
         {
-            kartController.setDestination(0, 0);
+            switch (kartController.KCType)
+            {
+                case aKartController.eKCType.Human:
+                    kartController.setDestination(0, 0);
+                    break;
+            }
         }, "Player");
 
     public int CompareTo(object obj) =>
