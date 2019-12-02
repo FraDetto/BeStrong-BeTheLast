@@ -30,6 +30,9 @@ public class LoadPlayer : MonoBehaviour
         KartController kartController = player.GetComponentInChildren<KartController>();
         kartController.CurrentSplineObject = firstSpline;
         kartController.vCam = camera1;
+        kartController.UsaWrongWay = true;
+        RepulsiveWallStraight repulsiveWallStraight = player.GetComponentInChildren<RepulsiveWallStraight>();
+        repulsiveWallStraight.AttivaCollisioniConMura = true;
         transform.DetachChildren();
         Destroy(this);
     }
