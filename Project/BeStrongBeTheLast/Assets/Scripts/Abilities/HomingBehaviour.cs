@@ -48,7 +48,7 @@ public class HomingBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
             if (colliderCounter == 0 && target == null)
             {
@@ -76,7 +76,7 @@ public class HomingBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other.gameObject.layer.Equals(12))
+        if (other.CompareTag("Player") || other.CompareTag("CPU") || other.gameObject.layer.Equals(12))
             colliderCounter -= 1;
     }
 

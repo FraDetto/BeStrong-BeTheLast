@@ -54,7 +54,7 @@ public class BlindingBehaviour : MonoBehaviour
         yield return new WaitForSeconds(BlindingTimeInSeconds);
 
         foreach (GameObject player in players)
-            if (player != user)
+            if (player != null && player != user)
             {
                 var ac = player.GetComponent<AbilityController>();
 
@@ -77,14 +77,15 @@ public class BlindingBehaviour : MonoBehaviour
     private void MakeBotsEyes(bool blinded)
     {
         foreach (var bot in bots)
-            if (blinded)
-            {
-                //TO DO: Make them drive bad
-            }
-            else
-            {
-                //TO DO: Make their drive return to normal
-            }
+            if(bot != null)
+                if (blinded)
+                {
+                    //TO DO: Make them drive bad
+                }
+                else
+                {
+                    //TO DO: Make their drive return to normal
+                }
     }
 
 

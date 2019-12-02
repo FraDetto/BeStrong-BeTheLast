@@ -44,7 +44,7 @@ public class RollingBehaviour : aCollisionManager
         {
             kartController.Accelerate(accelerationFromShot);
             Destroy(gameObject);
-        }, "Player");
+        }, "Player", "CPU");
     }
 
 }
