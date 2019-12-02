@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -144,10 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e72b8ac10ebd640b1361e95ca8b2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam1: {fileID: 1230959745}
-  vCam2: {fileID: 1719248779}
-  vCam3: {fileID: 442277406}
-  vCam4: {fileID: 569575256}
+  camToActive: {fileID: 1230959745}
+  camToDis: {fileID: 569575256}
 --- !u!65 &30412991
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1157,26 +1155,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.Dutch
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1231,6 +1209,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.88000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.Dutch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -1367,26 +1365,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: VCam
       objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.Dutch
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1441,6 +1419,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.52500004
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.Dutch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -1858,26 +1856,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: VCam
       objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.Dutch
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1932,6 +1910,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -3.7330003
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.Dutch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3070,10 +3068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e72b8ac10ebd640b1361e95ca8b2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam1: {fileID: 1230959745}
-  vCam2: {fileID: 1719248779}
-  vCam3: {fileID: 442277406}
-  vCam4: {fileID: 569575256}
+  camToActive: {fileID: 1230959745}
+  camToDis: {fileID: 1719248779}
 --- !u!65 &1318641370
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3501,10 +3497,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e72b8ac10ebd640b1361e95ca8b2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam1: {fileID: 1230959745}
-  vCam2: {fileID: 1719248779}
-  vCam3: {fileID: 442277406}
-  vCam4: {fileID: 569575256}
+  camToActive: {fileID: 569575256}
+  camToDis: {fileID: 442277406}
 --- !u!1001 &1553104959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4860,10 +4854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e72b8ac10ebd640b1361e95ca8b2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam1: {fileID: 1230959745}
-  vCam2: {fileID: 1719248779}
-  vCam3: {fileID: 442277406}
-  vCam4: {fileID: 569575256}
+  camToActive: {fileID: 1719248779}
+  camToDis: {fileID: 1230959745}
 --- !u!65 &1890223165
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5163,10 +5155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e72b8ac10ebd640b1361e95ca8b2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam1: {fileID: 1230959745}
-  vCam2: {fileID: 1719248779}
-  vCam3: {fileID: 442277406}
-  vCam4: {fileID: 569575256}
+  camToActive: {fileID: 442277406}
+  camToDis: {fileID: 1230959745}
 --- !u!1001 &2114495745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5188,26 +5178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: VCam
-      objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 39498640}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.Dutch
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -5263,6 +5233,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.52500004
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 39498640}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.Dutch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
