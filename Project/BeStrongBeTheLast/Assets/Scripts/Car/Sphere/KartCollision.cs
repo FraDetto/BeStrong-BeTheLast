@@ -26,24 +26,21 @@ public class KartCollision : aCollisionManager
 
     private void Start()
     {
-        myKartController = GB.FindComponentInDadWithName<KartController>(transform, "Kart");
+        var kart = transform.root.GetChild(0);
+        myKartController = kart.GetComponent<KartController>();
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         onCollisionWithTags(collider, (kartController) =>
         {
-            var hitDirection = collider.transform.position - transform.position;
-
-            var fast = myKartController;
-            var slow = kartController;
-
-            if (fast != slow)
+            if (myKartController && kartController && myKartController != kartController)
             {
-                Debug.Log(slow + " | " + fast);
+                Debug.Log(kartController + " | " + myKartController);
 
-                var speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
-                var forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
+                var speedDifference = Mathf.Abs(myKartController.currentSpeed - kartController.currentSpeed);
+                var forceModifier = (myKartController.currentSpeed > kartController.currentSpeed) ? (speedDifference / myKartController.currentSpeed) : (speedDifference / kartController.currentSpeed);
+                var hitDirection = collider.transform.position - transform.position;
 
                 switch (mode)
                 {
@@ -53,13 +50,13 @@ public class KartCollision : aCollisionManager
                         break;
 
                     case Mode.rear:
-                        if (fast.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
+                        if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
                         {
-                            fast.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
-                            slow.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+                            myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
+                            kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
 
-                            fast.Accelerate(1.1f + 1f * forceModifier);
-                            slow.Accelerate(0.9f - 0.5f * forceModifier);
+                            myKartController.Accelerate(1.1f + 1f * forceModifier);
+                            kartController.Accelerate(0.9f - 0.5f * forceModifier);
                         }
                         break;
                 }
