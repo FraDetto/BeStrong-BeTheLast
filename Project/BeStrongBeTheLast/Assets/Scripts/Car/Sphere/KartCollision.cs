@@ -26,7 +26,7 @@ public class KartCollision : aCollisionManager
 
     private void Start()
     {
-        myKartController = transform.parent.parent.GetComponent<KartController>();
+        myKartController = GB.FindComponentInDadWithName<KartController>(transform, "Kart");
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -40,7 +40,8 @@ public class KartCollision : aCollisionManager
 
             if (fast != slow)
             {
-                Debug.Log(slow+" "+fast);
+                Debug.Log(slow + " | " + fast);
+
                 var speedDifference = Mathf.Abs(fast.currentSpeed - slow.currentSpeed);
                 var forceModifier = (fast.currentSpeed > slow.currentSpeed) ? (speedDifference / fast.currentSpeed) : (speedDifference / slow.currentSpeed);
 

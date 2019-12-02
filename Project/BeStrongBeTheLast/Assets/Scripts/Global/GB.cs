@@ -186,6 +186,14 @@ public static class GB
         return null;
     }
 
+    public static T FindComponentInDadWithName<T>(Transform me, string name_) where T : Component
+    {
+        if (me.name.Equals(name_))
+            return me.GetComponent<T>();
+
+        return FindComponentInDadWithName<T>(me.transform.parent, name_);
+    }
+
     public static List<GameObject> FindGameObjectsInChildWithTag(Transform parent, string tag)
     {
         var R = new List<GameObject>();
