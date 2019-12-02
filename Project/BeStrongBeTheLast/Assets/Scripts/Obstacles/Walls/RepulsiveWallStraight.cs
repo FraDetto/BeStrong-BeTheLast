@@ -12,7 +12,7 @@ using UnityEngine;
 public class RepulsiveWallStraight : aCollisionManager
 {
 
-    public bool AttivaCollisioniConMura = false;
+    public bool AttivaCollisioniConMura;
 
     private bool active = true;
     private KartController kartController;
