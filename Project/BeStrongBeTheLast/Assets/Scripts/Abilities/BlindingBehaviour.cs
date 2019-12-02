@@ -7,31 +7,37 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BlindingBehaviour : MonoBehaviour
 {
+
+    public float BlindingTimeInSeconds = 30;
 
     [SerializeField]
     private GameObject blinded;
 
     private GameObject user;
 
-    public float BlindingTimeInSeconds = 30;
+    private List<GameObject> instances_blinded = new List<GameObject>();
+    private GameObject[] players, bots;
 
 
     void Start()
     {
         user = transform.parent.gameObject;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        bots = GameObject.FindGameObjectsWithTag("CPU");
 
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject player in players)
             if (player != user)
             {
                 var ac = player.GetComponent<AbilityController>();
 
                 if (ac != null)
                 {
-                    Instantiate(blinded, player.transform);
+                    instances_blinded.Add(Instantiate(blinded, player.transform));
 
                     ac.blindingFront.enabled = true;
                     ac.blindingRear.enabled = true;
@@ -47,19 +53,15 @@ public class BlindingBehaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(BlindingTimeInSeconds);
 
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject player in players)
             if (player != user)
             {
                 var ac = player.GetComponent<AbilityController>();
 
                 if (ac != null)
                 {
-                    var blinded_game_objects = GB.FindGameObjectsInChildWithTag(player.transform, "Blinded");
-
-                    foreach (var blinded_game_object in blinded_game_objects)
+                    foreach (var blinded_game_object in instances_blinded)
                         Destroy(blinded_game_object);
-
-                    //Destroy(player.transform.Find("Blinded(Clone)").gameObject);
 
                     ac.blindingFront.enabled = false;
                     ac.blindingRear.enabled = false;
@@ -74,7 +76,7 @@ public class BlindingBehaviour : MonoBehaviour
 
     private void MakeBotsEyes(bool blinded)
     {
-        foreach (var bot in GameObject.FindGameObjectsWithTag("CPU"))
+        foreach (var bot in bots)
             if (blinded)
             {
                 //TO DO: Make them drive bad
