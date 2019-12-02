@@ -7,12 +7,11 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TankingBehaviour : MonoBehaviour
 {
-    private Rigidbody rigidbody;
+    private Rigidbody rigidbody_;
     private Transform normal;
     private Vector3 originalScale;
 
@@ -21,22 +20,23 @@ public class TankingBehaviour : MonoBehaviour
     {
         normal = transform.parent.GetChild(0);
         originalScale = normal.localScale;
-        rigidbody = transform.root.GetComponentInChildren<Rigidbody>();
+        rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
         normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
         normal.Translate(Vector3.up * 0.25f);
-        rigidbody.mass *= 2;
-        rigidbody.drag += 1;
+        rigidbody_.mass *= 2;
+        rigidbody_.drag += 1;
         StartCoroutine(Lifetime());
     }
 
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(30f);
-        rigidbody.mass /= 2;
-        rigidbody.drag -= 1;
+        rigidbody_.mass /= 2;
+        rigidbody_.drag -= 1;
         normal.localScale = originalScale;
         normal.Translate(Vector3.down * 0.25f);
-        if(enabled)
+        if (enabled)
             Destroy(gameObject);
     }
+
 }
