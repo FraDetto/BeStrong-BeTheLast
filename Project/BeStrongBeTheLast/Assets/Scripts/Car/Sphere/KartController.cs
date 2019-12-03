@@ -77,7 +77,7 @@ public sealed class KartController : aBSBTLKart
             case eKCType.Human:
                 Debug.Log($"Speed: {currentSpeed.ToString("n2")} km/h");
 
-                if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
+                if (Vector3.Distance(transform.position, lookAtDestOriginal) < obstacleDistance)
                     setDestination(0, 0, false, CurrentSplineObject);
 
                 if (wrong || (!wrong && wrongWayTimer < wrongWayMaxTimer))
