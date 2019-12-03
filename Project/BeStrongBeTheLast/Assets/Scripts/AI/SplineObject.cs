@@ -29,6 +29,8 @@ public sealed class SplineObject : aCollisionManager, IComparable
 
     public List<SplineObject> nextSplines = new List<SplineObject>();
 
+    public bool MostraInPlay = false;
+
 
     internal SplineObject nextSpline
     {
@@ -73,8 +75,13 @@ public sealed class SplineObject : aCollisionManager, IComparable
     }
 
 
-    private void Start() =>
+    private void Start()
+    {
+        var mr = GetComponent<MeshRenderer>();
+        mr.enabled = MostraInPlay;
+
         OnDrawGizmosSelected();
+    }
 
     public int CompareTo(object obj) =>
       obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
