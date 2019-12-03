@@ -40,7 +40,7 @@ public class LoadPlayer : MonoBehaviour
             cinemachineVirtualCamera.Follow = kart;
             cinemachineVirtualCamera.LookAt = kart;
 
-            if (camera1 && camera.enabled)
+            if (!camera1 && camera.enabled)
                 camera1 = camera;
         }
 
