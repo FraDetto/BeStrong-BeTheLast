@@ -109,7 +109,10 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
-  speed: 40
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  speed: 50
   accelerationFromShot: 2
 --- !u!135 &5480010414495687965
 SphereCollider:
@@ -122,8 +125,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 1.5}
+  m_Radius: 7.5
+  m_Center: {x: 0, y: 0, z: 7}
 --- !u!54 &6491401047111595581
 Rigidbody:
   m_ObjectHideFlags: 0

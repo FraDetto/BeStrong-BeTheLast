@@ -20,6 +20,8 @@ public class TrishotBehaviour : MonoBehaviour
     private GameObject rightShot;
     private GameObject leftShot;
 
+    public GameObject user;
+
 
     private void Start()
     {
@@ -27,7 +29,8 @@ public class TrishotBehaviour : MonoBehaviour
         rightShot = transform.GetChild(1).gameObject;
         leftShot = transform.GetChild(2).gameObject;
 
-        StartCoroutine(Lifetime());
+        user = transform.root.gameObject;
+        transform.parent = null;
     }
 
     void Update()
@@ -45,12 +48,4 @@ public class TrishotBehaviour : MonoBehaviour
         if (centralShot == null && rightShot == null && leftShot == null)
             Destroy(this.gameObject);
     }
-
-    IEnumerator Lifetime()
-    {
-        yield return new WaitForSeconds(5f);
-        if (enabled)
-            Destroy(this.gameObject);
-    }
-
 }

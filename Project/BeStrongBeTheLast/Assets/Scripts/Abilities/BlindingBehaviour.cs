@@ -13,7 +13,7 @@ using UnityEngine;
 public class BlindingBehaviour : MonoBehaviour
 {
 
-    public float BlindingTimeInSeconds = 30;
+    public float lengthTimeInSeconds = 10f;
 
     [SerializeField]
     private GameObject blinded;
@@ -51,7 +51,7 @@ public class BlindingBehaviour : MonoBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(BlindingTimeInSeconds);
+        yield return new WaitForSeconds(lengthTimeInSeconds);
 
         foreach (GameObject player in players)
             if (player != null && player != user)

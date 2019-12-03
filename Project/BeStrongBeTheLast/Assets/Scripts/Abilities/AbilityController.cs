@@ -102,10 +102,7 @@ public class AbilityController : MonoBehaviour
 
     private void SpawnProjectile(Transform spawnPoint)
     {
-        if (!selectedProjectile.Equals(attracting))
-            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation);
-        else
-            Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
+        Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
         if (!attracted)
             powerGauge.value -= 0.5f;

@@ -15,6 +15,9 @@ public class HomingBehaviour : MonoBehaviour
     private LayerMask roadMask;
 
     [SerializeField]
+    private LayerMask wallMask;
+
+    [SerializeField]
     private float speed;
 
     [SerializeField]
@@ -23,12 +26,14 @@ public class HomingBehaviour : MonoBehaviour
     private GameObject target;
     private GameObject user;
 
-    private int colliderCounter;
+    private SphereCollider range;
 
-
-    void Start()
+    private void Start()
     {
-        StartCoroutine(Lifetime());
+        user = transform.root.gameObject;
+        transform.parent = null;
+
+        range = GetComponent<SphereCollider>();
     }
 
     void Update()
@@ -43,6 +48,9 @@ public class HomingBehaviour : MonoBehaviour
             transform.Rotate(Vector3.right, 90f);
         }
 
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+            Destroy(this.gameObject);
+
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
@@ -50,41 +58,20 @@ public class HomingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            if (colliderCounter == 0 && target == null)
+            if(!other.transform.root.gameObject.Equals(user))
             {
-                if (user == null)
-                    user = other.gameObject;
-                else if (!other.gameObject.Equals(user))
+                if(target == null)
+                {
                     target = other.gameObject;
+                    range.enabled = false;
+                }
+                else if(target != null)
+                {
+                    var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
+                    kartController.Accelerate(accelerationFromShot);
+                    Destroy(this.gameObject);
+                }
             }
-            else if (colliderCounter == 1 && user != null && !other.gameObject.Equals(user))
-            {
-                var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(accelerationFromShot);
-                Destroy(this.gameObject);
-            }
-            colliderCounter += 1;
-        }
-        else if(other.gameObject.layer.Equals(12))
-        {
-            if(colliderCounter == 1)
-                Destroy(this.gameObject);
-
-            colliderCounter += 1;
         }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player") || other.CompareTag("CPU") || other.gameObject.layer.Equals(12))
-            colliderCounter -= 1;
-    }
-
-    IEnumerator Lifetime()
-    {
-        yield return new WaitForSeconds(7.5f);
-        if (enabled)
-            Destroy(this.gameObject);
-    }
-
 }

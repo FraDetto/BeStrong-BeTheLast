@@ -15,6 +15,9 @@ public class TankingBehaviour : MonoBehaviour
     private Transform normal;
     private Vector3 originalScale;
 
+    [SerializeField]
+    private float lengthTimeInSeconds = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +33,7 @@ public class TankingBehaviour : MonoBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(lengthTimeInSeconds);
         rigidbody_.mass /= 2;
         rigidbody_.drag -= 1;
         normal.localScale = originalScale;

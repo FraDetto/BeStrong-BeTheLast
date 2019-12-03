@@ -21,10 +21,15 @@ public class BouncingBehaviour : MonoBehaviour
 
     RaycastHit hit;
 
+    public GameObject user;
+
     void Start()
     {
         rolling = transform.GetChild(0).gameObject;
         StartCoroutine(Lifetime());
+
+        user = transform.root.gameObject;
+        transform.parent = null;
     }
 
     void Update()
