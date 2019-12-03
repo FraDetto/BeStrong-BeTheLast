@@ -76,6 +76,9 @@ public sealed class SplineObject : aCollisionManager, IComparable
     private void Start() =>
         OnDrawGizmosSelected();
 
+    public int CompareTo(object obj) =>
+      obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
+
     private void OnDrawGizmosSelected()
     {
         foreach (var s in nextSplines)
@@ -92,8 +95,5 @@ public sealed class SplineObject : aCollisionManager, IComparable
                     break;
             }
         }, "Player");
-
-    public int CompareTo(object obj) =>
-        obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
 
 }
