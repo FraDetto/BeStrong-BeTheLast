@@ -14,12 +14,10 @@ public class SlowingRay : aCollisionManager
 
     public float slowingAmount;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
+    private void OnTriggerEnter(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             kartController.Accelerate(slowingAmount);
-        }, "Player", "CPU");
-    }
+        });
 
 }

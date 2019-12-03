@@ -14,13 +14,10 @@ public class PlaneEffect : aCollisionManager
 
     public float accelerationFromBox;
 
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        onCollisionWithTags(collision.collider, (kartController) =>
+    private void OnCollisionEnter(Collision collision) =>
+        onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             kartController.Accelerate(accelerationFromBox);
-        }, "Player");
-    }
+        });
 
 }
