@@ -14,6 +14,15 @@ namespace Assets.Scripts.Obstacles.Base
     public abstract class aCollisionManager : MonoBehaviour
     {
 
+        protected bool onCollisionWithPlayer(Component component, Action<KartController> callback) =>
+            onCollisionWithTags(component, callback, "Player");
+
+        protected bool onCollisionWithCPU(Component component, Action<KartController> callback) =>
+            onCollisionWithTags(component, callback, "CPU");
+
+        protected bool onCollisionWithPlayer_or_CPU(Component component, Action<KartController> callback) =>
+            onCollisionWithTags(component, callback, "Player", "CPU");
+
         protected bool onCollisionWithTags(Component component, Action<KartController> callback, params string[] tags)
         {
             var collidedWithTags = GB.CompareORTags(component, tags);
