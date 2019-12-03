@@ -70,7 +70,9 @@ public abstract class aKartController : aCollisionManager
 
     public SplineObject CurrentSplineObject;
 
-    protected const byte splineDistance = 5;
+    protected const byte splineDistance = 30;
+    protected const byte obstacleDistance = 30;
+
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
@@ -464,8 +466,7 @@ public abstract class aKartController : aCollisionManager
 
         transform.eulerAngles = eul;
 
-        //sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
-        sphere.AddForce(dir * 300f, ForceMode.Impulse);
+        sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
     }
 
 }
