@@ -103,33 +103,35 @@ public sealed class SplineObject : aCollisionManager, IComparable
                     break;
             }
         }, "Player");
-        
-        var go = other.gameObject.transform.root.gameObject;
-        int lap = 0;
-        string tag = null;
-        if (go.CompareTag("Player"))
+        if (GameState.getInstance() != null)
         {
-            tag = "Player";
-            if (GameState.getInstance().getLaps().ContainsKey("Player"))
-                lap = GameState.getInstance().getLaps()["Player"];
-        }
-        else
-        {
-            if (go.CompareTag("CPU"))
+            var go = other.gameObject.transform.root.gameObject;
+            int lap = 0;
+            string tag = null;
+            if (go.CompareTag("Player"))
             {
-                tag = go.name;
-                if (GameState.getInstance().getLaps().ContainsKey(go.name))
-                    lap = GameState.getInstance().getLaps()[go.name];
+                tag = "Player";
+                if (GameState.getInstance().getLaps().ContainsKey("Player"))
+                    lap = GameState.getInstance().getLaps()["Player"];
             }
-        }
-
-        int score = transform.parent.childCount * lap + transform.GetSiblingIndex();
-        if (tag != null)
-        {
-            if (GameState.getInstance().getPositions().ContainsKey(tag))
-                GameState.getInstance().getPositions()[tag] = score;
             else
-                GameState.getInstance().getPositions().Add(tag, score);
+            {
+                if (go.CompareTag("CPU"))
+                {
+                    tag = go.name;
+                    if (GameState.getInstance().getLaps().ContainsKey(go.name))
+                        lap = GameState.getInstance().getLaps()[go.name];
+                }
+            }
+
+            int score = transform.parent.childCount * lap + transform.GetSiblingIndex();
+            if (tag != null)
+            {
+                if (GameState.getInstance().getPositions().ContainsKey(tag))
+                    GameState.getInstance().getPositions()[tag] = score;
+                else
+                    GameState.getInstance().getPositions().Add(tag, score);
+            } 
         }
     }
 }

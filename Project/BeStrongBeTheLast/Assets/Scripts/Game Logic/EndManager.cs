@@ -19,55 +19,66 @@ public class EndManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var go = other.gameObject.transform.root.gameObject;
-        var controller = other.gameObject.transform.root.GetComponentInChildren<KartController>();
-        if (go.CompareTag("Player"))
+        if (GameState.getInstance() != null)
         {
-            if (GameState.getInstance().getLaps().ContainsKey(go.tag))
-                GameState.getInstance().getLaps()[go.tag]++;
-            else
-                GameState.getInstance().getLaps().Add(go.tag, 0);
-        }
-        else
-        {
-            if (go.CompareTag("CPU"))
+            var go = other.gameObject.transform.root.gameObject;
+            var controller = other.gameObject.transform.root.GetComponentInChildren<KartController>();
+            if (go.CompareTag("Player"))
             {
-                if (GameState.getInstance().getLaps().ContainsKey(go.name))
-                    GameState.getInstance().getLaps()[go.name]++;
+                if (GameState.getInstance().getLaps().ContainsKey(go.tag))
+                    GameState.getInstance().getLaps()[go.tag]++;
                 else
-                    GameState.getInstance().getLaps().Add(go.name, 0);
+                    GameState.getInstance().getLaps().Add(go.tag, 0);
             }
-        }
-        if (go.CompareTag("Player"))
-        {
-            if (!GameState.getInstance().getKartControllers().ContainsKey(go.tag))
-                GameState.getInstance().getKartControllers().Add(go.tag, controller);
-        }
-        else
-        {
-            if (go.CompareTag("CPU"))
+            else
             {
-                if (!GameState.getInstance().getKartControllers().ContainsKey(go.name))
-                    GameState.getInstance().getKartControllers().Add(go.name, controller);
+                if (go.CompareTag("CPU"))
+                {
+                    if (GameState.getInstance().getLaps().ContainsKey(go.name))
+                        GameState.getInstance().getLaps()[go.name]++;
+                    else
+                        GameState.getInstance().getLaps().Add(go.name, 0);
+                }
             }
-        }
+            if (go.CompareTag("Player"))
+            {
+                if (!GameState.getInstance().getKartControllers().ContainsKey(go.tag))
+                    GameState.getInstance().getKartControllers().Add(go.tag, controller);
+            }
+            else
+            {
+                if (go.CompareTag("CPU"))
+                {
+                    if (!GameState.getInstance().getKartControllers().ContainsKey(go.name))
+                        GameState.getInstance().getKartControllers().Add(go.name, controller);
+                }
+            }
 
-        if (GameState.getInstance().getLaps().ContainsKey("Player") && GameState.getInstance().getLaps()["Player"] == GameState.getInstance().getLapsNumberSetting())
-        {
-            //END THE GAME HERE
+            if (GameState.getInstance().getLaps().ContainsKey("Player") && GameState.getInstance().getLaps()["Player"] == GameState.getInstance().getLapsNumberSetting())
+            {
+                //END THE GAME HERE
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if (GameState.getInstance().getLaps().ContainsKey("Player"))
+        if (GameState.getInstance() != null)
         {
-            lapText.text = "Lap " + GameState.getInstance().getLaps()["Player"] + "/" + GameState.getInstance().getLapsNumberSetting();
+            if (GameState.getInstance().getLaps().ContainsKey("Player"))
+            {
+                lapText.text = "Lap " + GameState.getInstance().getLaps()["Player"] + "/" + GameState.getInstance().getLapsNumberSetting();
+            }
+            if (GameState.getInstance().getPositions().ContainsKey("Player"))
+            {
+                int[] rank = GameState.getInstance().getCurrentRanking("Player");
+                posText.text = rank[0] + "/" + rank[1];
+            }
         }
-        if (GameState.getInstance().getPositions().ContainsKey("Player"))
+        else
         {
-            int[] rank = GameState.getInstance().getCurrentRanking("Player");
-            posText.text = rank[0] + "/" + rank[1];
+            lapText.text = "";
+            posText.text = "";
         }
     }
 }
