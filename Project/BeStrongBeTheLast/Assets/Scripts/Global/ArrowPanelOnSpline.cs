@@ -23,7 +23,7 @@ public class ArrowPanelOnSpline : MonoBehaviour
 
         container.sprite = imageToShow;
         container.enabled = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         container.enabled = false;
     }
