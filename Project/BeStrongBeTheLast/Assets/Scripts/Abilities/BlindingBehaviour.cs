@@ -61,7 +61,10 @@ public class BlindingBehaviour : MonoBehaviour
                 if (ac != null)
                 {
                     foreach (var blinded_game_object in instances_blinded)
+                    {
+                        instances_blinded.Remove(blinded_game_object);
                         Destroy(blinded_game_object);
+                    }
 
                     ac.blindingFront.enabled = false;
                     ac.blindingRear.enabled = false;
@@ -77,7 +80,7 @@ public class BlindingBehaviour : MonoBehaviour
     private void MakeBotsEyes(bool blinded)
     {
         foreach (var bot in bots)
-            if(bot != null)
+            if (bot != null)
                 if (blinded)
                 {
                     //TO DO: Make them drive bad
