@@ -15,22 +15,18 @@ public class SlowingPuddle : aCollisionManager
     public float speedLimit;
 
 
-    private void OnTriggerExit(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
+    private void OnTriggerExit(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             kartController.RestoreSpeedLimit();
             kartController.EnableHardRotate(false);
-        }, "Player", "CPU");
-    }
+        });
 
-    private void OnTriggerStay(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
+    private void OnTriggerStay(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             kartController.LimitSpeed(speedLimit);
             kartController.EnableHardRotate(true);
-        }, "Player", "CPU");
-    }
+        });
 
 }

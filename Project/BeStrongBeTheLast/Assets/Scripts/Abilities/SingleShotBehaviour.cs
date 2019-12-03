@@ -28,9 +28,12 @@ public class SingleShotBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            var kartController = other.transform.parent.GetComponentInChildren<KartController>();
-            kartController.Accelerate(GetComponentInParent<TrishotBehaviour>().accelerationFromShot);
-            Destroy(this.gameObject);
+            if(!other.transform.root.gameObject.Equals(GetComponentInParent<TrishotBehaviour>().user))
+            {
+                var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
+                kartController.Accelerate(GetComponentInParent<TrishotBehaviour>().accelerationFromShot);
+                Destroy(this.gameObject);
+            }
         }
         else if(other.gameObject.layer.Equals(12))
             Destroy(this.gameObject);

@@ -7,33 +7,49 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LoadPlayer : MonoBehaviour
 {
-    public CinemachineImpulseSource camera1, camera2, camera3, camera4;
+
+    public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
     public SplineObject firstSpline;
+    public GameObject playerOnTheSceneOrCPUToFollow;
+
+
     private void Start()
     {
-        GameObject player = Instantiate(Resources.Load("Models/Real Kart/Prefabs/" + GameState.getInstance().getPlayerChamp()) as GameObject, 
-            transform.position, Quaternion.identity, transform);
-        player.gameObject.name = "Player";
-        Transform kart = player.transform.Find("Kart");
-        camera1.GetComponent<CinemachineVirtualCamera>().Follow = kart;
-        camera1.GetComponent<CinemachineVirtualCamera>().LookAt = kart;
-        camera2.GetComponent<CinemachineVirtualCamera>().Follow = kart;
-        camera2.GetComponent<CinemachineVirtualCamera>().LookAt = kart;
-        camera3.GetComponent<CinemachineVirtualCamera>().Follow = kart;
-        camera3.GetComponent<CinemachineVirtualCamera>().LookAt = kart;
-        camera4.GetComponent<CinemachineVirtualCamera>().Follow = kart;
-        camera4.GetComponent<CinemachineVirtualCamera>().LookAt = kart;
-        KartController kartController = player.GetComponentInChildren<KartController>();
+        if (!playerOnTheSceneOrCPUToFollow)
+            playerOnTheSceneOrCPUToFollow = Instantiate(
+                Resources.Load("Models/Real Kart/Prefabs/" + GameState.getInstance().getPlayerChamp()) as GameObject,
+                transform.position,
+                Quaternion.identity
+            );
+
+        playerOnTheSceneOrCPUToFollow.gameObject.name = "Player";
+
+        Transform kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
+
+        CinemachineImpulseSource camera1 = null;
+
+        foreach (var camera in cameras)
+        {
+            var cinemachineVirtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
+
+            cinemachineVirtualCamera.Follow = kart;
+            cinemachineVirtualCamera.LookAt = kart;
+
+            if (!camera1 && camera.enabled)
+                camera1 = camera;
+        }
+
+        KartController kartController = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
         kartController.CurrentSplineObject = firstSpline;
         kartController.vCam = camera1;
         kartController.UsaWrongWay = true;
-        RepulsiveWallStraight repulsiveWallStraight = player.GetComponentInChildren<RepulsiveWallStraight>();
+
+        RepulsiveWallStraight repulsiveWallStraight = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<RepulsiveWallStraight>();
         repulsiveWallStraight.AttivaCollisioniConMura = true;
-        transform.DetachChildren();
-        Destroy(this);
     }
 }

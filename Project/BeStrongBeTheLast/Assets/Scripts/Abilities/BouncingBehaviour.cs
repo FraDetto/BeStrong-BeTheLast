@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class BouncingBehaviour : MonoBehaviour
+public class BouncingBehaviour : aAbilitiesBehaviour
 {
 
     [SerializeField]
@@ -21,10 +21,15 @@ public class BouncingBehaviour : MonoBehaviour
 
     RaycastHit hit;
 
+    public GameObject user;
+
     void Start()
     {
         rolling = transform.GetChild(0).gameObject;
         StartCoroutine(Lifetime());
+
+        user = transform.root.gameObject;
+        transform.parent = null;
     }
 
     void Update()

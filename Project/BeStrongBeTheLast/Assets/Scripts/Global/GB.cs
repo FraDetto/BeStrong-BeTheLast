@@ -30,6 +30,16 @@ public static class GB
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
 
+    public static float NormalizedRandom(float minValue, float maxValue)
+    {
+        var mean = (minValue + maxValue) / 2f;
+        var sigma = (maxValue - mean) / 3f;
+
+        var r = Random.Range(mean, sigma);
+
+        return r;
+    }
+
     public static bool compareVector3(EAxis exclude, Vector3 a, Vector3 b)
     {
         var x = (a.x == b.x);

@@ -19446,7 +19446,7 @@ GameObject:
   - component: {fileID: 3338202883682997299}
   m_Layer: 2
   m_Name: Collider
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48628,14 +48628,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284683510934006095}
-  m_LocalRotation: {x: 0, y: 0, z: -0.034001116, w: 0.99942183}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.024, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5966204259776718698}
   m_Father: {fileID: 1284683510766417334}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284683510934006099
 GameObject:
   m_ObjectHideFlags: 0
@@ -48725,7 +48725,7 @@ GameObject:
   - component: {fileID: 1284683510941405281}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58153,10 +58153,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1284683511250782236}
   - component: {fileID: 1284683511250782237}
-  - component: {fileID: 7731328009523803525}
   m_Layer: 2
   m_Name: Kart
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58192,19 +58191,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa674e97f0a45747bb77a3b74099d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KCType: 0
+  KCType: 1
   vCam: {fileID: 0}
   kartModel: {fileID: 1284683510933779823}
   kartNormal: {fileID: 1284683511802898188}
   sphere: {fileID: 1284683510443141258}
   currentSpeed: 0
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
+  TempestivityOfDriftGearChange: 3
+  acceleration: 80
+  steering: 16
   gravity: 25
   layerMask:
     serializedVersion: 2
-    m_Bits: 307
+    m_Bits: 2355
   frontRightWheel: {fileID: 1284683510933779815}
   frontLeftWheel: {fileID: 1284683510933779819}
   backRightWheel: {fileID: 1284683510933779813}
@@ -58217,42 +58216,28 @@ MonoBehaviour:
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
   CurrentSplineObject: {fileID: 0}
-  ProjectileType: 0
-  SpecialType: 0
-  UsaWrongWay: 1
---- !u!114 &7731328009523803525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284683511250782211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c284cc82cd3a82419b7b681486fb581, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   powerGauge: {fileID: 0}
   regenSpeed: 0.1
   selectedProjectileText: {fileID: 0}
   selectedSpecialText: {fileID: 0}
+  blindingFront: {fileID: 0}
+  blindingRear: {fileID: 0}
   frontSpawnpoint: {fileID: 3071088689480068495}
   rearSpawnpoint: {fileID: 6310261452341936535}
   trishot: {fileID: 6535925821718938808, guid: 22a1ac197d3f6e541907ba4299b88f4e, type: 3}
   homing: {fileID: 1060716340684266996, guid: 156038ffd5efe0b40a3c92212ebfdbff, type: 3}
-  bouncing: {fileID: 8763038030837481447, guid: 605b68ec2c66c1f47a5372935324bc6a,
+  bouncing: {fileID: 5689535175888777058, guid: 605b68ec2c66c1f47a5372935324bc6a,
     type: 3}
   attracting: {fileID: 4437556481304381167, guid: 6d883bac64c818443bc39a94b27cc028,
     type: 3}
-  blinding: {fileID: 0}
-  annoying: {fileID: 0}
-  tanking: {fileID: 0}
-  rotating: {fileID: 0}
-  blindingFront: {fileID: 0}
-  blindingRear: {fileID: 0}
-  selectedProjectile: {fileID: 0}
-  selectedSpecial: {fileID: 0}
-  attracted: 0
+  blinding: {fileID: 3937913184368860993, guid: 1565fec0ba667934d831235762f24db9,
+    type: 3}
+  annoying: {fileID: 2288073003541870955, guid: fe31c3e4e590463439fa7de2dbabecff,
+    type: 3}
+  tanking: {fileID: 3128809539423854917, guid: 02721b404cf4de541a27957b9847da9b, type: 3}
+  rotating: {fileID: 4702895947007250410, guid: d0a53d487960f094f9e13440e54b5c48,
+    type: 3}
+  UsaWrongWay: 1
 --- !u!1 &1284683511268405893
 GameObject:
   m_ObjectHideFlags: 0
@@ -67947,7 +67932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.8105035, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

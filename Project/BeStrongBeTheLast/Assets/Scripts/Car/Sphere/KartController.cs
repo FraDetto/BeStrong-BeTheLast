@@ -175,7 +175,7 @@ public sealed class KartController : aBSBTLKart
         Vector3.Distance(transform.position, curSplinePos);
 
     void setDestinationWithError() =>
-        setDestination(Random.Range(-1f, 1f) * errorDelta, Random.Range(-1f, 1f) * errorDelta);
+        setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta);
 
     internal void nextSpline() =>
         setDestination(0, 0);
@@ -196,7 +196,7 @@ public sealed class KartController : aBSBTLKart
         }
         else
         {
-            if (currentObstacle != null && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < 30)
+            if (currentObstacle != null && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
             {
                 lookAtDest = currentObstacle.transform.position;
             }
@@ -205,7 +205,7 @@ public sealed class KartController : aBSBTLKart
                 foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
                     if (root.name.Equals("Obstacles"))
                         foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
-                            if (Vector3.Distance(transform.position, obstacle.transform.position) < 30)
+                            if (Vector3.Distance(transform.position, obstacle.transform.position) < obstacleDistance)
                                 if (excludeObstacle != obstacle)
                                     if (!currentObstacleOtherCPU.Contains(obstacle))
                                     {
