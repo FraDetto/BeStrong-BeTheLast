@@ -177,7 +177,7 @@ public sealed class KartController : aBSBTLKart
         Vector3.Distance(transform.position, curSplinePos);
 
     void setDestinationWithError() =>
-        setDestination(Random.Range(-1f, 1f) * errorDelta, Random.Range(-1f, 1f) * errorDelta);
+        setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta);
 
     internal void nextSpline() =>
         setDestination(0, 0);
