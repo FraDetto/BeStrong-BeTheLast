@@ -8,43 +8,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class TrishotBehaviour : MonoBehaviour
+public class aAbilitiesBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
 
-    public float accelerationFromShot;
+    protected KartController kartController;
 
-    private GameObject centralShot;
-    private GameObject rightShot;
-    private GameObject leftShot;
+    void Start() =>
+        kartController = GB.FindComponentInDadWithName<KartController>(transform, "Kart");
 
-    internal GameObject user;
-
-
-    private void Start()
-    {
-        centralShot = transform.GetChild(0).gameObject;
-        rightShot = transform.GetChild(1).gameObject;
-        leftShot = transform.GetChild(2).gameObject;
-
-        user = transform.root.gameObject;
-        transform.parent = null;
-    }
-
-    void Update()
-    {
-        if (centralShot != null)
-            centralShot.transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-        if (rightShot != null)
-            rightShot.transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-        if (leftShot != null)
-            leftShot.transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-        if (centralShot == null && rightShot == null && leftShot == null)
-            Destroy(gameObject);
-    }
 
 }

@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class AttractingBehaviour : MonoBehaviour
+public class AttractingBehaviour : aAbilitiesBehaviour
 {
 
     [SerializeField]
@@ -22,18 +22,13 @@ public class AttractingBehaviour : MonoBehaviour
 
     private bool attracting;
 
-    private AbilityController abilityController;
 
-
-    void Start()
-    {
+    void Start() =>
         StartCoroutine(Lifetime());
-        abilityController = GetComponentInParent<AbilityController>();
-    }
 
     private void Update()
     {
-        if (attracting && !abilityController.attracted)
+        if (attracting && !kartController.attracted)
         {
             projectile.transform.LookAt(transform);
             projectile.transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -42,7 +37,7 @@ public class AttractingBehaviour : MonoBehaviour
             if (Vector3.Distance(projectile.transform.position, transform.position) <= 2f)
             {
                 Destroy(projectile);
-                abilityController.attracted = true;
+                kartController.attracted = true;
                 Destroy(gameObject);
             }
         }
@@ -55,7 +50,7 @@ public class AttractingBehaviour : MonoBehaviour
             if (other.name.StartsWith("Homing"))
             {
                 other.GetComponent<HomingBehaviour>().enabled = false;
-                abilityController.selectedProjectile = abilityController.homing;
+                kartController.selectedProjectile = kartController.homing;
             }
             else if (other.name.StartsWith("Trishot"))
             {
@@ -64,7 +59,7 @@ public class AttractingBehaviour : MonoBehaviour
                 foreach (var singleShot in other.GetComponentsInChildren<SingleShotBehaviour>())
                     singleShot.enabled = false;
 
-                abilityController.selectedProjectile = abilityController.trishot;
+                kartController.selectedProjectile = kartController.trishot;
             }
 
             projectile = other.gameObject;
