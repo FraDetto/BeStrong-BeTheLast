@@ -36,8 +36,6 @@ public class KartCollision : aCollisionManager
         {
             if (myKartController && kartController && myKartController != kartController)
             {
-                Debug.Log(kartController + " | " + myKartController);
-
                 var speedDifference = Mathf.Abs(myKartController.currentSpeed - kartController.currentSpeed);
                 var forceModifier = (myKartController.currentSpeed > kartController.currentSpeed) ? (speedDifference / myKartController.currentSpeed) : (speedDifference / kartController.currentSpeed);
                 var hitDirection = collider.transform.position - transform.position;

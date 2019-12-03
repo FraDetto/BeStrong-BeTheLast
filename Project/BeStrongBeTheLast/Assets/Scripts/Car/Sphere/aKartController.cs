@@ -345,6 +345,11 @@ public abstract class aKartController : aCollisionManager
         }
     }
 
+    public float getCurrentSplineDistance()
+    {
+        return Vector3.Distance(CurrentSplineObject.transform.position, transform.position);
+    }
+
     void Speed(float x) =>
         currentSpeed = x;
 
