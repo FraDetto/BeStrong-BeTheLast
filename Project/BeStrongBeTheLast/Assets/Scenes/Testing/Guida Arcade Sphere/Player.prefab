@@ -19446,7 +19446,7 @@ GameObject:
   - component: {fileID: 3338202883682997299}
   m_Layer: 2
   m_Name: Collider
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48628,14 +48628,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284683510934006095}
-  m_LocalRotation: {x: 0, y: 0, z: -0.034001116, w: 0.99942183}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.024, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5966204259776718698}
   m_Father: {fileID: 1284683510766417334}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284683510934006099
 GameObject:
   m_ObjectHideFlags: 0
@@ -48725,7 +48725,7 @@ GameObject:
   - component: {fileID: 1284683510941405281}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58156,7 +58156,7 @@ GameObject:
   - component: {fileID: 7731328009523803525}
   m_Layer: 2
   m_Name: Kart
-  m_TagString: Player
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58192,19 +58192,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa674e97f0a45747bb77a3b74099d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KCType: 0
+  KCType: 1
   vCam: {fileID: 0}
   kartModel: {fileID: 1284683510933779823}
   kartNormal: {fileID: 1284683511802898188}
   sphere: {fileID: 1284683510443141258}
   currentSpeed: 0
-  TempestivityOfDriftGearChange: 4
-  acceleration: 65
-  steering: 15
+  TempestivityOfDriftGearChange: 2.42
+  acceleration: 80
+  steering: 16
   gravity: 25
   layerMask:
     serializedVersion: 2
-    m_Bits: 307
+    m_Bits: 2355
   frontRightWheel: {fileID: 1284683510933779815}
   frontLeftWheel: {fileID: 1284683510933779819}
   backRightWheel: {fileID: 1284683510933779813}
@@ -67947,7 +67947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.8105035, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
