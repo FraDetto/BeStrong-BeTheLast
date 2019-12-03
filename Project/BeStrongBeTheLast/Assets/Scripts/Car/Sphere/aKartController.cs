@@ -70,7 +70,7 @@ public abstract class aKartController : aCollisionManager
 
     public SplineObject CurrentSplineObject;
 
-    protected const byte splineDistance = 30;
+    protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
