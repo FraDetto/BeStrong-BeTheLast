@@ -90,6 +90,8 @@ public abstract class aKartController : aCollisionManager
 
     private float driftHeatingValue;
 
+    internal bool driftCooldown;
+
     protected void Start_()
     {
         var postVolume = Camera.main.GetComponent<PostProcessVolume>();
@@ -139,7 +141,7 @@ public abstract class aKartController : aCollisionManager
         }
 
         //Drift        
-        if (jumpBDown && !drifting && xAxis != 0)
+        if (CanDrift() && jumpBDown && !drifting && xAxis != 0)
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
@@ -168,7 +170,25 @@ public abstract class aKartController : aCollisionManager
             driftHeatingValue += heatingSpeed * Time.deltaTime;
 
             if(driftHeatingValue > 1f)
+            {
                 driftHeatingValue = 1f;
+                driftCooldown = true;
+                //drifting = false;
+            }
+
+            if(driftHeating)
+                driftHeating.value = driftHeatingValue;
+        }
+        else
+        {
+            driftHeatingValue -= heatingSpeed /2f * Time.deltaTime;
+
+            if(driftHeatingValue < 0f)
+            {
+                driftHeatingValue = 0f;
+                driftCooldown = false;
+            }
+                
 
             if(driftHeating)
                 driftHeating.value = driftHeatingValue;
@@ -488,4 +508,6 @@ public abstract class aKartController : aCollisionManager
         sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
     }
 
+    protected bool CanDrift() =>
+        !driftCooldown;
 }
