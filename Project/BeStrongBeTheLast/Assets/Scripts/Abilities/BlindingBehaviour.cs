@@ -15,12 +15,8 @@ public class BlindingBehaviour : MonoBehaviour
 
     public float lengthTimeInSeconds = 10f;
 
-    [SerializeField]
-    private GameObject blinded;
-
     private GameObject user;
 
-    private List<GameObject> instances_blinded = new List<GameObject>();
     private GameObject[] players, bots;
 
 
@@ -31,13 +27,13 @@ public class BlindingBehaviour : MonoBehaviour
         bots = GameObject.FindGameObjectsWithTag("CPU");
 
         foreach (GameObject player in players)
-            if (player != user)
+            //if (player != user)
             {
                 var ac = player.GetComponent<AbilityController>();
 
                 if (ac != null)
                 {
-                    instances_blinded.Add(Instantiate(blinded, player.transform));
+                    ac.debuff.Find("Blinded").gameObject.SetActive(true);
 
                     ac.blindingFront.enabled = true;
                     ac.blindingRear.enabled = true;
@@ -54,17 +50,13 @@ public class BlindingBehaviour : MonoBehaviour
         yield return new WaitForSeconds(lengthTimeInSeconds);
 
         foreach (GameObject player in players)
-            if (player != null && player != user)
+            //if (player != null && player != user)
             {
                 var ac = player.GetComponent<AbilityController>();
 
                 if (ac != null)
                 {
-                    foreach (var blinded_game_object in instances_blinded)
-                    {
-                        instances_blinded.Remove(blinded_game_object);
-                        Destroy(blinded_game_object);
-                    }
+                    ac.debuff.Find("Blinded").gameObject.SetActive(false);
 
                     ac.blindingFront.enabled = false;
                     ac.blindingRear.enabled = false;

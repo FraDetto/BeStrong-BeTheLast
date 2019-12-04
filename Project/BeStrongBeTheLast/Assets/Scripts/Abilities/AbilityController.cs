@@ -32,6 +32,8 @@ public class AbilityController : MonoBehaviour
     public GameObject selectedProjectile;
     public GameObject selectedSpecial;
 
+    public Transform debuff;
+
     private GameObject[] projectiles;
     private GameObject[] specials;
     private int index;
@@ -41,6 +43,8 @@ public class AbilityController : MonoBehaviour
 
     void Start()
     {
+        debuff = transform.Find("Debuff");
+
         if (powerGauge != null)
             powerGauge.value = 0;
 
