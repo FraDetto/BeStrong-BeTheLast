@@ -27,7 +27,7 @@ public class BlindingBehaviour : aAbilitiesBehaviour
         bots = GameObject.FindGameObjectsWithTag("CPU");
 
         foreach (GameObject player in players)
-            //if (player != user)
+            if (player != user)
             {
                 var ac = player.GetComponent<KartController>();
 
@@ -50,7 +50,7 @@ public class BlindingBehaviour : aAbilitiesBehaviour
         yield return new WaitForSeconds(lengthTimeInSeconds);
 
         foreach (GameObject player in players)
-            //if (player != null && player != user)
+            if (player != null && player != user)
             {
                 var ac = player.GetComponent<KartController>();
 

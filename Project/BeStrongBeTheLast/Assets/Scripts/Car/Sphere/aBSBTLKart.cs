@@ -37,13 +37,13 @@ public abstract class aBSBTLKart : aKartController
     internal GameObject selectedProjectile;
     internal GameObject selectedSpecial;
     internal bool attracted;
+    internal Transform debuff;
 
     private GameObject[] projectiles;
     private GameObject[] specials;
     private int index;
 
     private float powerGaugeValue;
-
 
     protected new void Start_()
     {
@@ -58,6 +58,8 @@ public abstract class aBSBTLKart : aKartController
 
         if (selectedSpecialText)
             selectedSpecialText.text = selectedSpecial.name;
+
+        debuff = transform.Find("Debuff");
 
         base.Start_();
     }
