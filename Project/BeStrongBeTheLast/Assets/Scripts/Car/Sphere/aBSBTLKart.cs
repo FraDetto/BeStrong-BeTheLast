@@ -8,13 +8,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public abstract class aBSBTLKart : aKartController
 {
 
     [Header("Abilities - UI")]
     [SerializeField] private Slider powerGauge;
-    [SerializeField] private float regenSpeed;
     [SerializeField] private Text selectedProjectileText;
     [SerializeField] private Text selectedSpecialText;
 
@@ -24,6 +24,10 @@ public abstract class aBSBTLKart : aKartController
     [Header("Abilities - Properties")]
     [SerializeField] private Transform frontSpawnpoint;
     [SerializeField] private Transform rearSpawnpoint;
+    [SerializeField] private float regenSpeed;
+    [SerializeField] private float counterCooldown;
+    [SerializeField] private float projectileCooldown;
+    [SerializeField] private float specialCooldown;
 
     public GameObject trishot;
     public GameObject homing;
@@ -42,7 +46,9 @@ public abstract class aBSBTLKart : aKartController
     private GameObject[] projectiles;
     private GameObject[] specials;
     private int index;
-
+    private bool counterRecharging;
+    private bool projectileRecharging;
+    private bool specialRecharging;
     private float powerGaugeValue;
 
     protected new void Start_()
@@ -66,9 +72,13 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
+        powerGaugeValue += regenSpeed * Time.deltaTime;
+        if(powerGaugeValue > 1f)
+            powerGaugeValue = 1f;
+
         if (powerGauge)
         {
-            powerGaugeValue += regenSpeed * Time.deltaTime;
+            
             powerGauge.value = powerGaugeValue;
 
             if (Input.GetMouseButtonDown(0))
@@ -84,36 +94,46 @@ public abstract class aBSBTLKart : aKartController
 
             if (Input.GetMouseButtonDown(1) && canUseSpecial())
                 Special();
+
+            var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
+
+            if(MouseScrollWheel != 0 && !attracted)
+            {
+                if(MouseScrollWheel > 0)
+                    index = (index == 3 ? 0 : index + 1);
+                else if(MouseScrollWheel < 0)
+                    index = (index == 0 ? 3 : index - 1);
+
+                selectedProjectile = projectiles[index];
+                selectedSpecial = specials[index];
+            }
+
+            if(selectedProjectileText != null)
+                selectedProjectileText.text = selectedProjectile.name;
+
+            if(selectedSpecialText != null)
+                selectedSpecialText.text = selectedSpecial.name;
         }
-
-        var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
-
-        if (MouseScrollWheel != 0 && !attracted)
-        {
-            if (MouseScrollWheel > 0)
-                index = (index == 3 ? 0 : index + 1);
-            else if (MouseScrollWheel < 0)
-                index = (index == 0 ? 3 : index - 1);
-
-            selectedProjectile = projectiles[index];
-            selectedSpecial = specials[index];
-        }
-
-        if (selectedProjectileText != null)
-            selectedProjectileText.text = selectedProjectile.name;
-
-        if (selectedSpecialText != null)
-            selectedSpecialText.text = selectedSpecial.name;
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
+    }
+
+    protected void Counter()
+    {
+        counterRecharging = true;
+        StartCoroutine(CounterCooldown());
     }
 
     protected void Projectile(Transform spawnPoint)
     {
         Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
-        if (!attracted)
+        if(!attracted)
+        {
             powerGaugeValue -= 0.5f;
+            projectileRecharging = true;
+            StartCoroutine(ProjectileCooldown());
+        }
         else
         {
             selectedProjectile = attracting;
@@ -121,24 +141,39 @@ public abstract class aBSBTLKart : aKartController
         }
     }
 
-    protected void Counter()
-    {
-
-    }
-
     protected void Special()
     {
         Instantiate(selectedSpecial, transform);
         powerGaugeValue -= 0.75f;
+        specialRecharging = true;
+        StartCoroutine(SpecialCooldown());
     }
 
     protected bool canUseCounter() =>
-        powerGaugeValue >= 0.25f;
+        powerGaugeValue >= 0.25f && !counterRecharging;
 
     protected bool canUseProjectile() =>
-      powerGaugeValue >= 0.5f || attracted;
+      (powerGaugeValue >= 0.5f && !projectileRecharging) || attracted;
 
     protected bool canUseSpecial() =>
-       powerGaugeValue >= 0.75f;
+       powerGaugeValue >= 0.75f && !specialRecharging;
+
+    IEnumerator CounterCooldown()
+    {
+        yield return new WaitForSeconds(counterCooldown);
+        counterRecharging = false;
+    }
+
+    IEnumerator ProjectileCooldown()
+    {
+        yield return new WaitForSeconds(projectileCooldown);
+        projectileRecharging = false;
+    }
+
+    IEnumerator SpecialCooldown()
+    {
+        yield return new WaitForSeconds(specialCooldown);
+        specialRecharging = false;
+    }
 
 }
