@@ -75,8 +75,6 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
-                Debug.Log($"Speed: {currentSpeed.ToString("n2")} km/h");
-
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestination(0, 0, false, CurrentSplineObject);
 

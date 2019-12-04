@@ -92,7 +92,8 @@ public sealed class SplineObject : aCollisionManager, IComparable
             Debug.DrawLine(transform.position, s.gameObject.transform.position, Color.magenta);
     }
 
-    private void OnTriggerEnter(Collider other) =>
+    private void OnTriggerEnter(Collider other)
+    { 
         onCollisionWithTags(other, (kartController) =>
         {
             switch (kartController.KCType)
@@ -102,5 +103,35 @@ public sealed class SplineObject : aCollisionManager, IComparable
                     break;
             }
         }, "Player");
+        if (GameState.getInstance() != null)
+        {
+            var go = other.gameObject.transform.root.gameObject;
+            int lap = 0;
+            string tag = null;
+            if (go.CompareTag("Player"))
+            {
+                tag = "Player";
+                if (GameState.getInstance().getLaps().ContainsKey("Player"))
+                    lap = GameState.getInstance().getLaps()["Player"];
+            }
+            else
+            {
+                if (go.CompareTag("CPU"))
+                {
+                    tag = go.name;
+                    if (GameState.getInstance().getLaps().ContainsKey(go.name))
+                        lap = GameState.getInstance().getLaps()[go.name];
+                }
+            }
 
+            int score = transform.parent.childCount * lap + transform.GetSiblingIndex();
+            if (tag != null)
+            {
+                if (GameState.getInstance().getPositions().ContainsKey(tag))
+                    GameState.getInstance().getPositions()[tag] = score;
+                else
+                    GameState.getInstance().getPositions().Add(tag, score);
+            } 
+        }
+    }
 }

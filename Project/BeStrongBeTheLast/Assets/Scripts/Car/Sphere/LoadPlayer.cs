@@ -15,42 +15,41 @@ public class LoadPlayer : MonoBehaviour
 
     public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
     public SplineObject firstSpline;
+    public GameObject playerOnTheSceneOrCPUToFollow;
 
 
     private void Start()
     {
-        GameObject player = Instantiate(
-            Resources.Load("Models/Real Kart/Prefabs/" + GameState.getInstance().getPlayerChamp()) as GameObject,
-            transform.position,
-            Quaternion.identity,
-            transform
-        );
+        if (!playerOnTheSceneOrCPUToFollow)
+            playerOnTheSceneOrCPUToFollow = Instantiate(
+                Resources.Load("Models/Real Kart/Prefabs/" + GameState.getInstance().getPlayerChamp()) as GameObject,
+                transform.position,
+                Quaternion.identity
+            );
 
-        player.gameObject.name = "Player";
+        playerOnTheSceneOrCPUToFollow.gameObject.name = "Player";
 
-        Transform kart = player.transform.Find("Kart");
+        Transform kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
 
         CinemachineImpulseSource camera1 = null;
 
         foreach (var camera in cameras)
         {
-            camera.GetComponent<CinemachineVirtualCamera>().Follow = kart;
-            camera.GetComponent<CinemachineVirtualCamera>().LookAt = kart;
+            var cinemachineVirtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
 
-            if (camera1 && camera.enabled)
+            cinemachineVirtualCamera.Follow = kart;
+            cinemachineVirtualCamera.LookAt = kart;
+
+            if (!camera1 && camera.enabled)
                 camera1 = camera;
         }
 
-        KartController kartController = player.GetComponentInChildren<KartController>();
+        KartController kartController = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
         kartController.CurrentSplineObject = firstSpline;
         kartController.vCam = camera1;
         kartController.UsaWrongWay = true;
 
-        RepulsiveWallStraight repulsiveWallStraight = player.GetComponentInChildren<RepulsiveWallStraight>();
+        RepulsiveWallStraight repulsiveWallStraight = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<RepulsiveWallStraight>();
         repulsiveWallStraight.AttivaCollisioniConMura = true;
-
-        transform.DetachChildren();
-
-        Destroy(this);
     }
 }

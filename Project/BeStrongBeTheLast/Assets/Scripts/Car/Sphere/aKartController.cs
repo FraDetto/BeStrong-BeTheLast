@@ -70,7 +70,7 @@ public abstract class aKartController : aCollisionManager
 
     public SplineObject CurrentSplineObject;
 
-    protected const byte splineDistance = 30;
+    protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
@@ -345,6 +345,11 @@ public abstract class aKartController : aCollisionManager
             pmain.startColor = c;
             p.Play();
         }
+    }
+
+    public float getCurrentSplineDistance()
+    {
+        return Vector3.Distance(CurrentSplineObject.transform.position, transform.position);
     }
 
     void Speed(float x) =>
