@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -293,9 +293,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
+      propertyPath: CurrentSplineObject
+      value: 
+      objectReference: {fileID: 1136675549}
+    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
       propertyPath: powerGauge
       value: 
       objectReference: {fileID: 2118505913}
+    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
+        type: 3}
+      propertyPath: counterText
+      value: 
+      objectReference: {fileID: 1799733209154224097}
     - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
       propertyPath: selectedProjectileText
@@ -318,19 +328,14 @@ PrefabInstance:
       objectReference: {fileID: 2118505909}
     - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
-      propertyPath: CurrentSplineObject
+      propertyPath: driftHeating
       value: 
-      objectReference: {fileID: 1136675549}
+      objectReference: {fileID: 620512858}
     - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
         type: 3}
-      propertyPath: UsaWrongWay
-      value: 1
+      propertyPath: heatingSpeed
+      value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708518323757896422, guid: 4dde357f5c96701438bba83e9a9bd384,
-        type: 3}
-      propertyPath: counterText
-      value: 
-      objectReference: {fileID: 1799733209154224097}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dde357f5c96701438bba83e9a9bd384, type: 3}
 --- !u!4 &39498640 stripped
@@ -1814,6 +1819,18 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
+--- !u!114 &620512858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 34598228174922644, guid: e80266bc40e4ef743b996edfe0d33770,
+    type: 3}
+  m_PrefabInstance: {fileID: 2118505908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &639087287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5796,6 +5813,21 @@ PrefabInstance:
     - target: {fileID: 8802351895436416171, guid: e80266bc40e4ef743b996edfe0d33770,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047906224460751502, guid: e80266bc40e4ef743b996edfe0d33770,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789008856639978721, guid: e80266bc40e4ef743b996edfe0d33770,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789008856639978721, guid: e80266bc40e4ef743b996edfe0d33770,
+        type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
