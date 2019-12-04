@@ -19,6 +19,7 @@ public class GameState : MonoBehaviour
     private string playerChampName, selectedTrackName;
     private int lapsNumberSetting = 3;
     
+    //qui si potrebbe unificare tutto dentro ad una List<RankObj>
     private Dictionary<string, int> positions = new Dictionary<string, int>();
     private Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
     private Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
@@ -40,6 +41,11 @@ public class GameState : MonoBehaviour
     public static GameState getInstance()
     {
         return Instance;
+    }
+    
+    public void resetGame()
+    {
+        Destroy(gameObject);
     }
 
     public bool setPlayerChamp(string name)
@@ -106,6 +112,11 @@ public class GameState : MonoBehaviour
             }
         }
         return ranks;
+    }
+
+    public List<RankObj> getAllRankings()
+    {
+        return rankings;
     }
 
     public class RankObj

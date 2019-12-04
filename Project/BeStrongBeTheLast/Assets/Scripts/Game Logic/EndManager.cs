@@ -56,7 +56,7 @@ public class EndManager : MonoBehaviour
 
             if (GameState.getInstance().getLaps().ContainsKey("Player") && GameState.getInstance().getLaps()["Player"] == GameState.getInstance().getLapsNumberSetting())
             {
-                //END THE GAME HERE
+                GB.GotoSceneName("Endgame");
             }
         }
     }
@@ -67,7 +67,7 @@ public class EndManager : MonoBehaviour
         {
             if (GameState.getInstance().getLaps().ContainsKey("Player"))
             {
-                lapText.text = "Lap " + GameState.getInstance().getLaps()["Player"] + "/" + GameState.getInstance().getLapsNumberSetting();
+                lapText.text = "Lap " + (GameState.getInstance().getLaps()["Player"] + 1) + "/" + GameState.getInstance().getLapsNumberSetting();
             }
             if (GameState.getInstance().getPositions().ContainsKey("Player"))
             {
