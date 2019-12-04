@@ -6,120 +6,115 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 */
-
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-public class GameState : MonoBehaviour
+internal static class GameState
 {
-    public static GameState Instance;
+    internal static GameStateInternal Instance = new GameStateInternal();
 
-    //CURRENT RACE OPTIONS
-    private string playerChampName, selectedTrackName;
-    private int lapsNumberSetting = 3;
-    
-    //qui si potrebbe unificare tutto dentro ad una List<RankObj>
-    private Dictionary<string, int> positions = new Dictionary<string, int>();
-    private Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
-    private Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
-    List<RankObj> rankings = new List<RankObj>();
-    
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public static GameState getInstance()
+    internal static GameStateInternal getInstance()
     {
         return Instance;
     }
-    
-    public void resetGame()
+
+    internal static void resetGame()
     {
-        Destroy(gameObject);
+        Instance = new GameStateInternal();
     }
 
-    public bool setPlayerChamp(string name)
-    {
-        playerChampName = name;
-        return true;
-        //Add check to see if prefab available, if not return false
-    }
 
-    public string getPlayerChamp()
+    internal class GameStateInternal
     {
-        return playerChampName;
-    }
 
-    public bool setCurrentTrack(string name)
-    {
-        selectedTrackName = name;
-        return true;
-        //Add check to see if prefab available, if not return false
-    }
+        //CURRENT RACE OPTIONS
+        private string playerChampName, selectedTrackName;
+        private int lapsNumberSetting = 3;
 
-    public string getCurrentTrack()
-    {
-        return selectedTrackName;
-    }
-    
-    public int getLapsNumberSetting()
-    {
-        return lapsNumberSetting;
-    }
+        //qui si potrebbe unificare tutto dentro ad una List<RankObj>
+        private Dictionary<string, int> positions = new Dictionary<string, int>();
+        private Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
+        private Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
+        List<RankObj> rankings = new List<RankObj>();
 
-    public Dictionary<string, int> getPositions()
-    {
-        return positions;   
-    }
 
-    public Dictionary<string, ushort> getLaps()
-    {
-        return laps;
-    }
-    
-    public Dictionary<string, KartController> getKartControllers()
-    {
-        return kartControllers;
-    }
-
-    public int[] getCurrentRanking(string tag)
-    {
-        int[] ranks = new int[2];
-        //ranks[1] = positions.Count;
-        ranks[1] = 8;
-        rankings = new List<RankObj>();
-        foreach (var kartScore in positions)
+        public bool setPlayerChamp(string name)
         {
-            rankings.Add(new RankObj(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance()));
+            playerChampName = name;
+            return true;
+            //Add check to see if prefab available, if not return false
         }
-        rankings = rankings.OrderBy(c => c.getScore()).ThenByDescending(c => c.getDist()).ToList();
-        foreach (var r in rankings)
+
+        public string getPlayerChamp()
         {
-            if (r.getTag().Equals(tag))
+            return playerChampName;
+        }
+
+        public bool setCurrentTrack(string name)
+        {
+            selectedTrackName = name;
+            return true;
+            //Add check to see if prefab available, if not return false
+        }
+
+        public string getCurrentTrack()
+        {
+            return selectedTrackName;
+        }
+
+        public int getLapsNumberSetting()
+        {
+            return lapsNumberSetting;
+        }
+
+        public Dictionary<string, int> getPositions()
+        {
+            return positions;
+        }
+
+        public Dictionary<string, ushort> getLaps()
+        {
+            return laps;
+        }
+
+        public Dictionary<string, KartController> getKartControllers()
+        {
+            return kartControllers;
+        }
+
+        public int[] getCurrentRanking(string tag)
+        {
+            int[] ranks = new int[2];
+            //ranks[1] = positions.Count;
+            ranks[1] = 8;
+            rankings = new List<RankObj>();
+
+            foreach (var kartScore in positions)
             {
-                ranks[0] = rankings.IndexOf(r) + 1;
-                break;
+                rankings.Add(new RankObj(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance()));
             }
+
+            rankings = rankings.OrderBy(c => c.getScore()).ThenByDescending(c => c.getDist()).ToList();
+
+            foreach (var r in rankings)
+            {
+                if (r.getTag().Equals(tag))
+                {
+                    ranks[0] = rankings.IndexOf(r) + 1;
+                    break;
+                }
+            }
+            return ranks;
         }
-        return ranks;
+
+        public List<RankObj> getAllRankings()
+        {
+            return rankings;
+        }
+
     }
 
-    public List<RankObj> getAllRankings()
-    {
-        return rankings;
-    }
-
-    public class RankObj
+    internal class RankObj
     {
         private int score;
         private string tag;
@@ -144,7 +139,6 @@ public class GameState : MonoBehaviour
         {
             return dist;
         }
-        
     }
 
 }

@@ -106,7 +106,14 @@ public sealed class KartController : aBSBTLKart
 
                 lookAtDest.y = transform.position.y;
 
-                transform.LookAt(lookAtDest);
+                if (iAmBlinded)
+                {
+                    //TODO: sono stato accecato fare qualcosa di stupido
+                }
+                else
+                {
+                    transform.LookAt(lookAtDest);
+                }
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
@@ -196,7 +203,9 @@ public sealed class KartController : aBSBTLKart
         }
         else
         {
-            if (currentObstacle != null && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
+            var distanzaDaOstacolo = currentObstacle ? Vector3.Distance(transform.position, currentObstacle.transform.position) : float.MaxValue;
+
+            if (currentObstacle != null && excludeObstacle != currentObstacle && distanzaDaOstacolo < obstacleDistance && distanzaDaOstacolo > 5)
             {
                 lookAtDest = currentObstacle.transform.position;
             }

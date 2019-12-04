@@ -47,7 +47,7 @@ public class KartCollision : aCollisionManager
                 {
                     case Mode.left:
                     case Mode.right:
-                        if(!countered)
+                        if (!countered)
                             kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
                         else
                         {
@@ -59,7 +59,7 @@ public class KartCollision : aCollisionManager
                     case Mode.rear:
                         if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
                         {
-                            if(!countered)
+                            if (!countered)
                             {
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
                                 kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
@@ -83,4 +83,5 @@ public class KartCollision : aCollisionManager
             }
         }, "Player", "CPU");
     }
+
 }
