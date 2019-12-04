@@ -23,7 +23,9 @@ public class KartCollision : aCollisionManager
 
     private KartController myKartController;
 
-    public bool countered;
+    internal bool countered;
+
+    internal float rotatingPush = 1f;
 
     private void Start()
     {
@@ -48,7 +50,10 @@ public class KartCollision : aCollisionManager
                         if (!countered)
                             kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
                         else
-                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, -hitDirection);
+                        {
+                            kartController.AddForce(2000 + 1000 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
+                            countered = false;
+                        }
                         break;
 
                     case Mode.rear:
@@ -64,11 +69,11 @@ public class KartCollision : aCollisionManager
                             }
                             else
                             {
-                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
-                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
+                                myKartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
+                                kartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, hitDirection);
 
-                                kartController.Accelerate(1.1f + 1f * forceModifier);
-                                myKartController.Accelerate(0.9f - 0.5f * forceModifier);
+                                kartController.Accelerate(1.1f + 1f * forceModifier * rotatingPush);
+                                myKartController.Accelerate(0.9f - 0.5f * forceModifier * rotatingPush);
 
                                 countered = false;
                             }

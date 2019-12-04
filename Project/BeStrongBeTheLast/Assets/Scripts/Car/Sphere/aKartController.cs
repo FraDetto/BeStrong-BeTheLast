@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public abstract class aKartController : aCollisionManager
 {
@@ -53,10 +54,14 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
+    [Header("Controller - UI")]
+    [SerializeField] private Slider driftHeating;
+
     [Header("Parameters")]
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 10f;
+    public float heatingSpeed;
     internal float gravity_;
     public LayerMask layerMask;
 
@@ -83,6 +88,7 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
+    private float driftHeatingValue;
 
     protected void Start_()
     {
@@ -158,6 +164,14 @@ public abstract class aKartController : aCollisionManager
             //Debug.Log(driftPower);
 
             ColorDrift();
+
+            driftHeatingValue += heatingSpeed * Time.deltaTime;
+
+            if(driftHeatingValue > 1f)
+                driftHeatingValue = 1f;
+
+            if(driftHeating)
+                driftHeating.value = driftHeatingValue;
         }
 
         if (jumpBUp && drifting)
