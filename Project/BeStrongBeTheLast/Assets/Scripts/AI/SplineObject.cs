@@ -93,7 +93,7 @@ public sealed class SplineObject : aCollisionManager, IComparable
     }
 
     private void OnTriggerEnter(Collider other)
-    { 
+    {
         onCollisionWithTags(other, (kartController) =>
         {
             switch (kartController.KCType)
@@ -101,37 +101,40 @@ public sealed class SplineObject : aCollisionManager, IComparable
                 case aKartController.eKCType.Human:
                     kartController.setDestination(0, 0, false, nextSpline);
                     break;
+
+                case aKartController.eKCType.CPU:
+                    kartController.setDestinationWithError(nextSpline);
+                    break;
             }
-        }, "Player");
+        }, "Player", "CPU");
+
         if (GameState.getInstance() != null)
         {
             var go = other.gameObject.transform.root.gameObject;
-            int lap = 0;
-            string tag = null;
-            if (go.CompareTag("Player"))
-            {
-                tag = "Player";
-                if (GameState.getInstance().getLaps().ContainsKey("Player"))
-                    lap = GameState.getInstance().getLaps()["Player"];
-            }
-            else
-            {
-                if (go.CompareTag("CPU"))
-                {
-                    tag = go.name;
-                    if (GameState.getInstance().getLaps().ContainsKey(go.name))
-                        lap = GameState.getInstance().getLaps()[go.name];
-                }
-            }
+            var laps = GameState.getInstance().getLaps();
+            var positions = GameState.getInstance().getPositions();
 
-            int score = transform.parent.childCount * lap + transform.GetSiblingIndex();
+            var lap = 0;
+            string tag = null;
+
+            if (go.CompareTag("Player"))
+                tag = "Player";
+            else if (go.CompareTag("CPU"))
+                tag = go.name;
+
+            if (tag != null && laps.ContainsKey(tag))
+                lap = laps[tag];
+
+            var score = transform.parent.childCount * lap + transform.GetSiblingIndex();
+
             if (tag != null)
             {
-                if (GameState.getInstance().getPositions().ContainsKey(tag))
-                    GameState.getInstance().getPositions()[tag] = score;
+                if (positions.ContainsKey(tag))
+                    positions[tag] = score;
                 else
-                    GameState.getInstance().getPositions().Add(tag, score);
-            } 
+                    positions.Add(tag, score);
+            }
         }
     }
+
 }
