@@ -89,12 +89,12 @@ public abstract class aBSBTLKart : aKartController
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         powerGaugeValue += regenSpeed * Time.deltaTime;
+
         if (powerGaugeValue > 1f)
             powerGaugeValue = 1f;
 
         if (powerGauge)
         {
-
             powerGauge.value = powerGaugeValue;
 
             if (canUseCounter())
@@ -126,7 +126,6 @@ public abstract class aBSBTLKart : aKartController
                 if (Input.GetButtonDown("Fire2") || Input.GetAxis("AltFire2") != 0)
                     Special();
             }
-
 
             var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
