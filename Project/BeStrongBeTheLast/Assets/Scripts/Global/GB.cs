@@ -30,6 +30,11 @@ public static class GB
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
 
+    public static bool between<A>(A item, A from_, A to_) where A : System.IComparable
+    {
+        return item.CompareTo(from_) >= 0 && item.CompareTo(to_) <= 0;
+    }
+
     public static float NormalizedRandom(float minValue, float maxValue)
     {
         var mean = (minValue + maxValue) / 2f;

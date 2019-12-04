@@ -98,9 +98,8 @@ public sealed class KartController : aBSBTLKart
                 break;
 
             case eKCType.CPU:
-                if (Vector3.Distance(transform.position, lookAtDest) < splineDistance)
-                    if (GB.compareVector3(GB.EAxis.Y, lookAtDest, lookAtDestOriginal))
-                        setDestinationWithError();
+                if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
+                    setDestinationWithError();
 
                 CPUAI(wrong);
 
@@ -153,6 +152,7 @@ public sealed class KartController : aBSBTLKart
         }
 
         Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
+        Debug.DrawLine(transform.position, lookAtDest, Color.yellow);
     }
 
     private void FixedUpdate() =>
@@ -181,8 +181,11 @@ public sealed class KartController : aBSBTLKart
     public float currentSplineDistance =>
         Vector3.Distance(transform.position, curSplinePos);
 
-    void setDestinationWithError() =>
-        setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta);
+    internal void setDestinationWithError() =>
+        setDestinationWithError(CurrentSplineObject.nextSpline);
+
+    internal void setDestinationWithError(SplineObject nextSpline) =>
+           setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);
 
     internal void nextSpline() =>
         setDestination(0, 0);
@@ -205,27 +208,48 @@ public sealed class KartController : aBSBTLKart
         {
             var distanzaDaOstacolo = currentObstacle ? Vector3.Distance(transform.position, currentObstacle.transform.position) : float.MaxValue;
 
-            if (currentObstacle != null && excludeObstacle != currentObstacle && distanzaDaOstacolo < obstacleDistance && distanzaDaOstacolo > 5)
+            if (currentObstacle && excludeObstacle != currentObstacle && distanzaDaOstacolo < obstacleDistance)
             {
                 lookAtDest = currentObstacle.transform.position;
             }
             else
             {
-                foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
-                    if (root.name.Equals("Obstacles"))
-                        foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
-                            if (Vector3.Distance(transform.position, obstacle.transform.position) < obstacleDistance)
-                                if (excludeObstacle != obstacle)
-                                    if (!currentObstacleOtherCPU.Contains(obstacle))
-                                    {
-                                        currentObstacle = obstacle;
-                                        currentObstacleOtherCPU.Add(currentObstacle);
-                                        break;
-                                    }
+                var currentObstacle = selectaCandidateObstacleToFollow();
+                currentObstacleOtherCPU.Add(currentObstacle);
 
                 lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
             }
         }
+    }
+
+    private GameObject selectaCandidateObstacleToFollow()
+    {
+        GameObject nearestObstacle = null;
+        var nearDistandce = float.MaxValue;
+
+        foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
+            if (root.name.Equals("Obstacles"))
+                foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
+                {
+                    var dist = Vector3.Distance(transform.position, obstacle.transform.position);
+
+                    if (dist < obstacleDistance)
+                        if (excludeObstacle != obstacle)
+                            if (!currentObstacleOtherCPU.Contains(obstacle))
+                            {
+                                var direction1 = (transform.position - curSplinePos).normalized;
+                                var direction2 = (transform.position - obstacle.transform.position).normalized;
+
+                                if ((direction1.z > 0 && direction2.z > 0) || (direction1.z < 0 && direction2.z < 0) || (direction1.z == 0 && direction2.z == 0))
+                                    if (dist < nearDistandce)
+                                    {
+                                        nearDistandce = dist;
+                                        nearestObstacle = obstacle;
+                                    }
+                            }
+                }
+
+        return nearestObstacle;
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)
