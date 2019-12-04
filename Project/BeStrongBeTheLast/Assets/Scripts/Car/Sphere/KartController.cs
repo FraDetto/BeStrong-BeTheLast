@@ -203,7 +203,9 @@ public sealed class KartController : aBSBTLKart
         }
         else
         {
-            if (currentObstacle != null && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
+            var distanzaDaOstacolo = currentObstacle ? Vector3.Distance(transform.position, currentObstacle.transform.position) : float.MaxValue;
+
+            if (currentObstacle != null && excludeObstacle != currentObstacle && distanzaDaOstacolo < obstacleDistance && distanzaDaOstacolo > 5)
             {
                 lookAtDest = currentObstacle.transform.position;
             }
