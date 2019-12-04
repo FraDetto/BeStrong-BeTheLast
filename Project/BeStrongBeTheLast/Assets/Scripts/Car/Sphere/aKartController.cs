@@ -62,6 +62,7 @@ public abstract class aKartController : aCollisionManager
     public float steering = 80f;
     public float gravity = 10f;
     public float heatingSpeed;
+    public float driftPenalty;
     internal float gravity_;
     public LayerMask layerMask;
 
@@ -156,7 +157,7 @@ public abstract class aKartController : aCollisionManager
             kartModel.parent.DOPunchPosition(transform.up * .2f, .3f, 5, 1);
         }
 
-        if (drifting)
+        if (CanDrift() && drifting)
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, 0, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, 0);
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .2f, 1) : ExtensionMethods.Remap(xAxis, -1, 1, 1, .2f);
@@ -167,28 +168,32 @@ public abstract class aKartController : aCollisionManager
 
             ColorDrift();
 
-            driftHeatingValue += heatingSpeed * Time.deltaTime;
-
             if(driftHeatingValue > 1f)
             {
                 driftHeatingValue = 1f;
                 driftCooldown = true;
-                //drifting = false;
+                heatingSpeed *= driftPenalty;
             }
+            else
+                driftHeatingValue += heatingSpeed * Time.deltaTime;
 
             if(driftHeating)
                 driftHeating.value = driftHeatingValue;
         }
         else
         {
-            driftHeatingValue -= heatingSpeed /2f * Time.deltaTime;
-
             if(driftHeatingValue < 0f)
             {
                 driftHeatingValue = 0f;
-                driftCooldown = false;
+                if(driftCooldown)
+                {
+                    driftCooldown = false;
+                    heatingSpeed /= driftPenalty;
+                }
             }
-                
+            else
+                driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
+
 
             if(driftHeating)
                 driftHeating.value = driftHeatingValue;
