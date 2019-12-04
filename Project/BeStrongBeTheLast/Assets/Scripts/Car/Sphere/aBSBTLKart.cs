@@ -89,19 +89,19 @@ public abstract class aBSBTLKart : aKartController
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         powerGaugeValue += regenSpeed * Time.deltaTime;
+
         if (powerGaugeValue > 1f)
             powerGaugeValue = 1f;
 
         if (powerGauge)
         {
-
             powerGauge.value = powerGaugeValue;
 
             if (canUseCounter())
             {
                 counterText.color = enabledColor;
 
-                if (Input.GetMouseButtonDown(2))
+                if (Input.GetButtonDown("Fire3") || Input.GetAxis("AltFire3") != 0)
                     Counter();
             }
 
@@ -109,7 +109,7 @@ public abstract class aBSBTLKart : aKartController
             {
                 selectedProjectileText.color = enabledColor;
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetButtonDown("Fire1"))
                 {
                     var y = Input.GetAxis("Vertical");
 
@@ -123,10 +123,9 @@ public abstract class aBSBTLKart : aKartController
             if (canUseSpecial())
             {
                 selectedSpecialText.color = enabledColor;
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetButtonDown("Fire2") || Input.GetAxis("AltFire2") != 0)
                     Special();
             }
-
 
             var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
