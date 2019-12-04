@@ -15,10 +15,10 @@ public abstract class aBSBTLKart : aKartController
 
     [Header("Abilities - UI")]
     [SerializeField] private Slider powerGauge;
+    [SerializeField] private Text counterText;
     [SerializeField] private Text selectedProjectileText;
     [SerializeField] private Text selectedSpecialText;
 
-    protected bool iAmBlinded;
     public Image blindingFront;
     public Image blindingRear;
 
@@ -30,6 +30,7 @@ public abstract class aBSBTLKart : aKartController
     [SerializeField] private float projectileCooldown;
     [SerializeField] private float specialCooldown;
 
+    public GameObject counter;
     public GameObject trishot;
     public GameObject homing;
     public GameObject bouncing;
@@ -51,6 +52,9 @@ public abstract class aBSBTLKart : aKartController
     private bool projectileRecharging;
     private bool specialRecharging;
     private float powerGaugeValue;
+    private Color disabledColor = Color.red;
+    private Color enabledColor = Color.yellow;
+    protected bool iAmBlinded;
 
 
     protected new void Start_()
@@ -58,14 +62,24 @@ public abstract class aBSBTLKart : aKartController
         projectiles = new GameObject[] { trishot, homing, bouncing, attracting };
         selectedProjectile = projectiles[index];
 
+        if (counterText)
+            counterText.color = disabledColor;
+
         if (selectedProjectileText)
+        {
             selectedProjectileText.text = selectedProjectile.name;
+            selectedProjectileText.color = disabledColor;
+        }
+
 
         specials = new GameObject[] { blinding, annoying, tanking, rotating };
         selectedSpecial = specials[index];
 
         if (selectedSpecialText)
+        {
             selectedSpecialText.text = selectedSpecial.name;
+            selectedProjectileText.color = disabledColor;
+        }
 
         debuff = transform.Find("Debuff");
 
@@ -75,16 +89,27 @@ public abstract class aBSBTLKart : aKartController
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
         powerGaugeValue += regenSpeed * Time.deltaTime;
-
         if (powerGaugeValue > 1f)
             powerGaugeValue = 1f;
 
         if (powerGauge)
         {
+
             powerGauge.value = powerGaugeValue;
 
-            if (Input.GetMouseButtonDown(0))
-                if (canUseProjectile())
+            if (canUseCounter())
+            {
+                counterText.color = enabledColor;
+
+                if (Input.GetMouseButtonDown(2))
+                    Counter();
+            }
+
+            if (canUseProjectile())
+            {
+                selectedProjectileText.color = enabledColor;
+
+                if (Input.GetMouseButtonDown(0))
                 {
                     var y = Input.GetAxis("Vertical");
 
@@ -93,9 +118,15 @@ public abstract class aBSBTLKart : aKartController
                     else if (y < 0)
                         Projectile(rearSpawnpoint);
                 }
+            }
 
-            if (Input.GetMouseButtonDown(1) && canUseSpecial())
-                Special();
+            if (canUseSpecial())
+            {
+                selectedSpecialText.color = enabledColor;
+                if (Input.GetMouseButtonDown(1))
+                    Special();
+            }
+
 
             var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
@@ -120,18 +151,14 @@ public abstract class aBSBTLKart : aKartController
         base.Update_(xAxis, jumpBDown, jumpBUp);
     }
 
-    internal void makeMeBlind(bool blind)
-    {
-        iAmBlinded = blind;
-
-        debuff.Find("Blinded").gameObject.SetActive(blind);
-
-        blindingFront.enabled = blind;
-        blindingRear.enabled = blind;
-    }
-
     protected void Counter()
     {
+        Instantiate(counter, transform);
+
+        if (powerGauge)
+            disableAll();
+
+        powerGaugeValue -= 0.25f;
         counterRecharging = true;
         StartCoroutine(CounterCooldown());
     }
@@ -139,6 +166,9 @@ public abstract class aBSBTLKart : aKartController
     protected void Projectile(Transform spawnPoint)
     {
         Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
+
+        if (powerGauge)
+            disableAll();
 
         if (!attracted)
         {
@@ -156,6 +186,10 @@ public abstract class aBSBTLKart : aKartController
     protected void Special()
     {
         Instantiate(selectedSpecial, transform);
+
+        if (powerGauge)
+            disableAll();
+
         powerGaugeValue -= 0.75f;
         specialRecharging = true;
         StartCoroutine(SpecialCooldown());
@@ -186,6 +220,23 @@ public abstract class aBSBTLKart : aKartController
     {
         yield return new WaitForSeconds(specialCooldown);
         specialRecharging = false;
+    }
+
+    protected void disableAll()
+    {
+        counterText.color = disabledColor;
+        selectedProjectileText.color = disabledColor;
+        selectedSpecialText.color = disabledColor;
+    }
+
+    internal void makeMeBlind(bool blind)
+    {
+        iAmBlinded = blind;
+
+        debuff.Find("Blinded").gameObject.SetActive(blind);
+
+        blindingFront.enabled = blind;
+        blindingRear.enabled = blind;
     }
 
 }
