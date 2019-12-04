@@ -106,7 +106,14 @@ public sealed class KartController : aBSBTLKart
 
                 lookAtDest.y = transform.position.y;
 
-                transform.LookAt(lookAtDest);
+                if (iAmBlinded)
+                {
+                    //TODO: sono stato accecato fare qualcosa di stupido
+                }
+                else
+                {
+                    transform.LookAt(lookAtDest);
+                }
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;

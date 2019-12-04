@@ -61,4 +61,5 @@ public class KartCollision : aCollisionManager
             }
         }, "Player", "CPU");
     }
+
 }
