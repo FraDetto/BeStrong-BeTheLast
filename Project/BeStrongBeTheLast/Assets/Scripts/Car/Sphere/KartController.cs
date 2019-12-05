@@ -13,6 +13,8 @@ using UnityEngine.SceneManagement;
 public sealed class KartController : aBSBTLKart
 {
 
+    public bool touchingGround = true;
+
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
@@ -84,8 +86,16 @@ public sealed class KartController : aBSBTLKart
                 }
                 else
                 {
-                    driftDisabled = false;
-                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    if (touchingGround)
+                    {
+                        driftDisabled = false;
+                        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    }
+                    else
+                    {
+                        driftDisabled = true;
+                        Update_(0, Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    }
                 }
 
                 if (UsaWrongWay && wrong)
