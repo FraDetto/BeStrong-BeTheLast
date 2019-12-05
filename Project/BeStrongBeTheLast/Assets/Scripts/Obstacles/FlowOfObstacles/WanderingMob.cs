@@ -49,7 +49,7 @@ public class WanderingMob : aCollisionManager
     public float roadWidth;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
-    private Collider[] colliders;
+    protected Collider[] colliders;
 
 
     public WanderingMob()

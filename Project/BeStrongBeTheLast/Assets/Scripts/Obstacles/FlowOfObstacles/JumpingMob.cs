@@ -15,8 +15,6 @@ public class JumpingMob : WanderingMob
     public float slowAmountSquished = 0.1f, squishedSpeedLimit = 30f;
     public int squishDuration = 7;
 
-    private Collider[] colliders;
-
     public JumpingMob()
     {
         phase = Phases.rotating;
@@ -27,7 +25,6 @@ public class JumpingMob : WanderingMob
         Start_();
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         rotationSpeed = Random.Range(0, 100);
-        colliders = GetComponents<Collider>();
     }
 
     private void FixedUpdate()
