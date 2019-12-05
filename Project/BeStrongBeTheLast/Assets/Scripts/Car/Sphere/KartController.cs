@@ -182,7 +182,7 @@ public sealed class KartController : aBSBTLKart
         Vector3.Distance(transform.position, curSplinePos);
 
     internal void setDestinationWithError() =>
-        setDestinationWithError(CurrentSplineObject.nextSpline);
+        setDestinationWithError(CurrentSplineObject.nextRandomSpline);
 
     internal void setDestinationWithError(SplineObject nextSpline) =>
            setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);
@@ -206,18 +206,23 @@ public sealed class KartController : aBSBTLKart
         }
         else
         {
-            var distanzaDaOstacolo = currentObstacle ? Vector3.Distance(transform.position, currentObstacle.transform.position) : float.MaxValue;
-
-            if (currentObstacle && excludeObstacle != currentObstacle && distanzaDaOstacolo < obstacleDistance)
+            if (currentObstacle && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
             {
                 lookAtDest = currentObstacle.transform.position;
             }
             else
             {
-                var currentObstacle = selectaCandidateObstacleToFollow();
-                currentObstacleOtherCPU.Add(currentObstacle);
+                currentObstacle = selectaCandidateObstacleToFollow();
 
-                lookAtDest = currentObstacle == null ? lookAtDestOriginal : currentObstacle.transform.position;
+                if (currentObstacle)
+                {
+                    currentObstacleOtherCPU.Add(currentObstacle);
+                    lookAtDest = currentObstacle.transform.position;
+                }
+                else
+                {
+                    lookAtDest = lookAtDestOriginal;
+                }
             }
         }
     }
@@ -237,10 +242,12 @@ public sealed class KartController : aBSBTLKart
                         if (excludeObstacle != obstacle)
                             if (!currentObstacleOtherCPU.Contains(obstacle))
                             {
-                                var direction1 = (transform.position - curSplinePos).normalized;
-                                var direction2 = (transform.position - obstacle.transform.position).normalized;
+                                var distance_MeToNextSpline = Vector3.Distance(transform.position, curSplinePos);
+                                //var distance_MeToObstacle = Vector3.Distance(transform.position, obstacle.transform.position);
+                                var distance_ObstacleToNextSpline = Vector3.Distance(obstacle.transform.position, curSplinePos);
 
-                                if ((direction1.z > 0 && direction2.z > 0) || (direction1.z < 0 && direction2.z < 0) || (direction1.z == 0 && direction2.z == 0))
+                                //if (distance_MeToNextSpline > distance_ObstacleToNextSpline || distance_MeToNextSpline > distance_MeToObstacle)
+                                if (distance_MeToNextSpline > distance_ObstacleToNextSpline)
                                     if (dist < nearDistandce)
                                     {
                                         nearDistandce = dist;

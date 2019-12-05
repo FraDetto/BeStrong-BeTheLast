@@ -168,7 +168,7 @@ public abstract class aKartController : aCollisionManager
 
             ColorDrift();
 
-            if(driftHeatingValue > 1f)
+            if (driftHeatingValue > 1f)
             {
                 driftHeatingValue = 1f;
                 driftCooldown = true;
@@ -177,15 +177,15 @@ public abstract class aKartController : aCollisionManager
             else
                 driftHeatingValue += heatingSpeed * Time.deltaTime;
 
-            if(driftHeating)
+            if (driftHeating)
                 driftHeating.value = driftHeatingValue;
         }
         else
         {
-            if(driftHeatingValue < 0f)
+            if (driftHeatingValue < 0f)
             {
                 driftHeatingValue = 0f;
-                if(driftCooldown)
+                if (driftCooldown)
                 {
                     driftCooldown = false;
                     heatingSpeed /= driftPenalty;
@@ -195,7 +195,7 @@ public abstract class aKartController : aCollisionManager
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
 
 
-            if(driftHeating)
+            if (driftHeating)
                 driftHeating.value = driftHeatingValue;
         }
 
@@ -469,7 +469,7 @@ public abstract class aKartController : aCollisionManager
         setDestination(xRndError, zRndError, false);
 
     internal void setDestination(float xRndError, float zRndError, bool firstTime) =>
-        setDestination(xRndError, zRndError, first, CurrentSplineObject.nextSpline);
+        setDestination(xRndError, zRndError, first, CurrentSplineObject.nextFirstSpline);
 
     internal void setDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
     {
@@ -479,17 +479,7 @@ public abstract class aKartController : aCollisionManager
         prevSplinePos = CurrentSplineObject.transform.position;
 
         if (!firstTime)
-        {
             CurrentSplineObject = nextSpline;
-
-            if (CurrentSplineObject.forkNumber > 0)
-                foreach (var fork in CurrentSplineObject.Forks)
-                    if (fork.probability == 0 || Random.value < fork.probability)
-                    {
-                        CurrentSplineObject = fork;
-                        break;
-                    }
-        }
 
         curSplinePos = CurrentSplineObject.transform.position;
 

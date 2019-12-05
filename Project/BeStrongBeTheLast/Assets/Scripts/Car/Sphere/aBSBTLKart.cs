@@ -234,7 +234,7 @@ public abstract class aBSBTLKart : aKartController
 
         debuff.Find("Blinded").gameObject.SetActive(blind);
 
-        if(powerGauge)
+        if (powerGauge)
         {
             blindingFront.enabled = blind;
             blindingRear.enabled = blind;

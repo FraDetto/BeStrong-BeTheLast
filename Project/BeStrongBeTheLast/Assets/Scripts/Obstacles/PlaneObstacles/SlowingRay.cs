@@ -18,6 +18,7 @@ public class SlowingRay : aCollisionManager
         onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             kartController.Accelerate(slowingAmount);
+            kartController.SetObstacleDestroyed(gameObject);
         });
 
 }
