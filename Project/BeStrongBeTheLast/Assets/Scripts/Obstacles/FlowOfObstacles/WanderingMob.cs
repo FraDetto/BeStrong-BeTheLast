@@ -49,6 +49,8 @@ public class WanderingMob : aCollisionManager
     public float roadWidth;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
+    private Collider[] colliders;
+
 
     public WanderingMob()
     {
@@ -67,6 +69,8 @@ public class WanderingMob : aCollisionManager
 
         maxMovementFrames = Random.Range(minMovementFramesSetting, maxMovementFramesSetting);
         spawner = transform.parent.GetChild(0);
+
+        colliders = GetComponents<Collider>();
     }
 
     private void FixedUpdate()
@@ -203,6 +207,10 @@ public class WanderingMob : aCollisionManager
             movementFrames = 0;
 
             thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
+
+            foreach(Collider collider in colliders)
+                collider.enabled = false;
+
         }, "Player", "CPU");
     }
 
