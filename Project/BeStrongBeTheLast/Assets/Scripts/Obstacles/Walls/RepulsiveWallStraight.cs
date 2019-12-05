@@ -56,16 +56,7 @@ public class RepulsiveWallStraight : aCollisionManager
 
         if (AttivaCollisioniConMura && active)
         {
-            var meshFilter = collision.gameObject.GetComponent<MeshFilter>();
-
-            if (meshFilter && GB.CompareORNames(meshFilter.sharedMesh.name,
-                "barrierWall",
-                "roadCornerSmallWall",
-                "roadCornerSmallBorder",
-                "roadCornerLargeBorder",
-                "roadCornerLargerBorderInner",
-                "roadCornerLargeWallInner"
-            ))
+            if (collision.collider.gameObject.layer == 12)
                 kartController.SetOnTrack();
         }
     }

@@ -48,12 +48,12 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
     private void AnnoyCars(GameObject[] cars, float annoyingAmount, bool annoyed)
     {
         foreach (var car in cars)
-        //if(car != null && car != user)
-        {
+        if(car != null && car != user)
+            {
             var kartController = car.GetComponent<KartController>();
 
             if (kartController)
                 kartController.annoyMe(annoyingAmount, annoyed);
-        }
+            }
     }
 }
