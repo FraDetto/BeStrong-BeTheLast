@@ -14,6 +14,11 @@ public class SlowingPuddle : aCollisionManager
 
     public float speedLimit;
 
+    private void OnTriggerEnter(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
+        {
+            kartController.SetObstacleDestroyed(gameObject);
+        });
 
     private void OnTriggerExit(Collider other) =>
         onCollisionWithPlayer_or_CPU(other, (kartController) =>

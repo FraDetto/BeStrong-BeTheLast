@@ -7,11 +7,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using Assets.Scripts.Obstacles.Base;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class SplineObject : aCollisionManager, IComparable
+public sealed class SplineObject : aCollisionManager, System.IComparable
 {
 
     public enum eSplineType
@@ -21,9 +20,6 @@ public sealed class SplineObject : aCollisionManager, IComparable
 
     public eSplineType splineType = eSplineType.Normal;
 
-    [Range(0, 254)]
-    public byte forkNumber = 0;
-
     [Range(0, 1)]
     public float probability = 0;
 
@@ -32,48 +28,27 @@ public sealed class SplineObject : aCollisionManager, IComparable
     public bool MostraInPlay = false;
 
 
-    internal SplineObject nextSpline
+    internal SplineObject nextFirstSpline
     {
         get
         {
-            foreach (var s in nextSplines)
-                return s;
+            foreach (var nextS in nextSplines)
+                return nextS;
 
             return null;
         }
     }
 
-    internal SplineObject prevSpline
+    internal SplineObject nextRandomSpline
     {
         get
         {
-            var prev = this;
-            var cur = nextSpline;
-
-            while (cur != this)
-            {
-                prev = cur;
-                cur = cur.nextSpline;
-            }
-
-            return prev;
+            while (true)
+                foreach (var nextS in nextSplines)
+                    if (nextS.probability == 0 || Random.value < nextS.probability)
+                        return nextS;
         }
     }
-
-    internal List<SplineObject> Forks
-    {
-        get
-        {
-            var forks = new List<SplineObject>();
-
-            foreach (var s in nextSplines)
-                if (forkNumber == s.forkNumber) // è una forcazione  
-                    forks.Add(s);
-
-            return forks;
-        }
-    }
-
 
     private void Start()
     {
@@ -99,11 +74,11 @@ public sealed class SplineObject : aCollisionManager, IComparable
             switch (kartController.KCType)
             {
                 case aKartController.eKCType.Human:
-                    kartController.setDestination(0, 0, false, nextSpline);
+                    kartController.setDestination(0, 0, false, nextFirstSpline);
                     break;
 
                 case aKartController.eKCType.CPU:
-                    kartController.setDestinationWithError(nextSpline);
+                    kartController.setDestinationWithError(nextRandomSpline);
                     break;
             }
         }, "Player", "CPU");
