@@ -7,26 +7,30 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class BlindingBehaviour : aAbilitiesBehaviour
+public class AnnoyingBehaviour : aAbilitiesBehaviour
 {
+    [SerializeField]
+    private float lengthTimeInSeconds = 15f;
 
-    public float lengthTimeInSeconds = 15f;
+    [SerializeField]
+    private float annoyingAmount = 0.5f;
 
     private GameObject user;
 
     private GameObject[] players, bots;
 
-
+    // Start is called before the first frame update
     void Start()
     {
         user = transform.parent.gameObject;
         players = GameObject.FindGameObjectsWithTag("Player");
         bots = GameObject.FindGameObjectsWithTag("CPU");
 
-        BlindCars(players, true);
-        BlindCars(bots, true);
+        AnnoyCars(players, annoyingAmount, true);
+        AnnoyCars(bots, annoyingAmount, true);
 
         StartCoroutine(Lifetime());
     }
@@ -35,22 +39,22 @@ public class BlindingBehaviour : aAbilitiesBehaviour
     {
         yield return new WaitForSeconds(lengthTimeInSeconds);
 
-        BlindCars(players, false);
-        BlindCars(bots, false);
+        AnnoyCars(players, annoyingAmount, false);
+        AnnoyCars(bots, annoyingAmount, false);
 
-        if (enabled)
+        if(enabled)
             Destroy(gameObject);
     }
 
-    private void BlindCars(GameObject[] cars, bool blinded)
+    private void AnnoyCars(GameObject[] cars, float annoyingAmount, bool annoyed)
     {
-        foreach (var car in cars)
-            if (car != null && car != user)
+        foreach(var car in cars)
+            //if(car != null && car != user)
             {
                 var kartController = car.GetComponent<KartController>();
 
-                if (kartController)
-                    kartController.blindMe(blinded);
+                if(kartController)
+                    kartController.annoyMe(annoyingAmount, annoyed);
             }
     }
 }

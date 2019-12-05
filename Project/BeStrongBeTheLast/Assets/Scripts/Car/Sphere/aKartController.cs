@@ -47,7 +47,7 @@ public abstract class aKartController : aCollisionManager
     float rotate, currentRotate;
     protected float driftPower;
     int driftDirection, driftMode;
-    bool drifting, first, second, third;
+    internal bool drifting, first, second, third;
     protected bool driftDisabled;
     Color currentDriftColor;
 
@@ -61,8 +61,8 @@ public abstract class aKartController : aCollisionManager
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 10f;
-    public float heatingSpeed;
-    public float driftPenalty;
+    public float heatingSpeed = 0.25f;
+    public float driftPenalty = 1f;
     internal float gravity_;
     public LayerMask layerMask;
 
@@ -89,9 +89,13 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    private float driftHeatingValue;
+    internal float driftHeatingValue;
 
     internal bool driftCooldown;
+
+    internal bool iAmAnnoyed;
+
+    public float annoyingAmount = 1f;
 
     protected void Start_()
     {
@@ -136,7 +140,7 @@ public abstract class aKartController : aCollisionManager
         if (xAxis != 0)
         {
             var dir = xAxis > 0 ? 1 : -1;
-            var amount = Mathf.Abs(xAxis);
+            var amount = Mathf.Abs(xAxis) * annoyingAmount;
 
             Steer(dir, amount);
         }
@@ -157,7 +161,7 @@ public abstract class aKartController : aCollisionManager
             kartModel.parent.DOPunchPosition(transform.up * .2f, .3f, 5, 1);
         }
 
-        if (CanDrift() && drifting)
+        if (drifting)
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, 0, 2) : ExtensionMethods.Remap(xAxis, -1, 1, 2, 0);
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(xAxis, -1, 1, .2f, 1) : ExtensionMethods.Remap(xAxis, -1, 1, 1, .2f);
@@ -173,6 +177,7 @@ public abstract class aKartController : aCollisionManager
                 driftHeatingValue = 1f;
                 driftCooldown = true;
                 heatingSpeed *= driftPenalty;
+                clearDrift();
             }
             else
                 driftHeatingValue += heatingSpeed * Time.deltaTime;
@@ -191,7 +196,7 @@ public abstract class aKartController : aCollisionManager
                     heatingSpeed /= driftPenalty;
                 }
             }
-            else
+            else if(!iAmAnnoyed)
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
 
 

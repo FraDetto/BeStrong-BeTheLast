@@ -16,7 +16,7 @@ public class TankingBehaviour : MonoBehaviour
     private Vector3 originalScale;
 
     [SerializeField]
-    private float lengthTimeInSeconds = 10f;
+    private float lengthTimeInSeconds = 15f;
 
     // Start is called before the first frame update
     void Start()

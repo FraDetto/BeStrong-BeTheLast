@@ -113,9 +113,9 @@ public abstract class aBSBTLKart : aKartController
                 {
                     var y = Input.GetAxis("Vertical");
 
-                    if (y > 0)
+                    if (y >= 0)
                         Projectile(frontSpawnpoint);
-                    else if (y < 0)
+                    else 
                         Projectile(rearSpawnpoint);
                 }
             }
@@ -228,7 +228,7 @@ public abstract class aBSBTLKart : aKartController
         selectedSpecialText.color = disabledColor;
     }
 
-    internal void makeMeBlind(bool blind)
+    internal void blindMe(bool blind)
     {
         iAmBlinded = blind;
 
@@ -239,6 +239,25 @@ public abstract class aBSBTLKart : aKartController
             blindingFront.enabled = blind;
             blindingRear.enabled = blind;
         }
+    }
+
+    internal void annoyMe(float annoyingAmount, bool annoy)
+    {
+        iAmAnnoyed = annoy;
+
+        debuff.Find("Annoyed").gameObject.SetActive(annoy);
+        drifting = annoy;
+
+        if(annoy)
+        {
+            this.annoyingAmount *= annoyingAmount;
+            driftHeatingValue = 2f;
+        }  
+        else
+        {
+            this.annoyingAmount /= annoyingAmount;
+            driftHeatingValue = -1f;
+        }    
     }
 
 }
