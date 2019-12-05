@@ -405,7 +405,8 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         currentSpeed *= amount;
-
+        if (currentSpeed > 200)
+            currentSpeed = 200;
         if (amount > 1)
             PlayTurboEffect();
     }
@@ -506,7 +507,7 @@ public abstract class aKartController : aCollisionManager
         transform.eulerAngles = eul;
 
         sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
-        Accelerate(1.2f);
+        Accelerate(2f);
     }
 
     protected bool CanDrift() =>
