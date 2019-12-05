@@ -250,12 +250,12 @@ public abstract class aBSBTLKart : aKartController
 
         if (annoy)
         {
-            this.annoyingAmount *= annoyingAmount;
+            this.annoyingAmount = annoyingAmount;
             driftHeatingValue = 2f;
         }
         else
         {
-            this.annoyingAmount /= annoyingAmount;
+            this.annoyingAmount = annoyingAmount;
             driftHeatingValue = -1f;
         }
     }
