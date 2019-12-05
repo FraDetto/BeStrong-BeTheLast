@@ -10,22 +10,20 @@ using UnityEngine;
 
 public class CounterBehaviour : MonoBehaviour
 {
-    private GameObject user;
 
-    void Start()
-    {
-        user = transform.root.gameObject;
-    }
+    public SphereCollider sphereCollider;
+
+    internal float raggioDiAzione =>
+        sphereCollider.radius;
+
+    internal float diametroDiAzione =>
+        raggioDiAzione * 2;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
-        {
-            if (!other.transform.root.gameObject.Equals(user))
-            {
+            if (!other.transform.root.gameObject.Equals(transform.root.gameObject))
                 other.transform.root.GetComponentInChildren<KartCollision>().countered = true;
-            }
-        }
     }
 
 }
