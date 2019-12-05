@@ -13,6 +13,8 @@ using UnityEngine.SceneManagement;
 public sealed class KartController : aBSBTLKart
 {
 
+    public bool touchingGround = true;
+
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
 
@@ -61,7 +63,6 @@ public sealed class KartController : aBSBTLKart
                 renderer_.material.color = c;
 
                 setDestinationWithError();
-
                 break;
         }
 
@@ -85,8 +86,16 @@ public sealed class KartController : aBSBTLKart
                 }
                 else
                 {
-                    driftDisabled = false;
-                    Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    if (touchingGround)
+                    {
+                        driftDisabled = false;
+                        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    }
+                    else
+                    {
+                        driftDisabled = true;
+                        Update_(0, Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                    }
                 }
 
                 if (UsaWrongWay && wrong)
@@ -101,7 +110,7 @@ public sealed class KartController : aBSBTLKart
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestinationWithError();
 
-                CPUAI(wrong);
+                CPU_AI_Find_Obstacles(wrong);
 
                 lookAtDest.y = transform.position.y;
 
@@ -113,6 +122,8 @@ public sealed class KartController : aBSBTLKart
                 {
                     transform.LookAt(lookAtDest);
                 }
+
+                CPU_AI_Find_UseWeapons();
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
@@ -190,8 +201,35 @@ public sealed class KartController : aBSBTLKart
     internal void nextSpline() =>
         setDestination(0, 0);
 
+    private void CPU_AI_Find_UseWeapons()
+    {
+        foreach (var cpuCar in CPUCars)
+            if (cpuCar.name.Equals("Kart") && cpuCar != gameObject)
+            {
+                if (canUseProjectile())
+                {
+                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < 10)
+                        Projectile(frontSpawnpoint);
+                    //Projectile(rearSpawnpoint);
+                }
+                else if (canUseSpecial())
+                {
+                    Special();
+                }
+                else if (canUseCounter())
+                {
+                    var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
-    private void CPUAI(bool wrong)
+                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < counterBehaviour.diametroDiAzione)
+                    {
+                        Counter();
+                        break;
+                    }
+                }
+            }
+    }
+
+    private void CPU_AI_Find_Obstacles(bool wrong)
     {
         if (wrong)
         {
@@ -243,10 +281,8 @@ public sealed class KartController : aBSBTLKart
                             if (!currentObstacleOtherCPU.Contains(obstacle))
                             {
                                 var distance_MeToNextSpline = Vector3.Distance(transform.position, curSplinePos);
-                                //var distance_MeToObstacle = Vector3.Distance(transform.position, obstacle.transform.position);
                                 var distance_ObstacleToNextSpline = Vector3.Distance(obstacle.transform.position, curSplinePos);
 
-                                //if (distance_MeToNextSpline > distance_ObstacleToNextSpline || distance_MeToNextSpline > distance_MeToObstacle)
                                 if (distance_MeToNextSpline > distance_ObstacleToNextSpline)
                                     if (dist < nearDistandce)
                                     {

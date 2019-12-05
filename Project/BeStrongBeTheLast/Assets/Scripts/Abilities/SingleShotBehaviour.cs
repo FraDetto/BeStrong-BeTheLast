@@ -13,10 +13,10 @@ public class SingleShotBehaviour : MonoBehaviour
     [SerializeField]
     private LayerMask roadMask;
 
+    RaycastHit hit;
+
     private void Update()
     {
-        RaycastHit hit;
-
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
@@ -26,17 +26,20 @@ public class SingleShotBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("CPU"))
+        if (GB.CompareORTags(other, "Player", "CPU"))
         {
-            if (!other.transform.root.gameObject.Equals(GetComponentInParent<TrishotBehaviour>().user))
+            var trishotBehaviour = GetComponentInParent<TrishotBehaviour>();
+
+            if (!other.transform.root.gameObject.Equals(trishotBehaviour.user))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(GetComponentInParent<TrishotBehaviour>().accelerationFromShot);
-                Destroy(this.gameObject);
+                kartController.Accelerate(trishotBehaviour.accelerationFromShot);
+
+                Destroy(gameObject);
             }
         }
         else if (other.gameObject.layer.Equals(12))
-            Destroy(this.gameObject);
+            Destroy(gameObject);
     }
 
 }

@@ -506,6 +506,7 @@ public abstract class aKartController : aCollisionManager
         transform.eulerAngles = eul;
 
         sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
+        Accelerate(1.2f);
     }
 
     protected bool CanDrift() =>
