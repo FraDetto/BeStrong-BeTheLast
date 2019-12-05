@@ -61,7 +61,6 @@ public sealed class KartController : aBSBTLKart
                 renderer_.material.color = c;
 
                 setDestinationWithError();
-
                 break;
         }
 
@@ -243,10 +242,8 @@ public sealed class KartController : aBSBTLKart
                             if (!currentObstacleOtherCPU.Contains(obstacle))
                             {
                                 var distance_MeToNextSpline = Vector3.Distance(transform.position, curSplinePos);
-                                //var distance_MeToObstacle = Vector3.Distance(transform.position, obstacle.transform.position);
                                 var distance_ObstacleToNextSpline = Vector3.Distance(obstacle.transform.position, curSplinePos);
 
-                                //if (distance_MeToNextSpline > distance_ObstacleToNextSpline || distance_MeToNextSpline > distance_MeToObstacle)
                                 if (distance_MeToNextSpline > distance_ObstacleToNextSpline)
                                     if (dist < nearDistandce)
                                     {
