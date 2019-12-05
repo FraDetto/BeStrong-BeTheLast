@@ -196,7 +196,7 @@ public abstract class aKartController : aCollisionManager
                     heatingSpeed /= driftPenalty;
                 }
             }
-            else if(!iAmAnnoyed)
+            else if (!iAmAnnoyed)
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
 
 

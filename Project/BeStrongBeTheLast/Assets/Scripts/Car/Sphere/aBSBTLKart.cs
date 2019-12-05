@@ -115,7 +115,7 @@ public abstract class aBSBTLKart : aKartController
 
                     if (y >= 0)
                         Projectile(frontSpawnpoint);
-                    else 
+                    else
                         Projectile(rearSpawnpoint);
                 }
             }
@@ -248,16 +248,16 @@ public abstract class aBSBTLKart : aKartController
         debuff.Find("Annoyed").gameObject.SetActive(annoy);
         drifting = annoy;
 
-        if(annoy)
+        if (annoy)
         {
             this.annoyingAmount *= annoyingAmount;
             driftHeatingValue = 2f;
-        }  
+        }
         else
         {
             this.annoyingAmount /= annoyingAmount;
             driftHeatingValue = -1f;
-        }    
+        }
     }
 
 }

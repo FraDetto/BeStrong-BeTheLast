@@ -42,7 +42,7 @@ public class RollingBehaviour : aCollisionManager
     {
         onCollisionWithTags(other, (kartController) =>
         {
-            if(!other.transform.root.gameObject.Equals(GetComponentInParent<BouncingBehaviour>().user))
+            if (!other.transform.root.gameObject.Equals(GetComponentInParent<BouncingBehaviour>().user))
             {
                 kartController.Accelerate(accelerationFromShot);
                 Destroy(gameObject);
