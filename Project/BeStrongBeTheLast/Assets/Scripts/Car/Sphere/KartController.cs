@@ -110,7 +110,7 @@ public sealed class KartController : aBSBTLKart
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestinationWithError();
 
-                CPUAI(wrong);
+                CPU_AI_Find_Obstacles(wrong);
 
                 lookAtDest.y = transform.position.y;
 
@@ -122,6 +122,8 @@ public sealed class KartController : aBSBTLKart
                 {
                     transform.LookAt(lookAtDest);
                 }
+
+                CPU_AI_Find_UseWeapons();
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
@@ -199,8 +201,35 @@ public sealed class KartController : aBSBTLKart
     internal void nextSpline() =>
         setDestination(0, 0);
 
+    private void CPU_AI_Find_UseWeapons()
+    {
+        foreach (var cpuCar in CPUCars)
+            if (cpuCar.name.Equals("Kart") && cpuCar != gameObject)
+            {
+                if (canUseProjectile())
+                {
+                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < 10)
+                        Projectile(frontSpawnpoint);
+                    //Projectile(rearSpawnpoint);
+                }
+                else if (canUseSpecial())
+                {
+                    Special();
+                }
+                else if (canUseCounter())
+                {
+                    var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
-    private void CPUAI(bool wrong)
+                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < counterBehaviour.diametroDiAzione)
+                    {
+                        Counter();
+                        break;
+                    }
+                }
+            }
+    }
+
+    private void CPU_AI_Find_Obstacles(bool wrong)
     {
         if (wrong)
         {

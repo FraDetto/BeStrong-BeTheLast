@@ -23,8 +23,8 @@ public abstract class aBSBTLKart : aKartController
     public Image blindingRear;
 
     [Header("Abilities - Properties")]
-    [SerializeField] private Transform frontSpawnpoint;
-    [SerializeField] private Transform rearSpawnpoint;
+    [SerializeField] protected Transform frontSpawnpoint;
+    [SerializeField] protected Transform rearSpawnpoint;
     [SerializeField] private float regenSpeed;
     [SerializeField] private float counterCooldown;
     [SerializeField] private float projectileCooldown;
