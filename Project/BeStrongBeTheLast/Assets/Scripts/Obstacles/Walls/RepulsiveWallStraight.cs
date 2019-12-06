@@ -19,7 +19,7 @@ public class RepulsiveWallStraight : aCollisionManager
     private bool active = true;
     private KartController kartController;
     private float distToGround;
-
+    [SerializeField] private LayerMask roadMask;
 
     private void Start()
     { 
@@ -29,7 +29,7 @@ public class RepulsiveWallStraight : aCollisionManager
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.2f);
+        return Physics.Raycast(kartController.transform.position, Vector3.down, distToGround + 0.2f, roadMask);
     }
 
     private void FixedUpdate()
