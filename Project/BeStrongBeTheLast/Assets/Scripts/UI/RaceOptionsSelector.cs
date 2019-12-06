@@ -11,16 +11,19 @@ using UnityEngine.SceneManagement;
 
 public class RaceOptionsSelector : MonoBehaviour
 {
+
     public void LoadTrack(string champName)
     {
-        GameState.getInstance().setPlayerChamp(champName);
-        var track = ("Scenes/Testing/Guida Arcade Sphere/" + GameState.getInstance().getCurrentTrack());
+        GameState.Instance.setPlayerChamp(champName);
+
+        var track = "Scenes/Testing/Guida Arcade Sphere/" + GameState.Instance.selectedTrackName;
+
         SceneManager.LoadScene(track, LoadSceneMode.Single);
     }
 
     public void SelectTrack(string trackName)
     {
-        GameState.getInstance().setCurrentTrack(trackName);
+        GameState.Instance.setCurrentTrack(trackName);
         GB.GotoSceneName("KartSelection");
     }
 
