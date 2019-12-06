@@ -88,7 +88,7 @@ internal static class GameState
             return ranks;
         }
 
-        internal void CalcolaScore(string tag)
+        internal void CalcolaScore(int NumeroSplines, string tag)
         {
             var lap = 0;
 
@@ -98,7 +98,7 @@ internal static class GameState
             var kc = kartControllers[tag];
             var splineIndex = kc.CurrentSplineObject.transform.GetSiblingIndex();
 
-            var score = 95 * lap + splineIndex;
+            var score = NumeroSplines * lap + splineIndex;
 
             if (tag != null)
             {

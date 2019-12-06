@@ -82,38 +82,6 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                     break;
             }
         }, "Player", "CPU");
-
-        //if (GameState.getInstance() != null)
-        //{
-        //    var go = other.gameObject.transform.root.gameObject;
-        //    var laps = GameState.getInstance().getLaps();
-        //    var positions = GameState.getInstance().getPositions();
-
-        //    var lap = 0;
-        //    string tag = null;
-
-        //    if (go.CompareTag("Player"))
-        //        tag = "Player";
-        //    else if (go.CompareTag("CPU"))
-        //        tag = go.name;
-
-        //    if (tag != null && laps.ContainsKey(tag))
-        //        lap = laps[tag];
-
-        //    var figli = new List<string>();
-        //    foreach (Transform item in transform.parent)
-        //        figli.Add(item.name);
-
-        //    var score = transform.parent.childCount * lap + transform.GetSiblingIndex();
-
-        //    if (tag != null)
-        //    {
-        //        if (positions.ContainsKey(tag))
-        //            positions[tag] = score;
-        //        else
-        //            positions.Add(tag, score);
-        //    }
-        //}
     }
 
 }

@@ -15,6 +15,7 @@ public class EndManager : MonoBehaviour
     public Text lapText, posText;
 
     public GameObject[] cars;
+    public Transform CPUSplineRoot;
 
 
     private void Start()
@@ -57,7 +58,7 @@ public class EndManager : MonoBehaviour
     private void FixedUpdate()
     {
         foreach (var car in cars)
-            GameState.Instance.CalcolaScore(car.name);
+            GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
 
         if (GameState.Instance.laps.ContainsKey("Player"))
             lapText.text = "Lap " + (GameState.Instance.laps["Player"] + 1) + "/" + GameState.Instance.lapsNumberSetting;
