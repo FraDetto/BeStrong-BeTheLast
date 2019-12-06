@@ -112,7 +112,9 @@ public sealed class KartController : aBSBTLKart
 
                 CPU_AI_Find_Obstacles(wrong);
 
+                // go straight
                 lookAtDest.y = transform.position.y;
+                lookAtDestOriginal.y = transform.position.y;
 
                 if (iAmBlinded)
                 {

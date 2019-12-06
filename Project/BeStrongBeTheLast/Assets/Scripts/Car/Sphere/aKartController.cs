@@ -262,6 +262,9 @@ public abstract class aKartController : aCollisionManager
 
                 StartCoroutine(AbilitaRibalta());
             }
+
+        if (transform.localEulerAngles.x != 0) // salita
+            currentSpeed += 20;
     }
 
     protected void FixedUpdate_()
@@ -405,8 +408,10 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         currentSpeed *= amount;
+
         if (currentSpeed > 200)
             currentSpeed = 200;
+
         if (amount > 1)
             PlayTurboEffect();
     }

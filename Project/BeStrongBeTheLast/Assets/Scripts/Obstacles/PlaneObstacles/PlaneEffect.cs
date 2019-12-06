@@ -18,6 +18,7 @@ public class PlaneEffect : aCollisionManager
         onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             kartController.Accelerate(accelerationFromBox);
+            kartController.SetObstacleDestroyed(gameObject);
         });
 
 }
