@@ -28,7 +28,7 @@ public abstract class aKartController : aCollisionManager
     public CinemachineImpulseSource vCam;
 
     //PostProcessVolume postVolume;
-    PostProcessProfile postProfile;
+    internal PostProcessProfile postProfile;
 
     RaycastHit hitNear, giovane;
     //RaycastHit hitOn, hitNear;

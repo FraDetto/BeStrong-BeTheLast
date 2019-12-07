@@ -273,9 +273,10 @@ public abstract class aBSBTLKart : aKartController
             //blindingFront.enabled = blind;
             //blindingRear.enabled = blind;
             Vignette v;
-            if(camera_.GetComponent<PostProcessVolume>().profile.TryGetSettings<Vignette>(out v))
+           
+            if(postProfile.TryGetSettings<Vignette>(out v))
             {
-                v.active=blind;
+                v.enabled.Override(blind);
             }
         }
     }
