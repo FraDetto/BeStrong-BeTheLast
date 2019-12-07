@@ -98,7 +98,7 @@ public abstract class aKartController : aCollisionManager
     public float annoyingAmount = 1f;
 
     [SerializeField]
-    private Camera camera_; //camera fa parte di GameObject.camera
+    protected Camera camera_; //camera fa parte di GameObject.camera
 
 
     protected void Start_()
