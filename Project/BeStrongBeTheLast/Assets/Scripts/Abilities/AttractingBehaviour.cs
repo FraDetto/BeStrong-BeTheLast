@@ -23,8 +23,11 @@ public class AttractingBehaviour : aAbilitiesBehaviour
     private bool attracting;
 
 
-    void Start() =>
+    void Start()
+    {
+        Start_();
         StartCoroutine(Lifetime());
+    }
 
     private void Update()
     {

@@ -25,6 +25,8 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     void Start()
     {
+        Start_();
+
         rolling = transform.GetChild(0).gameObject;
         StartCoroutine(Lifetime());
 

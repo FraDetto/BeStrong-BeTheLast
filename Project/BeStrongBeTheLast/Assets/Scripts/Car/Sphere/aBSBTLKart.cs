@@ -170,8 +170,7 @@ public abstract class aBSBTLKart : aKartController
                 else if (MouseScrollWheel < 0)
                     index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
 
-                ePlayer aPlayerType = (ePlayer)index;
-                myAbility = abilities[aPlayerType];
+                myAbility = abilities[(ePlayer)index];
             }
 
             if (selectedProjectileText != null)

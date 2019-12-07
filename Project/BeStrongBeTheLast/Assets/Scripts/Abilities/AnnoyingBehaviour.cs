@@ -24,6 +24,8 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Start_();
+
         user = transform.parent.gameObject;
         players = GameObject.FindGameObjectsWithTag("Player");
         bots = GameObject.FindGameObjectsWithTag("CPU");
@@ -48,12 +50,12 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
     private void AnnoyCars(GameObject[] cars, float annoyingAmount, bool annoyed)
     {
         foreach (var car in cars)
-        if(car != null && car != user)
+            if (car != null && car != user)
             {
-            var kartController = car.GetComponent<KartController>();
+                var kartController = car.GetComponent<KartController>();
 
-            if (kartController)
-                kartController.annoyMe(annoyingAmount, annoyed);
+                if (kartController)
+                    kartController.annoyMe(annoyingAmount, annoyed);
             }
     }
 }
