@@ -10,14 +10,14 @@ using UnityEngine;
 
 public class ChangeCamera : MonoBehaviour
 {
-    public GameObject camToActive, camToDis;
-
+    //public GameObject camToActive, camToDis;
+    public int camToActive, camToDis;
     private bool doppiaCameraInScena;
 
 
     private void Start()
     {
-        doppiaCameraInScena = camToActive != null && camToDis != null;
+        doppiaCameraInScena = camToActive!=0 && camToDis!=0;
     }
 
     private void OnTriggerEnter(Collider co)
@@ -26,8 +26,9 @@ public class ChangeCamera : MonoBehaviour
         {
             if (co.CompareTag("Player"))
             {
-                camToActive.SetActive(true);
-                camToDis.SetActive(false);   
+                co.transform.root.GetComponentInChildren<KartController>().activNewCamera( camToActive, camToDis);
+                //camToActive.SetActive(true);
+                //camToDis.SetActive(false);   
             }
         }
     }

@@ -558,6 +558,12 @@ public abstract class aKartController : aCollisionManager
         Accelerate(2f);*/
     }
 
+    internal void activNewCamera(int indexCamToActiv, int indexCamToDis)
+    {
+        camera_.transform.GetChild(indexCamToActiv).gameObject.SetActive(true);
+        camera_.transform.GetChild(indexCamToDis).gameObject.SetActive(false);
+    }
+
     protected bool CanDrift() =>
         !driftCooldown;
 }
