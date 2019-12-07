@@ -78,7 +78,7 @@ public abstract class aBSBTLKart : aKartController
     private bool counterRecharging;
     private bool projectileRecharging;
     private bool specialRecharging;
-    private float powerGaugeValue;
+    internal float powerGaugeValue;
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
     protected bool iAmBlinded;
