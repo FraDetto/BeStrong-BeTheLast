@@ -50,7 +50,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
             if (other.name.StartsWith("Homing"))
             {
                 other.GetComponent<HomingBehaviour>().enabled = false;
-                kartController.selectedProjectile = kartController.homing;
+                kartController.myAbility.selectedProjectile = kartController.homing;
             }
             else if (other.name.StartsWith("Trishot"))
             {
@@ -59,7 +59,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
                 foreach (var singleShot in other.GetComponentsInChildren<SingleShotBehaviour>())
                     singleShot.enabled = false;
 
-                kartController.selectedProjectile = kartController.trishot;
+                kartController.myAbility.selectedProjectile = kartController.trishot;
             }
 
             projectile = other.gameObject;

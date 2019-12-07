@@ -7,6 +7,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,33 @@ public abstract class aBSBTLKart : aKartController
     [SerializeField] private float projectileCooldown;
     [SerializeField] private float specialCooldown;
 
+    public enum ePlayer
+    {
+        Hypogeum,
+        EarthRestorer,
+        Steamdunker,
+        Imps,
+        Flapper,
+        Kiddo,
+        Politician,
+        Bard
+    }
+
+    public struct sAbilities
+    {
+        public GameObject selectedProjectile, selectedSpecial;
+
+        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial)
+        {
+            this.selectedProjectile = selectedProjectile;
+            this.selectedSpecial = selectedSpecial;
+        }
+    }
+
+    public ePlayer playerType = ePlayer.Kiddo;
+
+    private Dictionary<ePlayer, sAbilities> abilities;
+
     public GameObject counter;
     public GameObject trishot;
     public GameObject homing;
@@ -40,13 +68,11 @@ public abstract class aBSBTLKart : aKartController
     public GameObject tanking;
     public GameObject rotating;
 
-    internal GameObject selectedProjectile;
-    internal GameObject selectedSpecial;
+    internal sAbilities myAbility;
+
     internal bool attracted;
     internal Transform debuff;
 
-    private GameObject[] projectiles;
-    private GameObject[] specials;
     private int index;
     private bool counterRecharging;
     private bool projectileRecharging;
@@ -56,28 +82,36 @@ public abstract class aBSBTLKart : aKartController
     private Color enabledColor = Color.yellow;
     protected bool iAmBlinded;
 
+    private const byte DifferentPlayersType = 8;
 
     protected new void Start_()
     {
-        projectiles = new GameObject[] { trishot, homing, bouncing, attracting };
-        selectedProjectile = projectiles[index];
+        abilities = new Dictionary<ePlayer, sAbilities>()
+        {
+            { ePlayer.Bard, new sAbilities(homing, annoying)},
+            { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating)},
+            { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
+            { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
+            { ePlayer.Imps, new sAbilities(trishot, annoying)},
+            { ePlayer.Kiddo, new sAbilities(attracting, rotating)},
+            { ePlayer.Politician, new sAbilities(trishot, blinding)},
+            { ePlayer.Steamdunker, new sAbilities(attracting, blinding)},
+        };
+
+        myAbility = abilities[playerType];
 
         if (counterText)
             counterText.color = disabledColor;
 
         if (selectedProjectileText)
         {
-            selectedProjectileText.text = selectedProjectile.name;
+            selectedProjectileText.text = myAbility.selectedProjectile.name;
             selectedProjectileText.color = disabledColor;
         }
 
-
-        specials = new GameObject[] { blinding, annoying, tanking, rotating };
-        selectedSpecial = specials[index];
-
         if (selectedSpecialText)
         {
-            selectedSpecialText.text = selectedSpecial.name;
+            selectedSpecialText.text = myAbility.selectedSpecial.name;
             selectedProjectileText.color = disabledColor;
         }
 
@@ -132,19 +166,19 @@ public abstract class aBSBTLKart : aKartController
             if (MouseScrollWheel != 0 && !attracted)
             {
                 if (MouseScrollWheel > 0)
-                    index = (index == 3 ? 0 : index + 1);
+                    index = (index == DifferentPlayersType - 1 ? 0 : index + 1);
                 else if (MouseScrollWheel < 0)
-                    index = (index == 0 ? 3 : index - 1);
+                    index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
 
-                selectedProjectile = projectiles[index];
-                selectedSpecial = specials[index];
+                ePlayer aPlayerType = (ePlayer)index;
+                myAbility = abilities[aPlayerType];
             }
 
             if (selectedProjectileText != null)
-                selectedProjectileText.text = selectedProjectile.name;
+                selectedProjectileText.text = myAbility.selectedProjectile.name;
 
             if (selectedSpecialText != null)
-                selectedSpecialText.text = selectedSpecial.name;
+                selectedSpecialText.text = myAbility.selectedSpecial.name;
         }
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
@@ -164,7 +198,7 @@ public abstract class aBSBTLKart : aKartController
 
     protected void Projectile(Transform spawnPoint)
     {
-        Instantiate(selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
+        Instantiate(myAbility.selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
         if (powerGauge)
             disableAll();
@@ -177,14 +211,14 @@ public abstract class aBSBTLKart : aKartController
         }
         else
         {
-            selectedProjectile = attracting;
+            myAbility.selectedProjectile = attracting;
             attracted = false;
         }
     }
 
     protected void Special()
     {
-        Instantiate(selectedSpecial, transform);
+        Instantiate(myAbility.selectedSpecial, transform);
 
         if (powerGauge)
             disableAll();
