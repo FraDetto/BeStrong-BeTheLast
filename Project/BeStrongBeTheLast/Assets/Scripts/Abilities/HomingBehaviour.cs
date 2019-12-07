@@ -67,7 +67,7 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 }
                 else if (target != null)
                 {
-                    kartController.Accelerate(accelerationFromShot);
+                    target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot);
                     Destroy(gameObject);
                 }
             }
