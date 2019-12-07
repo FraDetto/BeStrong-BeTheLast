@@ -14,7 +14,7 @@ public class RaceOptionsSelector : MonoBehaviour
 
     public void LoadTrack(string champName)
     {
-        GameState.Instance.setPlayerChamp(champName);
+        GameState.Instance.playerChampName = champName;
 
         var track = "Scenes/Testing/Guida Arcade Sphere/" + GameState.Instance.selectedTrackName;
 
@@ -23,7 +23,7 @@ public class RaceOptionsSelector : MonoBehaviour
 
     public void SelectTrack(string trackName)
     {
-        GameState.Instance.setCurrentTrack(trackName);
+        GameState.Instance.selectedTrackName = trackName;
         GB.GotoSceneName("KartSelection");
     }
 

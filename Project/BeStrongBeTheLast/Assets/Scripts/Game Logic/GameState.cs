@@ -33,27 +33,9 @@ internal static class GameState
         internal Dictionary<string, RankObj> rankingsDict = new Dictionary<string, RankObj>();
 
 
-        public bool setPlayerChamp(string name)
+        public int getCurrentRanking(string tag)
         {
-            playerChampName = name;
-
-            return true;
-            //Add check to see if prefab available, if not return false
-        }
-
-        public bool setCurrentTrack(string name)
-        {
-            selectedTrackName = name;
-
-            return true;
-            //Add check to see if prefab available, if not return false
-        }
-
-        public int[] getCurrentRanking(string tag)
-        {
-            int[] ranks = { 0, 8 };
-
-            var init = (rankings.Count == 0);
+            var init = rankings.Count == 0;
 
             foreach (var kartScore in positions)
             {
@@ -78,14 +60,9 @@ internal static class GameState
 
             foreach (var r in rankings)
                 if (r.getTag().Equals(tag))
-                {
-                    var miaPosizione = rankings.IndexOf(r) + 1;
+                    return rankings.IndexOf(r) + 1;
 
-                    ranks[0] = miaPosizione;
-                    break;
-                }
-
-            return ranks;
+            return kartControllers.Count;
         }
 
         internal void CalcolaScore(int NumeroSplines, string tag)

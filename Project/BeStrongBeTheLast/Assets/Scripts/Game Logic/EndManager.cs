@@ -36,14 +36,7 @@ public class EndManager : MonoBehaviour
         var go = other.gameObject.transform.root.gameObject;
         var controller = other.gameObject.transform.root.GetComponentInChildren<KartController>();
 
-        if (go.CompareTag("Player"))
-        {
-            if (GameState.Instance.laps.ContainsKey(go.tag))
-                GameState.Instance.laps[go.tag]++;
-            else
-                GameState.Instance.laps.Add(go.tag, 0);
-        }
-        else if (go.CompareTag("CPU"))
+        if (GB.CompareORTags(go, "Player", "CPU"))
         {
             if (GameState.Instance.laps.ContainsKey(go.name))
                 GameState.Instance.laps[go.name]++;
@@ -65,8 +58,8 @@ public class EndManager : MonoBehaviour
 
         if (GameState.Instance.positions.ContainsKey("Player"))
         {
-            int[] rank = GameState.Instance.getCurrentRanking("Player");
-            posText.text = rank[0] + "/" + rank[1];
+            var rank = GameState.Instance.getCurrentRanking("Player");
+            posText.text = rank + "/" + GameState.Instance.kartControllers.Count;
         }
     }
 
