@@ -98,12 +98,18 @@ public abstract class aKartController : aCollisionManager
     public float annoyingAmount = 1f;
 
     [SerializeField]
-    private Camera camera;
+    private Camera camera_; //camera fa parte di GameObject.camera
+
 
     protected void Start_()
     {
+        if (camera_ == null)
+            foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+                if (root.tag.Equals("MainCamera"))
+                    camera_ = root.GetComponent<Camera>();
+
         //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
-        var postVolume = camera.GetComponent<PostProcessVolume>();
+        var postVolume = camera_.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
         primaryParticles = new List<ParticleSystem>();

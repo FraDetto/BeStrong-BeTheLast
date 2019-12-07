@@ -26,9 +26,12 @@ public class HomingBehaviour : aAbilitiesBehaviour
     private GameObject user;
 
     private SphereCollider range;
+    RaycastHit hit;
 
     private void Start()
     {
+        Start_();
+
         user = transform.root.gameObject;
         transform.parent = null;
 
@@ -40,7 +43,6 @@ public class HomingBehaviour : aAbilitiesBehaviour
         if (target != null)
             transform.LookAt(target.transform);
 
-        RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
@@ -48,7 +50,7 @@ public class HomingBehaviour : aAbilitiesBehaviour
         }
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
-            Destroy(this.gameObject);
+            Destroy(gameObject);
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
@@ -56,7 +58,6 @@ public class HomingBehaviour : aAbilitiesBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
-        {
             if (!other.transform.root.gameObject.Equals(user))
             {
                 if (target == null)
@@ -66,11 +67,10 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 }
                 else if (target != null)
                 {
-                    var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                     kartController.Accelerate(accelerationFromShot);
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 }
             }
-        }
     }
+
 }

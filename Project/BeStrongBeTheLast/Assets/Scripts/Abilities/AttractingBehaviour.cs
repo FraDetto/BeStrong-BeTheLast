@@ -23,12 +23,15 @@ public class AttractingBehaviour : aAbilitiesBehaviour
     private bool attracting;
 
 
-    void Start() =>
+    void Start()
+    {
+        Start_();
         StartCoroutine(Lifetime());
+    }
 
     private void Update()
     {
-        if (attracting && !kartController.attracted)
+        if (attracting && !kartController.attracted && projectile)
         {
             projectile.transform.LookAt(transform);
             projectile.transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -50,7 +53,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
             if (other.name.StartsWith("Homing"))
             {
                 other.GetComponent<HomingBehaviour>().enabled = false;
-                kartController.selectedProjectile = kartController.homing;
+                kartController.myAbility.selectedProjectile = kartController.homing;
             }
             else if (other.name.StartsWith("Trishot"))
             {
@@ -59,7 +62,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
                 foreach (var singleShot in other.GetComponentsInChildren<SingleShotBehaviour>())
                     singleShot.enabled = false;
 
-                kartController.selectedProjectile = kartController.trishot;
+                kartController.myAbility.selectedProjectile = kartController.trishot;
             }
 
             projectile = other.gameObject;

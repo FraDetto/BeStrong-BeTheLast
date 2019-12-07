@@ -21,6 +21,8 @@ public class BlindingBehaviour : aAbilitiesBehaviour
 
     void Start()
     {
+        Start_();
+
         user = transform.parent.gameObject;
         players = GameObject.FindGameObjectsWithTag("Player");
         bots = GameObject.FindGameObjectsWithTag("CPU");
