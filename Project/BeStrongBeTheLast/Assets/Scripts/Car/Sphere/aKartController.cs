@@ -51,6 +51,8 @@ public abstract class aKartController : aCollisionManager
     protected bool driftDisabled;
     Color currentDriftColor;
 
+    public LayerMask wallMask;
+
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
@@ -94,6 +96,8 @@ public abstract class aKartController : aCollisionManager
     internal bool driftCooldown;
 
     internal bool iAmAnnoyed;
+
+    internal bool settingOnTrack;
 
     public float annoyingAmount = 1f;
 
@@ -272,6 +276,37 @@ public abstract class aKartController : aCollisionManager
 
                 StartCoroutine(AbilitaRibalta());
             }
+
+
+
+
+        if (settingOnTrack)
+        {
+            var dir = lookAtDestOriginal - transform.position;
+            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 30f*Time.deltaTime);
+
+            var eul = rot.eulerAngles;
+            eul.x = 0;
+            eul.z = 0;
+
+            var resultRayCastRight = !Physics.Raycast(transform.position, transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+            var resultRayCastLeft = !Physics.Raycast(transform.position, transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+
+            if (resultRayCastRight && resultRayCastLeft)
+            {
+                sphere.AddForce(dir.normalized * 200f, ForceMode.Impulse);
+                Accelerate(1.8f);
+                settingOnTrack = false;
+            }
+            else
+            {
+                transform.eulerAngles = eul;
+            }
+            
+        }
+        
+
+
     }
 
     protected void FixedUpdate_()
@@ -509,7 +544,8 @@ public abstract class aKartController : aCollisionManager
 
     internal void SetOnTrack()
     {
-        var dir = lookAtDestOriginal - transform.position;
+        settingOnTrack = true;
+        /*var dir = lookAtDestOriginal - transform.position;
         var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
 
         var eul = rot.eulerAngles;
@@ -519,7 +555,7 @@ public abstract class aKartController : aCollisionManager
         transform.eulerAngles = eul;
 
         sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
-        Accelerate(2f);
+        Accelerate(2f);*/
     }
 
     protected bool CanDrift() =>
