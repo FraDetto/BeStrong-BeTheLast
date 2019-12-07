@@ -31,7 +31,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
-        if (attracting && !kartController.attracted)
+        if (attracting && !kartController.attracted && projectile)
         {
             projectile.transform.LookAt(transform);
             projectile.transform.Translate(Vector3.forward * speed * Time.deltaTime);
