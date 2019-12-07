@@ -22,7 +22,7 @@ public class LoadPlayer : MonoBehaviour
     {
         if (!playerOnTheSceneOrCPUToFollow)
             playerOnTheSceneOrCPUToFollow = Instantiate(
-                Resources.Load("Models/Real Kart/Prefabs/" + GameState.getInstance().getPlayerChamp()) as GameObject,
+                Resources.Load("Models/Real Kart/Prefabs/" + GameState.Instance.playerChampName) as GameObject,
                 transform.position,
                 Quaternion.identity
             );

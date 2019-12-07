@@ -266,9 +266,6 @@ public abstract class aKartController : aCollisionManager
 
                 StartCoroutine(AbilitaRibalta());
             }
-
-        if (transform.localEulerAngles.x != 0) // salita
-            currentSpeed += 20;
     }
 
     protected void FixedUpdate_()

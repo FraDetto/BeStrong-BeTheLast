@@ -13,11 +13,6 @@ internal static class GameState
 {
     internal static GameStateInternal Instance = new GameStateInternal();
 
-    internal static GameStateInternal getInstance()
-    {
-        return Instance;
-    }
-
     internal static void resetGame()
     {
         Instance = new GameStateInternal();
@@ -26,92 +21,93 @@ internal static class GameState
 
     internal class GameStateInternal
     {
-
         //CURRENT RACE OPTIONS
-        private string playerChampName, selectedTrackName;
-        private int lapsNumberSetting = 3;
+        internal string playerChampName, selectedTrackName;
+        internal int lapsNumberSetting = 3;
 
-        //qui si potrebbe unificare tutto dentro ad una List<RankObj>
-        private Dictionary<string, int> positions = new Dictionary<string, int>();
-        private Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
-        private Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
-        List<RankObj> rankings = new List<RankObj>();
+        internal Dictionary<string, int> positions = new Dictionary<string, int>();
+        internal Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
+        internal Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
+
+        internal List<RankObj> rankings = new List<RankObj>();
+        internal Dictionary<string, RankObj> rankingsDict = new Dictionary<string, RankObj>();
 
 
         public bool setPlayerChamp(string name)
         {
             playerChampName = name;
+
             return true;
             //Add check to see if prefab available, if not return false
-        }
-
-        public string getPlayerChamp()
-        {
-            return playerChampName;
         }
 
         public bool setCurrentTrack(string name)
         {
             selectedTrackName = name;
+
             return true;
             //Add check to see if prefab available, if not return false
         }
 
-        public string getCurrentTrack()
-        {
-            return selectedTrackName;
-        }
-
-        public int getLapsNumberSetting()
-        {
-            return lapsNumberSetting;
-        }
-
-        public Dictionary<string, int> getPositions()
-        {
-            return positions;
-        }
-
-        public Dictionary<string, ushort> getLaps()
-        {
-            return laps;
-        }
-
-        public Dictionary<string, KartController> getKartControllers()
-        {
-            return kartControllers;
-        }
-
         public int[] getCurrentRanking(string tag)
         {
-            int[] ranks = new int[2];
-            //ranks[1] = positions.Count;
-            ranks[1] = 8;
-            rankings = new List<RankObj>();
+            int[] ranks = { 0, 8 };
+
+            var init = (rankings.Count == 0);
 
             foreach (var kartScore in positions)
             {
-                rankings.Add(new RankObj(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance()));
+                RankObj ro;
+
+                if (init)
+                {
+                    ro = new RankObj();
+
+                    rankings.Add(ro);
+                    rankingsDict.Add(kartScore.Key, ro);
+                }
+                else
+                {
+                    ro = rankingsDict[kartScore.Key];
+                }
+
+                ro.set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance());
             }
 
             rankings = rankings.OrderBy(c => c.getScore()).ThenByDescending(c => c.getDist()).ToList();
 
             foreach (var r in rankings)
-            {
                 if (r.getTag().Equals(tag))
                 {
-                    ranks[0] = rankings.IndexOf(r) + 1;
+                    var miaPosizione = rankings.IndexOf(r) + 1;
+
+                    ranks[0] = miaPosizione;
                     break;
                 }
-            }
+
             return ranks;
         }
 
-        public List<RankObj> getAllRankings()
+        internal void CalcolaScore(int NumeroSplines, string tag)
         {
-            return rankings;
-        }
+            var lap = 0;
 
+            if (laps.ContainsKey(tag))
+                lap = laps[tag];
+
+            var kc = kartControllers[tag];
+            var splineIndex = kc.CurrentSplineObject.transform.GetSiblingIndex();
+
+            var score = NumeroSplines * lap + splineIndex;
+
+            if (tag != null)
+            {
+                if (positions.ContainsKey(tag))
+                    positions[tag] = score;
+                else
+                    positions.Add(tag, score);
+            }
+        }
     }
 
     internal class RankObj
@@ -120,7 +116,7 @@ internal static class GameState
         private string tag;
         private float dist;
 
-        public RankObj(int score, string tag, float dist)
+        public void set(int score, string tag, float dist)
         {
             this.score = score;
             this.tag = tag;

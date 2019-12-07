@@ -82,6 +82,15 @@ public static class GB
         return false;
     }
 
+    public static bool CompareORTags(GameObject go, params string[] tags)
+    {
+        foreach (var tag in tags)
+            if (go.CompareTag(tag))
+                return true;
+
+        return false;
+    }
+
     public static bool CompareANDTags(Component component, params string[] tags)
     {
         var x = 0;
