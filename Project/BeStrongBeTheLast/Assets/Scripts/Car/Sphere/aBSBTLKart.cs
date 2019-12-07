@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public abstract class aBSBTLKart : aKartController
 {
@@ -269,8 +270,13 @@ public abstract class aBSBTLKart : aKartController
 
         if (powerGauge)
         {
-            blindingFront.enabled = blind;
-            blindingRear.enabled = blind;
+            //blindingFront.enabled = blind;
+            //blindingRear.enabled = blind;
+            Vignette v;
+            if(camera_.GetComponent<PostProcessVolume>().profile.TryGetSettings<Vignette>(out v))
+            {
+                v.active=blind;
+            }
         }
     }
 
