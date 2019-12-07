@@ -103,9 +103,10 @@ public abstract class aKartController : aCollisionManager
 
     protected void Start_()
     {
-        foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
-            if (root.tag.Equals("MainCamera"))
-                camera_ = root.GetComponent<Camera>();
+        if (camera_ == null)
+            foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+                if (root.tag.Equals("MainCamera"))
+                    camera_ = root.GetComponent<Camera>();
 
         //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         var postVolume = camera_.GetComponent<PostProcessVolume>();
