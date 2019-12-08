@@ -104,6 +104,8 @@ public abstract class aKartController : aCollisionManager
     [SerializeField]
     protected Camera camera_; //camera fa parte di GameObject.camera
 
+    private AudioSource boostAudioSource;
+
 
     protected void Start_()
     {
@@ -111,6 +113,14 @@ public abstract class aKartController : aCollisionManager
             foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
                 if (root.tag.Equals("MainCamera"))
                     camera_ = root.GetComponent<Camera>();
+
+        var audioSources = GetComponents<AudioSource>();
+        foreach (var a in audioSources)
+            if (!a.loop)
+            {
+                boostAudioSource = a;
+                break;
+            }
 
         //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         var postVolume = camera_.GetComponent<PostProcessVolume>();
@@ -358,6 +368,8 @@ public abstract class aKartController : aCollisionManager
 
     void Boost()
     {
+        boostAudioSource.Play(0);
+
         if (driftMode > 0)
             switch (KCType)
             {
