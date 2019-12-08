@@ -17,7 +17,7 @@ public class ChangeCamera : MonoBehaviour
 
     private void Start()
     {
-        doppiaCameraInScena = camToActive!=0 && camToDis!=0;
+        doppiaCameraInScena = camToActive != 0 && camToDis != 0;
     }
 
     private void OnTriggerEnter(Collider co)
@@ -26,7 +26,7 @@ public class ChangeCamera : MonoBehaviour
         {
             if (co.CompareTag("Player"))
             {
-                co.transform.root.GetComponentInChildren<KartController>().activNewCamera( camToActive, camToDis);
+                co.transform.root.GetComponentInChildren<KartController>().activNewCamera(camToActive, camToDis);
                 //camToActive.SetActive(true);
                 //camToDis.SetActive(false);   
             }

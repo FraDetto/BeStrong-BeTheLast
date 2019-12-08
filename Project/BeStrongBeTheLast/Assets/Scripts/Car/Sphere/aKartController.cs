@@ -283,7 +283,7 @@ public abstract class aKartController : aCollisionManager
         if (settingOnTrack)
         {
             var dir = lookAtDestOriginal - transform.position;
-            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 30f*Time.deltaTime);
+            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 30f * Time.deltaTime);
 
             var eul = rot.eulerAngles;
             eul.x = 0;
@@ -302,9 +302,9 @@ public abstract class aKartController : aCollisionManager
             {
                 transform.eulerAngles = eul;
             }
-            
+
         }
-        
+
 
 
     }

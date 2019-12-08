@@ -9,8 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public abstract class aBSBTLKart : aKartController
 {
@@ -273,8 +273,8 @@ public abstract class aBSBTLKart : aKartController
             //blindingFront.enabled = blind;
             //blindingRear.enabled = blind;
             Vignette v;
-           
-            if(postProfile.TryGetSettings<Vignette>(out v))
+
+            if (postProfile.TryGetSettings<Vignette>(out v))
             {
                 v.enabled.Override(blind);
             }
