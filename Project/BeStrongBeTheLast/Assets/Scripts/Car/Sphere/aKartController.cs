@@ -25,7 +25,7 @@ public abstract class aKartController : aCollisionManager
 
     public eKCType KCType = eKCType.Human;
 
-    public int playerNumber = 0;
+    public int playerNumber;
 
     [SerializeField]
     protected Camera camera_; //camera fa parte di GameObject.camera
@@ -106,12 +106,23 @@ public abstract class aKartController : aCollisionManager
 
     public float annoyingAmount = 1f;
 
+    private AudioSource boostAudioSource;
+
+
     protected void Start_()
     {
         if (camera_ == null)
             foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
                 if (root.tag.Equals("MainCamera"))
                     camera_ = root.GetComponent<Camera>();
+
+        var audioSources = GetComponents<AudioSource>();
+        foreach (var a in audioSources)
+            if (!a.loop)
+            {
+                boostAudioSource = a;
+                break;
+            }
 
         //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         var postVolume = camera_.GetComponent<PostProcessVolume>();
@@ -359,6 +370,8 @@ public abstract class aKartController : aCollisionManager
 
     void Boost()
     {
+        boostAudioSource.Play(0);
+
         if (driftMode > 0)
             switch (KCType)
             {
