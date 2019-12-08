@@ -54,7 +54,7 @@ public class EndManager : MonoBehaviour
             GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
 
         if (GameState.Instance.laps.ContainsKey("Player"))
-            lapText.text = "Lap " + (GameState.Instance.laps["Player"] + 1) + "/" + GameState.Instance.lapsNumberSetting;
+            lapText.text = "Lap " + (GameState.Instance.laps["Player"]) + "/" + GameState.Instance.lapsNumberSetting;
 
         if (GameState.Instance.positions.ContainsKey("Player"))
         {
