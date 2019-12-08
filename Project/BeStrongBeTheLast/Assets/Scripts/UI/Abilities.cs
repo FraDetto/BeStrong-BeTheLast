@@ -19,10 +19,10 @@ public class Abilities : MonoBehaviour
     public Text selectedProjectileText;
     public Text selectedSpecialText;
     public Slider driftHeating;
+    public Text warningText;
 
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
-
 
     private void Start()
     {
@@ -33,6 +33,8 @@ public class Abilities : MonoBehaviour
 
         selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
         selectedProjectileText.color = disabledColor;
+
+        kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
     }
 
     private void Update()

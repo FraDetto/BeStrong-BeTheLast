@@ -101,7 +101,7 @@ public abstract class aKartController : aCollisionManager
 
     internal bool settingOnTrack;
 
-    public float annoyingAmount = 1f;
+    internal float annoyingAmount = 1f;
 
     private AudioSource boostAudioSource;
 

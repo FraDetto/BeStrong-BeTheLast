@@ -14,10 +14,6 @@ using UnityEngine.UI;
 
 public abstract class aBSBTLKart : aKartController
 {
-
-    public Image blindingFront;
-    public Image blindingRear;
-
     [Header("Abilities - Properties")]
     [SerializeField] protected Transform frontSpawnpoint;
     [SerializeField] protected Transform rearSpawnpoint;
@@ -141,7 +137,7 @@ public abstract class aBSBTLKart : aKartController
         }
         //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)        
 
-        if (GB.GetButtonDown("P1MenuA"))
+        if (GB.GetButtonDown(input + "MenuA"))
             rankPanel.SetActive(!rankPanel.activeSelf);
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
