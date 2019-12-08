@@ -30,6 +30,48 @@ public static class GB
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
 
+    public static float GetAxis(string axisName)
+    {
+        try
+        {
+            return Input.GetAxis(axisName);
+        }
+        catch
+        {
+            Debug.Log($"L'asse {axisName} non è stato definito.");
+
+            return 0;
+        }
+    }
+
+    public static bool GetButtonDown(string buttonName)
+    {
+        try
+        {
+            return Input.GetButtonDown(buttonName);
+        }
+        catch
+        {
+            Debug.Log($"Il pulsante {buttonName} non è stato definito.");
+
+            return false;
+        }
+    }
+
+    public static bool GetButtonUp(string buttonName)
+    {
+        try
+        {
+            return Input.GetButtonUp(buttonName);
+        }
+        catch
+        {
+            Debug.Log($"Il pulsante {buttonName} non è stato definito.");
+
+            return false;
+        }
+    }
+
     public static bool between<A>(A item, A from_, A to_) where A : System.IComparable
     {
         return item.CompareTo(from_) >= 0 && item.CompareTo(to_) <= 0;

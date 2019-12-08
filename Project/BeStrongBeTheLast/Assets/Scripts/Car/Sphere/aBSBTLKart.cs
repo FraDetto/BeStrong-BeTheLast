@@ -15,12 +15,6 @@ using UnityEngine.UI;
 public abstract class aBSBTLKart : aKartController
 {
 
-    [Header("Abilities - UI")]
-    [SerializeField] private Slider powerGauge;
-    [SerializeField] private Text counterText;
-    [SerializeField] private Text selectedProjectileText;
-    [SerializeField] private Text selectedSpecialText;
-
     public Image blindingFront;
     public Image blindingRear;
 
@@ -79,9 +73,9 @@ public abstract class aBSBTLKart : aKartController
     private bool counterRecharging;
     private bool projectileRecharging;
     private bool specialRecharging;
+
     internal float powerGaugeValue;
-    private Color disabledColor = Color.red;
-    private Color enabledColor = Color.yellow;
+
     protected bool iAmBlinded;
 
     private const byte DifferentPlayersType = 8;
@@ -101,22 +95,6 @@ public abstract class aBSBTLKart : aKartController
         };
 
         myAbility = abilities[playerType];
-
-        if (counterText)
-            counterText.color = disabledColor;
-
-        if (selectedProjectileText)
-        {
-            selectedProjectileText.text = myAbility.selectedProjectile.name;
-            selectedProjectileText.color = disabledColor;
-        }
-
-        if (selectedSpecialText)
-        {
-            selectedSpecialText.text = myAbility.selectedSpecial.name;
-            selectedProjectileText.color = disabledColor;
-        }
-
         debuff = transform.Find("Debuff");
 
         base.Start_();
@@ -130,62 +108,40 @@ public abstract class aBSBTLKart : aKartController
         if (powerGaugeValue > 1f)
             powerGaugeValue = 1f;
 
-        if (powerGauge)
+        if (canUseCounter())
+            if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
+                Counter();
+
+        if (canUseProjectile())
+            if (GB.GetButtonDown(input + "Projectile"))
+            {
+                var y = Input.GetAxis(input + "Vertical");
+
+                if (y >= 0)
+                    Projectile(frontSpawnpoint);
+                else
+                    Projectile(rearSpawnpoint);
+            }
+
+        if (canUseSpecial())
+            if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
+                Special();
+
+        //Only for testing purposes, will be removed during release (controllers and CPU don't need this)
+        var MouseScrollWheel = GB.GetAxis("Mouse ScrollWheel");
+
+        if (MouseScrollWheel != 0 && !attracted)
         {
-            powerGauge.value = powerGaugeValue;
+            if (MouseScrollWheel > 0)
+                index = (index == DifferentPlayersType - 1 ? 0 : index + 1);
+            else if (MouseScrollWheel < 0)
+                index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
 
-            if (canUseCounter())
-            {
-                counterText.color = enabledColor;
-
-                if (Input.GetButtonDown(input + "Counter") || Input.GetAxis(input + "Counter") != 0)
-                    Counter();
-            }
-
-            if (canUseProjectile())
-            {
-                selectedProjectileText.color = enabledColor;
-
-                if (Input.GetButtonDown(input + "Projectile"))
-                {
-                    var y = Input.GetAxis(input + "Vertical");
-
-                    if (y >= 0)
-                        Projectile(frontSpawnpoint);
-                    else
-                        Projectile(rearSpawnpoint);
-                }
-            }
-
-            if (canUseSpecial())
-            {
-                selectedSpecialText.color = enabledColor;
-                if (Input.GetButtonDown(input + "Special") || Input.GetAxis(input + "Special") != 0)
-                    Special();
-            }
-
-            //Only for testing purposes, will be removed during release (controllers and CPU don't need this)
-            var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
-
-            if (MouseScrollWheel != 0 && !attracted)
-            {
-                if (MouseScrollWheel > 0)
-                    index = (index == DifferentPlayersType - 1 ? 0 : index + 1);
-                else if (MouseScrollWheel < 0)
-                    index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
-
-                myAbility = abilities[(ePlayer)index];
-            }
-
-            if (selectedProjectileText != null)
-                selectedProjectileText.text = myAbility.selectedProjectile.name;
-
-            if (selectedSpecialText != null)
-                selectedSpecialText.text = myAbility.selectedSpecial.name;
-            //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)
+            myAbility = abilities[(ePlayer)index];
         }
+        //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)        
 
-        if (Input.GetButtonDown("P1MenuA"))
+        if (GB.GetButtonDown("P1MenuA"))
             rankPanel.SetActive(!rankPanel.activeSelf);
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
@@ -195,9 +151,6 @@ public abstract class aBSBTLKart : aKartController
     {
         Instantiate(counter, transform);
 
-        if (powerGauge)
-            disableAll();
-
         powerGaugeValue -= 0.25f;
         counterRecharging = true;
         StartCoroutine(CounterCooldown());
@@ -206,9 +159,6 @@ public abstract class aBSBTLKart : aKartController
     protected void Projectile(Transform spawnPoint)
     {
         Instantiate(myAbility.selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
-
-        if (powerGauge)
-            disableAll();
 
         if (!attracted)
         {
@@ -227,21 +177,18 @@ public abstract class aBSBTLKart : aKartController
     {
         Instantiate(myAbility.selectedSpecial, transform);
 
-        if (powerGauge)
-            disableAll();
-
         powerGaugeValue -= 0.75f;
         specialRecharging = true;
         StartCoroutine(SpecialCooldown());
     }
 
-    protected bool canUseCounter() =>
+    internal bool canUseCounter() =>
         powerGaugeValue >= 0.25f && !counterRecharging;
 
-    protected bool canUseProjectile() =>
+    internal bool canUseProjectile() =>
       (powerGaugeValue >= 0.5f && !projectileRecharging) || attracted;
 
-    protected bool canUseSpecial() =>
+    internal bool canUseSpecial() =>
        powerGaugeValue >= 0.75f && !specialRecharging;
 
     IEnumerator CounterCooldown()
@@ -262,28 +209,15 @@ public abstract class aBSBTLKart : aKartController
         specialRecharging = false;
     }
 
-    protected void disableAll()
-    {
-        counterText.color = disabledColor;
-        selectedProjectileText.color = disabledColor;
-        selectedSpecialText.color = disabledColor;
-    }
-
     internal void blindMe(bool blind)
     {
         iAmBlinded = blind;
 
         debuff.Find("Blinded").gameObject.SetActive(blind);
 
-        if (powerGauge)
-        {
-            //blindingFront.enabled = blind;
-            //blindingRear.enabled = blind;
-            Vignette v;
-
-            if (postProfile.TryGetSettings(out v))
-                v.enabled.Override(blind);
-        }
+        Vignette v;
+        if (postProfile.TryGetSettings(out v))
+            v.enabled.Override(blind);
     }
 
     internal void annoyMe(float annoyingAmount, bool annoy)
