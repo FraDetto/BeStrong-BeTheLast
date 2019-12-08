@@ -7,12 +7,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EndManager : MonoBehaviour
 {
-
-    public Text lapText, posText;
 
     public GameObject[] cars;
     public Transform CPUSplineRoot;
@@ -61,15 +58,6 @@ public class EndManager : MonoBehaviour
     {
         foreach (var car in cars)
             GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
-
-        if (GameState.Instance.laps.ContainsKey("Player"))
-            lapText.text = "Lap " + (GameState.Instance.laps["Player"]) + "/" + GameState.Instance.lapsNumberSetting;
-
-        if (GameState.Instance.positions.ContainsKey("Player"))
-        {
-            var rank = GameState.Instance.getCurrentRanking("Player");
-            posText.text = rank + "/" + GameState.Instance.kartControllers.Count;
-        }
     }
 
 }
