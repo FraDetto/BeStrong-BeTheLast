@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.UI;
 
 public abstract class aKartController : aCollisionManager
 {
@@ -25,7 +24,8 @@ public abstract class aKartController : aCollisionManager
 
     public eKCType KCType = eKCType.Human;
 
-    public int playerNumber;
+    [Range(1, 8)]
+    public byte playerNumber = 1;
 
     [SerializeField]
     protected Camera camera_; //camera fa parte di GameObject.camera
@@ -61,11 +61,6 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
-    public SplineObject CurrentSplineObject;
-
-    [Header("Controller - UI")]
-    [SerializeField] private Slider driftHeating;
-
     [Header("Parameters")]
     public float acceleration = 30f;
     public float steering = 80f;
@@ -82,6 +77,8 @@ public abstract class aKartController : aCollisionManager
     [Header("Particles")]
     public Transform wheelParticles, flashParticles;
     public Color[] turboColors;
+
+    public SplineObject CurrentSplineObject;
 
     protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
@@ -104,9 +101,9 @@ public abstract class aKartController : aCollisionManager
 
     internal bool settingOnTrack;
 
-    private AudioSource boostAudioSource;
+    public float annoyingAmount = 1f;
 
-    internal float annoyingAmount = 1f;
+    private AudioSource boostAudioSource;
 
 
     protected void Start_()
@@ -207,9 +204,6 @@ public abstract class aKartController : aCollisionManager
             }
             else
                 driftHeatingValue += heatingSpeed * Time.deltaTime;
-
-            if (driftHeating)
-                driftHeating.value = driftHeatingValue;
         }
         else
         {
@@ -224,10 +218,6 @@ public abstract class aKartController : aCollisionManager
             }
             else if (!iAmAnnoyed)
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
-
-
-            if (driftHeating)
-                driftHeating.value = driftHeatingValue;
         }
 
         if (jumpBUp && drifting)

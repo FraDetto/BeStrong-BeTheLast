@@ -28,6 +28,6 @@ public class radioTowerTrigger : MonoBehaviour
         {
             part.SetActive(true);
         }
-        this.gameObject.GetComponent<Collider>().enabled = false;
+        this.gameObject.GetComponent<Collider>().enabled = true;
     }
 }
