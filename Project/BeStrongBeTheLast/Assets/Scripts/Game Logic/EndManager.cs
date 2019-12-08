@@ -51,12 +51,8 @@ public class EndManager : MonoBehaviour
     private bool endGame()
     {
         foreach (var lap in GameState.Instance.laps)
-        {
             if (lap.Value <= GameState.Instance.lapsNumberSetting)
-            {
                 return false;
-            }
-        }
 
         return true;
     }

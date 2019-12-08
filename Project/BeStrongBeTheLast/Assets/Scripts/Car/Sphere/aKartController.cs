@@ -314,11 +314,7 @@ public abstract class aKartController : aCollisionManager
             {
                 transform.eulerAngles = eul;
             }
-
         }
-
-
-
     }
 
     protected void FixedUpdate_()
