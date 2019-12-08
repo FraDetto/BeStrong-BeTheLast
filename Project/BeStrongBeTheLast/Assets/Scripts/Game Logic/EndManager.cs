@@ -44,8 +44,17 @@ public class EndManager : MonoBehaviour
                 GameState.Instance.laps.Add(go.name, 0);
         }
 
-        if (GameState.Instance.laps.ContainsKey("Player") && GameState.Instance.laps["Player"] == GameState.Instance.lapsNumberSetting)
+        if (GameState.Instance.laps.ContainsKey("Player") && endGame())
             GB.GotoSceneName("Endgame");
+    }
+
+    private bool endGame()
+    {
+        foreach (var lap in GameState.Instance.laps)
+            if (lap.Value <= GameState.Instance.lapsNumberSetting)
+                return false;
+
+        return true;
     }
 
     private void FixedUpdate()

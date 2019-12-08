@@ -11,13 +11,18 @@ using UnityEngine;
 public class ShortcutTrigger : MonoBehaviour
 {
 
+    public GameObject wall;
+    private ShortcutMovement wallScript;
+
+    private void Start()
+    {
+        wallScript = wall.GetComponent<ShortcutMovement>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
-            var shortcutMovement = transform.parent.GetComponent<ShortcutMovement>();
-            shortcutMovement.forceChangeState();
-        }
+            wallScript.forceChangeState();
     }
 
 }
