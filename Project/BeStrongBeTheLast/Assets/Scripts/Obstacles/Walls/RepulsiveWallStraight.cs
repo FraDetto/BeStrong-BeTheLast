@@ -43,7 +43,7 @@ public class RepulsiveWallStraight : aCollisionManager
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (GB.CompareORTags(collision.gameObject, "Player", "CPU"))
+        if (audioData && GB.CompareORTags(collision.gameObject, "Player", "CPU"))
             audioData.Play(0);
 
         var pavimento = false;
