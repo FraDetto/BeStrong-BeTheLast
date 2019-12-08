@@ -19,6 +19,7 @@ public sealed class KartController : aBSBTLKart
     public bool UsaWrongWay = false;
 
     private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
+
     // ============== HUMAN ==============
 
     // =============== CPU ===============
@@ -76,6 +77,7 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
+                var input = "P" + playerNumber;
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestination(0, 0, false, CurrentSplineObject);
 
@@ -89,12 +91,12 @@ public sealed class KartController : aBSBTLKart
                     if (touchingGround)
                     {
                         driftDisabled = false;
-                        Update_(Input.GetAxis("Horizontal"), Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                        Update_(Input.GetAxis(input + "Horizontal"), Input.GetButtonDown(input + "Drift"), Input.GetButtonUp(input + "Drift"));
                     }
                     else
                     {
                         driftDisabled = true;
-                        Update_(0, Input.GetButtonDown("Jump"), Input.GetButtonUp("Jump"));
+                        Update_(0, Input.GetButtonDown(input + "Drift"), Input.GetButtonUp(input + "Drift"));
                     }
                 }
 

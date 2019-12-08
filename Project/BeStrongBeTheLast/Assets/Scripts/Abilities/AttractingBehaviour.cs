@@ -22,6 +22,9 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
     private bool attracting;
 
+    [SerializeField]
+    private float lengthTimeInSeconds = 5f;
+
 
     void Start()
     {
@@ -64,6 +67,11 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
                 kartController.myAbility.selectedProjectile = kartController.trishot;
             }
+            else if(other.name.StartsWith("Bouncing"))
+            {
+                other.GetComponent<BouncingBehaviour>().enabled = false;
+                kartController.myAbility.selectedProjectile = kartController.bouncing;
+            }
 
             projectile = other.gameObject;
             attracting = true;
@@ -72,7 +80,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(lengthTimeInSeconds);
         Destroy(gameObject);
     }
 

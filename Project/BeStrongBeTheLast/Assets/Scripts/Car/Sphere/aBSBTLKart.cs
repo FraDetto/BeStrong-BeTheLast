@@ -123,6 +123,7 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
+        var input = "P" + playerNumber;
         powerGaugeValue += regenSpeed * Time.deltaTime;
 
         if (powerGaugeValue > 1f)
@@ -136,7 +137,7 @@ public abstract class aBSBTLKart : aKartController
             {
                 counterText.color = enabledColor;
 
-                if (Input.GetButtonDown("Fire3") || Input.GetAxis("AltFire3") != 0)
+                if (Input.GetButtonDown(input + "Counter") || Input.GetAxis(input + "Counter") != 0)
                     Counter();
             }
 
@@ -144,9 +145,9 @@ public abstract class aBSBTLKart : aKartController
             {
                 selectedProjectileText.color = enabledColor;
 
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown(input + "Projectile"))
                 {
-                    var y = Input.GetAxis("Vertical");
+                    var y = Input.GetAxis(input + "Vertical");
 
                     if (y >= 0)
                         Projectile(frontSpawnpoint);
@@ -158,9 +159,11 @@ public abstract class aBSBTLKart : aKartController
             if (canUseSpecial())
             {
                 selectedSpecialText.color = enabledColor;
-                if (Input.GetButtonDown("Fire2") || Input.GetAxis("AltFire2") != 0)
+                if (Input.GetButtonDown(input + "Special") || Input.GetAxis(input + "Special") != 0)
                     Special();
             }
+
+            //Only for testing purposes, will be removed during release (controllers and CPU don't need this)
 
             var MouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
@@ -179,6 +182,8 @@ public abstract class aBSBTLKart : aKartController
 
             if (selectedSpecialText != null)
                 selectedSpecialText.text = myAbility.selectedSpecial.name;
+
+            //END
         }
 
         base.Update_(xAxis, jumpBDown, jumpBUp);

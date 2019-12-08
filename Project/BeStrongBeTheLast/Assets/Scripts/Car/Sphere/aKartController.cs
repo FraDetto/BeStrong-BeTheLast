@@ -25,6 +25,11 @@ public abstract class aKartController : aCollisionManager
 
     public eKCType KCType = eKCType.Human;
 
+    public int playerNumber = 0;
+
+    [SerializeField]
+    protected Camera camera_; //camera fa parte di GameObject.camera
+
     public CinemachineImpulseSource vCam;
 
     //PostProcessVolume postVolume;
@@ -100,10 +105,6 @@ public abstract class aKartController : aCollisionManager
     internal bool settingOnTrack;
 
     public float annoyingAmount = 1f;
-
-    [SerializeField]
-    protected Camera camera_; //camera fa parte di GameObject.camera
-
 
     protected void Start_()
     {

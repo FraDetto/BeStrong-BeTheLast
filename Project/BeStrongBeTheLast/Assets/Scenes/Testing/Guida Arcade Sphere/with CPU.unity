@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -160,10 +160,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 1
   probability: 0.3
   nextSplines:
   - {fileID: 1056349830}
+  MostraInPlay: 0
 --- !u!114 &3548263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,16 +964,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1204534911}
---- !u!4 &221934084 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
-    type: 3}
-  m_PrefabInstance: {fileID: 317291727}
-  m_PrefabAsset: {fileID: 0}
+  MostraInPlay: 0
 --- !u!1001 &228256256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1155,10 +1149,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3057423753460389289, guid: 011c815107d14fb4797342705d702ed0,
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
-      propertyPath: m_Name
-      value: Main Camera
+      propertyPath: m_LocalRotation.x
+      value: -0.0020406814
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9941728
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.10606821
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.019127928
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.17999983
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.676
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805701961441955553, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389292, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1214,6 +1243,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3057423753460389289, guid: 011c815107d14fb4797342705d702ed0,
+        type: 3}
+      propertyPath: m_Name
+      value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 3057423753460389291, guid: 011c815107d14fb4797342705d702ed0,
         type: 3}
@@ -1647,11 +1681,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -1742,6 +1771,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
+      objectReference: {fileID: 0}
     - target: {fileID: 1284683510933779823, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -1771,88 +1805,6 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
---- !u!1 &416680612
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 416680613}
-  - component: {fileID: 416680615}
-  - component: {fileID: 416680614}
-  m_Layer: 10
-  m_Name: Minimap Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &416680613
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416680612}
-  m_LocalRotation: {x: -0.0009878778, y: 0.99431366, z: -0.10608327, w: 0.00925933}
-  m_LocalPosition: {x: 0.1, y: 1.71, z: 10.49}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 221934084}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 12.178, y: 178.908, z: -0.23}
---- !u!81 &416680614
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416680612}
-  m_Enabled: 1
---- !u!20 &416680615
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416680612}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
-  field of view: 40
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 90232936b2fdb45488c38dce8d945b77, type: 2}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!1 &423719015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2072,10 +2024,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1403353959}
+  MostraInPlay: 0
 --- !u!114 &567193180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2608,11 +2560,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -2702,6 +2649,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: CPU
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510933779823, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -3174,10 +3126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1100686388}
+  MostraInPlay: 0
 --- !u!4 &926057128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1284683511250782236, guid: 34e413d6b4cc60a4886061fc7db27bfc,
@@ -3201,16 +3153,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: VCam
       objectReference: {fileID: 0}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 926057128}
-    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 926057128}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3229,7 +3171,7 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0020406852
+      value: -0.0020406814
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3239,12 +3181,12 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.10606824
+      value: 0.10606821
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.019127954
+      value: -0.019127928
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -3266,6 +3208,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 926057128}
+    - target: {fileID: 3583958630379212492, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 926057128}
     - target: {fileID: 3583958630578602393, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_FollowOffset.y
@@ -3765,10 +3717,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 1
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 914965324}
+  MostraInPlay: 0
 --- !u!1 &1056349828
 GameObject:
   m_ObjectHideFlags: 0
@@ -3817,10 +3769,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 216738253}
+  MostraInPlay: 0
 --- !u!114 &1056349831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4009,11 +3961,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 3548262}
   - {fileID: 1434984113}
+  MostraInPlay: 0
 --- !u!1 &1129055602 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: b33c83fe866609447b6eb273927ef312,
@@ -4326,10 +4278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 1
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1370772229}
+  MostraInPlay: 0
 --- !u!1001 &1255446574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4587,11 +4539,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -4681,6 +4628,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: CPU
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510933779823, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -4962,10 +4914,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 1
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 567193179}
+  MostraInPlay: 0
 --- !u!1001 &1398412763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5175,10 +5127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1886961807}
+  MostraInPlay: 0
 --- !u!1001 &1404140157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5500,10 +5452,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 1
   probability: 0.7
   nextSplines:
   - {fileID: 1824518487}
+  MostraInPlay: 0
 --- !u!114 &1434984114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5722,11 +5674,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -5811,6 +5758,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: CPU
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510933779823, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -6024,10 +5976,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1852673405}
+  MostraInPlay: 0
 --- !u!1 &1647262043
 GameObject:
   m_ObjectHideFlags: 0
@@ -6177,10 +6129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1637181100}
+  MostraInPlay: 0
 --- !u!1001 &1653176957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6257,11 +6209,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -6351,6 +6298,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: CPU
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510443141252, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -6675,6 +6627,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36b50f5cb4b3684a893a64c344387b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lapText: {fileID: 0}
+  posText: {fileID: 0}
+  cars: []
+  CPUSplineRoot: {fileID: 0}
 --- !u!65 &1810643423
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6809,11 +6765,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -6904,6 +6855,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CPU
       objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8835830491063254057, guid: 34e413d6b4cc60a4886061fc7db27bfc, type: 3}
@@ -6956,10 +6912,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 216738253}
+  MostraInPlay: 0
 --- !u!114 &1824518488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7232,10 +7188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 1
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1049157061}
+  MostraInPlay: 0
 --- !u!1 &1886961801
 GameObject:
   m_ObjectHideFlags: 0
@@ -7354,10 +7310,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineType: 0
-  forkNumber: 0
   probability: 0
   nextSplines:
   - {fileID: 1651134652}
+  MostraInPlay: 0
 --- !u!1 &1929781827
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,10 +7344,10 @@ MonoBehaviour:
   m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
+  m_HorizontalAxis: P1Horizontal
+  m_VerticalAxis: P1Vertical
+  m_SubmitButton: P1Submit
+  m_CancelButton: P1Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -7688,11 +7644,6 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1403353959}
-    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
-        type: 3}
-      propertyPath: m_TagString
-      value: Carrozzeria
-      objectReference: {fileID: 0}
     - target: {fileID: 8835830489629762643, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
       propertyPath: m_Name
@@ -7782,6 +7733,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: CPU
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835830489622355319, guid: 34e413d6b4cc60a4886061fc7db27bfc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 8835830489622643029, guid: 34e413d6b4cc60a4886061fc7db27bfc,
         type: 3}
@@ -7889,6 +7845,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7950247829526289472, guid: 912500ae2fc894b47b399ed419d74280,
+        type: 3}
+      propertyPath: mobPrefab
+      value: 
+      objectReference: {fileID: 340935599675052145, guid: 9a9f71a3d5c1ce84abdedb7a12917903,
+        type: 3}
     - target: {fileID: 8933753541275085237, guid: 912500ae2fc894b47b399ed419d74280,
         type: 3}
       propertyPath: m_Enabled
@@ -7899,12 +7861,6 @@ PrefabInstance:
       propertyPath: m_DynamicOccludee
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7950247829526289472, guid: 912500ae2fc894b47b399ed419d74280,
-        type: 3}
-      propertyPath: mobPrefab
-      value: 
-      objectReference: {fileID: 340935599675052145, guid: 9a9f71a3d5c1ce84abdedb7a12917903,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 912500ae2fc894b47b399ed419d74280, type: 3}
 --- !u!4 &2052791966 stripped

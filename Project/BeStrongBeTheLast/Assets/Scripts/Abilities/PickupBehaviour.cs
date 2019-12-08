@@ -17,6 +17,9 @@ public class PickupBehaviour : MonoBehaviour
     [SerializeField]
     private float respawnTime = 15f;
 
+    [SerializeField]
+    private float powerAmount = 0.5f;
+
     private void Start()
     {
         collider_ = GetComponent<Collider>();
@@ -27,7 +30,7 @@ public class PickupBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            other.transform.root.GetComponentInChildren<KartController>().powerGaugeValue += 0.33f;
+            other.transform.root.GetComponentInChildren<KartController>().powerGaugeValue += powerAmount;
             collider_.enabled = false;
             mesh.enabled = false;
         }

@@ -21,7 +21,10 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     RaycastHit hit;
 
-    public GameObject user;
+    internal GameObject user;
+
+    [SerializeField]
+    private float lengthTimeInSeconds = 10f;
 
     void Start()
     {
@@ -54,7 +57,7 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(lengthTimeInSeconds);
 
         if (enabled)
             Destroy(gameObject);
