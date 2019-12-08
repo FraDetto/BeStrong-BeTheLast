@@ -43,6 +43,7 @@ public sealed class KartController : aBSBTLKart
 
     private void Start()
     {
+        CurrentSplineObject = GameObject.FindGameObjectWithTag("Spline").transform.GetChild(0).GetComponent<SplineObject>();
         switch (KCType)
         {
             case eKCType.Human:

@@ -61,6 +61,8 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
+    public SplineObject CurrentSplineObject;
+
     [Header("Controller - UI")]
     [SerializeField] private Slider driftHeating;
 
@@ -80,8 +82,6 @@ public abstract class aKartController : aCollisionManager
     [Header("Particles")]
     public Transform wheelParticles, flashParticles;
     public Color[] turboColors;
-
-    public SplineObject CurrentSplineObject;
 
     protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
@@ -104,9 +104,9 @@ public abstract class aKartController : aCollisionManager
 
     internal bool settingOnTrack;
 
-    public float annoyingAmount = 1f;
-
     private AudioSource boostAudioSource;
+
+    internal float annoyingAmount = 1f;
 
 
     protected void Start_()

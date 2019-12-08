@@ -20,9 +20,7 @@ public abstract class aBSBTLKart : aKartController
     [SerializeField] private Text counterText;
     [SerializeField] private Text selectedProjectileText;
     [SerializeField] private Text selectedSpecialText;
-
-    public Image blindingFront;
-    public Image blindingRear;
+    [SerializeField] private GameObject rankPanel;
 
     [Header("Abilities - Properties")]
     [SerializeField] protected Transform frontSpawnpoint;
@@ -68,7 +66,6 @@ public abstract class aBSBTLKart : aKartController
     public GameObject annoying;
     public GameObject tanking;
     public GameObject rotating;
-    public GameObject rankPanel;
 
     internal sAbilities myAbility;
 
@@ -183,10 +180,10 @@ public abstract class aBSBTLKart : aKartController
             if (selectedSpecialText != null)
                 selectedSpecialText.text = myAbility.selectedSpecial.name;
             //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)
-        }
 
-        if (Input.GetButtonDown("P1MenuA"))
-            rankPanel.SetActive(!rankPanel.activeSelf);
+            if(Input.GetButtonDown(input + "MenuA"))
+                rankPanel.SetActive(!rankPanel.activeSelf);
+        }
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
     }
