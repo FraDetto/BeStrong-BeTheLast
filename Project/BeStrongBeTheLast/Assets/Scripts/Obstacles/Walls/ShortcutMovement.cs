@@ -38,9 +38,9 @@ public class ShortcutMovement : MonoBehaviour
     {
         var ready_ = currentStaticFrames > staticFrames;
 
-        if (closed && ready_ && transform.position.y <= basePositionOpen)
+        if (closed && ready_ && transform.localPosition.y <= basePositionOpen)
             MoveUp();
-        else if (!closed && ready_ && transform.position.y >= basePositionClosed)
+        else if (!closed && ready_ && transform.localPosition.y >= basePositionClosed)
             Close();
         else
             MantainPosition(ready_);
