@@ -274,8 +274,6 @@ public abstract class aBSBTLKart : aKartController
 
         if (powerGauge)
         {
-            //blindingFront.enabled = blind;
-            //blindingRear.enabled = blind;
             Vignette v;
 
             if (postProfile.TryGetSettings(out v))
