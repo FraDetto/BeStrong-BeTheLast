@@ -68,6 +68,7 @@ public abstract class aBSBTLKart : aKartController
     public GameObject annoying;
     public GameObject tanking;
     public GameObject rotating;
+    public GameObject rankPanel;
 
     internal sAbilities myAbility;
 
@@ -185,6 +186,12 @@ public abstract class aBSBTLKart : aKartController
 
             //END
         }
+
+        if (Input.GetButtonDown("P1MenuA"))
+        {
+            rankPanel.SetActive(!rankPanel.activeSelf);
+        }
+        
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
     }
