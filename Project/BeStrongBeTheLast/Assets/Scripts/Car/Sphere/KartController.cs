@@ -249,7 +249,7 @@ public sealed class KartController : aBSBTLKart
     IEnumerator aspettaPerSparare()
     {
         var s = Random.Range(0f, 1f) * ProbabilitàDiSparare * 7;
-        Debug.Log(s);
+
         yield return new WaitForSeconds(s);
 
         CPU_AI_Find_UseWeapons_();
