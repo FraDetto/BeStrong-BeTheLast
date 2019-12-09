@@ -14,12 +14,16 @@ public class ShortcutMovement : MonoBehaviour
     public int maxStaticFrames;
     public float basePositionClosed, basePositionOpen;
 
+    internal bool closed = true;
+
+    private int staticFrames, currentStaticFrames, newStaticFrames;
+    private ShortcutInstantClose triggerCallback = null;
     private RigidbodyConstraints freezePositionConstraints;
     private Rigidbody thisRigidbody;
     private Vector3 oldPosition;
-    private int staticFrames, currentStaticFrames, newStaticFrames;
-    private bool closed = true;
-    private ShortcutInstantClose triggerCallback = null;
+    private ShortcutInstantClose trigger;
+    private SplineObject shortcutSpline, mainSpline;
+    private float oldShortcutSplineChance, oldMainSplineChance;
 
 
     void Start()
@@ -30,10 +34,8 @@ public class ShortcutMovement : MonoBehaviour
         staticFrames = Random.Range(0, maxStaticFrames);
     }
 
-    private void Update()
-    {
+    private void Update() =>
         oldPosition = transform.position;
-    }
 
     void FixedUpdate()
     {
@@ -47,15 +49,21 @@ public class ShortcutMovement : MonoBehaviour
             MantainPosition(ready_);
     }
 
+    public void setTrigger(ShortcutInstantClose trigger)
+    {
+        this.trigger = trigger;
+    }
+
     void MoveUp()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        thisRigidbody.AddForce(transform.up * 10f, ForceMode.Acceleration);
+        transform.Translate(transform.up * 0.1f);
     }
 
     void Close()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        transform.Translate(-transform.up * 0.1f);
     }
 
     void MantainPosition(bool flipClosed)
@@ -66,16 +74,18 @@ public class ShortcutMovement : MonoBehaviour
         {
             closed = !closed;
             currentStaticFrames = 0;
-            if(newStaticFrames == 0)
+
+            if (newStaticFrames == 0)
+            {
                 staticFrames = Random.Range(0, maxStaticFrames);
+            }
             else
             {
                 staticFrames = newStaticFrames;
                 newStaticFrames = 0;
-                if (triggerCallback)
+                if (trigger)
                 {
-                    triggerCallback.Reset();
-                    triggerCallback = null;
+                    trigger.Reset();
                 }
             }
         }
@@ -83,21 +93,17 @@ public class ShortcutMovement : MonoBehaviour
         currentStaticFrames++;
     }
 
-    public void forceChangeState()
-    {
+    public void forceChangeState() =>
         currentStaticFrames = staticFrames + 10;
-    }
 
-    private void imposeNewTimeout(int timeout)
-    {
+    private void imposeNewTimeout(int timeout) =>
         newStaticFrames = 60 * timeout;
-    }
 
-    public void CloseNow(int timeout, ShortcutInstantClose callback)
+    public void CloseNow(int timeout)
     {
         closed = false;
         forceChangeState();
         imposeNewTimeout(timeout);
-        triggerCallback = callback;
     }
+
 }
