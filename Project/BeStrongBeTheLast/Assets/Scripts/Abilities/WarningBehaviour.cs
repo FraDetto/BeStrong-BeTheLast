@@ -13,6 +13,7 @@ public class WarningBehaviour : MonoBehaviour
     {
         if(warningText)
         {
+            //if(other.transform.eulerAngles)
             if(other.CompareTag("Projectile"))
             {
                 //Si lo so che fa cagare, si potrebbe sistemare con una bella classe astratta "Abilità" con il campo user, ma la pipeline di chiamate è così complessa ora che non mi sogno neanche di metterci mani.
