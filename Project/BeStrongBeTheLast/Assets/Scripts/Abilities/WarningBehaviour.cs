@@ -13,22 +13,25 @@ public class WarningBehaviour : MonoBehaviour
     {
         if(warningText)
         {
-            //if(other.transform.eulerAngles)
             if(other.CompareTag("Projectile"))
             {
                 //Si lo so che fa cagare, si potrebbe sistemare con una bella classe astratta "Abilità" con il campo user, ma la pipeline di chiamate è così complessa ora che non mi sogno neanche di metterci mani.
                 //Be my guest ;-)
                 if((other.transform.name.StartsWith("SingleShot") && !other.GetComponent<SingleShotBehaviour>().user.Equals(transform.root.gameObject))
-                    || (other.name.StartsWith("Homing") && !other.GetComponent<HomingBehaviour>().user.Equals(transform.root.gameObject))
-                    || (other.name.StartsWith("Bouncing") && !other.GetComponent<BouncingBehaviour>().user.Equals(transform.root.gameObject)))
+                || (other.name.StartsWith("Homing") && !other.GetComponent<HomingBehaviour>().user.Equals(transform.root.gameObject))
+                || (other.name.StartsWith("Bouncing") && !other.GetComponent<BouncingBehaviour>().user.Equals(transform.root.gameObject)))
                 {
-                    if(!blinking)
+                    if(other.transform.forward != transform.forward)
                     {
-                        blinking = true;
-                        warningText.enabled = true;
-                        StartCoroutine(Blink());
+                        if(!blinking)
+                        {
+                            blinking = true;
+                            warningText.enabled = true;
+                            StartCoroutine(Blink());
+                        }
                     }
                 }
+                    
             }
         }
     }
