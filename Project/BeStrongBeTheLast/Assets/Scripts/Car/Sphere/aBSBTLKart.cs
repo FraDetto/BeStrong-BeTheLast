@@ -14,8 +14,8 @@ using UnityEngine.Rendering.PostProcessing;
 public abstract class aBSBTLKart : aKartController
 {
     [Header("Abilities - Properties")]
-    [SerializeField] protected Transform frontSpawnpoint;
-    [SerializeField] protected Transform rearSpawnpoint;
+    [SerializeField] internal Transform frontSpawnpoint;
+    [SerializeField] internal Transform rearSpawnpoint;
     [SerializeField] private float regenSpeed;
     [SerializeField] private float counterCooldown;
     [SerializeField] private float projectileCooldown;
@@ -35,12 +35,15 @@ public abstract class aBSBTLKart : aKartController
 
     public struct sAbilities
     {
-        public GameObject selectedProjectile, selectedSpecial;
+        public GameObject selectedProjectile, selectedSpecial, selectedAttractor;
 
-        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial)
+        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial) : this(selectedProjectile, selectedSpecial, null) { }
+
+        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial, GameObject selectedAttractor)
         {
             this.selectedProjectile = selectedProjectile;
             this.selectedSpecial = selectedSpecial;
+            this.selectedAttractor = selectedAttractor;
         }
     }
 
@@ -84,9 +87,9 @@ public abstract class aBSBTLKart : aKartController
             { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
             { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
             { ePlayer.Imps, new sAbilities(trishot, annoying)},
-            { ePlayer.Kiddo, new sAbilities(attracting, rotating)},
+            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting)},
             { ePlayer.Politician, new sAbilities(trishot, blinding)},
-            { ePlayer.Steamdunker, new sAbilities(attracting, blinding)},
+            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting)},
         };
 
         myAbility = abilities[playerType];
@@ -151,7 +154,7 @@ public abstract class aBSBTLKart : aKartController
         StartCoroutine(CounterCooldown());
     }
 
-    protected void Projectile(Transform spawnPoint)
+    internal void Projectile(Transform spawnPoint)
     {
         Instantiate(myAbility.selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
