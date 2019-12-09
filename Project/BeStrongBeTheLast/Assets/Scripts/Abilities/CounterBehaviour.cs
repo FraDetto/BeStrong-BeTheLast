@@ -19,6 +19,27 @@ public class CounterBehaviour : MonoBehaviour
     internal float diametroDiAzione =>
         raggioDiAzione * 2;
 
+    private void Start()
+    {
+        var player = transform.root.GetComponent<KartController>().playerType;
+        if(player.Equals(aBSBTLKart.ePlayer.EarthRestorer))
+            transform.GetChild(0).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Bard))
+            transform.GetChild(1).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Hypogeum))
+            transform.GetChild(2).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Politician))
+            transform.GetChild(3).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Flapper))
+            transform.GetChild(4).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Steamdunker))
+            transform.GetChild(5).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Imps))
+            transform.GetChild(0).gameObject.SetActive(true);
+        else if(player.Equals(aBSBTLKart.ePlayer.Kiddo))
+            transform.GetChild(0).gameObject.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
