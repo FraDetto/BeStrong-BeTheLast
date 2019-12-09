@@ -13,11 +13,16 @@ public class WarningBehaviour : MonoBehaviour
     {
         if(other.CompareTag("Projectile"))
         {
-            if(!blinking)
+            if((other.transform.parent.name.StartsWith("Trishot") && !other.GetComponent<SingleShotBehaviour>().trishotBehaviour.user.Equals(transform.root.gameObject)) 
+                || (other.name.StartsWith("Homing") && !other.GetComponent<HomingBehaviour>().user.Equals(transform.root.gameObject))
+                || (other.name.StartsWith("Bouncing") && !other.GetComponent<BouncingBehaviour>().user.Equals(transform.root.gameObject)))
             {
-                blinking = true;
-                warningText.enabled = true;
-                StartCoroutine(Blink());
+                if(!blinking)
+                {
+                    blinking = true;
+                    warningText.enabled = true;
+                    StartCoroutine(Blink());
+                }
             }
         }
     }

@@ -15,6 +15,8 @@ public class SingleShotBehaviour : MonoBehaviour
 
     RaycastHit hit;
 
+    public TrishotBehaviour trishotBehaviour;
+
     private void Update()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
@@ -28,7 +30,7 @@ public class SingleShotBehaviour : MonoBehaviour
     {
         if (GB.CompareORTags(other, "Player", "CPU"))
         {
-            var trishotBehaviour = GetComponentInParent<TrishotBehaviour>();
+            trishotBehaviour = GetComponentInParent<TrishotBehaviour>();
 
             if (!other.transform.root.gameObject.Equals(trishotBehaviour.user))
             {
