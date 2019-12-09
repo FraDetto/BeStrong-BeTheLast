@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 public sealed class KartController : aBSBTLKart
 {
 
-    public bool touchingGround = true;
+    internal bool touchingGround = true;
 
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
@@ -241,16 +241,10 @@ public sealed class KartController : aBSBTLKart
 
     private void CPU_AI_Find_UseWeapons()
     {
-        if (canUseProjectile())
+        if (canUseSpecial())
         {
-            if (FindEnemyDirection(-transform.forward))
-                Projectile(rearSpawnpoint);
-            else if (FindEnemyDirection(transform.forward))
-                Projectile(frontSpawnpoint);
-        }
-        else if (canUseSpecial())
-        {
-            Special();
+            if (Random.Range(1, 3) > 2)
+                Special();
         }
         else if (canUseCounter())
         {
@@ -263,6 +257,13 @@ public sealed class KartController : aBSBTLKart
                         Counter();
                         break;
                     }
+        }
+        else if (canUseProjectile())
+        {
+            if (FindEnemyDirection(-transform.forward))
+                Projectile(rearSpawnpoint);
+            else if (FindEnemyDirection(transform.forward))
+                Projectile(frontSpawnpoint);
         }
     }
 
