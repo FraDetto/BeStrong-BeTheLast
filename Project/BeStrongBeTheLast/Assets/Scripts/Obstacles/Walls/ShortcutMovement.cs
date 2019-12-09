@@ -17,8 +17,9 @@ public class ShortcutMovement : MonoBehaviour
     private RigidbodyConstraints freezePositionConstraints;
     private Rigidbody thisRigidbody;
     private Vector3 oldPosition;
-    private int staticFrames, currentStaticFrames;
+    private int staticFrames, currentStaticFrames, newStaticFrames;
     private bool closed = true;
+    private ShortcutInstantClose triggerCallback = null;
 
 
     void Start()
@@ -65,7 +66,18 @@ public class ShortcutMovement : MonoBehaviour
         {
             closed = !closed;
             currentStaticFrames = 0;
-            staticFrames = Random.Range(0, maxStaticFrames);
+            if(newStaticFrames == 0)
+                staticFrames = Random.Range(0, maxStaticFrames);
+            else
+            {
+                staticFrames = newStaticFrames;
+                newStaticFrames = 0;
+                if (triggerCallback)
+                {
+                    triggerCallback.Reset();
+                    triggerCallback = null;
+                }
+            }
         }
 
         currentStaticFrames++;
@@ -76,10 +88,16 @@ public class ShortcutMovement : MonoBehaviour
         currentStaticFrames = staticFrames + 10;
     }
 
-    void SetBoostEnabled(bool setting)
+    private void imposeNewTimeout(int timeout)
     {
-        var script = GetComponentInChildren<RepulsiveWallStraight>();
-        script.SetEnabled(setting);
+        newStaticFrames = 60 * timeout;
     }
 
+    public void CloseNow(int timeout, ShortcutInstantClose callback)
+    {
+        closed = false;
+        forceChangeState();
+        imposeNewTimeout(timeout);
+        triggerCallback = callback;
+    }
 }
