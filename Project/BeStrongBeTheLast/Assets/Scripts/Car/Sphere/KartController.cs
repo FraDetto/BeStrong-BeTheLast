@@ -6,6 +6,7 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -43,6 +44,10 @@ public sealed class KartController : aBSBTLKart
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
     internal bool started;
+
+    [Range(0, 1)]
+    public float ProbabilitàDiSparare = 0.5f;
+    bool aspettandoDiSparare;
 
 
     private void Start()
@@ -232,19 +237,49 @@ public sealed class KartController : aBSBTLKart
             d = Quaternion.AngleAxis(angolo, Vector3.up) * direction;
             Physics.Raycast(transform.position, d, out raycastHit_, 60);
 
-            if (GB.CompareORTags(raycastHit_.collider.gameObject, "CPU", "Player"))
-                return true;
+            if (raycastHit_.collider)
+                if (raycastHit_.collider.gameObject)
+                    if (GB.CompareORTags(raycastHit_.collider.gameObject, "CPU", "Player"))
+                        return true;
         }
 
         return false;
     }
 
+    IEnumerator aspettaPerSparare()
+    {
+        var s = Random.Range(0f, 1f) * ProbabilitàDiSparare * 7;
+
+        yield return new WaitForSeconds(s);
+
+        CPU_AI_Find_UseWeapons_();
+        aspettandoDiSparare = false;
+    }
+
     private void CPU_AI_Find_UseWeapons()
     {
-        if (canUseSpecial())
+        if (!aspettandoDiSparare)
         {
-            if (Random.Range(1, 3) > 2)
-                Special();
+            aspettandoDiSparare = true;
+            StartCoroutine(aspettaPerSparare());
+        }
+    }
+
+    private void CPU_AI_Find_UseWeapons_()
+    {
+        if (canUseProjectile())
+        {
+            if (myAbility.selectedProjectile)
+            {
+                if (FindEnemyDirection(-transform.forward))
+                    Projectile(rearSpawnpoint);
+                else if (FindEnemyDirection(transform.forward))
+                    Projectile(frontSpawnpoint);
+            }
+        }
+        else if (canUseSpecial())
+        {
+            Special();
         }
         else if (canUseCounter())
         {
@@ -257,13 +292,6 @@ public sealed class KartController : aBSBTLKart
                         Counter();
                         break;
                     }
-        }
-        else if (canUseProjectile())
-        {
-            if (FindEnemyDirection(-transform.forward))
-                Projectile(rearSpawnpoint);
-            else if (FindEnemyDirection(transform.forward))
-                Projectile(frontSpawnpoint);
         }
     }
 

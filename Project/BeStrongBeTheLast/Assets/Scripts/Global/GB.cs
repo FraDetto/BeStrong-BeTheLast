@@ -27,6 +27,11 @@ public static class GB
         X, Y, Z
     }
 
+    public enum ELato
+    {
+        Avanti, Dietro
+    }
+
     public static HashSet<Color> usedColors = new HashSet<Color>();
 
 
