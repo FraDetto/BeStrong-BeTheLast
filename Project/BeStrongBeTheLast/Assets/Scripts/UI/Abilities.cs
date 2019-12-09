@@ -22,12 +22,11 @@ public class Abilities : MonoBehaviour
     public KartController kartController;
 
     public Slider powerGauge;
-    public Text counterText;
-    public Text selectedProjectileText;
-    public Text selectedSpecialText;
     public Slider driftHeating;
     public Text warningText;
     public GameObject driftHeatingFill;
+    public GameObject counterIcon, projectileIcon, specialIcon;
+    public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
 
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
@@ -63,18 +62,17 @@ public class Abilities : MonoBehaviour
             }
             
 
-
-
-            counterText.color = kartController.canUseCounter() ? enabledColor : disabledColor;
-            selectedProjectileText.color = kartController.canUseProjectile() ? enabledColor : disabledColor;
-            selectedSpecialText.color = kartController.canUseSpecial() ? enabledColor : disabledColor;
-
+            counterIcon.GetComponent<Image>().sprite = kartController.canUseCounter() ? shieldAct : shieldInact;
+            projectileIcon.GetComponent<Image>().sprite = kartController.canUseProjectile() ? projectileAct : projectileInact;
+            specialIcon.GetComponent<Image>().sprite = kartController.canUseSpecial() ? specialAct : specialInact;
+            
+            /*
             selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
 
             if (kartController.myAbility.selectedProjectile)
                 selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
             else if (kartController.myAbility.selectedAttractor)
-                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
+                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;*/
         }
     }
 
@@ -83,6 +81,7 @@ public class Abilities : MonoBehaviour
         while (!kartController.started)
             yield return null;
 
+        /*
         counterText.color = disabledColor;
 
         if (kartController.myAbility.selectedProjectile)
@@ -94,7 +93,7 @@ public class Abilities : MonoBehaviour
 
         selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
         selectedProjectileText.color = disabledColor;
-
+        */
         kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
 
         started = true;
