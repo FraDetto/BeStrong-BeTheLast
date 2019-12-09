@@ -12,14 +12,15 @@ using UnityEngine.UI;
 class LapManager : MonoBehaviour
 {
     public Text lapText, posText;
+    public GameObject player;
 
     private void FixedUpdate()
     {
-        if (GameState.Instance.laps.ContainsKey("Player"))
-            lapText.text = "Lap " + (GameState.Instance.laps["Player"]) + "/" + GameState.Instance.lapsNumberSetting;
+        if (GameState.Instance.laps.ContainsKey(player.name))
+            lapText.text = "Lap " + (GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
 
-        if (GameState.Instance.positions.ContainsKey("Player"))
-            posText.text = GameState.Instance.getCurrentRanking("Player") + "/" + GameState.Instance.kartControllers.Count;
+        if (GameState.Instance.positions.ContainsKey(player.name))
+            posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
     }
 
 }
