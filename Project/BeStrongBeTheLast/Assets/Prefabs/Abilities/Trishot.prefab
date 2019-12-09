@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5190631448440385139}
   - component: {fileID: 5745777598107284467}
   m_Layer: 0
-  m_Name: Right
+  m_Name: SingleShotRight
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  trishotBehaviour: {fileID: 0}
 --- !u!54 &5745777598107284467
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ GameObject:
   - component: {fileID: 9211653975463646529}
   - component: {fileID: 5810884103063149583}
   m_Layer: 0
-  m_Name: Left
+  m_Name: SingleShotLeft
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  trishotBehaviour: {fileID: 0}
 --- !u!54 &5810884103063149583
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -311,7 +313,7 @@ GameObject:
   - component: {fileID: 6888145692741588880}
   - component: {fileID: 1070386622037199995}
   m_Layer: 0
-  m_Name: Center
+  m_Name: SingleShotCenter
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,6 +406,7 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  trishotBehaviour: {fileID: 0}
 --- !u!54 &1070386622037199995
 Rigidbody:
   m_ObjectHideFlags: 0
