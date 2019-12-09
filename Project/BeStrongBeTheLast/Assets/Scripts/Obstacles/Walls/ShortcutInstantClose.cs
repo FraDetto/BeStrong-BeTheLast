@@ -7,6 +7,7 @@ public class ShortcutInstantClose : MonoBehaviour
 {
     public GameObject wall;
     private ShortcutMovement shortcutMovement;
+    public int timeoutReset;
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class ShortcutInstantClose : MonoBehaviour
         var go = other.gameObject.transform.root.gameObject;
         if (GB.CompareORTags(go, "Player", "CPU"))
         {
-            InstantClose(20);
+            InstantClose(timeoutReset);
         }
     }
 

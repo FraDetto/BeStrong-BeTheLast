@@ -50,12 +50,16 @@ public class ShortcutMovement : MonoBehaviour
     void MoveUp()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        thisRigidbody.AddForce(transform.up * 10f, ForceMode.Acceleration);
+        transform.Translate(transform.up * 0.1f);
+        
+        //thisRigidbody.AddForce(transform.up * 10f, ForceMode.Acceleration);
     }
 
     void Close()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        transform.Translate(-transform.up * 0.1f);
+
     }
 
     void MantainPosition(bool flipClosed)
