@@ -19,8 +19,9 @@ public class ShortcutMovement : MonoBehaviour
     private Vector3 oldPosition;
     private int staticFrames, currentStaticFrames, newStaticFrames;
     private bool closed = true;
-    private ShortcutInstantClose triggerCallback = null;
-
+    private ShortcutInstantClose trigger;
+    private SplineObject shortcutSpline, mainSpline;
+    private float oldShortcutSplineChance, oldMainSplineChance;
 
     void Start()
     {
@@ -47,6 +48,11 @@ public class ShortcutMovement : MonoBehaviour
             MantainPosition(ready_);
     }
 
+    public void setTrigger(ShortcutInstantClose trigger)
+    {
+        this.trigger = trigger;
+    }
+
     void MoveUp()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
@@ -66,6 +72,15 @@ public class ShortcutMovement : MonoBehaviour
     {
         thisRigidbody.constraints = freezePositionConstraints;
 
+        if (closed)
+        {
+            trigger.disableShortcutSpline();
+        }
+        else
+        {
+            trigger.resetShortcutSpline();
+        }
+        
         if (flipClosed)
         {
             closed = !closed;
@@ -76,10 +91,9 @@ public class ShortcutMovement : MonoBehaviour
             {
                 staticFrames = newStaticFrames;
                 newStaticFrames = 0;
-                if (triggerCallback)
+                if (trigger)
                 {
-                    triggerCallback.Reset();
-                    triggerCallback = null;
+                    trigger.Reset();
                 }
             }
         }
@@ -97,11 +111,11 @@ public class ShortcutMovement : MonoBehaviour
         newStaticFrames = 60 * timeout;
     }
 
-    public void CloseNow(int timeout, ShortcutInstantClose callback)
+    public void CloseNow(int timeout)
     {
         closed = false;
+        trigger.disableShortcutSpline();
         forceChangeState();
         imposeNewTimeout(timeout);
-        triggerCallback = callback;
     }
 }
