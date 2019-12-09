@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 public sealed class KartController : aBSBTLKart
 {
 
-    public bool touchingGround = true;
+    internal bool touchingGround = true;
 
     // ============== HUMAN ==============
     public bool UsaWrongWay = false;
@@ -26,6 +26,8 @@ public sealed class KartController : aBSBTLKart
     private const byte errorDelta = 8;
 
     private GameObject[] CPUCars;
+    private GameObject[] PlayersCars;
+    private List<GameObject> AllCars = new List<GameObject>();
 
     private bool bJumpReleased;
     private float LastStuck = -1;
@@ -46,6 +48,12 @@ public sealed class KartController : aBSBTLKart
     private void Start()
     {
         CurrentSplineObject = GameObject.FindGameObjectWithTag("Spline").transform.GetChild(0).GetComponent<SplineObject>();
+
+        CPUCars = GameObject.FindGameObjectsWithTag("CPU");
+        PlayersCars = GameObject.FindGameObjectsWithTag("Player");
+        AllCars.AddRange(CPUCars);
+        AllCars.AddRange(PlayersCars);
+
         switch (KCType)
         {
             case eKCType.Human:
@@ -53,8 +61,6 @@ public sealed class KartController : aBSBTLKart
                 break;
 
             case eKCType.CPU:
-                CPUCars = GameObject.FindGameObjectsWithTag("CPU");
-
                 var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
                 var renderer_ = Box001.gameObject.GetComponent<Renderer>();
 
@@ -82,6 +88,7 @@ public sealed class KartController : aBSBTLKart
         {
             case eKCType.Human:
                 var input = "P" + playerNumber;
+
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestination(0, 0, false, CurrentSplineObject);
 
@@ -215,32 +222,49 @@ public sealed class KartController : aBSBTLKart
     internal void nextSpline() =>
         setDestination(0, 0);
 
+    private bool FindEnemyDirection(Vector3 direction)
+    {
+        RaycastHit raycastHit_;
+        Vector3 d;
+
+        for (float angolo = -45; angolo < 45; angolo += 10)
+        {
+            d = Quaternion.AngleAxis(angolo, Vector3.up) * direction;
+            Physics.Raycast(transform.position, d, out raycastHit_, 60);
+
+            if (GB.CompareORTags(raycastHit_.collider.gameObject, "CPU", "Player"))
+                return true;
+        }
+
+        return false;
+    }
+
     private void CPU_AI_Find_UseWeapons()
     {
-        foreach (var cpuCar in CPUCars)
-            if (cpuCar.name.Contains("Controller") && cpuCar != gameObject)
-            {
-                if (canUseProjectile())
-                {
-                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < 10)
-                        Projectile(frontSpawnpoint);
-                    //Projectile(rearSpawnpoint);
-                }
-                else if (canUseSpecial())
-                {
-                    Special();
-                }
-                else if (canUseCounter())
-                {
-                    var counterBehaviour = counter.GetComponent<CounterBehaviour>();
+        if (canUseSpecial())
+        {
+            if (Random.Range(1, 3) > 2)
+                Special();
+        }
+        else if (canUseCounter())
+        {
+            var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
-                    if (Vector3.Distance(transform.position, cpuCar.transform.position) < counterBehaviour.diametroDiAzione)
+            foreach (var cars in AllCars)
+                if (cars != gameObject)
+                    if (Vector3.Distance(transform.position, cars.transform.position) < counterBehaviour.diametroDiAzione)
                     {
                         Counter();
                         break;
                     }
-                }
-            }
+        }
+        else if (canUseProjectile())
+        {
+            if (FindEnemyDirection(-transform.forward))
+                Projectile(rearSpawnpoint);
+            else if (FindEnemyDirection(transform.forward))
+                Projectile(frontSpawnpoint);
+        }
     }
 
     private void CPU_AI_Find_Obstacles(bool wrong)
