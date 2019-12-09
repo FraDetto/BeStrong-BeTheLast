@@ -101,7 +101,7 @@ RectTransform:
   m_GameObject: {fileID: 1568202565249960503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.6491159, y: 1.5699781, z: 1}
   m_Children:
   - {fileID: 6876083801163328387}
   - {fileID: 350918845923023177}
@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -12, y: -22}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8674084211086614952
@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 3875088186559398776}
   - component: {fileID: 3875088186559398778}
   - component: {fileID: 3875088186559398779}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +658,7 @@ GameObject:
   - component: {fileID: 3875088186559800837}
   - component: {fileID: 3875088186559800839}
   - component: {fileID: 3875088186559800836}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: MinimapCameraRenderTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,14 +674,14 @@ RectTransform:
   m_GameObject: {fileID: 3875088186559800842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.261605, y: 1.383075, z: 1.5}
   m_Children: []
   m_Father: {fileID: 5759866728980613366}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -86, y: -18}
+  m_AnchoredPosition: {x: -53, y: -2}
   m_SizeDelta: {x: 350, y: 150}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3875088186559800839
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 3875088186726790266}
   - component: {fileID: 3875088186726790260}
   - component: {fileID: 3875088186726790261}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -809,7 +809,7 @@ GameObject:
   - component: {fileID: 3875088187176459431}
   - component: {fileID: 3875088187176459425}
   - component: {fileID: 3875088187176459430}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Lap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +924,7 @@ GameObject:
   - component: {fileID: 6757181521785247778}
   - component: {fileID: 181826861286456438}
   - component: {fileID: 60442864147297738}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +998,7 @@ GameObject:
   - component: {fileID: 4076843259790015042}
   - component: {fileID: 3062579309189687172}
   - component: {fileID: 2349335452184331666}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1310,7 +1310,7 @@ GameObject:
   - component: {fileID: 5759866728980613367}
   - component: {fileID: 8165276723696773952}
   - component: {fileID: 1342174822384827493}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1356,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1419,6 +1419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lapText: {fileID: 3875088187176459430}
   posText: {fileID: 3875088186726790261}
+  player: {fileID: 0}
 --- !u!114 &1342174822384827493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1456,7 +1457,7 @@ GameObject:
   - component: {fileID: 5759866729231050620}
   - component: {fileID: 5759866729231050498}
   - component: {fileID: 5759866729231050621}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: RetroCameraRenderTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1543,7 +1544,7 @@ RectTransform:
   m_GameObject: {fileID: 5764857678109413963}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.8495, y: 1.8003, z: 1}
   m_Children:
   - {fileID: 4276954166282034795}
   - {fileID: 4667264764524918752}
@@ -1552,8 +1553,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -30, y: 284}
-  m_SizeDelta: {x: 120, y: 35}
+  m_AnchoredPosition: {x: -33.495, y: 166.1}
+  m_SizeDelta: {x: 85.1, y: 35}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &2749629504274238643
 MonoBehaviour:
@@ -1637,7 +1638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: -0.146, y: 0.2}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -3.2949982, y: 1}
+  m_AnchoredPosition: {x: -8.2, y: 1}
   m_SizeDelta: {x: 0, y: -2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7140711873343781902
@@ -1741,7 +1742,7 @@ RectTransform:
   m_GameObject: {fileID: 7981976444693822351}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.78012, y: 0.85589, z: 1}
   m_Children:
   - {fileID: 3875088187176459431}
   - {fileID: 3875088186726790266}
@@ -1750,7 +1751,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 175, y: -74.6}
+  m_AnchoredPosition: {x: 192, y: -65}
   m_SizeDelta: {x: 200, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6375942183334147041
