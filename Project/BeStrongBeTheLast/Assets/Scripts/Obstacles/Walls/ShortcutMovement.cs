@@ -21,8 +21,6 @@ public class ShortcutMovement : MonoBehaviour
     private RigidbodyConstraints freezePositionConstraints;
     private Rigidbody thisRigidbody;
     private Vector3 oldPosition;
-    private int staticFrames, currentStaticFrames, newStaticFrames;
-    private bool closed = true;
     private ShortcutInstantClose trigger;
     private SplineObject shortcutSpline, mainSpline;
     private float oldShortcutSplineChance, oldMainSplineChance;
@@ -72,15 +70,6 @@ public class ShortcutMovement : MonoBehaviour
     {
         thisRigidbody.constraints = freezePositionConstraints;
 
-        if (closed)
-        {
-            trigger.disableShortcutSpline();
-        }
-        else
-        {
-            trigger.resetShortcutSpline();
-        }
-        
         if (flipClosed)
         {
             closed = !closed;
@@ -113,7 +102,6 @@ public class ShortcutMovement : MonoBehaviour
     public void CloseNow(int timeout)
     {
         closed = false;
-        trigger.disableShortcutSpline();
         forceChangeState();
         imposeNewTimeout(timeout);
     }

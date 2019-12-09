@@ -31,31 +31,11 @@ public class ShortcutInstantClose : MonoBehaviour
     {
         transform.GetComponent<Collider>().isTrigger = false;
         shortcutMovement.CloseNow(timeout);
-        disableShortcutSpline();
     }
-
-    public void disableShortcutSpline()
-    {
-        if (!splineDisabled)
-        {
-            oldShortcutSplineChance = shortcutSpline.probability;
-            oldMainSplineChance = mainSpline.probability;
-            shortcutSpline.probability = 0;
-            mainSpline.probability = 1;
-            splineDisabled = true;
-        }
-    }
-
-    public void resetShortcutSpline()
-    {
-        shortcutSpline.probability = oldShortcutSplineChance;
-        mainSpline.probability = oldMainSplineChance;
-        splineDisabled = false;
-    }
+    
     
     public void Reset()
     {
         transform.GetComponent<Collider>().isTrigger = true;
-        resetShortcutSpline();
     }
 }
