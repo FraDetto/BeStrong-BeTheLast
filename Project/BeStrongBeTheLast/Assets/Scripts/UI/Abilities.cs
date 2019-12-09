@@ -12,6 +12,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Assertions.Comparers;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Abilities : MonoBehaviour
 {
@@ -40,7 +43,7 @@ public class Abilities : MonoBehaviour
 
     private void Update()
     {
-        if(started)
+        if (started)
         {
             float driftValue = kartController.driftHeatingValue;
             driftHeating.value = driftValue + 0.128f;
@@ -54,20 +57,27 @@ public class Abilities : MonoBehaviour
             selectedProjectileText.color = kartController.canUseProjectile() ? enabledColor : disabledColor;
             selectedSpecialText.color = kartController.canUseSpecial() ? enabledColor : disabledColor;
 
-            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-
             selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
+
+            if (kartController.myAbility.selectedProjectile)
+                selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+            else if (kartController.myAbility.selectedAttractor)
+                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
         }
     }
 
     private IEnumerator delayedStart()
     {
-        while(!kartController.started)
+        while (!kartController.started)
             yield return null;
 
         counterText.color = disabledColor;
 
-        selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+        if (kartController.myAbility.selectedProjectile)
+            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+        else if (kartController.myAbility.selectedAttractor)
+            selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
+
         selectedProjectileText.color = disabledColor;
 
         selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
