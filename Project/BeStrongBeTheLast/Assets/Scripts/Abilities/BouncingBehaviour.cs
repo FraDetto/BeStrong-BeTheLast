@@ -26,9 +26,13 @@ public class BouncingBehaviour : aAbilitiesBehaviour
     [SerializeField]
     private float lengthTimeInSeconds = 10f;
 
+    [SerializeField]
+    private bool istantiatedByPlayer = true;
+
     void Start()
     {
-        Start_();
+        if(istantiatedByPlayer)
+            Start_();
 
         rolling = transform.GetChild(0).gameObject;
         StartCoroutine(Lifetime());

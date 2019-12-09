@@ -38,7 +38,8 @@ public abstract class aKartController : aCollisionManager
     RaycastHit hitNear, giovane;
     //RaycastHit hitOn, hitNear;
 
-    List<ParticleSystem> primaryParticles, secondaryParticles, tubeTurboParticles;
+    List<ParticleSystem> primaryParticles, secondaryParticles;
+    List<ParticleSystem[]> tubeTurboParticles;
 
     private const short PosizionePavimento = 2;
     protected bool RibaltaDisabilitato, Ribalta;
@@ -127,7 +128,7 @@ public abstract class aKartController : aCollisionManager
 
         primaryParticles = new List<ParticleSystem>();
         secondaryParticles = new List<ParticleSystem>();
-        tubeTurboParticles = new List<ParticleSystem>();
+        tubeTurboParticles = new List<ParticleSystem[]>();
 
         for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
@@ -139,7 +140,7 @@ public abstract class aKartController : aCollisionManager
             secondaryParticles.Add(p);
 
         foreach (var tube in tubes)
-            tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentInChildren<ParticleSystem>());
+            tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentsInChildren<ParticleSystem>());
 
         gravity_ = gravity;
     }
@@ -515,7 +516,8 @@ public abstract class aKartController : aCollisionManager
     public void PlayTurboEffect()
     {
         foreach (var p in tubeTurboParticles)
-            p.Play();
+            foreach(var pp in p)
+                pp.Play();
     }
 
     internal void setDestination(float xRndError, float zRndError) =>
