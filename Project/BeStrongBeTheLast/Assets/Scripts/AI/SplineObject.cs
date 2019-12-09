@@ -25,6 +25,8 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
 
     public List<SplineObject> nextSplines = new List<SplineObject>();
 
+    public ShortcutMovement CanBeClosedByThisWall;
+    public SplineObject CanBeClosedByThisWall_AlternativeFork;
     public bool MostraInPlay = false;
 
 

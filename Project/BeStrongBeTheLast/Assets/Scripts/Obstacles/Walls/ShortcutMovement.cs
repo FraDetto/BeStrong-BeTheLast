@@ -14,6 +14,10 @@ public class ShortcutMovement : MonoBehaviour
     public int maxStaticFrames;
     public float basePositionClosed, basePositionOpen;
 
+    internal bool closed = true;
+
+    private int staticFrames, currentStaticFrames, newStaticFrames;
+    private ShortcutInstantClose triggerCallback = null;
     private RigidbodyConstraints freezePositionConstraints;
     private Rigidbody thisRigidbody;
     private Vector3 oldPosition;
@@ -23,6 +27,7 @@ public class ShortcutMovement : MonoBehaviour
     private SplineObject shortcutSpline, mainSpline;
     private float oldShortcutSplineChance, oldMainSplineChance;
 
+
     void Start()
     {
         freezePositionConstraints = RigidbodyConstraints.FreezeAll;
@@ -31,10 +36,8 @@ public class ShortcutMovement : MonoBehaviour
         staticFrames = Random.Range(0, maxStaticFrames);
     }
 
-    private void Update()
-    {
+    private void Update() =>
         oldPosition = transform.position;
-    }
 
     void FixedUpdate()
     {
@@ -57,15 +60,12 @@ public class ShortcutMovement : MonoBehaviour
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
         transform.Translate(transform.up * 0.1f);
-        
-        //thisRigidbody.AddForce(transform.up * 10f, ForceMode.Acceleration);
     }
 
     void Close()
     {
         thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
         transform.Translate(-transform.up * 0.1f);
-
     }
 
     void MantainPosition(bool flipClosed)
@@ -85,8 +85,11 @@ public class ShortcutMovement : MonoBehaviour
         {
             closed = !closed;
             currentStaticFrames = 0;
-            if(newStaticFrames == 0)
+
+            if (newStaticFrames == 0)
+            {
                 staticFrames = Random.Range(0, maxStaticFrames);
+            }
             else
             {
                 staticFrames = newStaticFrames;
@@ -101,15 +104,11 @@ public class ShortcutMovement : MonoBehaviour
         currentStaticFrames++;
     }
 
-    public void forceChangeState()
-    {
+    public void forceChangeState() =>
         currentStaticFrames = staticFrames + 10;
-    }
 
-    private void imposeNewTimeout(int timeout)
-    {
+    private void imposeNewTimeout(int timeout) =>
         newStaticFrames = 60 * timeout;
-    }
 
     public void CloseNow(int timeout)
     {
@@ -118,4 +117,5 @@ public class ShortcutMovement : MonoBehaviour
         forceChangeState();
         imposeNewTimeout(timeout);
     }
+
 }
