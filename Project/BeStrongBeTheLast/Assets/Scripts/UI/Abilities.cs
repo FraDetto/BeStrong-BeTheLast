@@ -46,9 +46,21 @@ public class Abilities : MonoBehaviour
         if (started)
         {
             float driftValue = kartController.driftHeatingValue;
-            driftHeating.value = driftValue + 0.128f;
+            float driftValueAdjusted = driftValue * 0.7f + 0.3f;
+            driftHeating.value = driftValueAdjusted;
             powerGauge.value = kartController.powerGaugeValue;
-            driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, Mathf.Sqrt(driftValue));
+            if (driftValue > 0.7)
+            {
+                driftHeatingFill.GetComponent<Image>().color = heatedColor;
+            }else if (driftValue < 0.3)
+            {
+                driftHeatingFill.GetComponent<Image>().color = coldColor;
+            }
+            else
+            {
+                float colorShift = (driftValue - 0.3f) * 2.5f;
+                driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, colorShift);
+            }
             
 
 
