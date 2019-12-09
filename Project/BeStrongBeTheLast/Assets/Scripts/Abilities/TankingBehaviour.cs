@@ -26,18 +26,22 @@ public class TankingBehaviour : MonoBehaviour
         rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
         normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
         normal.Translate(Vector3.up * 0.25f);
+
         rigidbody_.mass *= 2;
         rigidbody_.drag += 1;
+
         StartCoroutine(Lifetime());
     }
 
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(lengthTimeInSeconds);
+
         rigidbody_.mass /= 2;
         rigidbody_.drag -= 1;
         normal.localScale = originalScale;
         normal.Translate(Vector3.down * 0.25f);
+
         if (enabled)
             Destroy(gameObject);
     }
