@@ -14,7 +14,7 @@ public class aAbilitiesBehaviour : MonoBehaviour
     protected KartController kartController;
 
     protected void Start_() =>
-        kartController = GB.FindComponentInDadWithName<KartController>(transform, "Kart");
+        kartController = GB.FindComponentInDadWithName<KartController>(transform, "Controller");
 
 
 }

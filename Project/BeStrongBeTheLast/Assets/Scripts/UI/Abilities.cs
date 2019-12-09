@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Abilities : MonoBehaviour
 {
@@ -24,8 +25,35 @@ public class Abilities : MonoBehaviour
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
 
+    private bool started;
+
     private void Start()
     {
+        StartCoroutine(delayedStart());
+    }
+
+    private void Update()
+    {
+        if(started)
+        {
+            driftHeating.value = kartController.driftHeatingValue;
+            powerGauge.value = kartController.powerGaugeValue;
+
+            counterText.color = kartController.canUseCounter() ? enabledColor : disabledColor;
+            selectedProjectileText.color = kartController.canUseProjectile() ? enabledColor : disabledColor;
+            selectedSpecialText.color = kartController.canUseSpecial() ? enabledColor : disabledColor;
+
+            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+
+            selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
+        }
+    }
+
+    private IEnumerator delayedStart()
+    {
+        while(!kartController.started)
+            yield return null;
+
         counterText.color = disabledColor;
 
         selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
@@ -35,19 +63,8 @@ public class Abilities : MonoBehaviour
         selectedProjectileText.color = disabledColor;
 
         kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
-    }
 
-    private void Update()
-    {
-        driftHeating.value = kartController.driftHeatingValue;
-        powerGauge.value = kartController.powerGaugeValue;
-
-        counterText.color = kartController.canUseCounter() ? enabledColor : disabledColor;
-        selectedProjectileText.color = kartController.canUseProjectile() ? enabledColor : disabledColor;
-        selectedSpecialText.color = kartController.canUseSpecial() ? enabledColor : disabledColor;
-
-        selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-        selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
+        started = true;
     }
 
 }

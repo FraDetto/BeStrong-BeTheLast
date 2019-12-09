@@ -38,7 +38,6 @@ public static class GB
         }
         catch
         {
-            Debug.Log($"L'asse {axisName} non è stato definito.");
 
             return 0;
         }
@@ -52,7 +51,6 @@ public static class GB
         }
         catch
         {
-            Debug.Log($"Il pulsante {buttonName} non è stato definito.");
 
             return false;
         }
@@ -66,7 +64,6 @@ public static class GB
         }
         catch
         {
-            Debug.Log($"Il pulsante {buttonName} non è stato definito.");
 
             return false;
         }
@@ -254,7 +251,7 @@ public static class GB
 
     public static T FindComponentInDadWithName<T>(Transform me, string name_) where T : Component
     {
-        if (me.name.Equals(name_))
+        if (me.name.Contains(name_))
             return me.GetComponent<T>();
 
         return FindComponentInDadWithName<T>(me.transform.parent, name_);

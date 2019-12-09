@@ -21,7 +21,7 @@ public class CounterBehaviour : MonoBehaviour
 
     private void Start()
     {
-        var player = transform.root.GetComponent<KartController>().playerType;
+        var player = transform.root.GetComponentInChildren<KartController>().playerType;
         if(player.Equals(aBSBTLKart.ePlayer.EarthRestorer))
             transform.GetChild(0).gameObject.SetActive(true);
         else if(player.Equals(aBSBTLKart.ePlayer.Bard))

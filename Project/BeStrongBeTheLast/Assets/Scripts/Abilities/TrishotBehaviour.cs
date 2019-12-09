@@ -23,11 +23,14 @@ public class TrishotBehaviour : MonoBehaviour
 
     private void Start()
     {
-        for (var i = 0; i < 3; i++)
-            shots.Add(transform.GetChild(i).gameObject);
-
         user = transform.root.gameObject;
         transform.parent = null;
+
+        for (var i = 0; i < 3; i++)
+        {
+            transform.GetChild(i).GetComponent<SingleShotBehaviour>().user = user;
+            shots.Add(transform.GetChild(i).gameObject);
+        }
     }
 
     void Update()

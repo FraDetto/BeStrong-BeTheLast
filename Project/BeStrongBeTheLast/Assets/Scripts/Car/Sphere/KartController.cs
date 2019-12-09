@@ -40,6 +40,8 @@ public sealed class KartController : aBSBTLKart
     private GameObject excludeObstacle =>
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
+    internal bool started;
+
 
     private void Start()
     {
@@ -69,6 +71,7 @@ public sealed class KartController : aBSBTLKart
         }
 
         Start_();
+        started = true;
     }
 
     private void Update()
@@ -209,7 +212,7 @@ public sealed class KartController : aBSBTLKart
     private void CPU_AI_Find_UseWeapons()
     {
         foreach (var cpuCar in CPUCars)
-            if (cpuCar.name.Equals("Kart") && cpuCar != gameObject)
+            if (cpuCar.name.Contains("Controller") && cpuCar != gameObject)
             {
                 if (canUseProjectile())
                 {
