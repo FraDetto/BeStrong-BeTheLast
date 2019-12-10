@@ -251,13 +251,7 @@ public sealed class KartController : aBSBTLKart
         foreach (var car in AllCars)
             if (car != gameObject)
             {
-                if (canUseProjectile())
-                {
-                    if (Vector3.Distance(transform.position, car.transform.position) < 10)
-                        Projectile(frontSpawnpoint);
-                    //Projectile(rearSpawnpoint);
-                }
-                else if (canUseSpecial())
+                if (canUseSpecial())
                 {
                     Special();
                 }
@@ -272,6 +266,25 @@ public sealed class KartController : aBSBTLKart
                     }
                 }
             }
+    }
+
+    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider)
+    {
+        onCollisionWithTags(collider, (kartController) =>
+        {
+            if (canUseProjectile() && myAbility.selectedProjectile)
+            {
+                switch (direction)
+                {
+                    case FieldOfViewCollider.eDirection.front:
+                        Projectile(frontSpawnpoint);
+                        break;
+                    case FieldOfViewCollider.eDirection.rear:
+                        Projectile(rearSpawnpoint);
+                        break;
+                }
+            }
+        }, "Player", "CPU");
     }
 
     private void CPU_AI_Find_Obstacles(bool wrong)
@@ -345,14 +358,6 @@ public sealed class KartController : aBSBTLKart
         excludeObstacles.Push(gameObject);
         currentObstacleOtherCPU.Remove(currentObstacle);
         currentObstacle = null;
-    }
-
-    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider)
-    {
-        onCollisionWithTags(collider, (kartController) =>
-        {
-
-        }, "Player", "CPU");
     }
 
 }
