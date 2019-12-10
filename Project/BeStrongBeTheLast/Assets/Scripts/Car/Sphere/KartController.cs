@@ -246,53 +246,32 @@ public sealed class KartController : aBSBTLKart
         return false;
     }
 
-    //IEnumerator aspettaPerSparare()
-    //{
-    //    var s = Random.Range(0f, 1f) * ProbabilitàDiSparare * 7;
-
-    //    yield return new WaitForSeconds(s);
-
-    //    CPU_AI_Find_UseWeapons_();
-    //    aspettandoDiSparare = false;
-    //}
-
-    //private void CPU_AI_Find_UseWeapons()
-    //{
-    //    if (!aspettandoDiSparare)
-    //    {
-    //        aspettandoDiSparare = true;
-    //        StartCoroutine(aspettaPerSparare());
-    //    }
-    //}
-
     private void CPU_AI_Find_UseWeapons()
     {
-        if (canUseProjectile())
-        {
-            if (myAbility.selectedProjectile)
+        foreach (var car in AllCars)
+            if (car != gameObject)
             {
-                if (FindEnemyDirection(-transform.forward))
-                    Projectile(rearSpawnpoint);
-                else if (FindEnemyDirection(transform.forward))
-                    Projectile(frontSpawnpoint);
-            }
-        }
-        else if (canUseSpecial())
-        {
-            Special();
-        }
-        else if (canUseCounter())
-        {
-            var counterBehaviour = counter.GetComponent<CounterBehaviour>();
+                if (canUseProjectile())
+                {
+                    if (Vector3.Distance(transform.position, car.transform.position) < 10)
+                        Projectile(frontSpawnpoint);
+                    //Projectile(rearSpawnpoint);
+                }
+                else if (canUseSpecial())
+                {
+                    Special();
+                }
+                else if (canUseCounter())
+                {
+                    var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
-            foreach (var cars in AllCars)
-                if (cars != gameObject)
-                    if (Vector3.Distance(transform.position, cars.transform.position) < counterBehaviour.diametroDiAzione)
+                    if (Vector3.Distance(transform.position, car.transform.position) < counterBehaviour.diametroDiAzione)
                     {
                         Counter();
                         break;
                     }
-        }
+                }
+            }
     }
 
     private void CPU_AI_Find_Obstacles(bool wrong)
