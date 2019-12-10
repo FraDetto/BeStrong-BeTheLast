@@ -11,8 +11,12 @@ public class radioTowerTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.root.GetComponentInChildren<KartController>().Accelerate(acceleration);
-        StartCoroutine(disableElectricity());
+        if(other.CompareTag("Player") || other.CompareTag("CPU"))
+        {
+            other.transform.root.GetComponentInChildren<KartController>().Accelerate(acceleration);
+            StartCoroutine(disableElectricity());
+        }
+        
     }
 
     IEnumerator disableElectricity()

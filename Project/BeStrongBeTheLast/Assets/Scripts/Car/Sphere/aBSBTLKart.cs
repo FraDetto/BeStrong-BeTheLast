@@ -126,7 +126,7 @@ public abstract class aBSBTLKart : aKartController
                 Special();
 
         //Only for testing purposes, will be removed during release (controllers and CPU don't need this)
-        var MouseScrollWheel = GB.GetAxis("Mouse ScrollWheel");
+        /*var MouseScrollWheel = GB.GetAxis("Mouse ScrollWheel");
 
         if (MouseScrollWheel != 0 && !attracted)
         {
@@ -135,11 +135,11 @@ public abstract class aBSBTLKart : aKartController
             else if (MouseScrollWheel < 0)
                 index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
 
-            myAbility = abilities[(ePlayer)index];
-        }
+            myAbility = abilities[(ePlayer)index]; 
+        }*/
         //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)        
 
-        if (GB.GetButtonDown(input + "MenuA"))
+        if(GB.GetButtonDown(input + "MenuA"))
             rankPanel.SetActive(!rankPanel.activeSelf);
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
