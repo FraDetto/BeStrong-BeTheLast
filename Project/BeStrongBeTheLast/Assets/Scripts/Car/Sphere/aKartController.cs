@@ -169,7 +169,7 @@ public abstract class aKartController : aCollisionManager
             Steer(dir, amount);
         }
 
-        //Drift        
+        //Drift
         if (CanDrift() && jumpBDown && !drifting && xAxis != 0)
         {
             drifting = true;
