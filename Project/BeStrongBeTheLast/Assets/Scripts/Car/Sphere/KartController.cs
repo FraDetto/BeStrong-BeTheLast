@@ -259,7 +259,7 @@ public sealed class KartController : aBSBTLKart
                 {
                     var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
-                    if (Vector3.Distance(transform.position, car.transform.position) < counterBehaviour.diametroDiAzione)
+                    if (Vector3.Distance(transform.position, car.transform.position) < counterBehaviour.raggioDiAzione)
                     {
                         Counter();
                         break;
