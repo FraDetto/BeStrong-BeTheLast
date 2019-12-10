@@ -16,9 +16,6 @@ public class Abilities : MonoBehaviour
     public KartController kartController;
 
     public Slider powerGauge;
-    public Text counterText;
-    public Text selectedProjectileText;
-    public Text selectedSpecialText;
     public Slider driftHeating;
     public Text warningText;
     public GameObject driftHeatingFill;
@@ -43,20 +40,6 @@ public class Abilities : MonoBehaviour
             driftHeating.value = driftValue + 0.128f;
             powerGauge.value = kartController.powerGaugeValue;
             driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, Mathf.Sqrt(driftValue));
-
-
-
-
-            counterText.color = kartController.canUseCounter() ? enabledColor : disabledColor;
-            selectedProjectileText.color = kartController.canUseProjectile() ? enabledColor : disabledColor;
-            selectedSpecialText.color = kartController.canUseSpecial() ? enabledColor : disabledColor;
-
-            selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
-
-            if (kartController.myAbility.selectedProjectile)
-                selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-            else if (kartController.myAbility.selectedAttractor)
-                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
         }
     }
 
@@ -64,18 +47,6 @@ public class Abilities : MonoBehaviour
     {
         while (!kartController.started)
             yield return null;
-
-        counterText.color = disabledColor;
-
-        if (kartController.myAbility.selectedProjectile)
-            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-        else if (kartController.myAbility.selectedAttractor)
-            selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
-
-        selectedProjectileText.color = disabledColor;
-
-        selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
-        selectedProjectileText.color = disabledColor;
 
         kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
 
