@@ -19,6 +19,8 @@ public class Abilities : MonoBehaviour
     public Slider driftHeating;
     public Text warningText;
     public GameObject driftHeatingFill;
+    public GameObject counterIcon, projectileIcon, specialIcon;
+    public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
 
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
@@ -37,9 +39,35 @@ public class Abilities : MonoBehaviour
         if (started)
         {
             float driftValue = kartController.driftHeatingValue;
-            driftHeating.value = driftValue + 0.128f;
+            float driftValueAdjusted = driftValue * 0.7f + 0.3f;
+            driftHeating.value = driftValueAdjusted;
             powerGauge.value = kartController.powerGaugeValue;
-            driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, Mathf.Sqrt(driftValue));
+            if (driftValue > 0.7)
+            {
+                driftHeatingFill.GetComponent<Image>().color = heatedColor;
+            }
+            else if (driftValue < 0.3)
+            {
+                driftHeatingFill.GetComponent<Image>().color = coldColor;
+            }
+            else
+            {
+                float colorShift = (driftValue - 0.3f) * 2.5f;
+                driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, colorShift);
+            }
+
+
+            counterIcon.GetComponent<Image>().sprite = kartController.canUseCounter() ? shieldAct : shieldInact;
+            projectileIcon.GetComponent<Image>().sprite = kartController.canUseProjectile() ? projectileAct : projectileInact;
+            specialIcon.GetComponent<Image>().sprite = kartController.canUseSpecial() ? specialAct : specialInact;
+
+            /*
+            selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
+
+            if (kartController.myAbility.selectedProjectile)
+                selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+            else if (kartController.myAbility.selectedAttractor)
+                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;*/
         }
     }
 
@@ -48,6 +76,19 @@ public class Abilities : MonoBehaviour
         while (!kartController.started)
             yield return null;
 
+        /*
+        counterText.color = disabledColor;
+
+        if (kartController.myAbility.selectedProjectile)
+            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
+        else if (kartController.myAbility.selectedAttractor)
+            selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
+
+        selectedProjectileText.color = disabledColor;
+
+        selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
+        selectedProjectileText.color = disabledColor;
+        */
         kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
 
         started = true;
