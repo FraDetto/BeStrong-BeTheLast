@@ -29,7 +29,7 @@ namespace Assets.Scripts.Obstacles.Base
 
             if (collidedWithTags)
             {
-                var kartController = component.transform.parent.GetComponentInChildren<KartController>();
+                var kartController = component.transform.root.GetComponentInChildren<KartController>();
 
                 if (kartController)
                     callback(kartController);
