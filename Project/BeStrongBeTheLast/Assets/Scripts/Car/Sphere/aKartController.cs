@@ -462,7 +462,6 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        Debug.Log(amount);
         sphere.velocity = transform.forward * acceleration/2f;
         currentSpeed *= amount;
 

@@ -56,7 +56,7 @@ internal static class GameState
                 ro.set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance());
             }
 
-            rankings = rankings.OrderBy(c => c.getScore()).ThenByDescending(c => c.getDist()).ToList();
+            rankings = rankings.OrderByDescending(c => c.getScore()).ThenBy(c => c.getDist()).ToList();
 
             foreach (var r in rankings)
                 if (r.getTag().Equals(tag))

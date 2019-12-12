@@ -18,7 +18,7 @@ public class Abilities : MonoBehaviour
     public Slider powerGauge;
     public Slider driftHeating;
     public Text warningText;
-    public GameObject driftHeatingFill;
+    public GameObject driftHeatingFill, panelRankings;
     public GameObject counterIcon, projectileIcon, specialIcon;
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
 
@@ -89,7 +89,7 @@ public class Abilities : MonoBehaviour
         selectedProjectileText.color = disabledColor;
         */
         kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
-
+        kartController.rankPanel = panelRankings;
         started = true;
     }
 

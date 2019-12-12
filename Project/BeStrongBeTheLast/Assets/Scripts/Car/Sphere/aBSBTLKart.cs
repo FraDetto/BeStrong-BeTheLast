@@ -140,7 +140,7 @@ public abstract class aBSBTLKart : aKartController
         }*/
         //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)        
 
-        if (GB.GetButtonDown(input + "MenuA"))
+        if (GB.GetButtonDown(input + "MenuA") && rankPanel)
             rankPanel.SetActive(!rankPanel.activeSelf);
 
         base.Update_(xAxis, jumpBDown, jumpBUp);

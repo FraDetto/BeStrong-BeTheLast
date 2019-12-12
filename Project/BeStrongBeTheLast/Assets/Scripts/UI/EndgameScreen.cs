@@ -18,10 +18,10 @@ public class EndgameScreen : MonoBehaviour
     {
         var i = -1;
         var finalRankings = GameState.Instance.rankings;
-
+        finalRankings.Reverse();
         if (results.Length == finalRankings.Count)
             foreach (var finalRank in finalRankings)
-                results[i += 1].text = (i + 1) + " - " + finalRank.getTag();
+                results[i += 1].text = (finalRankings.Count - i) + " - " + finalRank.getTag();
     }
 
     public void quitGame()

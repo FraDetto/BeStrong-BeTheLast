@@ -24,9 +24,10 @@ public class RankingsUI : MonoBehaviour
     void FixedUpdate()
     {
         List<GameState.RankObj> rankings = GameState.Instance.rankings;
-        for (int i = 0; i < 8; i++)
+        rankings.Reverse();
+        for (int i = 0; i < rankings.Count; i++)
         {
-            textRows[i].text = (i + 1).ToString() + " - " + rankings[i].getTag();
+            textRows[i].text = (rankings.Count - i) + " - " + rankings[i].getTag();
         }
     }
 }
