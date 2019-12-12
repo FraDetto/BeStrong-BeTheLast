@@ -42,7 +42,7 @@ public class EndManager : MonoBehaviour
                 GameState.Instance.laps.Add(go.name, 0);
         }
 
-        if (GameState.Instance.laps.ContainsKey("Player") && endGame())
+        if (endGame())
             GB.GotoSceneName(scena.SceneName);
     }
 

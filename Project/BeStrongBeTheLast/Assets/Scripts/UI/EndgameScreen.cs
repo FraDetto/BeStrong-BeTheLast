@@ -21,7 +21,7 @@ public class EndgameScreen : MonoBehaviour
 
         if (results.Length == finalRankings.Count)
             foreach (var finalRank in finalRankings)
-                results[i += 1].text = finalRank.getTag() + " - " + (i + 1);
+                results[i += 1].text = (i + 1) + " - " + finalRank.getTag();
     }
 
     public void quitGame()

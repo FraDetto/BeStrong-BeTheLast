@@ -23,7 +23,7 @@ internal static class GameState
     {
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
-        internal int lapsNumberSetting = 1;
+        internal int lapsNumberSetting = 3;
 
         internal Dictionary<string, int> positions = new Dictionary<string, int>();
         internal Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
