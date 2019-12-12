@@ -204,17 +204,12 @@ public sealed class KartController : aBSBTLKart
                     lastSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
                     currentSplineDistance1 > lastSplineDistance 
-                    //&& currentSplineDistance0 < prevSplineDistance
+                    && currentSplineDistance0 < prevSplineDistance
                     ;
 
                 lastSplineDistance = currentSplineDistance1;
                 prevSplineDistance = currentSplineDistance0;
 
-                if (transform.parent.gameObject.name.Equals("Kiddo"))
-                {
-                    Debug.Log("");
-                }
-                
                 return wrong;
             }
             else
