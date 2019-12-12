@@ -35,15 +35,15 @@ public abstract class aBSBTLKart : aKartController
 
     public struct sAbilities
     {
-        public GameObject selectedProjectile, selectedSpecial, selectedAttractor;
+        public GameObject myProjectile, mySpecial, myAttractor;
 
-        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial) : this(selectedProjectile, selectedSpecial, null) { }
+        public sAbilities(GameObject myProjectile, GameObject mySpecial) : this(myProjectile, mySpecial, null) { }
 
-        public sAbilities(GameObject selectedProjectile, GameObject selectedSpecial, GameObject selectedAttractor)
+        public sAbilities(GameObject myProjectile, GameObject mySpecial, GameObject myAttractor)
         {
-            this.selectedProjectile = selectedProjectile;
-            this.selectedSpecial = selectedSpecial;
-            this.selectedAttractor = selectedAttractor;
+            this.myProjectile = myProjectile;
+            this.mySpecial = mySpecial;
+            this.myAttractor = myAttractor;
         }
     }
 
@@ -65,6 +65,7 @@ public abstract class aBSBTLKart : aKartController
     internal sAbilities myAbility;
 
     internal bool attracted;
+
     internal Transform debuff;
 
     private int index;
@@ -87,13 +88,13 @@ public abstract class aBSBTLKart : aKartController
             { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
             { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
             { ePlayer.Imps, new sAbilities(trishot, annoying)},
-            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting)},
+            { ePlayer.Kiddo, new sAbilities(attracting, rotating)},
             { ePlayer.Politician, new sAbilities(trishot, blinding)},
-            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting)},
+            { ePlayer.Steamdunker, new sAbilities(attracting, blinding)},
         };
 
         myAbility = abilities[playerType];
-        debuff = transform.Find("Debuff");
+        debuff = kartNormal.transform.Find("Debuff");
 
         base.Start_();
     }
@@ -156,9 +157,9 @@ public abstract class aBSBTLKart : aKartController
 
     internal void Projectile(Transform spawnPoint)
     {
-        Instantiate(myAbility.selectedProjectile, spawnPoint.position, spawnPoint.rotation, transform);
+        Instantiate(myAbility.myProjectile, spawnPoint.position, spawnPoint.rotation, transform);
 
-        if (!attracted)
+        if (!myAbility.myProjectile.Equals(attracting))
         {
             powerGaugeValue -= 0.5f;
             projectileRecharging = true;
@@ -166,14 +167,14 @@ public abstract class aBSBTLKart : aKartController
         }
         else
         {
-            myAbility.selectedProjectile = attracting;
+            myAbility.myProjectile = attracting;
             attracted = false;
         }
     }
 
     protected void Special()
     {
-        Instantiate(myAbility.selectedSpecial, transform);
+        Instantiate(myAbility.mySpecial, transform);
 
         powerGaugeValue -= 0.75f;
         specialRecharging = true;
@@ -184,7 +185,7 @@ public abstract class aBSBTLKart : aKartController
         powerGaugeValue >= 0.25f && !counterRecharging;
 
     internal bool canUseProjectile() =>
-      (powerGaugeValue >= 0.5f && !projectileRecharging) || attracted;
+      (powerGaugeValue >= 0.5f || (myAbility.myProjectile.Equals(attracting))) && !projectileRecharging;
 
     internal bool canUseSpecial() =>
        powerGaugeValue >= 0.75f && !specialRecharging;

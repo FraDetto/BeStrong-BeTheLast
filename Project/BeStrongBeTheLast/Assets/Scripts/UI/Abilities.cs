@@ -42,11 +42,11 @@ public class Abilities : MonoBehaviour
             float driftValueAdjusted = driftValue * 0.7f + 0.3f;
             driftHeating.value = driftValueAdjusted;
             powerGauge.value = kartController.powerGaugeValue;
-            if (driftValue > 0.7)
+            if(driftValue > 0.7)
             {
                 driftHeatingFill.GetComponent<Image>().color = heatedColor;
             }
-            else if (driftValue < 0.3)
+            else if(driftValue < 0.3)
             {
                 driftHeatingFill.GetComponent<Image>().color = coldColor;
             }
@@ -55,7 +55,6 @@ public class Abilities : MonoBehaviour
                 float colorShift = (driftValue - 0.3f) * 2.5f;
                 driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, colorShift);
             }
-
 
             counterIcon.GetComponent<Image>().sprite = kartController.canUseCounter() ? shieldAct : shieldInact;
             projectileIcon.GetComponent<Image>().sprite = kartController.canUseProjectile() ? projectileAct : projectileInact;

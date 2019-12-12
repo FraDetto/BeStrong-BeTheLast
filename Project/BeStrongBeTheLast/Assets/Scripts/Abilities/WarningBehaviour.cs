@@ -23,7 +23,7 @@ public class WarningBehaviour : aCollisionManager
     {
         onCollisionWithTags(other, (kartController) =>
         {
-            if (kartController.myAbility.selectedAttractor)
+            if (kartController.myAbility.myProjectile.Equals(kartController.attracting))
                 switch (lato)
                 {
                     case GB.ELato.Avanti:

@@ -106,6 +106,10 @@ public abstract class aKartController : aCollisionManager
 
     private AudioSource boostAudioSource;
 
+    internal float gravityMultiplier = 1f;
+
+    protected bool wrong;
+
 
     protected void Start_()
     {
@@ -147,6 +151,35 @@ public abstract class aKartController : aCollisionManager
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
+        if(settingOnTrack)
+        {
+            var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+            var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+
+            if(hittingLeft && hittingRight)
+            {
+                xAxis = 0;
+                var dir = lookAtDestOriginal - kartModel.transform.position;
+                var rot = Quaternion.Slerp(kartModel.transform.rotation, Quaternion.LookRotation(dir, Vector3.up), Time.deltaTime * 5f);
+
+                var eul = rot.eulerAngles;
+                eul.x = 0;
+                eul.z = 0;
+
+                transform.eulerAngles = eul;
+            }
+            else if(hittingLeft && !hittingRight)
+                xAxis = 1f;
+            else if(!hittingLeft && hittingRight)
+                xAxis = -1f;
+            else if(!hittingLeft && !hittingRight)
+            {
+                Accelerate(2f);
+                sphere.AddForce(kartNormal.transform.forward * 300f, ForceMode.Impulse);
+                settingOnTrack = false;
+            }
+        }
+
         //Follow Collider
         transform.position = sphere.transform.position - vettoreCorrezioneSfera;
 
@@ -279,45 +312,18 @@ public abstract class aKartController : aCollisionManager
 
                 StartCoroutine(AbilitaRibalta());
             }
-
-
-
-
-        if (settingOnTrack)
-        {
-            var dir = lookAtDestOriginal - transform.position;
-            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 30f * Time.deltaTime);
-
-            var eul = rot.eulerAngles;
-            eul.x = 0;
-            eul.z = 0;
-
-            var resultRayCastRight = !Physics.Raycast(transform.position, transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
-            var resultRayCastLeft = !Physics.Raycast(transform.position, transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
-
-            if (resultRayCastRight && resultRayCastLeft)
-            {
-                sphere.AddForce(dir.normalized * 200f, ForceMode.Impulse);
-                Accelerate(1.8f);
-                settingOnTrack = false;
-            }
-            else
-            {
-                transform.eulerAngles = eul;
-            }
-        }
     }
 
     protected void FixedUpdate_()
     {
         //Forward Acceleration        
         if (drifting)
-            sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+            sphere.AddForce(kartNormal.forward * currentSpeed, ForceMode.Acceleration);
         else
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
-        sphere.AddForce(Vector3.down * gravity_, ForceMode.Acceleration);
+        sphere.AddForce(Vector3.down * gravity_ * gravityMultiplier, ForceMode.Acceleration);
 
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
@@ -450,6 +456,7 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
+        sphere.velocity = transform.forward * acceleration/2f;
         currentSpeed *= amount;
 
         if (currentSpeed > 200)
@@ -546,18 +553,22 @@ public abstract class aKartController : aCollisionManager
 
     internal void SetOnTrack()
     {
-        settingOnTrack = true;
-        /*var dir = lookAtDestOriginal - transform.position;
-        var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
+        if(wrong)
+        {
+            var dir = lookAtDestOriginal - transform.position;
+            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
 
-        var eul = rot.eulerAngles;
-        eul.x = 0;
-        eul.z = 0;
+            var eul = rot.eulerAngles;
+            eul.x = 0;
+            eul.z = 0;
 
-        transform.eulerAngles = eul;
+            transform.eulerAngles = eul;
 
-        sphere.AddForce(dir.normalized * 300f, ForceMode.Impulse);
-        Accelerate(2f);*/
+            sphere.AddForce(dir.normalized * 500f, ForceMode.Impulse);
+            Accelerate(3f);
+        }
+        else
+            settingOnTrack = true;
     }
 
     internal void activNewCamera(int indexCamToActiv, int indexCamToDis)

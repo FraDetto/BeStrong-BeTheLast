@@ -8,10 +8,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class ChangeCamera : MonoBehaviour
+public class ChangeFloor : MonoBehaviour
 {
     //public GameObject camToActive, camToDis;
     public int camToActive, camToDis;
+    public float gravityMultiplier = 1f;
     private bool doppiaCameraInScena;
 
 
@@ -24,9 +25,12 @@ public class ChangeCamera : MonoBehaviour
     {
         if (doppiaCameraInScena)
         {
-            if (co.CompareTag("Player"))
+            if (co.CompareTag("Player")|| co.CompareTag("CPU"))
             {
-                co.transform.root.GetComponentInChildren<KartController>().activNewCamera(camToActive, camToDis);
+                var kart = co.transform.root.GetComponentInChildren<KartController>();
+                kart.gravityMultiplier = Mathf.Clamp(gravityMultiplier, 0.5f, 2f);
+                if(kart.playerType.Equals(aKartController.eKCType.Human))
+                    kart.activNewCamera(camToActive, camToDis);
                 //camToActive.SetActive(true);
                 //camToDis.SetActive(false);   
             }

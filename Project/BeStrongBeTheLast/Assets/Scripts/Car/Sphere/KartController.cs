@@ -86,7 +86,7 @@ public sealed class KartController : aBSBTLKart
 
     private void Update()
     {
-        var wrong = wrongWay;
+        wrong = wrongWay;
 
         switch (KCType)
         {
@@ -272,7 +272,7 @@ public sealed class KartController : aBSBTLKart
     {
         onCollisionWithTags(collider, (kartController) =>
         {
-            if (canUseProjectile() && myAbility.selectedProjectile)
+            if (canUseProjectile() && myAbility.myProjectile)
             {
                 switch (direction)
                 {
