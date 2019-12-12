@@ -168,10 +168,16 @@ public abstract class aKartController : aCollisionManager
 
                 transform.eulerAngles = eul;
             }
-            else if(hittingLeft && !hittingRight)
+            else if (hittingLeft && !hittingRight)
+            {
                 xAxis = 1f;
-            else if(!hittingLeft && hittingRight)
+                Accelerate(2f);
+            }
+            else if (!hittingLeft && hittingRight)
+            {
                 xAxis = -1f;
+                Accelerate(2f);
+            }
             else if(!hittingLeft && !hittingRight)
             {
                 Accelerate(2f);
@@ -456,6 +462,7 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
+        Debug.Log(amount);
         sphere.velocity = transform.forward * acceleration/2f;
         currentSpeed *= amount;
 
