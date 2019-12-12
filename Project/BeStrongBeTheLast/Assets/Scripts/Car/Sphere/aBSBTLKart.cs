@@ -185,7 +185,7 @@ public abstract class aBSBTLKart : aKartController
         powerGaugeValue >= 0.25f && !counterRecharging;
 
     internal bool canUseProjectile() =>
-      (powerGaugeValue >= 0.5f || (myAbility.myProjectile.Equals(attracting))) && !projectileRecharging;
+      (powerGaugeValue >= 0.5f || myAbility.myProjectile.Equals(attracting)) && !projectileRecharging;
 
     internal bool canUseSpecial() =>
        powerGaugeValue >= 0.75f && !specialRecharging;

@@ -203,7 +203,7 @@ public sealed class KartController : aBSBTLKart
                 var wrong =
                     lastSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
-                    currentSplineDistance1 > lastSplineDistance 
+                    currentSplineDistance1 > lastSplineDistance
                     && currentSplineDistance0 < prevSplineDistance
                     ;
 
@@ -216,7 +216,7 @@ public sealed class KartController : aBSBTLKart
             {
                 return false;
             }
-            
+
         }
     }
 
@@ -258,7 +258,7 @@ public sealed class KartController : aBSBTLKart
     private void CPU_AI_Find_UseWeapons()
     {
         foreach (var car in AllCars)
-            if (car != gameObject)
+            if (car.transform.root != gameObject.transform.root)
             {
                 if (canUseSpecial())
                 {
@@ -281,18 +281,19 @@ public sealed class KartController : aBSBTLKart
     {
         onCollisionWithTags(collider, (kartController) =>
         {
-            if (canUseProjectile() && myAbility.myProjectile)
-            {
-                switch (direction)
+            if (kartController != this)
+                if (canUseProjectile() && myAbility.myProjectile)
                 {
-                    case FieldOfViewCollider.eDirection.front:
-                        Projectile(frontSpawnpoint);
-                        break;
-                    case FieldOfViewCollider.eDirection.rear:
-                        Projectile(rearSpawnpoint);
-                        break;
+                    switch (direction)
+                    {
+                        case FieldOfViewCollider.eDirection.front:
+                            Projectile(frontSpawnpoint);
+                            break;
+                        case FieldOfViewCollider.eDirection.rear:
+                            Projectile(rearSpawnpoint);
+                            break;
+                    }
                 }
-            }
         }, "Player", "CPU");
     }
 
