@@ -17,59 +17,29 @@ public class ShortcutMovement : MonoBehaviour
     internal bool closed = true;
 
     private int staticFrames, currentStaticFrames, newStaticFrames;
-    private ShortcutInstantClose triggerCallback = null;
-    private RigidbodyConstraints freezePositionConstraints;
-    private Rigidbody thisRigidbody;
-    private Vector3 oldPosition;
     private ShortcutInstantClose trigger;
-    private SplineObject shortcutSpline, mainSpline;
-    private float oldShortcutSplineChance, oldMainSplineChance;
 
 
-    void Start()
-    {
-        freezePositionConstraints = RigidbodyConstraints.FreezeAll;
-        thisRigidbody = GetComponent<Rigidbody>();
-        oldPosition = transform.position;
+    void Start() =>
         staticFrames = Random.Range(0, maxStaticFrames);
-    }
-
-    private void Update() =>
-        oldPosition = transform.position;
 
     void FixedUpdate()
     {
         var ready_ = currentStaticFrames > staticFrames;
 
         if (closed && ready_ && transform.localPosition.y <= basePositionOpen)
-            MoveUp();
+            transform.Translate(transform.up * 0.1f);
         else if (!closed && ready_ && transform.localPosition.y >= basePositionClosed)
-            Close();
+            transform.Translate(-transform.up * 0.1f);
         else
             MantainPosition(ready_);
     }
 
-    public void setTrigger(ShortcutInstantClose trigger)
-    {
+    public void setTrigger(ShortcutInstantClose trigger) =>
         this.trigger = trigger;
-    }
-
-    void MoveUp()
-    {
-        thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        transform.Translate(transform.up * 0.1f);
-    }
-
-    void Close()
-    {
-        thisRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        transform.Translate(-transform.up * 0.1f);
-    }
 
     void MantainPosition(bool flipClosed)
     {
-        thisRigidbody.constraints = freezePositionConstraints;
-
         if (flipClosed)
         {
             closed = !closed;
@@ -83,10 +53,9 @@ public class ShortcutMovement : MonoBehaviour
             {
                 staticFrames = newStaticFrames;
                 newStaticFrames = 0;
+
                 if (trigger)
-                {
                     trigger.Reset();
-                }
             }
         }
 
