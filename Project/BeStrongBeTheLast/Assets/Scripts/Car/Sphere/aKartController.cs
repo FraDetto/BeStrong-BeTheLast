@@ -49,6 +49,7 @@ public abstract class aKartController : aCollisionManager
 
     protected float speed;
     public float currentSpeed;
+    internal bool wrongWayImmunity = false;
 
     float rotate, currentRotate;
     protected float driftPower;
@@ -496,9 +497,24 @@ public abstract class aKartController : aCollisionManager
     public void EnableHardRotate(bool enable_) =>
         hardRotate = enable_;
 
-    public void AddForce(float force, ForceMode forceMode, Vector3 direction) =>
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
+    {
+        getWrongWayImmunity(2f);
         sphere.AddForce(direction * force, forceMode);
-
+    }
+    
+    public void getWrongWayImmunity(float duration)
+    {
+        wrongWayImmunity = true;
+        StartCoroutine(disableWrongWayImmunity(duration));
+    }
+    
+    IEnumerator disableWrongWayImmunity(float countdown)
+    {
+        yield return new WaitForSeconds(countdown);
+        wrongWayImmunity = false;
+    }
+    
     public void BeSquished(int duration)
     {
         if (!isSquished)

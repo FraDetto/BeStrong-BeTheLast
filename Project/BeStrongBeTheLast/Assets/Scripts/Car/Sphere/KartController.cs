@@ -16,7 +16,7 @@ public sealed class KartController : aBSBTLKart
     internal bool touchingGround = true;
 
     // ============== HUMAN ==============
-    public bool UsaWrongWay = false;
+    public bool UsaWrongWay;
 
     private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
 
@@ -195,19 +195,27 @@ public sealed class KartController : aBSBTLKart
     {
         get
         {
-            var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
-            var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
+            if (!wrongWayImmunity)
+            {
+                var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
+                var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
 
-            var wrong =
-                lastSplineDistance > 0 &&
-                prevSplineDistance > 0 &&
-                currentSplineDistance1 > lastSplineDistance &&
-                currentSplineDistance0 < prevSplineDistance;
+                var wrong =
+                    lastSplineDistance > 0 &&
+                    prevSplineDistance > 0 &&
+                    currentSplineDistance1 > lastSplineDistance &&
+                    currentSplineDistance0 < prevSplineDistance;
 
-            lastSplineDistance = currentSplineDistance1;
-            prevSplineDistance = currentSplineDistance0;
+                lastSplineDistance = currentSplineDistance1;
+                prevSplineDistance = currentSplineDistance0;
 
-            return wrong;
+                return wrong;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
     }
 
