@@ -51,7 +51,8 @@ public sealed class KartController : aBSBTLKart
 
     private void Start()
     {
-        CurrentSplineObject = GameObject.FindGameObjectWithTag("Spline").transform.GetChild(0).GetComponent<SplineObject>();
+        Transform splines = GameObject.FindGameObjectWithTag("Spline").transform;
+        CurrentSplineObject = splines.GetChild(0).GetComponent<SplineObject>();
 
         CPUCars = GameObject.FindGameObjectsWithTag("CPU");
         PlayersCars = GameObject.FindGameObjectsWithTag("Player");
@@ -204,7 +205,7 @@ public sealed class KartController : aBSBTLKart
                     lastSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
                     currentSplineDistance1 > lastSplineDistance
-                    && currentSplineDistance0 < prevSplineDistance
+                    && (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[transform.parent.gameObject.name] == 0)
                     ;
 
                 lastSplineDistance = currentSplineDistance1;
