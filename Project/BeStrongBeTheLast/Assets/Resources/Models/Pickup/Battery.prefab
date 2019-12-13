@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3183425371944095909
+--- !u!1 &6203699769735543316
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,69 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3183425371944095905}
-  - component: {fileID: 3183425371944095906}
-  - component: {fileID: 7342080218534458016}
+  - component: {fileID: 6203699769735767604}
   m_Layer: 0
-  m_Name: Pickup
-  m_TagString: Obstacles
+  m_Name: Battery
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3183425371944095905
+--- !u!4 &6203699769735767604
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3183425371944095909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_GameObject: {fileID: 6203699769735543316}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 553.94464, y: 1.139092, z: -310.6595}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5955112644644530918}
+  - {fileID: 6203699769735767606}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &3183425371944095906
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3183425371944095909}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.1206412
-  m_Center: {x: 0, y: -0.32533884, z: 0}
---- !u!114 &7342080218534458016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3183425371944095909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebc1c4c5e25cfb45b3d6a819eb34497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnTime: 15
-  powerAmount: 0.5
---- !u!1001 &2538898211991758197
+--- !u!1001 &2848752218546907557
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3183425371944095905}
+    m_TransformParent: {fileID: 6203699769735767604}
     m_Modifications:
     - target: {fileID: 8187321053968225203, guid: cc890de5b80b6cf45a68cdbb45166240,
         type: 3}
       propertyPath: m_Name
-      value: BatteryMesh
+      value: default
       objectReference: {fileID: 0}
     - target: {fileID: 8187321053968453523, guid: cc890de5b80b6cf45a68cdbb45166240,
         type: 3}
@@ -129,9 +100,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc890de5b80b6cf45a68cdbb45166240, type: 3}
---- !u!4 &5955112644644530918 stripped
+--- !u!4 &6203699769735767606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8187321053968453523, guid: cc890de5b80b6cf45a68cdbb45166240,
     type: 3}
-  m_PrefabInstance: {fileID: 2538898211991758197}
+  m_PrefabInstance: {fileID: 2848752218546907557}
   m_PrefabAsset: {fileID: 0}
