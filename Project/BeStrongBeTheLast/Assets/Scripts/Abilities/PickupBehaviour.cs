@@ -23,7 +23,7 @@ public class PickupBehaviour : MonoBehaviour
     private void Start()
     {
         collider_ = GetComponent<Collider>();
-        mesh = GetComponent<MeshRenderer>();
+        mesh = GetComponentInChildren<MeshRenderer>();
     }
 
     private void OnTriggerEnter(Collider other)
