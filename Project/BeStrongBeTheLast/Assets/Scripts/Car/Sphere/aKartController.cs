@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Serialization;
 
 public abstract class aKartController : aCollisionManager
 {
@@ -69,6 +70,7 @@ public abstract class aKartController : aCollisionManager
     public float gravity = 10f;
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
+    public bool enableSpeedRubberbanding;
     internal float gravity_;
     public LayerMask layerMask;
 
@@ -464,12 +466,15 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         sphere.velocity = transform.forward * acceleration/2f;
+        float bonusBias = GameState.Instance.getScoreBiasBonus(transform.parent.gameObject.name);
         if(amount > 1)
-            amount = amount - (amount - 0.9f) * GameState.Instance.getScoreBiasBonus(transform.parent.gameObject.name);
+            amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
+        else
+            amount = amount - (Mathf.Max(amount - 0.1f, 0)) * bonusBias;
         currentSpeed *= amount;
-
-        if (currentSpeed > 200)
-            currentSpeed = 200;
+        float speedCap = (enableSpeedRubberbanding)?200 - 60 * bonusBias:200;
+        if (currentSpeed > speedCap)
+            currentSpeed = speedCap;
 
         if (amount > 1)
             PlayTurboEffect();

@@ -30,7 +30,9 @@ public class PickupBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            other.transform.root.GetComponentInChildren<KartController>().powerGaugeValue += powerAmount;
+            KartController kartController = other.transform.root.GetComponentInChildren<KartController>();
+            string playerName = kartController.transform.parent.gameObject.name;
+            kartController.powerGaugeValue += (powerAmount + powerAmount * GameState.Instance.getScoreBiasBonus(playerName));
             collider_.enabled = false;
             mesh.enabled = false;
         }
