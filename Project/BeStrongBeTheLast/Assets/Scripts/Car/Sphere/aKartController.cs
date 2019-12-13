@@ -464,6 +464,8 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         sphere.velocity = transform.forward * acceleration/2f;
+        if(amount > 1)
+            amount = amount - (amount - 0.9f) * GameState.Instance.getScoreBiasBonus(transform.parent.gameObject.name);
         currentSpeed *= amount;
 
         if (currentSpeed > 200)

@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 internal static class GameState
 {
@@ -24,6 +25,8 @@ internal static class GameState
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
         internal int lapsNumberSetting = 3;
+        internal int scoreBiasDeadZone = 5;
+        internal float maxScoreBias = 1f;
 
         internal Dictionary<string, int> positions = new Dictionary<string, int>();
         internal Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
@@ -84,6 +87,35 @@ internal static class GameState
                 else
                     positions.Add(tag, score);
             }
+        }
+
+        public float getScoreBiasBonus(string tag)
+        {
+            float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0, scoreBias = 0;
+            int countBetterPlayers = 0;
+            float myScore = positions[tag];
+            
+            foreach (var score in positions)
+            {
+                if (!score.Key.Equals(tag) && (score.Value + scoreBiasDeadZone < myScore))
+                {
+                    countBetterPlayers++;
+                    scoreSum += score.Value;
+                    if (score.Value > maxScore)
+                        maxScore = score.Value;
+                    if (score.Value < minScore || minScore < 1)
+                        minScore = score.Value;
+                }
+            }
+
+            avgScore = scoreSum / positions.Count;
+            betterPlayers = countBetterPlayers / (float)(positions.Count - 1);
+            scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) + 
+                        0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
+                        0.01f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
+                        betterPlayers;
+            scoreBias = Mathf.Min(maxScoreBias, scoreBias);
+            return scoreBias;
         }
     }
 
