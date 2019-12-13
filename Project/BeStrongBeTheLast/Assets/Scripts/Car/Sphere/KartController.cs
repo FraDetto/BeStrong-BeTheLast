@@ -205,7 +205,7 @@ public sealed class KartController : aBSBTLKart
                     lastSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
                     currentSplineDistance1 > lastSplineDistance
-                    && (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[transform.parent.gameObject.name] == 0)
+                    && (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[playerName] == 0)
                     ;
 
                 lastSplineDistance = currentSplineDistance1;

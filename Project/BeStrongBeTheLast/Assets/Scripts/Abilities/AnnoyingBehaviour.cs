@@ -38,7 +38,7 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds);
+        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(user.GetComponentInChildren<KartController>().playerName));
 
         AnnoyCars(players, annoyingAmount, false);
         AnnoyCars(bots, annoyingAmount, false);
