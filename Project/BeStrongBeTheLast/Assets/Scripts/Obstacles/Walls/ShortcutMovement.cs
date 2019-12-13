@@ -15,13 +15,14 @@ public class ShortcutMovement : MonoBehaviour
     public float basePositionClosed, basePositionOpen;
 
     internal bool closed = true;
-
+    public bool autoMovement = false;
+    private bool forceClose = false;
     private int staticFrames, currentStaticFrames, newStaticFrames;
     private ShortcutInstantClose trigger;
 
 
     void Start() =>
-        staticFrames = Random.Range(0, maxStaticFrames);
+        staticFrames = (autoMovement)?Random.Range(0, maxStaticFrames):10;
 
     void FixedUpdate()
     {
@@ -29,7 +30,7 @@ public class ShortcutMovement : MonoBehaviour
 
         if (closed && ready_ && transform.localPosition.y <= basePositionOpen)
             transform.Translate(transform.up * 0.1f);
-        else if (!closed && ready_ && transform.localPosition.y >= basePositionClosed)
+        else if (!closed && ready_ && transform.localPosition.y >= basePositionClosed && (autoMovement || forceClose))
             transform.Translate(-transform.up * 0.1f);
         else
             MantainPosition(ready_);
@@ -40,6 +41,8 @@ public class ShortcutMovement : MonoBehaviour
 
     void MantainPosition(bool flipClosed)
     {
+        if (forceClose)
+            forceClose = false;
         if (flipClosed)
         {
             closed = !closed;
@@ -47,7 +50,7 @@ public class ShortcutMovement : MonoBehaviour
 
             if (newStaticFrames == 0)
             {
-                staticFrames = Random.Range(0, maxStaticFrames);
+                staticFrames = (autoMovement)?Random.Range(0, maxStaticFrames):maxStaticFrames*10;
             }
             else
             {
@@ -62,8 +65,12 @@ public class ShortcutMovement : MonoBehaviour
         currentStaticFrames++;
     }
 
-    public void forceChangeState() =>
+    public void forceChangeState()
+    {
         currentStaticFrames = staticFrames + 10;
+        forceClose = true;
+    }
+    
 
     private void imposeNewTimeout(int timeout) =>
         newStaticFrames = 60 * timeout;
