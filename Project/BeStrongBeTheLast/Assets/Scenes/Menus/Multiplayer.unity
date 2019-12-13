@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2710,6 +2710,11 @@ PrefabInstance:
         type: 3}
       propertyPath: basePositionOpen
       value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2909267307058755245, guid: c700eeaa44f5bbd409726731ddb15704,
+        type: 3}
+      propertyPath: timeoutReset
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c700eeaa44f5bbd409726731ddb15704, type: 3}
@@ -38126,6 +38131,11 @@ PrefabInstance:
       propertyPath: mainSpline
       value: 
       objectReference: {fileID: 4827036612128113870}
+    - target: {fileID: 2909267307058755245, guid: c700eeaa44f5bbd409726731ddb15704,
+        type: 3}
+      propertyPath: timeoutReset
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c700eeaa44f5bbd409726731ddb15704, type: 3}
 --- !u!4 &1097569319 stripped
@@ -40949,22 +40959,22 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.032430958
+      value: -0.03312737
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.08602759
+      value: 0.08831492
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.8573897
+      value: -0.861009
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5063896
+      value: 0.49976656
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -57681,7 +57691,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683116053}
-  m_LocalRotation: {x: -0.025247855, y: 0.110187344, z: -0.9896561, w: -0.08832917}
+  m_LocalRotation: {x: -0.022913078, y: 0.11071824, z: -0.99135387, w: -0.06658835}
   m_LocalPosition: {x: 277.66, y: 3.32, z: -255.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -57905,22 +57915,22 @@ PrefabInstance:
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0114894
+      value: 0.02898231
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.053546
+      value: 0.1014982
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.8948682
+      value: -0.88692814
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.44295788
+      value: 0.4496852
       objectReference: {fileID: 0}
     - target: {fileID: 3583958630379212493, guid: dbe46c8c5d1ce344d8d813f3a96c6d4f,
         type: 3}
@@ -66595,7 +66605,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105956492}
-  m_LocalRotation: {x: 0.0028573717, y: -0.027020175, z: 0.3834933, w: -0.9231439}
+  m_LocalRotation: {x: -0.021907575, y: -0.1090153, z: 0.912335, w: -0.39405674}
   m_LocalPosition: {x: 289.03, y: 2.97, z: -251.65001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
