@@ -37,7 +37,7 @@ public class RotatingBehaviour : MonoBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds);
+        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(user.GetComponentInChildren<KartController>().playerName));
 
         if (enabled)
             Destroy(gameObject);

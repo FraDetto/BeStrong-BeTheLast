@@ -14,6 +14,7 @@ public class TankingBehaviour : MonoBehaviour
     private Rigidbody rigidbody_;
     private Transform normal;
     private Vector3 originalScale;
+    private KartController kartController;
 
     [SerializeField]
     private float lengthTimeInSeconds = 15f;
@@ -25,7 +26,8 @@ public class TankingBehaviour : MonoBehaviour
         originalScale = normal.localScale;
         rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
         normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
-        if(transform.root.GetComponentInChildren<KartController>().playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
+        kartController = transform.root.GetComponentInChildren<KartController>();
+        if(kartController.playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
             normal.Translate(Vector3.up * 0.25f);
 
         rigidbody_.mass *= 2;
@@ -36,12 +38,12 @@ public class TankingBehaviour : MonoBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds);
+        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(kartController.playerName));
 
         rigidbody_.mass /= 2;
         rigidbody_.drag -= 1;
         normal.localScale = originalScale;
-        if(transform.root.GetComponentInChildren<KartController>().playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
+        if(kartController.playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
             normal.Translate(Vector3.down * 0.25f);
 
         if (enabled)

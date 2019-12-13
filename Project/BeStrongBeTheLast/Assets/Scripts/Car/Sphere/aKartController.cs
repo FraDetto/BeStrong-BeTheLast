@@ -466,7 +466,7 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         sphere.velocity = transform.forward * acceleration/2f;
-        float bonusBias = GameState.Instance.getScoreBiasBonus(transform.parent.gameObject.name);
+        float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
         if(amount > 1)
             amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
         else
@@ -608,4 +608,12 @@ public abstract class aKartController : aCollisionManager
 
     protected bool CanDrift() =>
         !driftCooldown;
+    
+    internal string playerName
+    {
+        get
+        {
+            return transform.parent.gameObject.name;
+        }
+    }
 }

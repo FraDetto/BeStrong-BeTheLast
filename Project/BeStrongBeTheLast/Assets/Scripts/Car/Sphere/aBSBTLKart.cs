@@ -101,7 +101,6 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
-        string playerName = transform.parent.gameObject.name;
         var input = "P" + playerNumber;
         powerGaugeValue += (regenSpeed + regenSpeed * GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
 

@@ -35,7 +35,7 @@ public class BlindingBehaviour : aAbilitiesBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds);
+        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(user.GetComponentInChildren<KartController>().playerName));
 
         BlindCars(players, false);
         BlindCars(bots, false);
