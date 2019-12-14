@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class aNPCSpawner<T> : MonoBehaviour where T : WanderingMob
+public abstract class aNPCSpawner<T> : PausableMonoBehaviour where T : WanderingMob
 {
     public GameObject mobPrefab;
     public int spawnWaitSeconds = 5;

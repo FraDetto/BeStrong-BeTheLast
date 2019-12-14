@@ -10,7 +10,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadPlayer : MonoBehaviour
+public class LoadPlayer : PausableMonoBehaviour
 {
 
     public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();

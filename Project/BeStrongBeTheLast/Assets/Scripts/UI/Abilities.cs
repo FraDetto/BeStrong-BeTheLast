@@ -10,7 +10,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Abilities : MonoBehaviour
+public class Abilities : PausableMonoBehaviour
 {
 
     public KartController kartController;

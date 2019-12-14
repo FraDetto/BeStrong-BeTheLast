@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class radioTowerTrigger : MonoBehaviour
+public class radioTowerTrigger : PausableMonoBehaviour
 {
     
     public float acceleration;

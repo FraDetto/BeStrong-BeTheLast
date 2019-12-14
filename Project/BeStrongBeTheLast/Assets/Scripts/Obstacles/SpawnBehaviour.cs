@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnBehaviour : MonoBehaviour
+public class SpawnBehaviour : PausableMonoBehaviour
 {
     public enum BarrelType
     {

@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndgameScreen : MonoBehaviour
+public class EndgameScreen : PausableMonoBehaviour
 {
     public Text[] results;
     public Button quit, mainMenu;

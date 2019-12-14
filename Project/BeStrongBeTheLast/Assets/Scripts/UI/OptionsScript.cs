@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class OptionsScript : MonoBehaviour
+public class OptionsScript : PausableMonoBehaviour
 {
     public AudioMixer audioMixer;
     public Dropdown resolutionDropdown;

@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
 
-public class LoadSceneOnClick : MonoBehaviour
+public class LoadSceneOnClick : PausableMonoBehaviour
 {
     public enum eAzione
     {

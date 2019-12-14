@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 using Utilities;
 
-public class EndManager : MonoBehaviour
+public class EndManager : PausableMonoBehaviour
 {
 
     public GameObject[] cars;

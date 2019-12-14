@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrishotBehaviour : MonoBehaviour
+public class TrishotBehaviour : PausableMonoBehaviour
 {
     [SerializeField]
     private float speed;

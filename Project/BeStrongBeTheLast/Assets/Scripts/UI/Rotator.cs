@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public sealed class Rotator : MonoBehaviour
+public sealed class Rotator : PausableMonoBehaviour
 {
 
     public GameObject Car1, Car2, Car3, Car4;

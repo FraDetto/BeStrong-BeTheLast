@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Serialization;
 
 public abstract class aKartController : aCollisionManager
 {
@@ -154,12 +153,15 @@ public abstract class aKartController : aCollisionManager
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
-        if(settingOnTrack)
+        if (Paused)
+            return;
+
+        if (settingOnTrack)
         {
             var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
             var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
 
-            if(hittingLeft && hittingRight)
+            if (hittingLeft && hittingRight)
             {
                 xAxis = 0;
                 var dir = lookAtDestOriginal - kartModel.transform.position;
@@ -181,7 +183,7 @@ public abstract class aKartController : aCollisionManager
                 xAxis = -1f;
                 Accelerate(2f);
             }
-            else if(!hittingLeft && !hittingRight)
+            else if (!hittingLeft && !hittingRight)
             {
                 Accelerate(2f);
                 sphere.AddForce(kartNormal.transform.forward * 300f, ForceMode.Impulse);
@@ -465,14 +467,14 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        sphere.velocity = transform.forward * acceleration/2f;
+        sphere.velocity = transform.forward * acceleration / 2f;
         float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
-        if(amount > 1)
+        if (amount > 1)
             amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
         else
             amount = amount - (Mathf.Max(amount - 0.1f, 0)) * bonusBias;
         currentSpeed *= amount;
-        float speedCap = (enableSpeedRubberbanding)?200 - 60 * bonusBias:200;
+        float speedCap = (enableSpeedRubberbanding) ? 200 - 60 * bonusBias : 200;
         if (currentSpeed > speedCap)
             currentSpeed = speedCap;
 
@@ -509,19 +511,19 @@ public abstract class aKartController : aCollisionManager
         getWrongWayImmunity(2f);
         sphere.AddForce(direction * force, forceMode);
     }
-    
+
     public void getWrongWayImmunity(float duration)
     {
         wrongWayImmunity = true;
         StartCoroutine(disableWrongWayImmunity(duration));
     }
-    
+
     IEnumerator disableWrongWayImmunity(float countdown)
     {
         yield return new WaitForSeconds(countdown);
         wrongWayImmunity = false;
     }
-    
+
     public void BeSquished(int duration)
     {
         if (!isSquished)
@@ -552,7 +554,7 @@ public abstract class aKartController : aCollisionManager
     public void PlayTurboEffect()
     {
         foreach (var p in tubeTurboParticles)
-            foreach(var pp in p)
+            foreach (var pp in p)
                 pp.Play();
     }
 
@@ -582,7 +584,7 @@ public abstract class aKartController : aCollisionManager
 
     internal void SetOnTrack()
     {
-        if(wrong)
+        if (wrong)
         {
             var dir = lookAtDestOriginal - transform.position;
             var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
@@ -608,7 +610,7 @@ public abstract class aKartController : aCollisionManager
 
     protected bool CanDrift() =>
         !driftCooldown;
-    
+
     internal string playerName
     {
         get

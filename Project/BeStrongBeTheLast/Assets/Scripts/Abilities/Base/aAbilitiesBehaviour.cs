@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class aAbilitiesBehaviour : MonoBehaviour
+public class aAbilitiesBehaviour : PausableMonoBehaviour
 {
 
     protected KartController kartController;

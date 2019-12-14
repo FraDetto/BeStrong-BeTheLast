@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ArrowPanelOnSpline : MonoBehaviour
+public class ArrowPanelOnSpline : PausableMonoBehaviour
 {
     public Sprite imageToShow;
 

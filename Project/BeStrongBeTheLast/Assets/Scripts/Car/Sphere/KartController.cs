@@ -87,6 +87,9 @@ public sealed class KartController : aBSBTLKart
 
     private void Update()
     {
+        if (Paused)
+            return;
+
         wrong = wrongWay;
 
         switch (KCType)

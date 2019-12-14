@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class PickupBehaviour : MonoBehaviour
+public class PickupBehaviour : PausableMonoBehaviour
 {
     private Collider collider_;
     private MeshRenderer mesh;

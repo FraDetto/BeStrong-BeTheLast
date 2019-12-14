@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FullscreenWindow : MonoBehaviour
+public class FullscreenWindow : PausableMonoBehaviour
 {
 
     void Update()
