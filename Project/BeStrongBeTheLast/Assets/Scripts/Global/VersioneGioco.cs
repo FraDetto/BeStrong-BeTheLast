@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VersioneGioco : MonoBehaviour
+public class VersioneGioco : PausableMonoBehaviour
 {
 
     public Text versione;

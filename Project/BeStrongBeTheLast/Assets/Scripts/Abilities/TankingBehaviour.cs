@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class TankingBehaviour : MonoBehaviour
+public class TankingBehaviour : PausableMonoBehaviour
 {
     private Rigidbody rigidbody_;
     private Transform normal;

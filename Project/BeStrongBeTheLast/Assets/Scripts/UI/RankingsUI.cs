@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RankingsUI : MonoBehaviour
+public class RankingsUI : PausableMonoBehaviour
 {
     public Text textPrefab;
 

@@ -41,14 +41,14 @@ namespace AI
 
     internal class State
     {
-        internal MonoBehaviour _monoBehaviour;
+        internal PausableMonoBehaviour _monoBehaviour;
         internal Delegate _enterAction, _exitAction;
         internal object[] _enterParameters, _exitParameters;
 
         internal HashSet<Transition> transitions;
 
 
-        internal State(MonoBehaviour monoBehaviour)
+        internal State(PausableMonoBehaviour monoBehaviour)
         {
             _monoBehaviour = monoBehaviour;
         }
@@ -76,12 +76,12 @@ namespace AI
 
     internal class SM
     {
-        MonoBehaviour _monoBehaviour;
+        PausableMonoBehaviour _monoBehaviour;
         State _current;
         HashSet<State> _states = new HashSet<State>();
 
 
-        internal SM(MonoBehaviour monoBehaviour)
+        internal SM(PausableMonoBehaviour monoBehaviour)
         {
             _monoBehaviour = monoBehaviour;
         }
@@ -158,7 +158,7 @@ namespace AI
             return fromState;
         }
 
-        internal State addState(string name, MonoBehaviour monoBehaviour, IEnumerator waiter, Delegate exitAction, State toState)
+        internal State addState(string name, PausableMonoBehaviour monoBehaviour, IEnumerator waiter, Delegate exitAction, State toState)
         {
             var fromState = addState();
 

@@ -101,6 +101,9 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
     {
+        if (Paused)
+            return;
+
         var input = "P" + playerNumber;
         powerGaugeValue += (regenSpeed + regenSpeed * GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
 
@@ -125,20 +128,6 @@ public abstract class aBSBTLKart : aKartController
         if (canUseSpecial())
             if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
                 Special();
-
-        //Only for testing purposes, will be removed during release (controllers and CPU don't need this)
-        /*var MouseScrollWheel = GB.GetAxis("Mouse ScrollWheel");
-
-        if (MouseScrollWheel != 0 && !attracted)
-        {
-            if (MouseScrollWheel > 0)
-                index = (index == DifferentPlayersType - 1 ? 0 : index + 1);
-            else if (MouseScrollWheel < 0)
-                index = (index == 0 ? DifferentPlayersType - 1 : index - 1);
-
-            myAbility = abilities[(ePlayer)index]; 
-        }*/
-        //END - Only for testing purposes, will be removed during release (controllers and CPU don't need this)        
 
         if (GB.GetButtonDown(input + "MenuA") && rankPanel)
             rankPanel.SetActive(!rankPanel.activeSelf);

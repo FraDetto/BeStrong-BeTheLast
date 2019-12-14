@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using UnityEngine;
 using UnityEngine.UI;
 
-class LapManager : MonoBehaviour
+class LapManager : PausableMonoBehaviour
 {
     public Text lapText, posText;
     public GameObject player;
