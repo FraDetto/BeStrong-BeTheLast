@@ -24,7 +24,7 @@ internal static class GameState
     {
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
-        internal int lapsNumberSetting = 3;
+        internal int lapsNumberSetting = 1;
         internal int scoreBiasDeadZone = 5;
         internal float maxScoreBias = 1f;
         internal bool activateRubberBanding = true;
@@ -35,6 +35,7 @@ internal static class GameState
 
         internal List<RankObj> rankings = new List<RankObj>();
         internal Dictionary<string, RankObj> rankingsDict = new Dictionary<string, RankObj>();
+        internal List<string> finalRankings = new List<string>();
 
 
         public int getCurrentRanking(string tag)

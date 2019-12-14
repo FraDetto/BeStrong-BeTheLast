@@ -14,9 +14,9 @@ using UnityEngine.UI;
 
 class LapManager : PausableMonoBehaviour
 {
-    public Text lapText, posText, startText;
+    public Text lapText, posText, startText, endText;
     public GameObject player;
-    public GameObject pausePanel;
+    public GameObject pausePanel, endPanel;
     private int countdown = 3;
 
     private void Start()
@@ -50,11 +50,28 @@ class LapManager : PausableMonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameState.Instance.laps.ContainsKey(player.name))
-            lapText.text = "Lap " + (GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
+        if (player)
+        {
+            if (GameState.Instance.laps.ContainsKey(player.name))
+                lapText.text = "Lap " + (GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
 
-        if (GameState.Instance.positions.ContainsKey(player.name))
-            posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
+            if (GameState.Instance.positions.ContainsKey(player.name))
+                posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
+
+            if (!(GameState.Instance.laps[player.name] <= GameState.Instance.lapsNumberSetting))
+            {
+                endPanel.SetActive(true);
+                int rank = (GameState.Instance.finalRankings.IndexOf(player.name) + 1);
+                string numterm = "th";
+                if (rank == 1)
+                    numterm = "st";
+                else if (rank == 2)
+                    numterm = "nd";
+                else if (rank == 3)
+                    numterm = "rd";
+                endText.text = "FINISH! You placed " + rank + numterm;
+            }
+        }
     }
     
     public IEnumerator FadeTextToZeroAlpha(float t, Text i)
@@ -70,6 +87,7 @@ class LapManager : PausableMonoBehaviour
     
     public IEnumerator FadeObjectToZeroAlpha(float t, CanvasGroup i)
     {
+        startLoop();
         if (i)
         {
             i.alpha = 1;
@@ -79,7 +97,6 @@ class LapManager : PausableMonoBehaviour
                 yield return null;
             }
         }
-        startLoop();
     }
 
 }

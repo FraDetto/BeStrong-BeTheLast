@@ -40,6 +40,14 @@ public class EndManager : PausableMonoBehaviour
                 GameState.Instance.laps[go.name]++;
             else
                 GameState.Instance.laps.Add(go.name, 0);
+
+            if (GameState.Instance.laps[go.name] > GameState.Instance.lapsNumberSetting)
+            {
+                GameState.Instance.finalRankings.Add(go.name);
+                //controller.Paused = true;
+                //other.enabled = false;
+                go.SetActive(false);
+            }
         }
 
         if (endGame())

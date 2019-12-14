@@ -17,11 +17,11 @@ public class EndgameScreen : PausableMonoBehaviour
     private void Start()
     {
         var i = -1;
-        var finalRankings = GameState.Instance.rankings;
+        var finalRankings = GameState.Instance.finalRankings;
         finalRankings.Reverse();
         if (results.Length == finalRankings.Count)
             foreach (var finalRank in finalRankings)
-                results[i += 1].text = (finalRankings.Count - i) + " - " + finalRank.getTag();
+                results[i += 1].text = (finalRankings.Count - i) + " - " + finalRank;
     }
 
     public void quitGame()
