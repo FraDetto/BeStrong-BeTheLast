@@ -62,10 +62,12 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
+                GameState.Instance.kartTypes.Add(transform.parent.name, "Player");
                 setDestination(0, 0, true);
                 break;
 
             case eKCType.CPU:
+                GameState.Instance.kartTypes.Add(transform.parent.name, "CPU");
                 var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
                 var renderer_ = Box001.gameObject.GetComponent<Renderer>();
 

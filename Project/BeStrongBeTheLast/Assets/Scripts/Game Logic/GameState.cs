@@ -24,7 +24,7 @@ internal static class GameState
     {
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
-        internal int lapsNumberSetting = 1;
+        internal int lapsNumberSetting = 3;
         internal int scoreBiasDeadZone = 5;
         internal float maxScoreBias = 1f;
         internal bool activateRubberBanding = true;
@@ -32,6 +32,7 @@ internal static class GameState
         internal Dictionary<string, int> positions = new Dictionary<string, int>();
         internal Dictionary<string, ushort> laps = new Dictionary<string, ushort>();
         internal Dictionary<string, KartController> kartControllers = new Dictionary<string, KartController>();
+        internal Dictionary<string, string> kartTypes = new Dictionary<string, string>();
 
         internal List<RankObj> rankings = new List<RankObj>();
         internal Dictionary<string, RankObj> rankingsDict = new Dictionary<string, RankObj>();
