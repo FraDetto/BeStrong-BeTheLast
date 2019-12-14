@@ -115,6 +115,7 @@ public abstract class aKartController : aCollisionManager
 
     protected void Start_()
     {
+        Paused = true;
         if (camera_ == null)
             foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
                 if (root.tag.Equals("MainCamera"))
