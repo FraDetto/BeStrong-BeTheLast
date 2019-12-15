@@ -109,16 +109,13 @@ public sealed class KartController : aBSBTLKart
                 }
                 else
                 {
-                    if (touchingGround)
-                    {
-                        driftDisabled = false;
-                        Update_(GB.GetAxis(input + "Horizontal"), GB.GetButtonDown(input + "Drift"), GB.GetButtonUp(input + "Drift"));
-                    }
-                    else
-                    {
-                        driftDisabled = true;
-                        Update_(0, GB.GetButtonDown(input + "Drift"), GB.GetButtonUp(input + "Drift"));
-                    }
+                    driftDisabled = !touchingGround;
+
+                    Update_(
+                        touchingGround ? GB.GetAxis(input + "Horizontal") : 0,
+                        GB.GetButtonDown(input + "Drift"),
+                        GB.GetButtonUp(input + "Drift")
+                    );
                 }
 
                 if (UsaWrongWay && wrong)
