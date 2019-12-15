@@ -14,17 +14,19 @@ internal static class GameState
 {
     internal static GameStateInternal Instance = new GameStateInternal();
 
-    internal static void resetGame() =>
+    internal static void resetGame()
+    {
         Instance = new GameStateInternal();
+    }
 
 
     internal class GameStateInternal
     {
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
-        internal int lapsNumberSetting = 3;
+        internal int lapsNumberSetting = 0;
         internal int scoreBiasDeadZone = 5;
-        internal float maxScoreBias = 1;
+        internal float maxScoreBias = 1f;
         internal bool activateRubberBanding = true;
 
         internal Dictionary<string, int> positions = new Dictionary<string, int>();
@@ -39,11 +41,12 @@ internal static class GameState
 
         public int getCurrentRanking(string tag)
         {
-            RankObj ro;
             var init = rankings.Count == 0;
 
             foreach (var kartScore in positions)
             {
+                RankObj ro;
+
                 if (init)
                 {
                     ro = new RankObj();
@@ -91,41 +94,40 @@ internal static class GameState
 
         public float getScoreBiasBonus(string tag)
         {
+            float scoreBias;
             if (activateRubberBanding)
             {
                 float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0;
                 int countBetterPlayers = 0;
                 float myScore = positions[tag];
-
+            
                 foreach (var score in positions)
+                {
                     if (!score.Key.Equals(tag) && (score.Value + scoreBiasDeadZone < myScore))
                     {
                         countBetterPlayers++;
                         scoreSum += score.Value;
-
                         if (score.Value > maxScore)
                             maxScore = score.Value;
-
                         if (score.Value < minScore || minScore < 1)
                             minScore = score.Value;
                     }
+                }
 
                 avgScore = scoreSum / positions.Count;
                 betterPlayers = countBetterPlayers / (float)(positions.Count - 1);
-
-                var scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) +
-                             0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
-                             0.01f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
-                             betterPlayers;
-
+                scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) + 
+                            0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
+                            0.01f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
+                            betterPlayers;
                 scoreBias = Mathf.Min(maxScoreBias, scoreBias);
-
-                return scoreBias;
             }
             else
             {
-                return 0;
+                scoreBias = 0;
             }
+            
+            return scoreBias;
         }
     }
 
@@ -142,14 +144,18 @@ internal static class GameState
             this.dist = dist;
         }
 
-        public int getScore() =>
-            score;
-
-        public string getTag() =>
-            tag;
-
-        public float getDist() =>
-            dist;
+        public int getScore()
+        {
+            return score;
+        }
+        public string getTag()
+        {
+            return tag;
+        }
+        public float getDist()
+        {
+            return dist;
+        }
     }
 
 }
