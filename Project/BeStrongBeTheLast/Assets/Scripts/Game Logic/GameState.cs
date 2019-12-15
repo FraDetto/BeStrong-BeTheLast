@@ -24,7 +24,7 @@ internal static class GameState
     {
         //CURRENT RACE OPTIONS
         internal string playerChampName, selectedTrackName;
-        internal int lapsNumberSetting = 0;
+        internal int lapsNumberSetting = 3;
         internal int scoreBiasDeadZone = 5;
         internal float maxScoreBias = 1f;
         internal bool activateRubberBanding = true;

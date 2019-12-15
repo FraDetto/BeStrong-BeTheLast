@@ -17,10 +17,13 @@ class LapManager : PausableMonoBehaviour
     public Text lapText, posText, startText, endText;
     public GameObject player;
     public GameObject pausePanel, endPanel;
-    private int countdown = 3;
+    private int countdown;
+    [Range(0,9)]
+    public int countDownDuration;
 
     private void Start()
     {
+        countdown = countDownDuration;
         startLoop();
     }
 
@@ -30,14 +33,14 @@ class LapManager : PausableMonoBehaviour
         {
             startText.text = "Ready in " + countdown + "...";
             countdown--;
-            StartCoroutine(FadeTextToZeroAlpha(0.01f, startText));
+            StartCoroutine(FadeTextToZeroAlpha(1f, startText));
         }
         else if (countdown == 0)
         {
             startText.text = "GO!!!";
             startText.color = new Color(startText.color.r, startText.color.g, startText.color.b, 1);
             countdown--;
-            StartCoroutine(FadeObjectToZeroAlpha(0.01f, pausePanel.GetComponent<CanvasGroup>()));
+            StartCoroutine(FadeObjectToZeroAlpha((countDownDuration == 0)?0.01f:1f, pausePanel.GetComponent<CanvasGroup>()));
         }
         else
         {

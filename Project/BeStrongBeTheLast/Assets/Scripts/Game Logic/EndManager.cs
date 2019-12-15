@@ -9,6 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utilities;
 
 public class EndManager : PausableMonoBehaviour
@@ -17,6 +18,7 @@ public class EndManager : PausableMonoBehaviour
     public GameObject[] cars;
     public Transform CPUSplineRoot;
     public SceneField scena;
+    public bool continueRaceWithoutPlayers = false;
 
     private void Start()
     {
@@ -82,21 +84,10 @@ public class EndManager : PausableMonoBehaviour
         }
     }
 
-    private bool isInList(string tag, List<string> list)
-    {
-        foreach (var name in list)
-        {
-            if (tag.Equals(name))
-                return true;
-        }
-
-        return false;
-    }
-
     private bool endGame()
     {
         foreach (var lap in GameState.Instance.laps)
-            if (!GameState.Instance.kartTypes[lap.Key].Equals("CPU") && lap.Value <= GameState.Instance.lapsNumberSetting)
+            if ((!GameState.Instance.kartTypes[lap.Key].Equals("CPU") || continueRaceWithoutPlayers) && lap.Value <= GameState.Instance.lapsNumberSetting)
                 return false;
 
         return true;
