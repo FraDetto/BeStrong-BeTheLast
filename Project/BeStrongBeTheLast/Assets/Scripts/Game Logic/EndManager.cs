@@ -52,9 +52,9 @@ public class EndManager : PausableMonoBehaviour
             }
         }
 
-        if (endGame())
+        if (EndGame())
         {
-            var finalCPUs = new List<string>();
+            var finalCPUs = new HashSet<string>();
             var objToRemove = new List<GameState.RankObj>();
 
             foreach (var lap in GameState.Instance.laps)
@@ -62,7 +62,7 @@ public class EndManager : PausableMonoBehaviour
                     finalCPUs.Add(lap.Key);
 
             foreach (var rank in GameState.Instance.rankings)
-                if (!isInList(rank.getTag(), finalCPUs))
+                if (!finalCPUs.Contains(rank.getTag()))
                     objToRemove.Add(rank);
 
             foreach (var rank in objToRemove)
@@ -75,20 +75,46 @@ public class EndManager : PausableMonoBehaviour
         }
     }
 
-    private bool isInList(string tag, List<string> list)
+    private bool EndGame()
     {
-        foreach (var name in list)
-            if (tag.Equals(name))
-                return true;
+        var PlayerCheHannoFinito = 0;
+        var CPUCheHannoFinito = 0;
+        var Players = 0;
+        var CPUs = 0;
 
-        return false;
-    }
-
-    private bool endGame()
-    {
         foreach (var lap in GameState.Instance.laps)
-            if (!GameState.Instance.kartTypes[lap.Key].Equals("CPU") && lap.Value <= GameState.Instance.lapsNumberSetting)
+        {
+            var terminato = lap.Value >= GameState.Instance.lapsNumberSetting;
+
+            switch (GameState.Instance.kartTypes[lap.Key])
+            {
+                case "Player":
+                    Players++;
+
+                    if (terminato)
+                        PlayerCheHannoFinito++;
+
+                    break;
+                case "CPU":
+                    CPUs++;
+
+                    if (terminato)
+                        CPUCheHannoFinito++;
+
+                    break;
+            }
+        }
+
+        if (Players == 0)
+        {
+            if (CPUCheHannoFinito < CPUs)
                 return false;
+        }
+        else
+        {
+            if (PlayerCheHannoFinito < Players)
+                return false;
+        }
 
         return true;
     }
