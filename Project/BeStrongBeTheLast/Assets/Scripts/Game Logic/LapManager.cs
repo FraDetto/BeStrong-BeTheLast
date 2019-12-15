@@ -29,13 +29,13 @@ class LapManager : PausableMonoBehaviour
 
     private void startLoop()
     {
-        if (countdown > 0)
+        if (countdown > 0 || (countdown == 0 && countDownDuration == 0))
         {
             startText.text = "Ready in " + countdown + "...";
             countdown--;
-            StartCoroutine(FadeTextToZeroAlpha(1f, startText));
+            StartCoroutine(FadeTextToZeroAlpha((countDownDuration == 0)?0.01f:1f, startText));
         }
-        else if (countdown == 0)
+        else if (countdown == 0 || (countdown == -1 && countDownDuration == 0))
         {
             startText.text = "GO!!!";
             startText.color = new Color(startText.color.r, startText.color.g, startText.color.b, 1);
