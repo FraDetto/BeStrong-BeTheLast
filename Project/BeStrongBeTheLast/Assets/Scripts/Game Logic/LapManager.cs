@@ -17,7 +17,8 @@ class LapManager : PausableMonoBehaviour
 
     public GameObject player, pausePanel, endPanel;
 
-    public int countdown = 3;
+    [Range(0, 9)]
+    public byte countdown = 3;
 
 
     private void Start() =>
