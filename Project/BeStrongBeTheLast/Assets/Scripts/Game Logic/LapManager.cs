@@ -18,31 +18,41 @@ class LapManager : PausableMonoBehaviour
     public GameObject player, pausePanel, endPanel;
 
     [Range(0, 9)]
-    public byte countdown = 3;
+    public byte CountDown = 3;
 
+    float inizio;
+    bool iniziato;
 
-    private void Start() =>
-        startLoop();
-
-    private void startLoop()
+    private void Start()
     {
-        if (countdown > 0)
+        inizio = Time.time;
+        //StartCoroutine(FadeTextToZeroAlpha(0.5f, startText));
+    }
+
+    private void Update()
+    {
+        if (!iniziato)
         {
-            startText.text = "Ready in " + countdown + "...";
-            countdown--;
-            StartCoroutine(FadeTextToZeroAlpha(1f, startText));
-        }
-        else if (countdown == 0)
-        {
-            startText.text = "GO!!!";
-            startText.color = new Color(startText.color.r, startText.color.g, startText.color.b, 1);
-            countdown--;
-            StartCoroutine(FadeObjectToZeroAlpha(1f, pausePanel.GetComponent<CanvasGroup>()));
-        }
-        else
-        {
-            foreach (var kartController in FindObjectsOfType<KartController>())
-                kartController.Paused = false;
+            var tempoPassato = Time.time - inizio;
+            var tempoPassatoInt = Mathf.FloorToInt(tempoPassato);
+            var tempoRimasto = CountDown - tempoPassatoInt;
+
+            if (tempoPassato < CountDown)
+            {
+                startText.text = "Ready in " + tempoRimasto + "...";
+            }
+            else
+            {
+                iniziato = true;
+
+                startText.text = "GO!!!";
+                startText.color = new Color(startText.color.r, startText.color.g, startText.color.b, 1);
+
+                foreach (var kartController in FindObjectsOfType<KartController>())
+                    kartController.Paused = false;
+
+                StartCoroutine(FadeObjectToZeroAlpha(1f, pausePanel.GetComponent<CanvasGroup>()));
+            }
         }
     }
 
@@ -76,7 +86,7 @@ class LapManager : PausableMonoBehaviour
         }
     }
 
-    public IEnumerator FadeTextToZeroAlpha(float t, Text i)
+    IEnumerator FadeTextToZeroAlpha(float t, Text i)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
 
@@ -85,14 +95,10 @@ class LapManager : PausableMonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
-
-        startLoop();
     }
 
-    public IEnumerator FadeObjectToZeroAlpha(float t, CanvasGroup i)
+    IEnumerator FadeObjectToZeroAlpha(float t, CanvasGroup i)
     {
-        startLoop();
-
         if (i)
         {
             i.alpha = 1;
