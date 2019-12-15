@@ -38,8 +38,9 @@ public abstract class aKartController : aCollisionManager
     RaycastHit hitNear, giovane;
     //RaycastHit hitOn, hitNear;
 
-    List<ParticleSystem> primaryParticles, secondaryParticles;
-    List<ParticleSystem[]> tubeTurboParticles;
+    List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
+    List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
+    List<ParticleSystem[]> tubeTurboParticles = new List<ParticleSystem[]>();
 
     private const short PosizionePavimento = 2;
     protected bool RibaltaDisabilitato, Ribalta;
@@ -132,10 +133,6 @@ public abstract class aKartController : aCollisionManager
         //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
         var postVolume = camera_.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
-
-        primaryParticles = new List<ParticleSystem>();
-        secondaryParticles = new List<ParticleSystem>();
-        tubeTurboParticles = new List<ParticleSystem[]>();
 
         for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());

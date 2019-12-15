@@ -39,12 +39,11 @@ internal static class GameState
 
         public int getCurrentRanking(string tag)
         {
+            RankObj ro;
             var init = rankings.Count == 0;
 
             foreach (var kartScore in positions)
             {
-                RankObj ro;
-
                 if (init)
                 {
                     ro = new RankObj();
