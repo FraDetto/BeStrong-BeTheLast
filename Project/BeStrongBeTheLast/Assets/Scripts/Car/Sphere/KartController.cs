@@ -6,9 +6,12 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public sealed class KartController : aBSBTLKart
 {
@@ -33,7 +36,7 @@ public sealed class KartController : aBSBTLKart
     private float LastStuck = -1;
     private Vector3 lastPosition;
 
-    private static HashSet<GameObject> selectedObstaclesByCpus = new HashSet<GameObject>();
+    private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>();
     private Stack<GameObject> excludeObstacles = new Stack<GameObject>(5);
     private GameObject currentObstacle;
     // =============== CPU ===============    
@@ -135,16 +138,25 @@ public sealed class KartController : aBSBTLKart
 
                 CPU_AI_Find_Obstacles(wrong);
 
-                if (!iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0)
-                    LookAt0Y(lookAtDest);
+                // go straight
+                lookAtDest.y = transform.position.y;
+                lookAtDestOriginal.y = transform.position.y;
 
-                CPU_AI_UseWeapons();
+                bool steerCond = (!iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0);
+
+                CPU_AI_Find_UseWeapons();
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
                 var jumpBDown = drift_ && !jumpBUP;
                 var driftAxis = (drift_ ? 0.0001f : 0);
-
+                if (steerCond)
+                {
+                    float angle = steerAngle(lookAtDest);
+                    bool turn = Mathf.Abs(angle) > 10f;
+                    bool left = angle < 0;
+                    driftAxis = (turn)?((left) ? 1 : -1):0;
+                }
                 if (bJumpReleased)
                     bJumpReleased = false;
 
@@ -181,7 +193,7 @@ public sealed class KartController : aBSBTLKart
         Debug.DrawLine(transform.position, lookAtDest, Color.yellow);
     }
 
-    private void LookAt0Y(Vector3 dest)
+    private float steerAngle(Vector3 dest)
     {
         dest.y = 0;
 
@@ -189,10 +201,16 @@ public sealed class KartController : aBSBTLKart
         lookPos.y = 0;
 
         var rotation = Quaternion.LookRotation(lookPos);
+        
+        float angleA = rotation.eulerAngles.y;
+        float angleB = transform.rotation.eulerAngles.y;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
+        var angleDiff = Mathf.DeltaAngle( angleA, angleB );
+        
+        return angleDiff;
     }
-
+    
+    
     private void FixedUpdate() =>
         FixedUpdate_();
 
@@ -256,7 +274,7 @@ public sealed class KartController : aBSBTLKart
         return false;
     }
 
-    private void CPU_AI_UseWeapons()
+    private void CPU_AI_Find_UseWeapons()
     {
         foreach (var car in AllCars)
             if (car.transform.root != gameObject.transform.root)
@@ -307,7 +325,7 @@ public sealed class KartController : aBSBTLKart
                 excludeObstacles.Push(currentObstacle);
 
             if (currentObstacle != null)
-                selectedObstaclesByCpus.Remove(currentObstacle);
+                currentObstacleOtherCPU.Remove(currentObstacle);
 
             currentObstacle = null;
             lookAtDest = lookAtDestOriginal;
@@ -324,7 +342,7 @@ public sealed class KartController : aBSBTLKart
 
                 if (currentObstacle)
                 {
-                    selectedObstaclesByCpus.Add(currentObstacle);
+                    currentObstacleOtherCPU.Add(currentObstacle);
                     lookAtDest = currentObstacle.transform.position;
                 }
                 else
@@ -348,7 +366,7 @@ public sealed class KartController : aBSBTLKart
 
                     if (dist < obstacleDistance)
                         if (excludeObstacle != obstacle)
-                            if (!selectedObstaclesByCpus.Contains(obstacle))
+                            if (!currentObstacleOtherCPU.Contains(obstacle))
                             {
                                 var distance_MeToNextSpline = Vector3.Distance(transform.position, curSplinePos);
                                 var distance_ObstacleToNextSpline = Vector3.Distance(obstacle.transform.position, curSplinePos);
@@ -368,7 +386,7 @@ public sealed class KartController : aBSBTLKart
     internal void SetObstacleDestroyed(GameObject gameObject)
     {
         excludeObstacles.Push(gameObject);
-        selectedObstaclesByCpus.Remove(currentObstacle);
+        currentObstacleOtherCPU.Remove(currentObstacle);
         currentObstacle = null;
     }
 
