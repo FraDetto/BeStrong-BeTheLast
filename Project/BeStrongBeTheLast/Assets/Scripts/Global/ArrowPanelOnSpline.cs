@@ -23,11 +23,11 @@ public class ArrowPanelOnSpline : PausableMonoBehaviour
     {
         foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
             if (root.name.Equals("UI"))
-                for (int i = 0; i < root.transform.GetChildCount(); i++)
+                for (int i = 0; i < root.transform.childCount; i++)
                 {
                     var c = root.transform.GetChild(i);
 
-                    if (c.CompareTag("PlayerCanvas") && c.gameObject.active)
+                    if (c.CompareTag("PlayerCanvas") && c.gameObject.activeSelf)
                     {
                         var lapManager = c.gameObject.GetComponent<LapManager>();
                         var arrow = GB.FindTransformInChildWithName(c, "Arrow");
