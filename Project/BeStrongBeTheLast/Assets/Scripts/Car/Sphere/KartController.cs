@@ -142,14 +142,8 @@ public sealed class KartController : aBSBTLKart
                 lookAtDest.y = transform.position.y;
                 lookAtDestOriginal.y = transform.position.y;
 
-                if (iAmBlinded)
-                {
-                    //TODO: sono stato accecato fare qualcosa di stupido
-                }
-                else
-                {
+                if (!iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0)
                     transform.LookAt(lookAtDest);
-                }
 
                 CPU_AI_Find_UseWeapons();
 
@@ -209,20 +203,16 @@ public sealed class KartController : aBSBTLKart
                 var wrong =
                     lastSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
-                    currentSplineDistance1 > lastSplineDistance
-                    && (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[playerName] == 0)
-                    ;
+                    currentSplineDistance1 > lastSplineDistance &&
+                    (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[playerName] == 0);
 
                 lastSplineDistance = currentSplineDistance1;
                 prevSplineDistance = currentSplineDistance0;
 
                 return wrong;
             }
-            else
-            {
-                return false;
-            }
 
+            return false;
         }
     }
 
@@ -269,6 +259,7 @@ public sealed class KartController : aBSBTLKart
                 if (canUseSpecial())
                 {
                     Special();
+                    break;
                 }
                 else if (canUseCounter())
                 {
