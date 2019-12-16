@@ -17,7 +17,7 @@ public class RotatingBehaviour : PausableMonoBehaviour
     private float lengthTimeInSeconds = 10f;
 
 
-    void Start()
+    private void Start()
     {
         user = transform.root.gameObject;
         StartCoroutine(Lifetime());
@@ -25,19 +25,23 @@ public class RotatingBehaviour : PausableMonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("CPU"))
-        {
+        if (GB.CompareORTags(other, "Player", "CPU"))
             if (!other.transform.root.gameObject.Equals(user))
             {
-                other.transform.root.GetComponentInChildren<KartCollision>().countered = true;
-                other.transform.root.GetComponentInChildren<KartCollision>().rotatingPush = 2f;
+                var KartCollision = other.transform.root.GetComponentInChildren<KartCollision>();
+
+                KartCollision.countered = true;
+                KartCollision.rotatingPush = 2f;
             }
-        }
     }
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(user.GetComponentInChildren<KartController>().playerName));
+        var pNane = user.GetComponentInChildren<KartController>().playerName;
+        var BB = GameState.Instance.getScoreBiasBonus(pNane);
+        var seconds = lengthTimeInSeconds * (1 + BB);
+
+        yield return new WaitForSeconds(seconds);
 
         if (enabled)
             Destroy(gameObject);

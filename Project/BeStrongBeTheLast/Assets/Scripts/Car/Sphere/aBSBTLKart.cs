@@ -13,6 +13,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public abstract class aBSBTLKart : aKartController
 {
+
     [Header("Abilities - Properties")]
     [SerializeField] internal Transform frontSpawnpoint;
     [SerializeField] internal Transform rearSpawnpoint;
@@ -51,6 +52,7 @@ public abstract class aBSBTLKart : aKartController
 
     private Dictionary<ePlayer, sAbilities> abilities;
 
+    [Header("Abilities - Types")]
     public GameObject counter;
     public GameObject trishot;
     public GameObject homing;
@@ -68,7 +70,6 @@ public abstract class aBSBTLKart : aKartController
 
     internal Transform debuff;
 
-    private int index;
     private bool counterRecharging;
     private bool projectileRecharging;
     private bool specialRecharging;
@@ -77,10 +78,22 @@ public abstract class aBSBTLKart : aKartController
 
     protected bool iAmBlinded;
 
-    private const byte DifferentPlayersType = 8;
 
     protected new void Start_()
     {
+        // non doveva funzionare così
+        //abilities = new Dictionary<ePlayer, sAbilities>()
+        //{
+        //    { ePlayer.Bard, new sAbilities(homing, annoying)},
+        //    { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating)},
+        //    { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
+        //    { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
+        //    { ePlayer.Imps, new sAbilities(trishot, annoying)},
+        //    { ePlayer.Kiddo, new sAbilities(attracting, rotating)},
+        //    { ePlayer.Politician, new sAbilities(trishot, blinding)},
+        //    { ePlayer.Steamdunker, new sAbilities(attracting, blinding)},
+        //};
+
         abilities = new Dictionary<ePlayer, sAbilities>()
         {
             { ePlayer.Bard, new sAbilities(homing, annoying)},
@@ -88,9 +101,9 @@ public abstract class aBSBTLKart : aKartController
             { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
             { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
             { ePlayer.Imps, new sAbilities(trishot, annoying)},
-            { ePlayer.Kiddo, new sAbilities(attracting, rotating)},
+            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting)},
             { ePlayer.Politician, new sAbilities(trishot, blinding)},
-            { ePlayer.Steamdunker, new sAbilities(attracting, blinding)},
+            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting)},
         };
 
         myAbility = abilities[playerType];
