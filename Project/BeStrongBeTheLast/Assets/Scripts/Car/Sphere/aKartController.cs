@@ -593,7 +593,7 @@ public abstract class aKartController : aCollisionManager
 
             var p = CurrentSplineObject.transform.position;
 
-            lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+            lookAtDest = new Vector3(p.x + xRndError, p.y, p.z + zRndError);
             lookAtDestOriginal = lookAtDest;
         }
     }

@@ -133,8 +133,8 @@ public sealed class KartController : aBSBTLKart
                 CPU_AI_Find_Obstacles(wrong);
 
                 // go straight
-                lookAtDest.y = transform.position.y;
-                lookAtDestOriginal.y = transform.position.y;
+                //lookAtDest.y = transform.position.y;
+                //lookAtDestOriginal.y = transform.position.y;
 
                 bool steerCond = (!iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0);
 
