@@ -21,18 +21,19 @@ public class WarningBehaviour : aCollisionManager
 
     private void OnTriggerStay(Collider other)
     {
+        // non scatta mai
+        // forse sarebbe il caso di farlo utilizzando semplicemente la distanza dai proiettili nella scena
         onCollisionWithTags(other, (kartController) =>
         {
-            if (kartController.myAbility.myProjectile.Equals(kartController.attracting))
-                switch (lato)
-                {
-                    case GB.ELato.Avanti:
-                        kartController.Projectile(kartController.frontSpawnpoint);
-                        break;
-                    case GB.ELato.Dietro:
-                        kartController.Projectile(kartController.rearSpawnpoint);
-                        break;
-                }
+            switch (lato)
+            {
+                case GB.ELato.Avanti:
+                    kartController.Projectile(kartController.frontSpawnpoint);
+                    break;
+                case GB.ELato.Dietro:
+                    kartController.Projectile(kartController.rearSpawnpoint);
+                    break;
+            }
 
             if (warningText)
             {
