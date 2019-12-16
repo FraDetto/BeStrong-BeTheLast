@@ -579,20 +579,23 @@ public abstract class aKartController : aCollisionManager
 
     internal void setDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
     {
-        lastSplineDistance = 0;
-        prevSplineDistance = 0;
+        if (nextSpline)
+        {
+            lastSplineDistance = 0;
+            prevSplineDistance = 0;
 
-        prevSplinePos = CurrentSplineObject.transform.position;
+            prevSplinePos = CurrentSplineObject.transform.position;
 
-        if (!firstTime)
-            CurrentSplineObject = nextSpline;
+            if (!firstTime)
+                CurrentSplineObject = nextSpline;
 
-        curSplinePos = CurrentSplineObject.transform.position;
+            curSplinePos = CurrentSplineObject.transform.position;
 
-        var p = CurrentSplineObject.transform.position;
+            var p = CurrentSplineObject.transform.position;
 
-        lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
-        lookAtDestOriginal = lookAtDest;
+            lookAtDest = new Vector3(p.x + xRndError, transform.position.y, p.z + zRndError);
+            lookAtDestOriginal = lookAtDest;
+        }
     }
 
     internal void SetOnTrack()
