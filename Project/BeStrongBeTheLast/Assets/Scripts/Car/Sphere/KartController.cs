@@ -127,7 +127,7 @@ public sealed class KartController : aBSBTLKart
                 if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
                     setDestinationWithError();
 
-                if (CurrentSplineObject.CanBeClosedByThisWall && CurrentSplineObject.CanBeClosedByThisWall.closed)
+                if (CurrentSplineObject != null && CurrentSplineObject.CanBeClosedByThisWall != null && CurrentSplineObject.CanBeClosedByThisWall.closed)
                     setTheOtherFork();
 
                 CPU_AI_Find_Obstacles(wrong);
