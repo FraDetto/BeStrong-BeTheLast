@@ -22,7 +22,7 @@ public class ShortcutMovement : PausableMonoBehaviour
 
 
     void Start() =>
-        staticFrames = (autoMovement)?Random.Range(0, maxStaticFrames):10;
+        staticFrames = (autoMovement) ? Random.Range(0, maxStaticFrames) : 10;
 
     void FixedUpdate()
     {
@@ -43,6 +43,7 @@ public class ShortcutMovement : PausableMonoBehaviour
     {
         if (forceClose)
             forceClose = false;
+
         if (flipClosed)
         {
             closed = !closed;
@@ -50,7 +51,7 @@ public class ShortcutMovement : PausableMonoBehaviour
 
             if (newStaticFrames == 0)
             {
-                staticFrames = (autoMovement)?Random.Range(0, maxStaticFrames):maxStaticFrames*10;
+                staticFrames = autoMovement ? Random.Range(0, maxStaticFrames) : maxStaticFrames * 10;
             }
             else
             {
@@ -70,7 +71,6 @@ public class ShortcutMovement : PausableMonoBehaviour
         currentStaticFrames = staticFrames + 10;
         forceClose = true;
     }
-    
 
     private void imposeNewTimeout(int timeout) =>
         newStaticFrames = 60 * timeout;

@@ -9,6 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using Assets.Scripts.Obstacles.Base;
 using Cinemachine;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,11 +23,8 @@ public abstract class aKartController : aCollisionManager
         Human, CPU
     }
 
-    public eKCType KCType = eKCType.Human;
 
-    [Range(1, 8)]
-    public byte playerNumber = 1;
-
+    [Header("Camera")]
     [SerializeField]
     protected Camera camera_; //camera fa parte di GameObject.camera
 
@@ -45,11 +43,7 @@ public abstract class aKartController : aCollisionManager
     private const short PosizionePavimento = 2;
     protected bool RibaltaDisabilitato, Ribalta;
 
-    public Transform kartModel, kartNormal;
-    public Rigidbody sphere;
-
     protected float speed;
-    public float currentSpeed;
     internal bool wrongWayImmunity = false;
 
     float rotate, currentRotate;
@@ -59,12 +53,27 @@ public abstract class aKartController : aCollisionManager
     protected bool driftDisabled;
     Color currentDriftColor;
 
+    [Header("Physics")]
+    public Transform kartModel;
+    public Transform kartNormal;
+    public Rigidbody sphere;
+    public float currentSpeed;
+
+
+    [Header("AI")]
+    public eKCType KCType = eKCType.Human;
+
+    [Range(0, 8)]
+    public byte playerNumber = 1;
+
     public LayerMask wallMask;
 
+    public SplineObject CurrentSplineObject;
+
+    [Header("Parameters")]
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
-    [Header("Parameters")]
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 10f;
@@ -75,14 +84,16 @@ public abstract class aKartController : aCollisionManager
     public LayerMask layerMask;
 
     [Header("Model Parts")]
-    //public Transform frontWheels, backWheels;    
-    public Transform frontRightWheel, frontLeftWheel, backRightWheel, backLeftWheel, steeringWheel;
+    public Transform frontRightWheel;
+    public Transform frontLeftWheel;
+    public Transform backRightWheel;
+    public Transform backLeftWheel;
+    public Transform steeringWheel;
 
     [Header("Particles")]
-    public Transform wheelParticles, flashParticles;
+    public Transform wheelParticles;
+    public Transform flashParticles;
     public Color[] turboColors;
-
-    public SplineObject CurrentSplineObject;
 
     protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
@@ -117,6 +128,7 @@ public abstract class aKartController : aCollisionManager
     protected void Start_()
     {
         Paused = true;
+
         if (camera_ == null)
             foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
                 if (root.tag.Equals("MainCamera"))
@@ -147,6 +159,9 @@ public abstract class aKartController : aCollisionManager
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentsInChildren<ParticleSystem>());
 
         gravity_ = gravity;
+
+        if (!CurrentSplineObject)
+            throw new Exception("Non hai settato CurrentSplineObject!");
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)

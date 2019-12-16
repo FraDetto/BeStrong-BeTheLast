@@ -36,9 +36,7 @@ public class ShortcutInstantClose : PausableMonoBehaviour
         shortcutMovement.CloseNow(timeout);
     }
 
-    public void Reset()
-    {
+    public void Reset() =>
         transform.GetComponent<Collider>().isTrigger = true;
-    }
 
 }

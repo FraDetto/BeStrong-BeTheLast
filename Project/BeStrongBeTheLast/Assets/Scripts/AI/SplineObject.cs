@@ -34,10 +34,9 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     {
         get
         {
-            foreach (var nextS in nextSplines)
-                return nextS;
-
-            return null;
+            while (true)
+                foreach (var nextS in nextSplines)
+                    return nextS;
         }
     }
 

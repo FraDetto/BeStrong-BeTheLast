@@ -51,9 +51,6 @@ public sealed class KartController : aBSBTLKart
 
     private void Start()
     {
-        Transform splines = GameObject.FindGameObjectWithTag("Spline").transform;
-        CurrentSplineObject = splines.GetChild(0).GetComponent<SplineObject>();
-
         CPUCars = GameObject.FindGameObjectsWithTag("CPU");
         PlayersCars = GameObject.FindGameObjectsWithTag("Player");
         AllCars.AddRange(CPUCars);
