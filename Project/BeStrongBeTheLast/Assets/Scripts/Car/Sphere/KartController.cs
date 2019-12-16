@@ -305,9 +305,8 @@ public sealed class KartController : aBSBTLKart
     {
         onCollisionWithTags(collider, (kartController) =>
         {
-            if (kartController != this)
+            if (!Equals(kartController))
                 if (canUseProjectile() && myAbility.myProjectile)
-                {
                     switch (direction)
                     {
                         case FieldOfViewCollider.eDirection.front:
@@ -317,7 +316,6 @@ public sealed class KartController : aBSBTLKart
                             Projectile(rearSpawnpoint);
                             break;
                     }
-                }
         }, "Player", "CPU");
     }
 
