@@ -50,9 +50,10 @@ public class RepulsiveWallStraight : aCollisionManager
                 pavimento = true;
                 break;
             }
-
+        /*
+        Removed because it would cause the infamous slowdown bug: gravity_ would jump up to 700+, and this was kind of a hack anyway. Left it here for reference only.
         if (!pavimento)
-            kartController.gravity_ += 5;
+            kartController.gravity_ += 5;*/
 
         if (AttivaCollisioniConMura && active)
             if (collision.collider.gameObject.layer == 12)
