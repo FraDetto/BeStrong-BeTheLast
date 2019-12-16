@@ -24,8 +24,8 @@ public class KartCollision : aCollisionManager
     private KartController myKartController;
 
     internal bool countered;
-
     internal float rotatingPush = 1f;
+
 
     private void Start()
     {
@@ -47,27 +47,21 @@ public class KartCollision : aCollisionManager
                 {
                     case Mode.left:
                     case Mode.right:
-                        if (!countered)
-                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
-                        else
+                        if (countered)
                         {
                             kartController.AddForce(2000 + 1000 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
                             countered = false;
+                        }
+                        else
+                        {
+                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
                         }
                         break;
 
                     case Mode.rear:
                         if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
                         {
-                            if (!countered)
-                            {
-                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
-                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
-
-                                myKartController.Accelerate(1.1f + 1f * forceModifier);
-                                kartController.Accelerate(0.9f - 0.5f * forceModifier);
-                            }
-                            else
+                            if (countered)
                             {
                                 myKartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
                                 kartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, hitDirection);
@@ -76,6 +70,14 @@ public class KartCollision : aCollisionManager
                                 myKartController.Accelerate(0.9f - 0.5f * forceModifier * rotatingPush);
 
                                 countered = false;
+                            }
+                            else
+                            {
+                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
+                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+
+                                myKartController.Accelerate(1.1f + 1f * forceModifier);
+                                kartController.Accelerate(0.9f - 0.5f * forceModifier);
                             }
                         }
                         break;
