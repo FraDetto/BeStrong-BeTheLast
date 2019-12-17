@@ -132,11 +132,7 @@ public sealed class KartController : aBSBTLKart
 
                 CPU_AI_Find_Obstacles(wrong);
 
-                // go straight
-                //lookAtDest.y = transform.position.y;
-                //lookAtDestOriginal.y = transform.position.y;
-
-                bool steerCond = (!iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0);
+                bool steerCond = !iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0;
 
                 CPU_AI_Find_UseWeapons();
 
@@ -206,12 +202,7 @@ public sealed class KartController : aBSBTLKart
 
         var rotation = Quaternion.LookRotation(lookPos);
 
-        float angleA = rotation.eulerAngles.y;
-        float angleB = transform.rotation.eulerAngles.y;
-
-        var angleDiff = Mathf.DeltaAngle(angleA, angleB);
-
-        return angleDiff;
+        return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
 
 

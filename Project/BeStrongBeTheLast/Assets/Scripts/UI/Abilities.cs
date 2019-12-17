@@ -23,6 +23,7 @@ public class Abilities : PausableMonoBehaviour
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
     public GameObject cameraParticles1, cameraParticles2, cameraParticles3;
     public ParticleSystem particles;
+
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
 
@@ -33,6 +34,7 @@ public class Abilities : PausableMonoBehaviour
 
     private bool started;
 
+
     private void Start()
     {
         StartCoroutine(delayedStart());
@@ -42,70 +44,36 @@ public class Abilities : PausableMonoBehaviour
     {
         if (started)
         {
+            Color driftHeatingFill_Color;
+
             float driftValue = kartController.driftHeatingValue;
             float driftValueAdjusted = driftValue * 0.7f + 0.3f;
+
             driftHeating.value = driftValueAdjusted;
             powerGauge.value = kartController.powerGaugeValue;
-            if(driftValue > 0.7)
-            {
-                driftHeatingFill.GetComponent<Image>().color = heatedColor;
-            }
-            else if(driftValue < 0.3)
-            {
-                driftHeatingFill.GetComponent<Image>().color = coldColor;
-            }
+
+            if (driftValue > 0.7)
+                driftHeatingFill_Color = heatedColor;
+            else if (driftValue < 0.3)
+                driftHeatingFill_Color = coldColor;
             else
-            {
-                float colorShift = (driftValue - 0.3f) * 2.5f;
-                driftHeatingFill.GetComponent<Image>().color = Color.Lerp(coldColor, heatedColor, colorShift);
-            }
-            
+                driftHeatingFill_Color = Color.Lerp(coldColor, heatedColor, (driftValue - 0.3f) * 2.5f);
+
+            driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color;
+
             if (kartController.canUseCounter() != oldCanUseCounter && kartController.canUseCounter())
-            {
-                disableParticleCameras();
-                cameraParticles1.SetActive(true);
-                if (!particlesPlayed)
-                {
-                    particles.Stop();
-                    particles.Play();
-                    abilityReady.Play();
-                    particlesPlayed = true;
-                    StartCoroutine(stopParticles());
-                }
-            }
-            
+                PlayParticle(cameraParticles1);
+
             if (kartController.canUseProjectile() != oldCanUseProj && kartController.canUseProjectile())
-            {
-                disableParticleCameras();
-                cameraParticles2.SetActive(true);
-                if (!particlesPlayed)
-                {
-                    particles.Stop();
-                    particles.Play();
-                    abilityReady.Play();
-                    particlesPlayed = true;
-                    StartCoroutine(stopParticles());
-                }
-            }
-            
+                PlayParticle(cameraParticles2);
+
             if (kartController.canUseSpecial() != oldCanUseSpecial && kartController.canUseSpecial())
-            {
-                disableParticleCameras();
-                cameraParticles3.SetActive(true);
-                if (!particlesPlayed)
-                {
-                    particles.Stop();
-                    particles.Play();
-                    specialReady.Play();
-                    particlesPlayed = true;
-                    StartCoroutine(stopParticles());
-                }
-            }
-            
+                PlayParticle(cameraParticles3);
+
             oldCanUseCounter = kartController.canUseCounter();
             oldCanUseProj = kartController.canUseProjectile();
             oldCanUseSpecial = kartController.canUseSpecial();
-            
+
             counterIcon.GetComponent<Image>().sprite = kartController.canUseCounter() ? shieldAct : shieldInact;
             projectileIcon.GetComponent<Image>().sprite = kartController.canUseProjectile() ? projectileAct : projectileInact;
             specialIcon.GetComponent<Image>().sprite = kartController.canUseSpecial() ? specialAct : specialInact;
@@ -117,6 +85,26 @@ public class Abilities : PausableMonoBehaviour
                 selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
             else if (kartController.myAbility.selectedAttractor)
                 selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;*/
+        }
+    }
+
+    private void PlayParticle(GameObject cameraParticles)
+    {
+        disableParticleCameras();
+        cameraParticles.SetActive(true);
+
+        if (!particlesPlayed)
+        {
+            if (particles)
+            {
+                particles.Stop();
+                particles.Play();
+            }
+
+            abilityReady.Play();
+
+            particlesPlayed = true;
+            StartCoroutine(stopParticles());
         }
     }
 
@@ -150,12 +138,15 @@ public class Abilities : PausableMonoBehaviour
         started = true;
     }
 
-    
     private IEnumerator stopParticles()
     {
         yield return new WaitForSeconds(3);
-        particles.Stop();
+
+        if (particles)
+            particles.Stop();
+
         particlesPlayed = false;
         disableParticleCameras();
     }
+
 }
