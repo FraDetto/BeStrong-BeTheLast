@@ -19,6 +19,7 @@ public class SingleShotBehaviour : PausableMonoBehaviour
 
     internal GameObject user;
 
+
     private void Update()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))

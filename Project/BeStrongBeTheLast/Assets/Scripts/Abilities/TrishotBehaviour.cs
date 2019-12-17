@@ -42,6 +42,7 @@ public class TrishotBehaviour : PausableMonoBehaviour
         foreach (var shot in shots)
             if (shot)
                 return;
+
         Destroy(gameObject);
     }
 
