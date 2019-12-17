@@ -27,8 +27,6 @@ public class Abilities : PausableMonoBehaviour
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
 
-    private Color disabledColor = Color.red;
-    private Color enabledColor = Color.yellow;
     private Color heatedColor = new Color32(242, 66, 66, 255);
     private Color coldColor = new Color32(0, 57, 171, 255);
 
@@ -62,13 +60,13 @@ public class Abilities : PausableMonoBehaviour
             driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color;
 
             if (kartController.canUseCounter() != oldCanUseCounter && kartController.canUseCounter())
-                PlayParticle(cameraParticles1);
+                PlayParticle(cameraParticles1, abilityReady);
 
             if (kartController.canUseProjectile() != oldCanUseProj && kartController.canUseProjectile())
-                PlayParticle(cameraParticles2);
+                PlayParticle(cameraParticles2, abilityReady);
 
             if (kartController.canUseSpecial() != oldCanUseSpecial && kartController.canUseSpecial())
-                PlayParticle(cameraParticles3);
+                PlayParticle(cameraParticles3, specialReady);
 
             oldCanUseCounter = kartController.canUseCounter();
             oldCanUseProj = kartController.canUseProjectile();
@@ -88,7 +86,7 @@ public class Abilities : PausableMonoBehaviour
         }
     }
 
-    private void PlayParticle(GameObject cameraParticles)
+    private void PlayParticle(GameObject cameraParticles, AudioSource sound)
     {
         disableParticleCameras();
         cameraParticles.SetActive(true);
@@ -101,7 +99,7 @@ public class Abilities : PausableMonoBehaviour
                 particles.Play();
             }
 
-            abilityReady.Play();
+            sound.Play();
 
             particlesPlayed = true;
             StartCoroutine(stopParticles());
