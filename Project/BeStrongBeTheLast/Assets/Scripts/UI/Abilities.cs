@@ -25,6 +25,7 @@ public class Abilities : PausableMonoBehaviour
     public ParticleSystem particles;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
+    public AudioSource abilityReady, specialReady;
 
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
@@ -95,7 +96,12 @@ public class Abilities : PausableMonoBehaviour
         if (!particlesPlayed)
         {
             if (particles)
+            {
+                particles.Stop();
                 particles.Play();
+            }
+
+            abilityReady.Play();
 
             particlesPlayed = true;
             StartCoroutine(stopParticles());
