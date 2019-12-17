@@ -24,6 +24,7 @@ public class Abilities : PausableMonoBehaviour
     public GameObject cameraParticles1, cameraParticles2, cameraParticles3;
     public ParticleSystem particles;
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
+    public AudioSource abilityReady, specialReady;
 
     private Color disabledColor = Color.red;
     private Color enabledColor = Color.yellow;
@@ -65,7 +66,9 @@ public class Abilities : PausableMonoBehaviour
                 cameraParticles1.SetActive(true);
                 if (!particlesPlayed)
                 {
+                    particles.Stop();
                     particles.Play();
+                    abilityReady.Play();
                     particlesPlayed = true;
                     StartCoroutine(stopParticles());
                 }
@@ -77,7 +80,9 @@ public class Abilities : PausableMonoBehaviour
                 cameraParticles2.SetActive(true);
                 if (!particlesPlayed)
                 {
+                    particles.Stop();
                     particles.Play();
+                    abilityReady.Play();
                     particlesPlayed = true;
                     StartCoroutine(stopParticles());
                 }
@@ -89,7 +94,9 @@ public class Abilities : PausableMonoBehaviour
                 cameraParticles3.SetActive(true);
                 if (!particlesPlayed)
                 {
+                    particles.Stop();
                     particles.Play();
+                    specialReady.Play();
                     particlesPlayed = true;
                     StartCoroutine(stopParticles());
                 }
