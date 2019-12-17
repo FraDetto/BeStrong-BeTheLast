@@ -82,30 +82,30 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Start_()
     {
-        abilities = new Dictionary<ePlayer, sAbilities>()
-        {
-            { ePlayer.Bard, new sAbilities(homing, annoying)},
-            { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating)},
-            { ePlayer.Flapper, new sAbilities(bouncing, tanking)},
-            { ePlayer.Hypogeum, new sAbilities(homing, tanking)},
-            { ePlayer.Imps, new sAbilities(trishot, annoying)},
-            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting)},
-            { ePlayer.Politician, new sAbilities(trishot, blinding)},
-            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting)},
-        };
-
-        // testing attracting
         //abilities = new Dictionary<ePlayer, sAbilities>()
         //{
-        //    { ePlayer.Bard, new sAbilities(null, tanking, attracting)},
-        //    { ePlayer.EarthRestorer, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Flapper, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Hypogeum, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Imps, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Kiddo, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Politician, new sAbilities(trishot, tanking)},
-        //    { ePlayer.Steamdunker, new sAbilities(trishot, tanking)},
+        //    { ePlayer.Bard, new sAbilities(homing, annoying) },
+        //    { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
+        //    { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
+        //    { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
+        //    { ePlayer.Imps, new sAbilities(trishot, annoying) },
+        //    { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
+        //    { ePlayer.Politician, new sAbilities(trishot, blinding) },
+        //    { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
         //};
+
+        // testing attracting
+        abilities = new Dictionary<ePlayer, sAbilities>()
+        {
+            { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
+            { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
+            { ePlayer.Flapper, new sAbilities(trishot, tanking) },
+            { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
+            { ePlayer.Imps, new sAbilities(trishot, tanking) },
+            { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
+            { ePlayer.Politician, new sAbilities(trishot, tanking) },
+            { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
+        };
 
         myAbility = abilities[playerType];
         debuff = kartNormal.transform.Find("Debuff");
