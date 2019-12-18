@@ -22,10 +22,8 @@ public class BoxMovement : aCollisionManager
     private Rigidbody thisRigidbody;
 
 
-    void Start()
-    {
+    void Start() =>
         thisRigidbody = GetComponent<Rigidbody>();
-    }
 
     void Update()
     {
@@ -37,9 +35,8 @@ public class BoxMovement : aCollisionManager
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        onCollisionWithTags(collision.collider, (kartController) =>
+    private void OnCollisionEnter(Collision collision) =>
+        onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             kartController.AddForce(ImpulseFromBox, ForceMode.Impulse, -kartController.transform.forward);
             kartController.Accelerate(accelerationFromBox);
@@ -48,7 +45,6 @@ public class BoxMovement : aCollisionManager
                 kartController.PlayTurboEffect();
 
             Destroy(gameObject);
-        }, "Player", "CPU");
-    }
+        });
 
 }

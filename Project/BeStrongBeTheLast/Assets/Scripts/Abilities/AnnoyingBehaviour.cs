@@ -17,8 +17,6 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
     [SerializeField]
     private float annoyingAmount = 0.5f;
 
-    private GameObject user;
-
     private GameObject[] players, bots;
 
     // Start is called before the first frame update

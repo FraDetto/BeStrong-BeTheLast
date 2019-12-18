@@ -15,15 +15,15 @@ namespace Assets.Scripts.Obstacles.Base
     {
 
         protected bool onCollisionWithPlayer(Component component, Action<KartController> callback) =>
-            onCollisionWithTags(component, callback, "Player");
+            onCollisionWithKartController(component, callback, "Player");
 
         protected bool onCollisionWithCPU(Component component, Action<KartController> callback) =>
-            onCollisionWithTags(component, callback, "CPU");
+            onCollisionWithKartController(component, callback, "CPU");
 
         protected bool onCollisionWithPlayer_or_CPU(Component component, Action<KartController> callback) =>
-            onCollisionWithTags(component, callback, "Player", "CPU");
+            onCollisionWithKartController(component, callback, "Player", "CPU");
 
-        protected bool onCollisionWithTags(Component component, Action<KartController> callback, params string[] tags)
+        private bool onCollisionWithKartController(Component component, Action<KartController> callback, params string[] tags)
         {
             var collidedWithTags = GB.CompareORTags(component, tags);
 
@@ -33,6 +33,8 @@ namespace Assets.Scripts.Obstacles.Base
 
                 if (kartController)
                     callback(kartController);
+                else
+                    throw new Exception("Questo componente non ha il kartController!");
             }
 
             return collidedWithTags;

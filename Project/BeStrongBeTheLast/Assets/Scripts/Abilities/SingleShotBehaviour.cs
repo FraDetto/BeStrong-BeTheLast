@@ -8,16 +8,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class SingleShotBehaviour : PausableMonoBehaviour
+public class SingleShotBehaviour : aAbilitiesBehaviour
 {
     [SerializeField]
     private LayerMask roadMask;
 
-    RaycastHit hit;
-
     public TrishotBehaviour trishotBehaviour;
 
-    internal GameObject user;
 
     private void Update()
     {

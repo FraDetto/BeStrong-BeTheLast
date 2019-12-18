@@ -481,13 +481,18 @@ public abstract class aKartController : aCollisionManager
     public void Accelerate(float amount)
     {
         sphere.velocity = transform.forward * acceleration / 2f;
+
         float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
+
         if (amount > 1)
             amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
         else
             amount = amount - (Mathf.Max(amount - 0.1f, 0)) * bonusBias;
+
         currentSpeed *= amount;
+
         float speedCap = (enableSpeedRubberbanding) ? 200 - 60 * bonusBias : 200;
+
         if (currentSpeed > speedCap)
             currentSpeed = speedCap;
 

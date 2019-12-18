@@ -14,6 +14,8 @@ public class PickupBehaviour : PausableMonoBehaviour
     private Collider collider_;
     private MeshRenderer mesh;
 
+    private Transform particle;
+
     [SerializeField]
     private float respawnTime = 15f;
 
@@ -24,6 +26,7 @@ public class PickupBehaviour : PausableMonoBehaviour
     {
         collider_ = GetComponent<Collider>();
         mesh = GetComponentInChildren<MeshRenderer>();
+        particle = transform.GetChild(1);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +38,7 @@ public class PickupBehaviour : PausableMonoBehaviour
             kartController.powerGaugeValue += (powerAmount + powerAmount * GameState.Instance.getScoreBiasBonus(playerName));
             collider_.enabled = false;
             mesh.enabled = false;
+            particle.gameObject.SetActive(false);
         }
     }
 
@@ -43,6 +47,7 @@ public class PickupBehaviour : PausableMonoBehaviour
         yield return new WaitForSeconds(respawnTime);
         collider_.enabled = true;
         mesh.enabled = true;
+        particle.gameObject.SetActive(true);
     }
 
 }

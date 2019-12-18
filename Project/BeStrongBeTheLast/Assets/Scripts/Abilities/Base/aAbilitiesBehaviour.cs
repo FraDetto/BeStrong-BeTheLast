@@ -11,6 +11,9 @@ using UnityEngine;
 public class aAbilitiesBehaviour : PausableMonoBehaviour
 {
 
+    protected RaycastHit hit;
+    internal GameObject user;
+
     protected KartController kartController;
 
     protected void Start_() =>

@@ -49,7 +49,10 @@ public class AttractingBehaviour : aAbilitiesBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other) =>
+        Colliding(other);
+
+    private void Colliding(Collider other)
     {
         if (!attracting && other.CompareTag("Projectile"))
         {

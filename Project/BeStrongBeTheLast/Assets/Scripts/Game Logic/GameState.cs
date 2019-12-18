@@ -95,38 +95,42 @@ internal static class GameState
         public float getScoreBiasBonus(string tag)
         {
             float scoreBias;
+
             if (activateRubberBanding)
             {
                 float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0;
-                int countBetterPlayers = 0;
+                float countBetterPlayers = 0;
                 float myScore = positions[tag];
-            
+
                 foreach (var score in positions)
-                {
                     if (!score.Key.Equals(tag) && (score.Value + scoreBiasDeadZone < myScore))
                     {
                         countBetterPlayers++;
                         scoreSum += score.Value;
+
                         if (score.Value > maxScore)
                             maxScore = score.Value;
+
                         if (score.Value < minScore || minScore < 1)
                             minScore = score.Value;
                     }
-                }
 
                 avgScore = scoreSum / positions.Count;
-                betterPlayers = countBetterPlayers / (float)(positions.Count - 1);
-                scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) + 
+
+                betterPlayers = countBetterPlayers / Mathf.Max(1, positions.Count - 1);
+
+                scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) +
                             0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
                             0.01f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
                             betterPlayers;
+
                 scoreBias = Mathf.Min(maxScoreBias, scoreBias);
             }
             else
             {
                 scoreBias = 0;
             }
-            
+
             return scoreBias;
         }
     }
