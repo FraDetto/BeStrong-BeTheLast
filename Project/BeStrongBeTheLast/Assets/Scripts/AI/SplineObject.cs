@@ -68,9 +68,8 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             Debug.DrawLine(transform.position, s.gameObject.transform.position, Color.magenta);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
+    private void OnTriggerEnter(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             switch (kartController.KCType)
             {
@@ -82,7 +81,6 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                     kartController.setDestinationWithError(nextRandomSpline);
                     break;
             }
-        }, "Player", "CPU");
-    }
+        });
 
 }

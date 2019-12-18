@@ -22,10 +22,8 @@ public class RollingBehaviour : aCollisionManager
     RaycastHit hit;
 
 
-    private void Start()
-    {
+    private void Start() =>
         bouncing = transform.parent.gameObject;
-    }
 
     void Update()
     {
@@ -38,16 +36,14 @@ public class RollingBehaviour : aCollisionManager
         transform.Rotate(Vector3.up, -90f * bouncing.GetComponent<BouncingBehaviour>().speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        onCollisionWithTags(other, (kartController) =>
+    private void OnTriggerEnter(Collider other) =>
+        onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
             if (!other.transform.root.gameObject.Equals(GetComponentInParent<BouncingBehaviour>().user))
             {
                 kartController.Accelerate(accelerationFromShot);
                 Destroy(gameObject);
             }
-        }, "Player", "CPU");
-    }
+        });
 
 }

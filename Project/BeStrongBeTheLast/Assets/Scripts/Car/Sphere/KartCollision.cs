@@ -33,9 +33,8 @@ public class KartCollision : aCollisionManager
         myKartController = kart.GetComponent<KartController>();
     }
 
-    private void OnTriggerEnter(Collider collider)
-    {
-        onCollisionWithTags(collider, (kartController) =>
+    private void OnTriggerEnter(Collider collider) =>
+        onCollisionWithPlayer_or_CPU(collider, (kartController) =>
         {
             if (myKartController && kartController && myKartController != kartController)
             {
@@ -83,7 +82,6 @@ public class KartCollision : aCollisionManager
                         break;
                 }
             }
-        }, "Player", "CPU");
-    }
+        });
 
 }

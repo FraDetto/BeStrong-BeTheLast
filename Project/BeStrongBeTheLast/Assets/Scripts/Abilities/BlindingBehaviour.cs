@@ -12,9 +12,7 @@ using UnityEngine;
 public class BlindingBehaviour : aAbilitiesBehaviour
 {
 
-    public float lengthTimeInSeconds = 5f;
-
-    private GameObject user;
+    public float lengthTimeInSeconds = 5f;    
 
     private GameObject[] players, bots;
 

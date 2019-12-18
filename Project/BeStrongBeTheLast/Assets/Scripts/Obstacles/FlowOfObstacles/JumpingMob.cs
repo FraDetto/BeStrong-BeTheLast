@@ -106,7 +106,7 @@ public class JumpingMob : WanderingMob
 
     private void OnCollisionEnter(Collision collision)
     {
-        var collidedWithTags = onCollisionWithTags(collision.collider, (kartController) =>
+        var collidedWithTags = onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             switch (phase)
             {
@@ -124,7 +124,7 @@ public class JumpingMob : WanderingMob
 
                     thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
 
-                    foreach(Collider collider in colliders)
+                    foreach (Collider collider in colliders)
                         collider.enabled = false;
 
                     break;
@@ -138,7 +138,7 @@ public class JumpingMob : WanderingMob
                     }
                     break;
             }
-        }, "Player", "CPU");
+        });
 
         if (!collidedWithTags && jumped && phase == Phases.moving && movementFrames > 10)
         {

@@ -151,39 +151,48 @@ public abstract class aBSBTLKart : aKartController
 
     protected void Counter()
     {
-        Instantiate(counter, transform);
+        if (canUseCounter())
+        {
+            Instantiate(counter, transform);
 
-        powerGaugeValue -= 0.25f;
-        counterRecharging = true;
-        StartCoroutine(CounterCooldown());
+            powerGaugeValue -= 0.25f;
+            counterRecharging = true;
+            StartCoroutine(CounterCooldown());
+        }
     }
 
     internal void Projectile(Transform spawnPoint)
     {
-        var weapon = attractedWeapon ?? myAbility.myAttractor ?? myAbility.myProjectile;
-
-        Instantiate(weapon, spawnPoint.position, spawnPoint.rotation, transform);
-
-        if (weapon.Equals(attractedWeapon))
-            attractedWeapon = null;
-        else if (weapon.Equals(myAbility.myAttractor))
-            attracted = false;
-
-        if (weapon.Equals(myAbility.myProjectile))
+        if (canUseProjectile())
         {
-            powerGaugeValue -= 0.5f;
-            projectileRecharging = true;
-            StartCoroutine(ProjectileCooldown());
+            var weapon = attractedWeapon ?? myAbility.myAttractor ?? myAbility.myProjectile;
+
+            Instantiate(weapon, spawnPoint.position, spawnPoint.rotation, transform);
+
+            if (weapon.Equals(attractedWeapon))
+                attractedWeapon = null;
+            else if (weapon.Equals(myAbility.myAttractor))
+                attracted = false;
+
+            if (weapon.Equals(myAbility.myProjectile))
+            {
+                powerGaugeValue -= 0.5f;
+                projectileRecharging = true;
+                StartCoroutine(ProjectileCooldown());
+            }
         }
     }
 
     protected void Special()
     {
-        Instantiate(myAbility.mySpecial, transform);
+        if (canUseSpecial())
+        {
+            Instantiate(myAbility.mySpecial, transform);
 
-        powerGaugeValue -= 0.75f;
-        specialRecharging = true;
-        StartCoroutine(SpecialCooldown());
+            powerGaugeValue -= 0.75f;
+            specialRecharging = true;
+            StartCoroutine(SpecialCooldown());
+        }
     }
 
     internal bool canUseCounter() =>
