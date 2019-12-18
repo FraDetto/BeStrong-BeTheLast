@@ -27,6 +27,7 @@ internal static class GameState
         internal int lapsNumberSetting = 3;
         internal int scoreBiasDeadZone = 5;
         internal float maxScoreBias = 1f;
+        internal int averageSplineScore = 0;
         internal bool activateRubberBanding = true;
 
         internal Dictionary<string, int> positions = new Dictionary<string, int>();
@@ -117,6 +118,7 @@ internal static class GameState
                     }
 
                 avgScore = scoreSum / countBetterPlayers;
+                averageSplineScore = Mathf.RoundToInt(avgScore);
 
                 betterPlayers = countBetterPlayers / Mathf.Max(1, positions.Count - 1);
 
@@ -129,8 +131,6 @@ internal static class GameState
                     scoreBias = Mathf.Min(maxScoreBias, scoreBias);
                 else
                     scoreBias = 0;
-                if(tag.Equals("Kiddo"))
-                    Debug.Log(scoreBias);
             }
             else
             {

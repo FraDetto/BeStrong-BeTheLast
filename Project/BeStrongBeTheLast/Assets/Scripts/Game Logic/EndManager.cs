@@ -116,7 +116,13 @@ public class EndManager : PausableMonoBehaviour
 
                 if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
                 {
-                    Debug.LogError("HALP " + car.name);
+                    int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
+                    splineScore = GameState.Instance.averageSplineScore;
+                    lap = Mathf.FloorToInt(splineScore / (float)splineTot);
+                    splineIndex = splineScore - lap * splineTot;
+                    Transform splineTransform = CPUSplineRoot.GetChild(splineIndex);
+                    //car.transform.position = splineTransform.position;
+                    //Debug.LogError("HALP " + car.name);
                 }
             }
         }
