@@ -46,9 +46,9 @@ public class WarningBehaviour : aCollisionManager
                         if (!blinking)
                         {
                             blinking = true;
-                            warningText.enabled = true;
+                            kartController.warning = true;
 
-                            StartCoroutine(Blink());
+                            StartCoroutine(Blink(kartController));
                         }
         }
     }
@@ -56,10 +56,10 @@ public class WarningBehaviour : aCollisionManager
     bool CheckIs<BehaviourT>(Collider other, string Name) where BehaviourT : aAbilitiesBehaviour =>
        other.transform.name.StartsWith(Name) && !other.GetComponent<BehaviourT>().user.Equals(transform.root.gameObject);
 
-    IEnumerator Blink()
+    IEnumerator Blink(KartController kartController)
     {
         yield return new WaitForSeconds(0.5f);
-        warningText.enabled = false;
+        kartController.warning = false;
         blinking = false;
     }
 
