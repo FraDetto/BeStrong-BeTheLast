@@ -79,6 +79,8 @@ public abstract class aBSBTLKart : aKartController
 
     protected bool iAmBlinded;
 
+    internal bool warning;
+
 
     protected new void Start_()
     {

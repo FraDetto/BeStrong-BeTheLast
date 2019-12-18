@@ -32,7 +32,6 @@ public class Abilities : PausableMonoBehaviour
 
     private bool started;
 
-
     private void Start()
     {
         StartCoroutine(delayedStart());
@@ -83,6 +82,9 @@ public class Abilities : PausableMonoBehaviour
                 selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
             else if (kartController.myAbility.selectedAttractor)
                 selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;*/
+
+            warningText.enabled = kartController.warning;
+
         }
     }
 
@@ -131,7 +133,6 @@ public class Abilities : PausableMonoBehaviour
         selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
         selectedProjectileText.color = disabledColor;
         */
-        kartController.GetComponentInChildren<WarningBehaviour>().warningText = warningText;
         kartController.rankPanel = panelRankings;
         started = true;
     }
