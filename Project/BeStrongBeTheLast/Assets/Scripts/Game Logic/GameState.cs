@@ -37,6 +37,7 @@ internal static class GameState
         internal List<RankObj> rankings = new List<RankObj>();
         internal Dictionary<string, RankObj> rankingsDict = new Dictionary<string, RankObj>();
         internal List<string> finalRankings = new List<string>();
+        internal Dictionary<string, int> scoreBiasÇounter = new Dictionary<string, int>();
 
 
         public int getCurrentRanking(string tag)
@@ -81,7 +82,8 @@ internal static class GameState
             var kc = kartControllers[tag];
             var splineIndex = kc.CurrentSplineObject.transform.GetSiblingIndex();
 
-            var score = NumeroSplines * lap + splineIndex;
+            //CUBE 0 IS THE LAST CUBE, NOT THE FIRST
+            var score = Mathf.Max(NumeroSplines * (lap - 1), 0) + ((splineIndex == 0)?NumeroSplines:splineIndex);
 
             if (tag != null)
             {
@@ -101,7 +103,6 @@ internal static class GameState
                 float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0;
                 float countBetterPlayers = 0;
                 float myScore = positions[tag];
-
                 foreach (var score in positions)
                     if (!score.Key.Equals(tag) && (score.Value + scoreBiasDeadZone < myScore))
                     {
@@ -115,16 +116,21 @@ internal static class GameState
                             minScore = score.Value;
                     }
 
-                avgScore = scoreSum / positions.Count;
+                avgScore = scoreSum / countBetterPlayers;
 
                 betterPlayers = countBetterPlayers / Mathf.Max(1, positions.Count - 1);
 
                 scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) +
-                            0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
-                            0.01f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
+                            0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
+                            0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
                             betterPlayers;
 
-                scoreBias = Mathf.Min(maxScoreBias, scoreBias);
+                if(countBetterPlayers > 0)
+                    scoreBias = Mathf.Min(maxScoreBias, scoreBias);
+                else
+                    scoreBias = 0;
+                if(tag.Equals("Kiddo"))
+                    Debug.Log(scoreBias);
             }
             else
             {
