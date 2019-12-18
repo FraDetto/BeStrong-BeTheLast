@@ -13,8 +13,6 @@ using UnityEngine.UI;
 
 public class WarningBehaviour : aCollisionManager
 {
-
-    public Text warningText;
     public GB.ELato lato;
 
     private bool blinking;
@@ -38,19 +36,18 @@ public class WarningBehaviour : aCollisionManager
                         break;
                 }
 
-            if (warningText)
-                if (CheckIs<SingleShotBehaviour>(other, "SingleShot") ||
-                    CheckIs<HomingBehaviour>(other, "Homing") ||
-                    CheckIs<BouncingBehaviour>(other, "Bouncing"))
-                    if (other.transform.forward != transform.forward)
-                        if (!blinking)
-                        {
-                            blinking = true;
-                            kartController.warning = true;
+            if (CheckIs<SingleShotBehaviour>(other, "SingleShot") ||
+                CheckIs<HomingBehaviour>(other, "Homing") ||
+                CheckIs<BouncingBehaviour>(other, "Bouncing"))
+                if (other.transform.forward != transform.forward)
+                    if (!blinking)
+                    {
+                        blinking = true;
+                        kartController.warning = true;
 
-                            StartCoroutine(Blink(kartController));
-                        }
-        }
+                        StartCoroutine(Blink(kartController));
+                    }
+    }
     }
 
     bool CheckIs<BehaviourT>(Collider other, string Name) where BehaviourT : aAbilitiesBehaviour =>

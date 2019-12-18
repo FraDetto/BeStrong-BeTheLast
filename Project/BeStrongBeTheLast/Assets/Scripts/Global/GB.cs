@@ -48,6 +48,18 @@ public static class GB
         }
     }
 
+    public static bool GetButton(string buttonName)
+    {
+        try
+        {
+            return Input.GetButton(buttonName);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static bool GetButtonDown(string buttonName)
     {
         try

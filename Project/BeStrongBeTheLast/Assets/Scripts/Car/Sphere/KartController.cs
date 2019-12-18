@@ -110,7 +110,7 @@ public sealed class KartController : aBSBTLKart
 
                     Update_(
                         touchingGround ? GB.GetAxis(input + "Horizontal") : 0,
-                        GB.GetButtonDown(input + "Drift"),
+                        GB.GetButton(input + "Drift"),
                         GB.GetButtonUp(input + "Drift")
                     );
                 }
