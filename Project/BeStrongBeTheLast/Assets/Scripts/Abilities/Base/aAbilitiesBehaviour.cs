@@ -19,5 +19,4 @@ public class aAbilitiesBehaviour : PausableMonoBehaviour
     protected void Start_() =>
         kartController = GB.FindComponentInDadWithName<KartController>(transform, "Controller");
 
-
 }

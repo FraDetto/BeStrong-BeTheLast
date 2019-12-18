@@ -49,13 +49,12 @@ public class AttractingBehaviour : aAbilitiesBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) =>
-        Colliding(other);
-
-    private void Colliding(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (!attracting && other.CompareTag("Projectile"))
         {
+            attracting = true;
+
             if (other.name.StartsWith("Homing"))
             {
                 other.GetComponent<HomingBehaviour>().enabled = false;
@@ -77,7 +76,6 @@ public class AttractingBehaviour : aAbilitiesBehaviour
             }
 
             projectile = other.gameObject;
-            attracting = true;
         }
     }
 

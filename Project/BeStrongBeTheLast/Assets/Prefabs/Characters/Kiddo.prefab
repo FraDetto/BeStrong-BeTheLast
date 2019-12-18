@@ -542,23 +542,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa674e97f0a45747bb77a3b74099d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KCType: 0
-  playerNumber: 1
   camera_: {fileID: 0}
   vCam: {fileID: 0}
   kartModel: {fileID: 6964651600324338649}
   kartNormal: {fileID: 3655181705046662216}
   sphere: {fileID: 1284683510443141258}
   currentSpeed: 0
+  KCType: 0
+  playerNumber: 1
   wallMask:
     serializedVersion: 2
     m_Bits: 4096
+  CurrentSplineObject: {fileID: 0}
   TempestivityOfDriftGearChange: 3
   acceleration: 80
   steering: 16
   gravity: 25
   heatingSpeed: 0.25
   driftPenalty: 1
+  enableSpeedRubberbanding: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 2355
@@ -573,7 +575,6 @@ MonoBehaviour:
   - {r: 0.2117647, g: 0.89920527, b: 1, a: 1}
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
-  CurrentSplineObject: {fileID: 0}
   frontSpawnpoint: {fileID: 3071088689480068495}
   rearSpawnpoint: {fileID: 6310261452341936535}
   regenSpeed: 0.1
@@ -1052,7 +1053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befdf8dc1d855b244a7b447102406b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningText: {fileID: 0}
   lato: 1
 --- !u!1 &5693870240819647723
 GameObject:
@@ -1147,7 +1147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befdf8dc1d855b244a7b447102406b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningText: {fileID: 0}
   lato: 0
 --- !u!1 &7257734946798922059
 GameObject:
@@ -1476,6 +1475,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.35999998
       objectReference: {fileID: 0}
+    - target: {fileID: 502601557280985019, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 267086593378347617, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 9175084481162040329, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 7573248942135412390, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
     - target: {fileID: 4592427687517662225, guid: 2cc136062196c2e499dfea8c8502f9f8,
         type: 3}
       propertyPath: kartController
@@ -1496,26 +1515,6 @@ PrefabInstance:
       propertyPath: kartController
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 9175084481162040329, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 267086593378347617, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 7573248942135412390, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 502601557280985019, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cc136062196c2e499dfea8c8502f9f8, type: 3}
 --- !u!4 &2590225576359816315 stripped
@@ -2000,6 +1999,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3461733098651977774, guid: 12944d76bc40d84498f97a34785a7dd4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Carrozzeria
       objectReference: {fileID: 0}
     - target: {fileID: 1284683511892998446, guid: 12944d76bc40d84498f97a34785a7dd4,
         type: 3}
