@@ -14,11 +14,17 @@ using UnityEngine.UI;
 public class WarningBehaviour : aCollisionManager
 {
 
-    public Text warningText;
     public GB.ELato lato;
 
     private bool blinking;
 
+    KartController kartController;
+
+    private void Start()
+    {
+        var R = transform.root.GetChild(0);
+        kartController = R.GetComponent<KartController>();
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -38,18 +44,17 @@ public class WarningBehaviour : aCollisionManager
                         break;
                 }
 
-            if (warningText)
-                if (CheckIs<SingleShotBehaviour>(other, "SingleShot") ||
-                    CheckIs<HomingBehaviour>(other, "Homing") ||
-                    CheckIs<BouncingBehaviour>(other, "Bouncing"))
-                    if (other.transform.forward != transform.forward)
-                        if (!blinking)
-                        {
-                            blinking = true;
-                            warningText.enabled = true;
+            if (CheckIs<SingleShotBehaviour>(other, "SingleShot") ||
+                CheckIs<HomingBehaviour>(other, "Homing") ||
+                CheckIs<BouncingBehaviour>(other, "Bouncing"))
+                if (other.transform.forward != transform.forward)
+                    if (!blinking)
+                    {
+                        blinking = true;
+                        kartController.warning = true;
 
-                            StartCoroutine(Blink());
-                        }
+                        StartCoroutine(Blink());
+                    }
         }
     }
 
@@ -59,7 +64,7 @@ public class WarningBehaviour : aCollisionManager
     IEnumerator Blink()
     {
         yield return new WaitForSeconds(0.5f);
-        warningText.enabled = false;
+        kartController.warning = false;
         blinking = false;
     }
 
