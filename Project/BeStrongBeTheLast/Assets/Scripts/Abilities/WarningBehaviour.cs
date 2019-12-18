@@ -17,7 +17,6 @@ public class WarningBehaviour : aCollisionManager
 
     private bool blinking;
 
-
     private void OnTriggerStay(Collider other)
     {
         if (GB.CompareORTags(other, "Projectile"))
