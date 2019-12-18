@@ -23,10 +23,9 @@ public class HomingBehaviour : aAbilitiesBehaviour
     private float accelerationFromShot;
 
     private GameObject target;
-    internal GameObject user;
 
     private SphereCollider range;
-    RaycastHit hit;
+
 
     private void Start()
     {

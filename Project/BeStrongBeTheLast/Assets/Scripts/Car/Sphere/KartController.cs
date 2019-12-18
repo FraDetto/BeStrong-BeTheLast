@@ -292,9 +292,8 @@ public sealed class KartController : aBSBTLKart
             }
     }
 
-    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider)
-    {
-        onCollisionWithTags(collider, (kartController) =>
+    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider) =>
+        onCollisionWithPlayer_or_CPU(collider, (kartController) =>
         {
             if (!Equals(kartController))
                 if (canUseProjectile() && myAbility.myProjectile)
@@ -307,8 +306,7 @@ public sealed class KartController : aBSBTLKart
                             Projectile(rearSpawnpoint);
                             break;
                     }
-        }, "Player", "CPU");
-    }
+        });
 
     private void CPU_AI_Find_Obstacles(bool wrong)
     {

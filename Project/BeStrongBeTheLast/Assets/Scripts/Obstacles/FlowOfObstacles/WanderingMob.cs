@@ -166,6 +166,7 @@ public class WanderingMob : aCollisionManager
     {
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         rotationFrames++;
+
         if (rotationFrames >= maxRotationFrames)
         {
             phase = Phases.avoidingB;
@@ -188,12 +189,12 @@ public class WanderingMob : aCollisionManager
             transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
             Destroy(gameObject);
         }
+
         flyingFrames++;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        onCollisionWithTags(collision.collider, (kartController) =>
+    void OnCollisionEnter(Collision collision) =>
+        onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             var hitDirection = collision.collider.transform.position - transform.position;
 
@@ -208,11 +209,9 @@ public class WanderingMob : aCollisionManager
 
             thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
 
-            foreach(Collider collider in colliders)
+            foreach (Collider collider in colliders)
                 collider.enabled = false;
-
-        }, "Player", "CPU");
-    }
+        });
 
     bool AvoidTag(Collider collider)
     {

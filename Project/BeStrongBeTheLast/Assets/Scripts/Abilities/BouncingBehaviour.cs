@@ -19,9 +19,6 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     private GameObject rolling;
 
-    RaycastHit hit;
-
-    internal GameObject user;
 
     [SerializeField]
     private float lengthTimeInSeconds = 10f;
@@ -31,7 +28,7 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     void Start()
     {
-        if(istantiatedByPlayer)
+        if (istantiatedByPlayer)
             Start_();
 
         rolling = transform.GetChild(0).gameObject;
