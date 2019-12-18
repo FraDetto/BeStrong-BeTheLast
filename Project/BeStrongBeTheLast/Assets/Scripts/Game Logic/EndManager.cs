@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Utilities;
@@ -96,7 +97,36 @@ public class EndManager : PausableMonoBehaviour
     private void FixedUpdate()
     {
         foreach (var car in cars)
+        {
             GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
+            if (!GameState.Instance.scoreBiasÇounter.ContainsKey(car.name))
+            {
+                GameState.Instance.scoreBiasÇounter.Add(car.name, 0);
+            }
+            else
+            {
+                if (GameState.Instance.getScoreBiasBonus(car.name) == 1)
+                {
+                    GameState.Instance.scoreBiasÇounter[car.name]++;
+                }
+                else
+                {
+                    GameState.Instance.scoreBiasÇounter[car.name] = 0;
+                }
+
+                if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
+                {
+                    int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
+                    splineScore = GameState.Instance.averageSplineScore;
+                    lap = Mathf.FloorToInt(splineScore / (float)splineTot);
+                    splineIndex = splineScore - lap * splineTot;
+                    Transform splineTransform = CPUSplineRoot.GetChild(splineIndex);
+                    //car.transform.position = splineTransform.position;
+                    //Debug.LogError("HALP " + car.name);
+                }
+            }
+        }
+        
     }
 
 }
