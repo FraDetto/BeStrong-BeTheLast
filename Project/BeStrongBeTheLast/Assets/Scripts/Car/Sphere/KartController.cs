@@ -173,15 +173,16 @@ public sealed class KartController : aBSBTLKart
                         if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
                             speed = 0;
 
-                if (transform.position == lastPosition && currentSpeed < 1)
+                if (transform.position == lastPosition)
                 {
                     if (LastStuck > -1)
                         LastStuck = Time.time;
 
-                    if (Time.time - LastStuck > 60)
+                    if (Time.time - LastStuck > 6)
                     {
                         var p = CurrentSplineObject.transform.position;
                         transform.position = new Vector3(p.x, p.y + 2, p.z);
+                        LastStuck = -1;
                     }
                 }
 
