@@ -84,7 +84,7 @@ internal static class GameState
             var splineIndex = kc.CurrentSplineObject.transform.GetSiblingIndex();
 
             //CUBE 0 IS THE LAST CUBE, NOT THE FIRST
-            var score = Mathf.Max(NumeroSplines * (lap - 1), 0) + ((splineIndex == 0)?NumeroSplines:splineIndex);
+            var score = Mathf.Max(NumeroSplines * (lap - 1), 0) + ((splineIndex == 0) ? NumeroSplines : splineIndex);
 
             if (tag != null)
             {
@@ -127,7 +127,7 @@ internal static class GameState
                             0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
                             betterPlayers;
 
-                if(countBetterPlayers > 0)
+                if (countBetterPlayers > 0)
                     scoreBias = Mathf.Min(maxScoreBias, scoreBias);
                 else
                     scoreBias = 0;
