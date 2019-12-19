@@ -111,6 +111,10 @@ public class EndManager : PausableMonoBehaviour
         splineIndex = Mathf.Max(0,(splineScore - lap * splineTot)%splineTot);
         Debug.Log(splineIndex+"/"+splineTot);
         Transform splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+        if (splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
+        {
+            GameState.Instance.laps[controller.transform.root.gameObject.name]--;
+        }
         sphere.transform.position = splineTransform.position;
         controller.rotateToSpline = true;
     }
