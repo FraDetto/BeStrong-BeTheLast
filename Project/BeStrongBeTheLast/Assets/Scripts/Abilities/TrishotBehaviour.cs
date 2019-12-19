@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrishotBehaviour : PausableMonoBehaviour
+public class TrishotBehaviour : aAbilitiesBehaviour
 {
     [SerializeField]
     private float speed;
@@ -17,8 +17,6 @@ public class TrishotBehaviour : PausableMonoBehaviour
     public float accelerationFromShot;
 
     private List<GameObject> shots = new List<GameObject>();
-
-    internal GameObject user;
 
 
     private void Start()
@@ -43,7 +41,7 @@ public class TrishotBehaviour : PausableMonoBehaviour
             if (shot)
                 return;
 
-        Destroy(gameObject);
+        KillMe();
     }
 
 }

@@ -60,8 +60,7 @@ public class BouncingBehaviour : aAbilitiesBehaviour
     {
         yield return new WaitForSeconds(lengthTimeInSeconds);
 
-        if (enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
 }

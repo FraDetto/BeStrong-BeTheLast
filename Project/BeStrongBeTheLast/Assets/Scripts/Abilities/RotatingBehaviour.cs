@@ -9,10 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class RotatingBehaviour : PausableMonoBehaviour
+public class RotatingBehaviour : aAbilitiesBehaviour
 {
-    private GameObject user;
-
     [SerializeField]
     private float lengthTimeInSeconds = 10f;
 
@@ -43,8 +41,7 @@ public class RotatingBehaviour : PausableMonoBehaviour
 
         yield return new WaitForSeconds(seconds);
 
-        if (enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
 }

@@ -41,20 +41,6 @@ public class RepulsiveWallStraight : aCollisionManager
         if (audioData && GB.CompareORTags(collision.gameObject, "Player", "CPU"))
             audioData.Play(0);
 
-        var pavimento = false;
-
-        foreach (var contact in collision.contacts)
-            if (contact.normal.x == 0 && contact.normal.z == 0 && contact.normal.y == 1)
-            {
-                kartController.gravity_ = kartController.gravity;
-                pavimento = true;
-                break;
-            }
-        /*
-        Removed because it would cause the infamous slowdown bug: gravity_ would jump up to 700+, and this was kind of a hack anyway. Left it here for reference only.
-        if (!pavimento)
-            kartController.gravity_ += 5;*/
-
         if (AttivaCollisioniConMura && active)
             if (collision.collider.gameObject.layer == 12)
                 kartController.SetOnTrack();

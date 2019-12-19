@@ -9,12 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class TankingBehaviour : PausableMonoBehaviour
+public class TankingBehaviour : aAbilitiesBehaviour
 {
     private Rigidbody rigidbody_;
     private Transform normal;
     private Vector3 originalScale;
-    private KartController kartController;
 
     [SerializeField]
     private float lengthTimeInSeconds = 15f;
@@ -52,8 +51,7 @@ public class TankingBehaviour : PausableMonoBehaviour
         if (kartController.playerType == aBSBTLKart.ePlayer.Kiddo)
             normal.Translate(Vector3.down * 0.25f);
 
-        if (enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
 }

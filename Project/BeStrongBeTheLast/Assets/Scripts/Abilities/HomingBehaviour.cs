@@ -48,10 +48,10 @@ public class HomingBehaviour : aAbilitiesBehaviour
             transform.Rotate(Vector3.right, 90f);
         }
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
-            Destroy(gameObject);
-
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+            KillMe();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,7 +67,7 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 else if (target != null)
                 {
                     target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot);
-                    Destroy(gameObject);
+                    KillMe();
                 }
             }
     }

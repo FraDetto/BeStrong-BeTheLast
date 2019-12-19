@@ -41,8 +41,7 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
         AnnoyCars(players, annoyingAmount, false);
         AnnoyCars(bots, annoyingAmount, false);
 
-        if (enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
     private void AnnoyCars(GameObject[] cars, float annoyingAmount, bool annoyed)

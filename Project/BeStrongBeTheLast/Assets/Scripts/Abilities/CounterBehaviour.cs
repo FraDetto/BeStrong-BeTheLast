@@ -9,9 +9,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections;
 using UnityEngine;
 
-public class CounterBehaviour : PausableMonoBehaviour
+public class CounterBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField] private float lengthTimeInSeconds = 1f; 
+    [SerializeField] private float lengthTimeInSeconds = 1f;
 
     public SphereCollider sphereCollider;
 
@@ -24,21 +24,21 @@ public class CounterBehaviour : PausableMonoBehaviour
     private void Start()
     {
         var player = transform.root.GetComponentInChildren<KartController>().playerType;
-        if(player.Equals(aBSBTLKart.ePlayer.EarthRestorer))
+        if (player.Equals(aBSBTLKart.ePlayer.EarthRestorer))
             transform.GetChild(0).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Bard))
+        else if (player.Equals(aBSBTLKart.ePlayer.Bard))
             transform.GetChild(1).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Hypogeum))
+        else if (player.Equals(aBSBTLKart.ePlayer.Hypogeum))
             transform.GetChild(2).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Politician))
+        else if (player.Equals(aBSBTLKart.ePlayer.Politician))
             transform.GetChild(3).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Flapper))
+        else if (player.Equals(aBSBTLKart.ePlayer.Flapper))
             transform.GetChild(4).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Steamdunker))
+        else if (player.Equals(aBSBTLKart.ePlayer.Steamdunker))
             transform.GetChild(5).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Imps))
+        else if (player.Equals(aBSBTLKart.ePlayer.Imps))
             transform.GetChild(0).gameObject.SetActive(true);
-        else if(player.Equals(aBSBTLKart.ePlayer.Kiddo))
+        else if (player.Equals(aBSBTLKart.ePlayer.Kiddo))
             transform.GetChild(0).gameObject.SetActive(true);
 
         StartCoroutine(Lifetime());
@@ -55,8 +55,7 @@ public class CounterBehaviour : PausableMonoBehaviour
     {
         yield return new WaitForSeconds(lengthTimeInSeconds);
 
-        if(enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
 }

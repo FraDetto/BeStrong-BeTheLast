@@ -12,7 +12,7 @@ using UnityEngine;
 public class BlindingBehaviour : aAbilitiesBehaviour
 {
 
-    public float lengthTimeInSeconds = 5f;    
+    public float lengthTimeInSeconds = 5f;
 
     private GameObject[] players, bots;
 
@@ -38,8 +38,7 @@ public class BlindingBehaviour : aAbilitiesBehaviour
         BlindCars(players, false);
         BlindCars(bots, false);
 
-        if (enabled)
-            Destroy(gameObject);
+        KillMe();
     }
 
     private void BlindCars(GameObject[] cars, bool blinded)

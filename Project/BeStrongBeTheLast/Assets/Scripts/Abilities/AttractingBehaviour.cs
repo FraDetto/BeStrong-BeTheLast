@@ -82,7 +82,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
     IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(lengthTimeInSeconds);
-        Destroy(gameObject);
+        KillMe();
     }
 
 }

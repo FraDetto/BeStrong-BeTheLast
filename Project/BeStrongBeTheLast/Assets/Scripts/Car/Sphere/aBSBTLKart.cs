@@ -36,15 +36,52 @@ public abstract class aBSBTLKart : aKartController
 
     public struct sAbilities
     {
+        public bool myProjectile_inAction, mySpecial_inAction, myAttractor_inAction;
+
+        private aAbilitiesBehaviour myProjectileB, mySpecialB, myAttractorB;
+
         public GameObject myProjectile, mySpecial, myAttractor;
+
 
         public sAbilities(GameObject myProjectile, GameObject mySpecial) : this(myProjectile, mySpecial, null) { }
 
         public sAbilities(GameObject myProjectile, GameObject mySpecial, GameObject myAttractor)
         {
+            myProjectile_inAction = false;
+            mySpecial_inAction = false;
+            myAttractor_inAction = false;
+
+            myProjectileB = null;
+            mySpecialB = null;
+            myAttractorB = null;
+
             this.myProjectile = myProjectile;
             this.mySpecial = mySpecial;
             this.myAttractor = myAttractor;
+        }
+
+        public void InitProjectile()
+        {
+            var this_ = this;
+            myProjectile_inAction = true;
+            myProjectileB = myProjectile.GetComponent<aAbilitiesBehaviour>();
+            myProjectileB.Killed = () => { this_.myProjectile_inAction = false; };
+        }
+
+        public void InitSpecial()
+        {
+            var this_ = this;
+            mySpecial_inAction = true;
+            mySpecialB = mySpecial.GetComponent<aAbilitiesBehaviour>();
+            mySpecialB.Killed = () => { this_.mySpecial_inAction = false; };
+        }
+
+        public void InitAttractor()
+        {
+            var this_ = this;
+            myAttractor_inAction = true;
+            myAttractorB = myAttractor.GetComponent<aAbilitiesBehaviour>();
+            myAttractorB.Killed = () => { this_.myAttractor_inAction = false; };
         }
     }
 
@@ -84,30 +121,30 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Start_()
     {
-        //abilities = new Dictionary<ePlayer, sAbilities>()
-        //{
-        //    { ePlayer.Bard, new sAbilities(homing, annoying) },
-        //    { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
-        //    { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
-        //    { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
-        //    { ePlayer.Imps, new sAbilities(trishot, annoying) },
-        //    { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
-        //    { ePlayer.Politician, new sAbilities(trishot, blinding) },
-        //    { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
-        //};
-
-        // testing attracting
         abilities = new Dictionary<ePlayer, sAbilities>()
         {
-            { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
-            { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
-            { ePlayer.Flapper, new sAbilities(trishot, tanking) },
-            { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
-            { ePlayer.Imps, new sAbilities(trishot, tanking) },
-            { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
-            { ePlayer.Politician, new sAbilities(trishot, tanking) },
-            { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
+            { ePlayer.Bard, new sAbilities(homing, annoying) },
+            { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
+            { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
+            { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
+            { ePlayer.Imps, new sAbilities(trishot, annoying) },
+            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
+            { ePlayer.Politician, new sAbilities(trishot, blinding) },
+            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
         };
+
+        // testing attracting
+        //abilities = new Dictionary<ePlayer, sAbilities>()
+        //{
+        //    { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
+        //    { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Flapper, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Imps, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Politician, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
+        //};
 
         myAbility = abilities[playerType];
         debuff = kartNormal.transform.Find("Debuff");
@@ -170,12 +207,20 @@ public abstract class aBSBTLKart : aKartController
             Instantiate(weapon, spawnPoint.position, spawnPoint.rotation, transform);
 
             if (weapon.Equals(attractedWeapon))
+            {
                 attractedWeapon = null;
+            }
             else if (weapon.Equals(myAbility.myAttractor))
+            {
+                myAbility.InitAttractor();
+
                 attracted = false;
+            }
 
             if (weapon.Equals(myAbility.myProjectile))
             {
+                myAbility.InitProjectile();
+
                 powerGaugeValue -= 0.5f;
                 projectileRecharging = true;
                 StartCoroutine(ProjectileCooldown());
@@ -187,6 +232,8 @@ public abstract class aBSBTLKart : aKartController
     {
         if (canUseSpecial())
         {
+            myAbility.InitSpecial();
+
             Instantiate(myAbility.mySpecial, transform);
 
             powerGaugeValue -= 0.75f;
@@ -199,10 +246,10 @@ public abstract class aBSBTLKart : aKartController
         powerGaugeValue >= 0.25f && !counterRecharging;
 
     internal bool canUseProjectile() =>
-      (powerGaugeValue >= 0.5f || myAbility.myAttractor) && !projectileRecharging;
+        !myAbility.myProjectile_inAction && (powerGaugeValue >= 0.5f || myAbility.myAttractor) && !projectileRecharging;
 
     internal bool canUseSpecial() =>
-       powerGaugeValue >= 0.75f && !specialRecharging;
+        !myAbility.mySpecial_inAction && powerGaugeValue >= 0.75f && !specialRecharging;
 
     IEnumerator CounterCooldown()
     {

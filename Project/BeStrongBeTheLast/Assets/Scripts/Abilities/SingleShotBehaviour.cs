@@ -36,11 +36,11 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(trishotBehaviour.accelerationFromShot);
 
-                Destroy(gameObject);
+                KillMe();
             }
         }
         else if (other.gameObject.layer.Equals(12))
-            Destroy(gameObject);
+            KillMe();
     }
 
 }

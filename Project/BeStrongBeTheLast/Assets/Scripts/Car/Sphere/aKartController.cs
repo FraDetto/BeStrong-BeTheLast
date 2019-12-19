@@ -80,7 +80,6 @@ public abstract class aKartController : aCollisionManager
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
     public bool enableSpeedRubberbanding;
-    internal float gravity_;
     public LayerMask layerMask;
 
     [Header("Model Parts")]
@@ -157,8 +156,6 @@ public abstract class aKartController : aCollisionManager
 
         foreach (var tube in tubes)
             tubeTurboParticles.Add(kartModel.GetChild(0).Find(tube).GetComponentsInChildren<ParticleSystem>());
-
-        gravity_ = gravity;
 
         if (!CurrentSplineObject)
             throw new Exception("Non hai settato CurrentSplineObject!");
@@ -347,7 +344,7 @@ public abstract class aKartController : aCollisionManager
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
-        sphere.AddForce(Vector3.down * gravity_ * gravityMultiplier, ForceMode.Acceleration);
+        sphere.AddForce(Vector3.down * gravity * gravityMultiplier, ForceMode.Acceleration);
 
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
