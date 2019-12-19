@@ -24,16 +24,21 @@ public class WarningBehaviour : aCollisionManager
             var R = transform.root.GetChild(0);
             var kartController = R.GetComponent<KartController>();
 
-            if (kartController.canUseProjectile())
-                switch (lato)
-                {
-                    case GB.ELato.Avanti:
-                        kartController.Projectile(kartController.frontSpawnpoint);
-                        break;
-                    case GB.ELato.Dietro:
-                        kartController.Projectile(kartController.rearSpawnpoint);
-                        break;
-                }
+            switch (kartController.KCType)
+            {
+                case aKartController.eKCType.CPU:
+                    if (kartController.canUseAttractor())
+                        switch (lato)
+                        {
+                            case GB.ELato.Avanti:
+                                kartController.Attractor(kartController.frontSpawnpoint);
+                                break;
+                            case GB.ELato.Dietro:
+                                kartController.Attractor(kartController.rearSpawnpoint);
+                                break;
+                        }
+                    break;
+            }
 
             if (!blinking && other.transform.forward != transform.forward)
                 if (

@@ -20,7 +20,14 @@ public class FieldOfViewCollider : PausableMonoBehaviour
     public KartController kartController;
 
 
-    private void OnTriggerEnter(Collider other) =>
-        kartController.fieldOfViewCollision(direction, other);
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (kartController.KCType)
+        {
+            case aKartController.eKCType.CPU:
+                kartController.fieldOfViewCollision(direction, other);
+                break;
+        }
+    }
 
 }

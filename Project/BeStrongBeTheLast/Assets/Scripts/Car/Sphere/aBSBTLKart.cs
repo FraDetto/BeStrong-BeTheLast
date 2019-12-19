@@ -121,30 +121,30 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Start_()
     {
-        abilities = new Dictionary<ePlayer, sAbilities>()
-        {
-            { ePlayer.Bard, new sAbilities(homing, annoying) },
-            { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
-            { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
-            { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
-            { ePlayer.Imps, new sAbilities(trishot, annoying) },
-            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
-            { ePlayer.Politician, new sAbilities(trishot, blinding) },
-            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
-        };
-
-        // testing attracting
         //abilities = new Dictionary<ePlayer, sAbilities>()
         //{
-        //    { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
-        //    { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Flapper, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Imps, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Politician, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
+        //    { ePlayer.Bard, new sAbilities(homing, annoying) },
+        //    { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
+        //    { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
+        //    { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
+        //    { ePlayer.Imps, new sAbilities(trishot, annoying) },
+        //    { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
+        //    { ePlayer.Politician, new sAbilities(trishot, blinding) },
+        //    { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
         //};
+
+        // testing attracting
+        abilities = new Dictionary<ePlayer, sAbilities>()
+        {
+            { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
+            { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
+            { ePlayer.Flapper, new sAbilities(trishot, tanking) },
+            { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
+            { ePlayer.Imps, new sAbilities(trishot, tanking) },
+            { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
+            { ePlayer.Politician, new sAbilities(trishot, tanking) },
+            { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
+        };
 
         myAbility = abilities[playerType];
         debuff = kartNormal.transform.Find("Debuff");
@@ -198,11 +198,26 @@ public abstract class aBSBTLKart : aKartController
         }
     }
 
+    internal void Attractor(Transform spawnPoint)
+    {
+        if (canUseAttractor())
+        {
+            Instantiate(myAbility.myAttractor, spawnPoint.position, spawnPoint.rotation, transform);
+
+            myAbility.InitAttractor();
+
+            attracted = false;
+            powerGaugeValue -= 0.5f;
+            projectileRecharging = true;
+            StartCoroutine(ProjectileCooldown());
+        }
+    }
+
     internal void Projectile(Transform spawnPoint)
     {
         if (canUseProjectile())
         {
-            var weapon = attractedWeapon ?? myAbility.myAttractor ?? myAbility.myProjectile;
+            var weapon = attractedWeapon ?? myAbility.myProjectile;
 
             Instantiate(weapon, spawnPoint.position, spawnPoint.rotation, transform);
 
@@ -210,14 +225,7 @@ public abstract class aBSBTLKart : aKartController
             {
                 attractedWeapon = null;
             }
-            else if (weapon.Equals(myAbility.myAttractor))
-            {
-                myAbility.InitAttractor();
-
-                attracted = false;
-            }
-
-            if (weapon.Equals(myAbility.myProjectile))
+            else if (weapon.Equals(myAbility.myProjectile))
             {
                 myAbility.InitProjectile();
 
@@ -243,13 +251,25 @@ public abstract class aBSBTLKart : aKartController
     }
 
     internal bool canUseCounter() =>
-        powerGaugeValue >= 0.25f && !counterRecharging;
+        powerGaugeValue >= 0.25f &&
+        !counterRecharging;
+
+    internal bool canUseAttractor() =>
+        myAbility.myAttractor &&
+        !myAbility.myAttractor_inAction &&
+        powerGaugeValue >= 0.5f &&
+        !projectileRecharging;
 
     internal bool canUseProjectile() =>
-        !myAbility.myProjectile_inAction && (powerGaugeValue >= 0.5f || myAbility.myAttractor) && !projectileRecharging;
+        (myAbility.myProjectile || attractedWeapon) &&
+        !myAbility.myProjectile_inAction &&
+        powerGaugeValue >= 0.5f &&
+        !projectileRecharging;
 
     internal bool canUseSpecial() =>
-        !myAbility.mySpecial_inAction && powerGaugeValue >= 0.75f && !specialRecharging;
+        !myAbility.mySpecial_inAction &&
+        powerGaugeValue >= 0.75f &&
+        !specialRecharging;
 
     IEnumerator CounterCooldown()
     {

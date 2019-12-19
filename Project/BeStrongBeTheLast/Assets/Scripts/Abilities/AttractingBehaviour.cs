@@ -44,7 +44,8 @@ public class AttractingBehaviour : aAbilitiesBehaviour
             {
                 Destroy(projectile);
                 kartController.attracted = true;
-                Destroy(gameObject);
+
+                KillMe();
             }
         }
     }
