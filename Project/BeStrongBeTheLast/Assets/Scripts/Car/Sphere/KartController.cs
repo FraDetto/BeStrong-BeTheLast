@@ -192,9 +192,6 @@ public sealed class KartController : aBSBTLKart
 
         Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
         Debug.DrawLine(transform.position, lookAtDest, Color.yellow);
-
-
-
     }
 
     private float steerAngle(Vector3 dest)
@@ -208,7 +205,6 @@ public sealed class KartController : aBSBTLKart
 
         return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
-
 
     private void FixedUpdate() =>
         FixedUpdate_();

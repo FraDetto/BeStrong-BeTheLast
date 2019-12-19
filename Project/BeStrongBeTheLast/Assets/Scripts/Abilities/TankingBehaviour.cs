@@ -19,15 +19,17 @@ public class TankingBehaviour : PausableMonoBehaviour
     [SerializeField]
     private float lengthTimeInSeconds = 15f;
 
-    // Start is called before the first frame update
+
     void Start()
     {
-        normal = transform.parent.GetChild(0);
-        originalScale = normal.localScale;
-        rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
-        normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
         kartController = transform.root.GetComponentInChildren<KartController>();
-        if(kartController.playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
+        rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
+        normal = transform.parent.GetChild(0);
+
+        originalScale = normal.localScale;
+        normal.localScale = new Vector3(originalScale.x * 1.5f, originalScale.y * 1.5f, originalScale.z * 1.5f);
+
+        if (kartController.playerType == aBSBTLKart.ePlayer.Kiddo)
             normal.Translate(Vector3.up * 0.25f);
 
         rigidbody_.mass *= 2;
@@ -38,12 +40,16 @@ public class TankingBehaviour : PausableMonoBehaviour
 
     IEnumerator Lifetime()
     {
-        yield return new WaitForSeconds(lengthTimeInSeconds + lengthTimeInSeconds * GameState.Instance.getScoreBiasBonus(kartController.playerName));
+        var sec = lengthTimeInSeconds * (1 + GameState.Instance.getScoreBiasBonus(kartController.playerName));
+
+        yield return new WaitForSeconds(sec);
 
         rigidbody_.mass /= 2;
         rigidbody_.drag -= 1;
+
         normal.localScale = originalScale;
-        if(kartController.playerType.Equals(aBSBTLKart.ePlayer.Kiddo))
+
+        if (kartController.playerType == aBSBTLKart.ePlayer.Kiddo)
             normal.Translate(Vector3.down * 0.25f);
 
         if (enabled)
