@@ -17,17 +17,25 @@ public class aAbilitiesBehaviour : aCollisionManager
 
     protected KartController kartController;
 
-    internal System.Action Killed;
 
     protected void Start_() =>
         kartController = GB.FindComponentInDadWithName<KartController>(transform, "Controller");
 
     protected void KillMe()
     {
-        Killed?.Invoke();
+        if (kartController)
+            if (IsSame(kartController.myAbility.myProjectile))
+                kartController.myAbility.myProjectile_inAction = false;
+            else if (IsSame(kartController.myAbility.mySpecial))
+                kartController.myAbility.mySpecial_inAction = false;
+            else if (IsSame(kartController.myAbility.myAttractor))
+                kartController.myAbility.myAttractor_inAction = false;
 
         //if (enabled)
         Destroy(gameObject);
     }
+
+    bool IsSame(GameObject o) =>
+       o && transform.root.name.StartsWith(o.name);
 
 }

@@ -7,11 +7,13 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CounterBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField] private float lengthTimeInSeconds = 1f;
+    [SerializeField]
+    private float lengthTimeInSeconds = 1f;
 
     public SphereCollider sphereCollider;
 
@@ -23,23 +25,22 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
     private void Start()
     {
-        var player = transform.root.GetComponentInChildren<KartController>().playerType;
-        if (player.Equals(aBSBTLKart.ePlayer.EarthRestorer))
-            transform.GetChild(0).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Bard))
-            transform.GetChild(1).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Hypogeum))
-            transform.GetChild(2).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Politician))
-            transform.GetChild(3).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Flapper))
-            transform.GetChild(4).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Steamdunker))
-            transform.GetChild(5).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Imps))
-            transform.GetChild(0).gameObject.SetActive(true);
-        else if (player.Equals(aBSBTLKart.ePlayer.Kiddo))
-            transform.GetChild(0).gameObject.SetActive(true);
+        var abilities = new Dictionary<aBSBTLKart.ePlayer, string>()
+        {
+            { aBSBTLKart.ePlayer.Bard, "SoundWave" },
+            { aBSBTLKart.ePlayer.EarthRestorer, "StungunHit" },
+            { aBSBTLKart.ePlayer.Flapper, "GaseousState" },
+            { aBSBTLKart.ePlayer.Hypogeum, "LionRoar" },
+            { aBSBTLKart.ePlayer.Imps, "StungunHit" },
+            { aBSBTLKart.ePlayer.Kiddo, "StungunHit" },
+            { aBSBTLKart.ePlayer.Politician, "Bribe" },
+            { aBSBTLKart.ePlayer.Steamdunker, "SteamJet" },
+        };
+
+        var kartController = transform.root.GetComponentInChildren<KartController>();
+        var ability = GB.FindTransformInChildWithName(transform, abilities[kartController.playerType]);
+
+        ability.gameObject.SetActive(true);
 
         StartCoroutine(Lifetime());
     }

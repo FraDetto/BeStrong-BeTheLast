@@ -37,9 +37,6 @@ public abstract class aBSBTLKart : aKartController
     public struct sAbilities
     {
         public bool myProjectile_inAction, mySpecial_inAction, myAttractor_inAction;
-
-        private aAbilitiesBehaviour myProjectileB, mySpecialB, myAttractorB;
-
         public GameObject myProjectile, mySpecial, myAttractor;
 
 
@@ -51,37 +48,9 @@ public abstract class aBSBTLKart : aKartController
             mySpecial_inAction = false;
             myAttractor_inAction = false;
 
-            myProjectileB = null;
-            mySpecialB = null;
-            myAttractorB = null;
-
             this.myProjectile = myProjectile;
             this.mySpecial = mySpecial;
             this.myAttractor = myAttractor;
-        }
-
-        public void InitProjectile()
-        {
-            var this_ = this;
-            myProjectile_inAction = true;
-            myProjectileB = myProjectile.GetComponent<aAbilitiesBehaviour>();
-            myProjectileB.Killed = () => { this_.myProjectile_inAction = false; };
-        }
-
-        public void InitSpecial()
-        {
-            var this_ = this;
-            mySpecial_inAction = true;
-            mySpecialB = mySpecial.GetComponent<aAbilitiesBehaviour>();
-            mySpecialB.Killed = () => { this_.mySpecial_inAction = false; };
-        }
-
-        public void InitAttractor()
-        {
-            var this_ = this;
-            myAttractor_inAction = true;
-            myAttractorB = myAttractor.GetComponent<aAbilitiesBehaviour>();
-            myAttractorB.Killed = () => { this_.myAttractor_inAction = false; };
         }
     }
 
@@ -102,7 +71,7 @@ public abstract class aBSBTLKart : aKartController
     public GameObject rankPanel;
 
     internal GameObject attractedWeapon;
-    protected sAbilities myAbility;
+    internal sAbilities myAbility;
 
     internal bool attracted;
 
@@ -163,22 +132,19 @@ public abstract class aBSBTLKart : aKartController
         if (powerGaugeValue > 1f)
             powerGaugeValue = 1f;
 
-        if (canUseCounter())
-            if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
-                Counter();
+        if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
+            Counter();
 
-        if (canUseProjectile())
-            if (GB.GetButtonDown(input + "Projectile"))
-            {
-                if (Input.GetAxis(input + "Vertical") < 0)
-                    Projectile(rearSpawnpoint);
-                else
-                    Projectile(frontSpawnpoint);
-            }
+        if (GB.GetButtonDown(input + "Projectile"))
+        {
+            if (Input.GetAxis(input + "Vertical") < 0)
+                Projectile(rearSpawnpoint);
+            else
+                Projectile(frontSpawnpoint);
+        }
 
-        if (canUseSpecial())
-            if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
-                Special();
+        if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
+            Special();
 
         if (GB.GetButtonDown(input + "MenuA") && rankPanel)
             rankPanel.SetActive(!rankPanel.activeSelf);
@@ -204,8 +170,7 @@ public abstract class aBSBTLKart : aKartController
         {
             Instantiate(myAbility.myAttractor, spawnPoint.position, spawnPoint.rotation, transform);
 
-            myAbility.InitAttractor();
-
+            myAbility.myAttractor_inAction = true;
             attracted = false;
             powerGaugeValue -= 0.5f;
             projectileRecharging = true;
@@ -227,8 +192,7 @@ public abstract class aBSBTLKart : aKartController
             }
             else if (weapon.Equals(myAbility.myProjectile))
             {
-                myAbility.InitProjectile();
-
+                myAbility.myProjectile_inAction = true;
                 powerGaugeValue -= 0.5f;
                 projectileRecharging = true;
                 StartCoroutine(ProjectileCooldown());
@@ -240,10 +204,9 @@ public abstract class aBSBTLKart : aKartController
     {
         if (canUseSpecial())
         {
-            myAbility.InitSpecial();
-
             Instantiate(myAbility.mySpecial, transform);
 
+            myAbility.mySpecial_inAction = true;
             powerGaugeValue -= 0.75f;
             specialRecharging = true;
             StartCoroutine(SpecialCooldown());
