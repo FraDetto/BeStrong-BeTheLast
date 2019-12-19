@@ -108,8 +108,8 @@ public class EndManager : PausableMonoBehaviour
         int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
         splineScore = GameState.Instance.averageSplineScore;
         lap = Mathf.FloorToInt(splineScore / (float)splineTot);
-        splineIndex = Mathf.Max(0,(splineScore - lap * splineTot)%splineTot);
-        Debug.Log(splineIndex+"/"+splineTot);
+        splineIndex = Mathf.Max(0, (splineScore - lap * splineTot) % splineTot);
+        Debug.Log(splineIndex + "/" + splineTot);
         Transform splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
         if (splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
         {
