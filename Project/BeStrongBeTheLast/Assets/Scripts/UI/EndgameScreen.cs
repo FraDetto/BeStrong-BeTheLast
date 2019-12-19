@@ -18,7 +18,9 @@ public class EndgameScreen : PausableMonoBehaviour
     {
         var i = -1;
         var finalRankings = GameState.Instance.finalRankings;
+
         finalRankings.Reverse();
+
         if (results.Length == finalRankings.Count)
             foreach (var finalRank in finalRankings)
                 results[i += 1].text = (finalRankings.Count - i) + " - " + finalRank;
