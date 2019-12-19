@@ -17,6 +17,8 @@ public class EndManager : PausableMonoBehaviour
     public Transform CPUSplineRoot;
     public SceneField scena;
     public bool continueRaceWithoutPlayers = false;
+    public GameObject portalPrefab;
+    public bool teleporterSpawned = false;
 
     private void Start()
     {
@@ -91,6 +93,28 @@ public class EndManager : PausableMonoBehaviour
         return true;
     }
 
+    private void spawnPortal(Transform transform)
+    {
+        GameObject portal = Instantiate(portalPrefab, transform.position, transform.rotation);
+        TeleporterPortal portalScript = portal.GetComponent<TeleporterPortal>();
+        portalScript.endScriptCallback = this;
+        teleporterSpawned = true;
+    }
+
+    public void teleportCar(GameObject car)
+    {
+        var controller = car.GetComponentInChildren<KartController>();
+        var sphere = controller.sphere;
+        int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
+        splineScore = GameState.Instance.averageSplineScore;
+        lap = Mathf.FloorToInt(splineScore / (float)splineTot);
+        splineIndex = Mathf.Max(0,(splineScore - lap * splineTot)%splineTot);
+        Debug.Log(splineIndex+"/"+splineTot);
+        Transform splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+        sphere.transform.position = splineTransform.position;
+        controller.rotateToSpline = true;
+    }
+
     private void FixedUpdate()
     {
         foreach (var car in cars)
@@ -113,13 +137,13 @@ public class EndManager : PausableMonoBehaviour
 
                 if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
                 {
-                    int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
-                    splineScore = GameState.Instance.averageSplineScore;
-                    lap = Mathf.FloorToInt(splineScore / (float)splineTot);
-                    splineIndex = splineScore - lap * splineTot;
-                    Transform splineTransform = CPUSplineRoot.GetChild(splineIndex);
-                    //car.transform.position = splineTransform.position;
-                    //Debug.LogError("HALP " + car.name);
+                    if (!teleporterSpawned)
+                    {
+                        int currentSplineIndex = car.GetComponentInChildren<KartController>().CurrentSplineObject.transform.GetSiblingIndex();
+                        int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
+                        Transform splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+                        spawnPortal(splineTransform);
+                    }
                 }
             }
         }

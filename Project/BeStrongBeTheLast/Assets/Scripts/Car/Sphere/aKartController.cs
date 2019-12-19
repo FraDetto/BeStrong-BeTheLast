@@ -76,7 +76,7 @@ public abstract class aKartController : aCollisionManager
 
     public float acceleration = 30f;
     public float steering = 80f;
-    public float gravity = 10f;
+    public float gravity = 20f;
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
     public bool enableSpeedRubberbanding;
@@ -113,7 +113,7 @@ public abstract class aKartController : aCollisionManager
 
     internal bool iAmAnnoyed;
 
-    internal bool settingOnTrack;
+    internal bool settingOnTrack, rotateToSpline = false;
 
     internal float annoyingAmount = 1f;
 
@@ -597,6 +597,11 @@ public abstract class aKartController : aCollisionManager
 
             lookAtDest = new Vector3(p.x + xRndError, p.y, p.z + zRndError);
             lookAtDestOriginal = lookAtDest;
+            if (rotateToSpline)
+            {
+                //transform.LookAt(lookAtDest);
+                rotateToSpline = false;
+            }
         }
     }
 

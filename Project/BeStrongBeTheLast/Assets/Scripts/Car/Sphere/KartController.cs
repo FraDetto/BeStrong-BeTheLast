@@ -46,7 +46,8 @@ public sealed class KartController : aBSBTLKart
 
     [Range(0, 1)]
     public float ProbabilitàDiSparare = 0.5f;
-    bool aspettandoDiSparare;
+
+    private bool aspettandoDiSparare;
 
 
     private void Start()
@@ -149,7 +150,7 @@ public sealed class KartController : aBSBTLKart
 
                     driftAxis = turn ? (left ? 1 : -1) : 0;
 
-                    if (Mathf.Abs(angle) > 70)
+                    if (Mathf.Abs(angle) > 45)
                     {
                         //Possibly add some conditions regarding driftHeatingValue here, to avoid unreasonable use of the drift function
                         jumpBDown = true;
