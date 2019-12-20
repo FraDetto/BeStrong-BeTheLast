@@ -76,17 +76,6 @@ public sealed class KartController : aBSBTLKart
 
             case eKCType.CPU:
                 GameState.Instance.kartTypes.Add(transform.parent.name, "CPU");
-                var Box001 = GB.FindTransformInChildWithTag(transform, "Carrozzeria");
-                var renderer_ = Box001.gameObject.GetComponent<Renderer>();
-
-                var c = Color.black;
-
-                while (c == Color.black || GB.usedColors.Contains(renderer_.material.color))
-                    c = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
-
-                GB.usedColors.Add(c);
-                renderer_.material.color = c;
-
                 setDestinationWithError();
                 break;
         }

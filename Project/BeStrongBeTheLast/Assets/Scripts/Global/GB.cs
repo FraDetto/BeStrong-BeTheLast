@@ -32,8 +32,6 @@ public static class GB
         Avanti, Dietro
     }
 
-    public static HashSet<Color> usedColors = new HashSet<Color>();
-
 
     public static float GetAxis(string axisName)
     {

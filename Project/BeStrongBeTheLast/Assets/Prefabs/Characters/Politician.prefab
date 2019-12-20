@@ -48072,7 +48072,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d566161926bf33e4cb70aef5eb8473a5, type: 2}
+  - {fileID: 2100000, guid: 2c93c0b4ed1b2cc45991b19ec13f2e19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -58064,23 +58064,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa674e97f0a45747bb77a3b74099d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KCType: 1
-  playerNumber: 0
   camera_: {fileID: 0}
   vCam: {fileID: 0}
   kartModel: {fileID: 1284683510933779823}
   kartNormal: {fileID: 1284683511802898188}
   sphere: {fileID: 1284683510443141258}
   currentSpeed: 0
+  KCType: 1
+  playerNumber: 0
   wallMask:
     serializedVersion: 2
     m_Bits: 4096
+  CurrentSplineObject: {fileID: 0}
   TempestivityOfDriftGearChange: 3
   acceleration: 80
   steering: 16
   gravity: 25
   heatingSpeed: 0.25
   driftPenalty: 1
+  enableSpeedRubberbanding: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 2355
@@ -58095,7 +58097,6 @@ MonoBehaviour:
   - {r: 0.2117647, g: 0.89920527, b: 1, a: 1}
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
-  CurrentSplineObject: {fileID: 0}
   frontSpawnpoint: {fileID: 7006320093493715640}
   rearSpawnpoint: {fileID: 7032394487709575137}
   regenSpeed: 0.1
@@ -67879,7 +67880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befdf8dc1d855b244a7b447102406b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningText: {fileID: 0}
   lato: 1
 --- !u!1 &2526320943479949806
 GameObject:
@@ -87010,7 +87010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befdf8dc1d855b244a7b447102406b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningText: {fileID: 0}
   lato: 0
 --- !u!1 &7325548938804191682
 GameObject:
@@ -87233,6 +87232,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1284683510933779827}
     m_Modifications:
+    - target: {fileID: 9189747320091722831, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
+        type: 3}
+      propertyPath: m_Name
+      value: PoliticianTrail Variant
+      objectReference: {fileID: 0}
     - target: {fileID: 9189747320091722824, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -87287,11 +87291,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9189747320091722831, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
-        type: 3}
-      propertyPath: m_Name
-      value: PoliticianTrail Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7, type: 3}
@@ -87378,6 +87377,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 502601557280985019, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 267086593378347617, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 7573248942135412390, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
+    - target: {fileID: 9175084481162040329, guid: 2cc136062196c2e499dfea8c8502f9f8,
+        type: 3}
+      propertyPath: kartController
+      value: 
+      objectReference: {fileID: 1284683511250782237}
     - target: {fileID: 4592427687517662225, guid: 2cc136062196c2e499dfea8c8502f9f8,
         type: 3}
       propertyPath: kartController
@@ -87398,26 +87417,6 @@ PrefabInstance:
       propertyPath: kartController
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 9175084481162040329, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 267086593378347617, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 7573248942135412390, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 502601557280985019, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cc136062196c2e499dfea8c8502f9f8, type: 3}
 --- !u!4 &8828733339352051343 stripped
@@ -87433,6 +87432,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1284683510933779821}
     m_Modifications:
+    - target: {fileID: 9189747320091722831, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
+        type: 3}
+      propertyPath: m_Name
+      value: PoliticianTrail Variant
+      objectReference: {fileID: 0}
     - target: {fileID: 9189747320091722824, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -87487,11 +87491,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9189747320091722831, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7,
-        type: 3}
-      propertyPath: m_Name
-      value: PoliticianTrail Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a28d0cfb87d8f2498ecbd8342ca23b7, type: 3}
