@@ -27,7 +27,7 @@ public sealed class KartController : aBSBTLKart
 
     private GameObject[] CPUCars;
     private GameObject[] PlayersCars;
-    private List<GameObject> AllCars = new List<GameObject>();
+    private List<KartController> AllCars = new List<KartController>();
 
     private bool bJumpReleased;
     private float LastStuck = -1;
@@ -54,8 +54,18 @@ public sealed class KartController : aBSBTLKart
     {
         CPUCars = GameObject.FindGameObjectsWithTag("CPU");
         PlayersCars = GameObject.FindGameObjectsWithTag("Player");
-        AllCars.AddRange(CPUCars);
-        AllCars.AddRange(PlayersCars);
+
+        var AllCarsTemp = new List<GameObject>(CPUCars.Length + PlayersCars.Length);
+        AllCarsTemp.AddRange(CPUCars);
+        AllCarsTemp.AddRange(PlayersCars);
+
+        foreach (var c in AllCarsTemp)
+        {
+            var kc = c.GetComponent<KartController>();
+
+            if (kc)
+                AllCars.Add(kc);
+        }
 
         switch (KCType)
         {
@@ -150,7 +160,7 @@ public sealed class KartController : aBSBTLKart
 
                     driftAxis = turn ? (left ? 1 : -1) : 0;
 
-                    if (Mathf.Abs(angle) > 45)
+                    if (drift_ || Mathf.Abs(angle) > 45)
                     {
                         //Possibly add some conditions regarding driftHeatingValue here, to avoid unreasonable use of the drift function
                         jumpBDown = true;
@@ -273,7 +283,7 @@ public sealed class KartController : aBSBTLKart
     private void CPU_AI_Find_UseWeapons()
     {
         foreach (var car in AllCars)
-            if (car.transform.root != gameObject.transform.root)
+            if (!Equals(car))
             {
                 if (canUseSpecial())
                 {
