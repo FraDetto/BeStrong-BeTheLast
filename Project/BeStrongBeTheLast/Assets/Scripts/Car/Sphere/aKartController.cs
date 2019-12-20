@@ -524,6 +524,8 @@ public abstract class aKartController : aCollisionManager
     public void AddForce(float force, ForceMode forceMode, Vector3 direction)
     {
         getWrongWayImmunity(2f);
+
+        direction.y = 0; // giusto?
         sphere.AddForce(direction * force, forceMode);
     }
 
@@ -617,6 +619,7 @@ public abstract class aKartController : aCollisionManager
             eul.z = 0;
 
             transform.eulerAngles = eul;
+            dir.y = 0; // giusto?
 
             sphere.AddForce(dir.normalized * 500f, ForceMode.Impulse);
             Accelerate(3f);
