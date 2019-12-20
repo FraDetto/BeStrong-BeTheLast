@@ -60,7 +60,7 @@ public class Abilities : PausableMonoBehaviour
             driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color;
 
             var newCanUseCounter = kartController.canUseCounter();
-            var newCanUseProj = kartController.canUseProjectile();
+            var newCanUseProj = kartController.canUseProjectile() || kartController.canUseAttractor();
             var newCanUseSpecial = kartController.canUseSpecial();
 
             if (newCanUseCounter && newCanUseCounter != oldCanUseCounter)
