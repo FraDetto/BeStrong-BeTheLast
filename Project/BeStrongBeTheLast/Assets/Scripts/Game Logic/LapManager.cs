@@ -34,6 +34,7 @@ class LapManager : PausableMonoBehaviour
         {
             startText.text = "Ready in " + countdown + "...";
             countdown--;
+
             StartCoroutine(FadeTextToZeroAlpha((countDownDuration == 0) ? 0.01f : 1f, startText));
         }
         else if (countdown == 0 || (countdown == -1 && countDownDuration == 0))
@@ -41,14 +42,13 @@ class LapManager : PausableMonoBehaviour
             startText.text = "GO!!!";
             startText.color = new Color(startText.color.r, startText.color.g, startText.color.b, 1);
             countdown--;
+
             StartCoroutine(FadeObjectToZeroAlpha((countDownDuration == 0) ? 0.01f : 1f, pausePanel.GetComponent<CanvasGroup>()));
         }
         else
         {
             foreach (var kartController in FindObjectsOfType<KartController>())
-            {
                 kartController.Paused = false;
-            }
         }
     }
 
@@ -57,7 +57,7 @@ class LapManager : PausableMonoBehaviour
         if (player)
         {
             if (GameState.Instance.laps.ContainsKey(player.name))
-                lapText.text = "Lap " + (GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
+                lapText.text = "Lap " + Mathf.Max(1, GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
 
             if (GameState.Instance.positions.ContainsKey(player.name))
                 posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
@@ -65,14 +65,17 @@ class LapManager : PausableMonoBehaviour
             if (!(GameState.Instance.laps[player.name] <= GameState.Instance.lapsNumberSetting))
             {
                 endPanel.SetActive(true);
-                int rank = (GameState.Instance.finalRankings.IndexOf(player.name) + 1);
+
+                int rank = GameState.Instance.finalRankings.IndexOf(player.name) + 1;
                 string numterm = "th";
+
                 if (rank == 1)
                     numterm = "st";
                 else if (rank == 2)
                     numterm = "nd";
                 else if (rank == 3)
                     numterm = "rd";
+
                 endText.text = "FINISH! You placed " + rank + numterm;
             }
         }
