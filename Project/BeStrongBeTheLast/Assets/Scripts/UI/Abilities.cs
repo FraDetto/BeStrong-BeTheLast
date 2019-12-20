@@ -32,6 +32,7 @@ public class Abilities : PausableMonoBehaviour
 
     private bool started;
 
+
     private void Start()
     {
         StartCoroutine(delayedStart());
@@ -58,33 +59,28 @@ public class Abilities : PausableMonoBehaviour
 
             driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color;
 
-            if (kartController.canUseCounter() != oldCanUseCounter && kartController.canUseCounter())
+            var newCanUseCounter = kartController.canUseCounter();
+            var newCanUseProj = kartController.canUseProjectile();
+            var newCanUseSpecial = kartController.canUseSpecial();
+
+            if (newCanUseCounter && newCanUseCounter != oldCanUseCounter)
                 PlayParticle(cameraParticles1, abilityReady);
 
-            if (kartController.canUseProjectile() != oldCanUseProj && kartController.canUseProjectile())
+            if (newCanUseProj && newCanUseProj != oldCanUseProj)
                 PlayParticle(cameraParticles2, abilityReady);
 
-            if (kartController.canUseSpecial() != oldCanUseSpecial && kartController.canUseSpecial())
+            if (newCanUseSpecial && newCanUseSpecial != oldCanUseSpecial)
                 PlayParticle(cameraParticles3, specialReady);
+
+            counterIcon.GetComponent<Image>().sprite = newCanUseCounter ? shieldAct : shieldInact;
+            projectileIcon.GetComponent<Image>().sprite = newCanUseProj ? projectileAct : projectileInact;
+            specialIcon.GetComponent<Image>().sprite = newCanUseSpecial ? specialAct : specialInact;
 
             oldCanUseCounter = kartController.canUseCounter();
             oldCanUseProj = kartController.canUseProjectile();
             oldCanUseSpecial = kartController.canUseSpecial();
 
-            counterIcon.GetComponent<Image>().sprite = kartController.canUseCounter() ? shieldAct : shieldInact;
-            projectileIcon.GetComponent<Image>().sprite = kartController.canUseProjectile() ? projectileAct : projectileInact;
-            specialIcon.GetComponent<Image>().sprite = kartController.canUseSpecial() ? specialAct : specialInact;
-
-            /*
-            selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
-
-            if (kartController.myAbility.selectedProjectile)
-                selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-            else if (kartController.myAbility.selectedAttractor)
-                selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;*/
-
             warningText.enabled = kartController.warning;
-
         }
     }
 

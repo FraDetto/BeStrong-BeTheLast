@@ -220,8 +220,7 @@ public abstract class aBSBTLKart : aKartController
     internal bool canUseAttractor() =>
         myAbility.myAttractor &&
         !myAbility.myAttractor_inAction &&
-        powerGaugeValue >= 0.5f &&
-        !projectileRecharging;
+        powerGaugeValue >= 0.5f;
 
     internal bool canUseProjectile() =>
         (myAbility.myProjectile || attractedWeapon) &&
