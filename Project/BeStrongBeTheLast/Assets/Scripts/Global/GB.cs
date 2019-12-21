@@ -266,6 +266,9 @@ public static class GB
 
     public static T FindComponentInDadWithName<T>(Transform me, string name_) where T : Component
     {
+        if (me == null)
+            return null;
+
         if (me.name.Contains(name_))
             return me.GetComponent<T>();
 

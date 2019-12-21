@@ -19,8 +19,11 @@ public class RollingBehaviour : aAbilitiesBehaviour
     private GameObject bouncing;
 
 
-    private void Start() =>
+    private void Start()
+    {
+        Start_();
         bouncing = transform.parent.gameObject;
+    }
 
     void Update()
     {

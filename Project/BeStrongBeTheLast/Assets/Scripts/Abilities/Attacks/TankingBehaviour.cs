@@ -21,6 +21,8 @@ public class TankingBehaviour : aAbilitiesBehaviour
 
     void Start()
     {
+        Start_();
+
         kartController = transform.root.GetComponentInChildren<KartController>();
         rigidbody_ = transform.root.GetComponentInChildren<Rigidbody>();
         normal = transform.parent.GetChild(0);

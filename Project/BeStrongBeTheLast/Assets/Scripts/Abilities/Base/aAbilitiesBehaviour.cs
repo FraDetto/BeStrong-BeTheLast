@@ -36,6 +36,6 @@ public class aAbilitiesBehaviour : aCollisionManager
     }
 
     bool IsSame(GameObject o) =>
-       o && transform.root.name.StartsWith(o.name);
+       o && (name.StartsWith(o.name) || transform.root.name.StartsWith(o.name));
 
 }

@@ -21,6 +21,8 @@ public class TrishotBehaviour : aAbilitiesBehaviour
 
     private void Start()
     {
+        Start_();
+
         user = transform.root.gameObject;
         transform.parent = null;
 

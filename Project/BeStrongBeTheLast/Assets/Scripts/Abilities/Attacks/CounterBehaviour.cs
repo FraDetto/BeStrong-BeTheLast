@@ -37,6 +37,8 @@ public class CounterBehaviour : aAbilitiesBehaviour
             { aBSBTLKart.ePlayer.Steamdunker, "SteamJet" },
         };
 
+        Start_();
+
         var kartController = transform.root.GetComponentInChildren<KartController>();
         var ability = GB.FindTransformInChildWithName(transform, abilities[kartController.playerType]);
 

@@ -17,6 +17,8 @@ public class RotatingBehaviour : aAbilitiesBehaviour
 
     private void Start()
     {
+        Start_();
+
         user = transform.root.gameObject;
         StartCoroutine(Lifetime());
     }
@@ -26,10 +28,10 @@ public class RotatingBehaviour : aAbilitiesBehaviour
         if (GB.CompareORTags(other, "Player", "CPU"))
             if (!other.transform.root.gameObject.Equals(user))
             {
-                var KartCollision = other.transform.root.GetComponentInChildren<KartCollision>();
+                var kartCollision = other.transform.root.GetComponentInChildren<KartCollision>();
 
-                KartCollision.countered = true;
-                KartCollision.rotatingPush = 2f;
+                kartCollision.countered = true;
+                kartCollision.rotatingPush = 2f;
             }
     }
 
