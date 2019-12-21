@@ -16,10 +16,8 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
     public TrishotBehaviour trishotBehaviour;
 
 
-    private void Start()
-    {
+    private void Start() =>
         Start_();
-    }
 
     private void Update()
     {
@@ -46,6 +44,11 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
         }
         else if (other.gameObject.layer.Equals(12))
             KillMe();
+    }
+
+    protected override void LifeTimeElapsed()
+    {
+        // nothing
     }
 
 }

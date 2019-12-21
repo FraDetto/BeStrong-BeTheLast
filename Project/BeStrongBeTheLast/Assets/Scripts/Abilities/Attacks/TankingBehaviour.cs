@@ -6,7 +6,6 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-using System.Collections;
 using UnityEngine;
 
 public class TankingBehaviour : aAbilitiesBehaviour
@@ -14,9 +13,6 @@ public class TankingBehaviour : aAbilitiesBehaviour
     private Rigidbody rigidbody_;
     private Transform normal;
     private Vector3 originalScale;
-
-    [SerializeField]
-    private float lengthTimeInSeconds = 15f;
 
 
     void Start()
@@ -39,12 +35,8 @@ public class TankingBehaviour : aAbilitiesBehaviour
         StartCoroutine(Lifetime());
     }
 
-    IEnumerator Lifetime()
+    protected override void LifeTimeElapsed()
     {
-        var sec = lengthTimeInSeconds * (1 + GameState.Instance.getScoreBiasBonus(kartController.playerName));
-
-        yield return new WaitForSeconds(sec);
-
         rigidbody_.mass /= 2;
         rigidbody_.drag -= 1;
 
@@ -53,7 +45,6 @@ public class TankingBehaviour : aAbilitiesBehaviour
         if (kartController.playerType == aBSBTLKart.ePlayer.Kiddo)
             normal.Translate(Vector3.down * 0.25f);
 
-        KillMe();
     }
 
 }

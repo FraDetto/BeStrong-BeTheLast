@@ -99,6 +99,26 @@ public static class GB
         return r;
     }
 
+    public static List<T> getOnlyWithComponentWithTag<T>(string tag)
+    {
+        return getOnlyWithComponent<T>(GameObject.FindGameObjectsWithTag(tag));
+    }
+
+    public static List<T> getOnlyWithComponent<T>(GameObject[] lista)
+    {
+        var R = new List<T>();
+
+        foreach (var item in lista)
+        {
+            var c = item.GetComponent<T>();
+
+            if (c != null)
+                R.Add(c);
+        }
+
+        return R;
+    }
+
     public static bool compareVector3(EAxis exclude, Vector3 a, Vector3 b)
     {
         var x = (a.x == b.x);

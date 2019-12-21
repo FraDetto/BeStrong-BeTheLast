@@ -7,19 +7,53 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using Assets.Scripts.Obstacles.Base;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class aAbilitiesBehaviour : aCollisionManager
+public abstract class aAbilitiesBehaviour : aCollisionManager
 {
 
     protected RaycastHit hit;
-    internal GameObject user;
+    // internal GameObject user;
 
     protected KartController kartController;
+    protected List<KartController> players, bots, allCars;
+
+    internal GameObject user;
+
+    public float lengthTimeInSeconds = 5f;
+
+    public bool UseScorBiasBonus = true;
 
 
-    protected void Start_() =>
+    protected void Start_()
+    {
         kartController = GB.FindComponentInDadWithName<KartController>(transform, "Controller");
+
+        players = GB.getOnlyWithComponentWithTag<KartController>("Player");
+        bots = GB.getOnlyWithComponentWithTag<KartController>("CPU");
+
+        allCars = new List<KartController>();
+        allCars.AddRange(players);
+        allCars.AddRange(bots);
+    }
+
+    protected abstract void LifeTimeElapsed();
+
+    protected IEnumerator Lifetime()
+    {
+        var sec = lengthTimeInSeconds;
+
+        if (UseScorBiasBonus && kartController)
+            sec *= 1 + GameState.Instance.getScoreBiasBonus(kartController.playerName);
+
+        yield return new WaitForSeconds(sec);
+
+        LifeTimeElapsed();
+
+        KillMe();
+    }
 
     protected void KillMe()
     {

@@ -46,4 +46,9 @@ public class RollingBehaviour : aAbilitiesBehaviour
             }
         });
 
+    protected override void LifeTimeElapsed()
+    {
+        // nothing
+    }
+
 }

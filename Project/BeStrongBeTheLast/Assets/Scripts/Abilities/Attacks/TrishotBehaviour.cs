@@ -46,4 +46,9 @@ public class TrishotBehaviour : aAbilitiesBehaviour
         KillMe();
     }
 
+    protected override void LifeTimeElapsed()
+    {
+        // nothing
+    }
+
 }

@@ -72,4 +72,9 @@ public class HomingBehaviour : aAbilitiesBehaviour
             }
     }
 
+    protected override void LifeTimeElapsed()
+    {
+        // nothing
+    }
+
 }
