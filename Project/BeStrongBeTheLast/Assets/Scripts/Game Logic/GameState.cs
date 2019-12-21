@@ -140,6 +140,43 @@ internal static class GameState
 
             return scoreBias;
         }
+
+        public float getScorePenaltyCPUSpeed(string tag, string firstPlayerTag)
+        {
+            float scoreBias = 0;
+
+            if (activateRubberBanding)
+            {
+                float myScore = positions[tag];
+                float playerScore = positions[firstPlayerTag];
+                if(myScore - scoreBiasDeadZone > playerScore)
+                    scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - playerScore, 20), 0);
+            }
+            else
+            {
+                scoreBias = 0;
+            }
+            
+            return scoreBias;
+        }
+        
+        public float getScoreBonusCPUSpeed(string tag, string lastPlayerTag)
+        {
+            float scoreBias = 0;
+
+            if (activateRubberBanding)
+            {
+                float myScore = positions[tag];
+                float playerScore = positions[lastPlayerTag];
+                if(myScore + scoreBiasDeadZone < playerScore)
+                    scoreBias = 0.05f * Mathf.Max(Mathf.Min(playerScore - scoreBiasDeadZone - myScore, 20), 0);
+            }
+            else
+            {
+                scoreBias = 0;
+            }
+            return scoreBias;
+        }
     }
 
     internal class RankObj

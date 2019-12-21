@@ -74,6 +74,8 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
+    public float base_acceleration = 80f;
+    public float max_acceleration_change = 0.5f;
     public float acceleration = 30f;
     public float steering = 80f;
     public float gravity = 20f;
