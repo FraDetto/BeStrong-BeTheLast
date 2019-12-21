@@ -464,10 +464,8 @@ public abstract class aKartController : aCollisionManager
         }
     }
 
-    public float getCurrentSplineDistance()
-    {
-        return Vector3.Distance(CurrentSplineObject.transform.position, transform.position);
-    }
+    public float getCurrentSplineDistance() =>
+        Vector3.Distance(CurrentSplineObject.transform.position, transform.position);
 
     void Speed(float x) =>
         currentSpeed = x;
@@ -599,11 +597,9 @@ public abstract class aKartController : aCollisionManager
 
             lookAtDest = new Vector3(p.x + xRndError, p.y, p.z + zRndError);
             lookAtDestOriginal = lookAtDest;
+
             if (rotateToSpline)
-            {
-                //transform.LookAt(lookAtDest);
                 rotateToSpline = false;
-            }
         }
     }
 
@@ -637,11 +633,7 @@ public abstract class aKartController : aCollisionManager
     protected bool CanDrift() =>
         !driftCooldown;
 
-    internal string playerName
-    {
-        get
-        {
-            return transform.parent.gameObject.name;
-        }
-    }
+    internal string playerName =>
+        transform.parent.gameObject.name;
+
 }

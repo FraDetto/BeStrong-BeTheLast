@@ -104,6 +104,7 @@ internal static class GameState
                 float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0;
                 float countBetterPlayers = 0;
                 float myScore = positions[tag];
+
                 foreach (var score in positions)
                     if (!score.Key.Equals(tag) && (score.Value + scoreBiasDeadZone < myScore))
                     {
