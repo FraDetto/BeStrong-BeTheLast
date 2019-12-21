@@ -126,31 +126,14 @@ public abstract class aBSBTLKart : aKartController
         if (Paused)
             return;
 
-        var input = "P" + playerNumber;
         powerGaugeValue += regenSpeed * (1 + GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
 
-        if (powerGaugeValue > 1f)
-            powerGaugeValue = 1f;
-
-        if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
-            Counter();
-
-        if (GB.GetButtonDown(input + "Projectile"))
-        {
-            if (Input.GetAxis(input + "Vertical") < 0)
-                Projectile(rearSpawnpoint);
-            else
-                Projectile(frontSpawnpoint);
-        }
-
-        if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
-            Special();
-
-        if (GB.GetButtonDown(input + "MenuA") && rankPanel)
-            rankPanel.SetActive(!rankPanel.activeSelf);
+        if (powerGaugeValue > 1)
+            powerGaugeValue = 1;
 
         base.Update_(xAxis, jumpBDown, jumpBUp);
     }
+
 
     protected void Counter()
     {
@@ -213,6 +196,7 @@ public abstract class aBSBTLKart : aKartController
         }
     }
 
+
     internal bool canUseCounter() =>
         powerGaugeValue >= 0.25f &&
         !counterRecharging;
@@ -233,6 +217,7 @@ public abstract class aBSBTLKart : aKartController
         powerGaugeValue >= 0.75f &&
         !specialRecharging;
 
+
     IEnumerator CounterCooldown()
     {
         yield return new WaitForSeconds(counterCooldown);
@@ -250,6 +235,7 @@ public abstract class aBSBTLKart : aKartController
         yield return new WaitForSeconds(specialCooldown);
         specialRecharging = false;
     }
+
 
     internal void blindMe(bool blind)
     {

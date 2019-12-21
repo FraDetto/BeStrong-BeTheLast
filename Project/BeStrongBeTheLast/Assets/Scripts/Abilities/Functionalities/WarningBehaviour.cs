@@ -14,27 +14,47 @@ public class WarningBehaviour : aCollisionManager
 {
     public GB.ELato lato;
 
-    private bool blinking;
+    bool blinking;
+    KartController myKartController;
 
+
+    private void Start()
+    {
+        var R = transform.root.GetChild(0);
+        myKartController = R.GetComponent<KartController>();
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        if (GB.CompareORTags(other, "Projectile"))
+        if (GB.CompareORTags(other, "Player", "CPU"))
         {
-            var R = transform.root.GetChild(0);
-            var kartController = R.GetComponent<KartController>();
-
-            switch (kartController.KCType)
+            onCollisionWithPlayer_or_CPU(other, (kartController) =>
+            {
+                if (!Equals(kartController))
+                    switch (lato)
+                    {
+                        case GB.ELato.Avanti:
+                            myKartController.Projectile(myKartController.frontSpawnpoint);
+                            break;
+                        case GB.ELato.Dietro:
+                            myKartController.Projectile(myKartController.rearSpawnpoint);
+                            break;
+                    }
+            });
+        }
+        else if (GB.CompareORTags(other, "Projectile"))
+        {
+            switch (myKartController.KCType)
             {
                 case aKartController.eKCType.CPU:
-                    if (kartController.canUseAttractor())
+                    if (myKartController.canUseAttractor())
                         switch (lato)
                         {
                             case GB.ELato.Avanti:
-                                kartController.Attractor(kartController.frontSpawnpoint);
+                                myKartController.Attractor(myKartController.frontSpawnpoint);
                                 break;
                             case GB.ELato.Dietro:
-                                kartController.Attractor(kartController.rearSpawnpoint);
+                                myKartController.Attractor(myKartController.rearSpawnpoint);
                                 break;
                         }
                     break;
@@ -48,9 +68,9 @@ public class WarningBehaviour : aCollisionManager
                 )
                 {
                     blinking = true;
-                    kartController.warning = true;
+                    myKartController.warning = true;
 
-                    StartCoroutine(Blink(kartController));
+                    StartCoroutine(Blink(myKartController));
                 }
         }
     }

@@ -121,6 +121,24 @@ public sealed class KartController : aBSBTLKart
                     wrongWayTimer = 0;
                     driftDisabled = true;
                 }
+
+                if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
+                    Counter();
+
+                if (GB.GetButtonDown(input + "Projectile"))
+                {
+                    if (Input.GetAxis(input + "Vertical") < 0)
+                        Projectile(rearSpawnpoint);
+                    else
+                        Projectile(frontSpawnpoint);
+                }
+
+                if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
+                    Special();
+
+                if (GB.GetButtonDown(input + "MenuA") && rankPanel)
+                    rankPanel.SetActive(!rankPanel.activeSelf);
+
                 break;
 
             case eKCType.CPU:
@@ -296,16 +314,9 @@ public sealed class KartController : aBSBTLKart
         onCollisionWithPlayer_or_CPU(collider, (kartController) =>
         {
             if (!Equals(kartController))
-                if (canUseProjectile() && myAbility.myProjectile)
-                    switch (direction)
-                    {
-                        case FieldOfViewCollider.eDirection.front:
-                            Projectile(frontSpawnpoint);
-                            break;
-                        case FieldOfViewCollider.eDirection.rear:
-                            Projectile(rearSpawnpoint);
-                            break;
-                    }
+            {
+
+            }
         });
 
     private void CPU_AI_Find_Obstacles(bool wrong)
