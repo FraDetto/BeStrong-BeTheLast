@@ -127,10 +127,12 @@ public sealed class KartController : aBSBTLKart
 
                 if (GB.GetButtonDown(input + "Projectile"))
                 {
-                    if (Input.GetAxis(input + "Vertical") < 0)
-                        Projectile(rearSpawnpoint);
+                    var direzione = Input.GetAxis(input + "Vertical") < 0 ? rearSpawnpoint : frontSpawnpoint;
+
+                    if (myAbility.myAttractor == null)
+                        Projectile(direzione);
                     else
-                        Projectile(frontSpawnpoint);
+                        Attractor(direzione);
                 }
 
                 if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
