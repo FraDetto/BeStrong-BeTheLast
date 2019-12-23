@@ -226,7 +226,7 @@ public abstract class aKartController : aCollisionManager
         }
 
         //Drift
-        if (CanDrift() && jumpBDown && !drifting && xAxis != 0)
+        if (CanDrift() && jumpBDown && /*!drifting &&*/ xAxis != 0)
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
