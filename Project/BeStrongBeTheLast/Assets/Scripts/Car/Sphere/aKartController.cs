@@ -40,9 +40,6 @@ public abstract class aKartController : aCollisionManager
     List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
     List<ParticleSystem[]> tubeTurboParticles = new List<ParticleSystem[]>();
 
-    private const short PosizionePavimento = 2;
-    protected bool RibaltaDisabilitato, Ribalta;
-
     protected float speed;
     internal bool wrongWayImmunity = false;
 
@@ -318,23 +315,6 @@ public abstract class aKartController : aCollisionManager
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
-
-        if (!RibaltaDisabilitato)
-            if (Ribalta)
-            {
-                RibaltaDisabilitato = true;
-
-                currentSpeed = 0;
-                currentRotate = 0;
-
-                var io = gameObject.transform.parent;
-
-                var ppp = io.position; //forse quella prima è meglio
-                var rrr = io.rotation.eulerAngles;
-                io.SetPositionAndRotation(new Vector3(ppp.x, PosizionePavimento, ppp.z), Quaternion.Euler(0, rrr.y, 0));
-
-                StartCoroutine(AbilitaRibalta());
-            }
     }
 
     protected void FixedUpdate_()
@@ -357,12 +337,6 @@ public abstract class aKartController : aCollisionManager
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
-    }
-
-    private IEnumerator AbilitaRibalta()
-    {
-        yield return new WaitForSeconds(4);
-        RibaltaDisabilitato = false;
     }
 
     protected void clearDrift()
