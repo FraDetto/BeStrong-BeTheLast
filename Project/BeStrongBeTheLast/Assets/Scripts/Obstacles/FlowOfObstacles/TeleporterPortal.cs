@@ -20,6 +20,7 @@ public class TeleporterPortal : PausableMonoBehaviour
         {
             endScriptCallback.teleportCar(go);
             endScriptCallback.teleporterSpawned = false;
+
             Destroy(transform.root.gameObject);
         }
     }
