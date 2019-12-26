@@ -46,7 +46,7 @@ public class RepulsiveWallStraight : aCollisionManager
                 kartController.SetOnTrack();
 
         if (GB.CompareORTags(collision.gameObject, "ShortcutWall"))
-            kartController.setTheOtherFork();
+            kartController.nextSpline();
     }
 
     public void SetEnabled(bool setting) =>

@@ -35,8 +35,14 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         get
         {
             while (true)
+            {
                 foreach (var nextS in nextSplines)
-                    return nextS;
+                    if (!isWallClosed(nextS))
+                        return nextS;
+
+                if (CanBeClosedByThisWall_AlternativeFork != null)
+                    return CanBeClosedByThisWall_AlternativeFork;
+            }
         }
     }
 
@@ -45,9 +51,15 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         get
         {
             while (true)
+            {
                 foreach (var nextS in nextSplines)
-                    if (nextS.probability == 0 || Random.value < nextS.probability)
-                        return nextS;
+                    if (!isWallClosed(nextS))
+                        if (nextS.probability == 0 || Random.value < nextS.probability)
+                            return nextS;
+
+                if (CanBeClosedByThisWall_AlternativeFork != null)
+                    return CanBeClosedByThisWall_AlternativeFork;
+            }
         }
     }
 
@@ -57,6 +69,16 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         mr.enabled = MostraInPlay;
 
         OnDrawGizmosSelected();
+    }
+
+    private bool isWallClosed(SplineObject destination)
+    {
+        if (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed)
+            return true;
+        else if (destination.CanBeClosedByThisWall != null && destination.CanBeClosedByThisWall.closed)
+            return true;
+        else
+            return false;
     }
 
     public int CompareTo(object obj) =>
