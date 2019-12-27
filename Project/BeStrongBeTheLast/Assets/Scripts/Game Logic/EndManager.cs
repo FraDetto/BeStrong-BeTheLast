@@ -120,8 +120,10 @@ public class EndManager : PausableMonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (var car in cars)
+        if (GameState.Instance.activateRubberBanding)
         {
+            foreach (var car in cars) 
+            {
             var kartController = car.GetComponentInChildren<KartController>();
             GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
 
@@ -185,6 +187,7 @@ public class EndManager : PausableMonoBehaviour
 
             foreach (var car in CPUsBehind)
                 car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.playerName, Players[numPlayers - 1].playerName)));
+        }   
         }
     }
 
