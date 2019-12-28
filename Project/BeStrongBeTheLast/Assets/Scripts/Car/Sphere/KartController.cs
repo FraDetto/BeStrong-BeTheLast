@@ -20,6 +20,8 @@ public sealed class KartController : aBSBTLKart
 
     private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
 
+    internal GameObject rankPanel;
+
     // ============== HUMAN ==============
 
     // =============== CPU ===============

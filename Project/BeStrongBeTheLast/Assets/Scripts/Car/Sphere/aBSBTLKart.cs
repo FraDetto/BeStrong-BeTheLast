@@ -68,7 +68,6 @@ public abstract class aBSBTLKart : aKartController
     public GameObject annoying;
     public GameObject tanking;
     public GameObject rotating;
-    public GameObject rankPanel;
 
     internal GameObject attractedWeapon;
     internal sAbilities myAbility;
