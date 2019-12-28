@@ -195,7 +195,7 @@ public abstract class aKartController : aCollisionManager
             else if (!hittingLeft && !hittingRight)
             {
                 Accelerate(2f);
-                sphere.AddForce(kartNormal.transform.forward * 300f, ForceMode.Impulse);
+                sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
                 settingOnTrack = false;
             }
         }
@@ -451,8 +451,6 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        sphere.velocity = transform.forward * acceleration / 2f;
-
         float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
 
         if (amount > 1)
