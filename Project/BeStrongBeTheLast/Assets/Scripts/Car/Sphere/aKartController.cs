@@ -45,7 +45,7 @@ public abstract class aKartController : aCollisionManager
 
     float rotate, currentRotate;
     protected float driftPower;
-    int driftDirection, driftMode;
+    internal int driftDirection, driftMode;
     internal bool drifting, first, second, third;
     protected bool driftDisabled;
     Color currentDriftColor;

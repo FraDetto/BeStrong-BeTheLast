@@ -125,7 +125,7 @@ public abstract class aBSBTLKart : aKartController
         if (Paused)
             return;
 
-        powerGaugeValue += regenSpeed * (1 + GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
+        powerGaugeValue += regenSpeed * (driftMode + 1) * (1 + GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
 
         if (powerGaugeValue > 1)
             powerGaugeValue = 1;
