@@ -10,31 +10,30 @@ using UnityEngine;
 
 public class ChangeFloor : PausableMonoBehaviour
 {
-    //public GameObject camToActive, camToDis;
+
     public int camToActive, camToDis;
     public float gravityMultiplier = 1f;
     private bool doppiaCameraInScena;
 
 
-    private void Start()
-    {
+    private void Start() =>
         doppiaCameraInScena = camToActive != 0 && camToDis != 0;
-    }
 
     private void OnTriggerEnter(Collider co)
     {
         if (doppiaCameraInScena)
-        {
-            if (co.CompareTag("Player")|| co.CompareTag("CPU"))
+            if (co.CompareTag("Player") || co.CompareTag("CPU"))
             {
                 var kart = co.transform.root.GetComponentInChildren<KartController>();
+
                 kart.gravityMultiplier = Mathf.Clamp(gravityMultiplier, 0.5f, 2f);
-                if(kart.playerType.Equals(aKartController.eKCType.Human))
+
+                if (kart.playerType.Equals(aKartController.eKCType.Human))
                     kart.activNewCamera(camToActive, camToDis);
+
                 //camToActive.SetActive(true);
                 //camToDis.SetActive(false);   
             }
-        }
     }
 
 }
