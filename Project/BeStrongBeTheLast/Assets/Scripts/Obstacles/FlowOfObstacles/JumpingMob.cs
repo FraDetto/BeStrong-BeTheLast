@@ -125,7 +125,7 @@ public class JumpingMob : WanderingMob
                     thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
 
                     foreach (Collider collider in colliders)
-                        collider.enabled = false;
+                        collider.isTrigger = true;
 
                     break;
 

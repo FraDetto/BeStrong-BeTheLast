@@ -7,6 +7,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -359,7 +360,8 @@ public sealed class KartController : aBSBTLKart
     private GameObject selectaCandidateObstacleToFollow()
     {
         GameObject nearestObstacle = null;
-        var nearDistandce = float.MaxValue;
+        List<GameObject> detectedObstacles = frontSpawnpoint.GetComponent<ObstacleDetector>().detectedObstacles;
+        /*var nearDistandce = float.MaxValue;
 
         foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
             if (root.name.Equals("Obstacles"))
@@ -381,9 +383,23 @@ public sealed class KartController : aBSBTLKart
                                         nearestObstacle = obstacle;
                                     }
                             }
-                }
+                }*/
+
+        if(detectedObstacles.Count != 0)
+        {
+            detectedObstacles.OrderBy(obstacle => Vector3.Distance(this.transform.position, obstacle.transform.position)).ToList();
+
+            RaycastHit hit;
+            if(!Physics.Raycast(transform.position, transform.forward, out hit, Vector3.Distance(this.transform.position, detectedObstacles[0].transform.position), wallMask))
+            {
+                nearestObstacle = detectedObstacles[0];
+                Debug.Log("I'm " + transform.name + " and I'm pointing towards " + nearestObstacle);
+            }
+                
+        }
 
         return nearestObstacle;
+
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)
