@@ -29,6 +29,8 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     public SplineObject CanBeClosedByThisWall_AlternativeFork;
     public bool MostraInPlay = false;
 
+    private SplineObject prev_Spline;
+
 
     internal SplineObject nextFirstSpline
     {
@@ -38,10 +40,18 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             {
                 foreach (var nextS in nextSplines)
                     if (!isWallClosed(nextS))
+                    {
+                        nextS.prev_Spline = this;
+
                         return nextS;
+                    }
 
                 if (CanBeClosedByThisWall_AlternativeFork != null)
+                {
+                    CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
+
                     return CanBeClosedByThisWall_AlternativeFork;
+                }
             }
         }
     }
@@ -55,10 +65,18 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                 foreach (var nextS in nextSplines)
                     if (!isWallClosed(nextS))
                         if (nextS.probability == 0 || Random.value < nextS.probability)
+                        {
+                            nextS.prev_Spline = this;
+
                             return nextS;
+                        }
 
                 if (CanBeClosedByThisWall_AlternativeFork != null)
+                {
+                    CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
+
                     return CanBeClosedByThisWall_AlternativeFork;
+                }
             }
         }
     }
@@ -71,15 +89,11 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         OnDrawGizmosSelected();
     }
 
-    private bool isWallClosed(SplineObject destination)
-    {
-        if (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed)
-            return true;
-        else if (destination.CanBeClosedByThisWall != null && destination.CanBeClosedByThisWall.closed)
-            return true;
-        else
-            return false;
-    }
+    internal bool isThisSplineClosed() =>
+        (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed) || (prev_Spline != null && prev_Spline.CanBeClosedByThisWall != null && prev_Spline.CanBeClosedByThisWall.closed);
+
+    private bool isWallClosed(SplineObject destination) =>
+        (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed) || (destination.CanBeClosedByThisWall != null && destination.CanBeClosedByThisWall.closed);
 
     public int CompareTo(object obj) =>
       obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
