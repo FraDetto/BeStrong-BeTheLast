@@ -206,7 +206,8 @@ public sealed class KartController : aBSBTLKart
                     if (Time.time - LastStuck > 6)
                     {
                         var p = CurrentSplineObject.transform.position;
-                        transform.position = new Vector3(p.x, p.y + 2, p.z);
+
+                        sphere.transform.position = new Vector3(p.x, p.y + 2, p.z);
                         LastStuck = -1;
                     }
                 }

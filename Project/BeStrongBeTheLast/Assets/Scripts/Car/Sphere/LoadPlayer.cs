@@ -29,7 +29,7 @@ public class LoadPlayer : PausableMonoBehaviour
 
         playerOnTheSceneOrCPUToFollow.gameObject.name = "Player";
 
-        Transform kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
+        var kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
 
         CinemachineImpulseSource camera1 = null;
 
@@ -44,12 +44,13 @@ public class LoadPlayer : PausableMonoBehaviour
                 camera1 = camera;
         }
 
-        KartController kartController = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
+        var kartController = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
         kartController.CurrentSplineObject = firstSpline;
         kartController.vCam = camera1;
         kartController.UsaWrongWay = true;
 
-        RepulsiveWallStraight repulsiveWallStraight = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<RepulsiveWallStraight>();
+        var repulsiveWallStraight = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<RepulsiveWallStraight>();
         repulsiveWallStraight.AttivaCollisioniConMura = true;
     }
+
 }
