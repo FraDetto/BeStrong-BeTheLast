@@ -32,6 +32,25 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     private SplineObject prev_Spline;
 
 
+    internal SplineObject nextAlternativeSpline
+    {
+        get
+        {
+            while (true)
+            {
+                if (CanBeClosedByThisWall_AlternativeFork != null)
+                {
+                    CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
+
+                    return CanBeClosedByThisWall_AlternativeFork;
+                }
+
+                if (prev_Spline.CanBeClosedByThisWall_AlternativeFork != null)
+                    return prev_Spline.CanBeClosedByThisWall_AlternativeFork;
+            }
+        }
+    }
+
     internal SplineObject nextFirstSpline
     {
         get

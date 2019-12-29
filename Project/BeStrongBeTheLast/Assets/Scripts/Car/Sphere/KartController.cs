@@ -153,7 +153,7 @@ public sealed class KartController : aBSBTLKart
                 //    setDestinationWithError();
 
                 if (CurrentSplineObject != null && CurrentSplineObject.isThisSplineClosed())
-                    setDestinationWithError();
+                    setDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
                 CPU_AI_Find_Obstacles(wrong);
 
