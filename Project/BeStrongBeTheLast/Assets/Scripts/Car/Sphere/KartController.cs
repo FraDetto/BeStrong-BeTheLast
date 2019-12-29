@@ -34,8 +34,6 @@ public sealed class KartController : aBSBTLKart
     private List<KartController> AllCars = new List<KartController>();
 
     private bool bJumpReleased;
-    private float LastStuck = -1;
-    private Vector3 lastPosition;
 
     private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>();
     private Stack<GameObject> excludeObstacles = new Stack<GameObject>(5);
@@ -50,8 +48,6 @@ public sealed class KartController : aBSBTLKart
 
     [Range(0, 1)]
     public float ProbabilitàDiSparare = 0.5f;
-
-    private bool aspettandoDiSparare;
 
 
     private void Start()
@@ -198,21 +194,6 @@ public sealed class KartController : aBSBTLKart
                         if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
                             speed = 0;
 
-                if (transform.position == lastPosition)
-                {
-                    if (LastStuck > -1)
-                        LastStuck = Time.time;
-
-                    if (Time.time - LastStuck > 6)
-                    {
-                        var p = CurrentSplineObject.transform.position;
-
-                        sphere.transform.position = new Vector3(p.x, p.y + 2, p.z);
-                        LastStuck = -1;
-                    }
-                }
-
-                lastPosition = transform.position;
                 break;
         }
 
