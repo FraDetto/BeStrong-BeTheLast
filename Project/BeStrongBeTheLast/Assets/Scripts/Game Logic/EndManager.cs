@@ -114,77 +114,81 @@ public class EndManager : PausableMonoBehaviour
         if (splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
             GameState.Instance.laps[controller.transform.root.gameObject.name]--;
 
+        // COSA FA?
         sphere.transform.position = splineTransform.position;
         controller.rotateToSpline = true;
     }
 
     private void FixedUpdate()
     {
-        foreach (var car in cars)
+        if (GameState.Instance.activateRubberBanding)
         {
-            var kartController = car.GetComponentInChildren<KartController>();
-            GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
+            foreach (var car in cars)
+            {
+                var kartController = car.GetComponentInChildren<KartController>();
+                GameState.Instance.CalcolaScore(CPUSplineRoot.childCount, car.name);
 
-            if (!GameState.Instance.scoreBiasÇounter.ContainsKey(car.name))
-            {
-                GameState.Instance.scoreBiasÇounter.Add(car.name, 0);
-            }
-            else
-            {
-                if (GameState.Instance.getScoreBiasBonus(car.name) == 1)
-                    GameState.Instance.scoreBiasÇounter[car.name]++;
+                if (!GameState.Instance.scoreBiasÇounter.ContainsKey(car.name))
+                {
+                    GameState.Instance.scoreBiasÇounter.Add(car.name, 0);
+                }
                 else
-                    GameState.Instance.scoreBiasÇounter[car.name] = 0;
+                {
+                    if (GameState.Instance.getScoreBiasBonus(car.name) == 1)
+                        GameState.Instance.scoreBiasÇounter[car.name]++;
+                    else
+                        GameState.Instance.scoreBiasÇounter[car.name] = 0;
 
-                if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
-                    if (!teleporterSpawned)
-                    {
-                        int currentSplineIndex = kartController.CurrentSplineObject.transform.GetSiblingIndex();
-                        int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
-                        var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+                    if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
+                        if (!teleporterSpawned)
+                        {
+                            int currentSplineIndex = kartController.CurrentSplineObject.transform.GetSiblingIndex();
+                            int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
+                            var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
 
-                        spawnPortal(splineTransform);
-                    }
+                            spawnPortal(splineTransform);
+                        }
+                }
             }
-        }
 
-        var CPUsAhead = new List<KartController>();
-        var CPUsBehind = new List<KartController>();
-        var Players = new List<KartController>();
+            var CPUsAhead = new List<KartController>();
+            var CPUsBehind = new List<KartController>();
+            var Players = new List<KartController>();
 
-        int numPlayers, numPlayersTemp = 0;
+            int numPlayers, numPlayersTemp = 0;
 
-        foreach (var car in GameState.Instance.rankings)
-        {
-            var tempKartController = GameState.Instance.kartControllers[car.getTag()];
-
-            if (tempKartController.KCType == aKartController.eKCType.Human)
-                Players.Add(tempKartController);
-        }
-
-        numPlayers = Players.Count;
-
-        if (numPlayers > 0)
-        {
             foreach (var car in GameState.Instance.rankings)
             {
                 var tempKartController = GameState.Instance.kartControllers[car.getTag()];
 
-                if (numPlayersTemp == 0 && tempKartController.KCType == aKartController.eKCType.CPU)
-                    CPUsAhead.Add(tempKartController);
-                else if (numPlayersTemp >= numPlayers && tempKartController.KCType == aKartController.eKCType.CPU)
-                    CPUsBehind.Add(tempKartController);
-                else if (tempKartController.KCType == aKartController.eKCType.Human)
-                    numPlayersTemp++;
-                else
-                    tempKartController.acceleration = tempKartController.base_acceleration;
+                if (tempKartController.KCType == aKartController.eKCType.Human)
+                    Players.Add(tempKartController);
             }
 
-            foreach (var car in CPUsAhead)
-                car.acceleration = car.base_acceleration * (1 - (car.max_acceleration_change * GameState.Instance.getScorePenaltyCPUSpeed(car.playerName, Players[0].playerName)));
+            numPlayers = Players.Count;
 
-            foreach (var car in CPUsBehind)
-                car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.playerName, Players[numPlayers - 1].playerName)));
+            if (numPlayers > 0)
+            {
+                foreach (var car in GameState.Instance.rankings)
+                {
+                    var tempKartController = GameState.Instance.kartControllers[car.getTag()];
+
+                    if (numPlayersTemp == 0 && tempKartController.KCType == aKartController.eKCType.CPU)
+                        CPUsAhead.Add(tempKartController);
+                    else if (numPlayersTemp >= numPlayers && tempKartController.KCType == aKartController.eKCType.CPU)
+                        CPUsBehind.Add(tempKartController);
+                    else if (tempKartController.KCType == aKartController.eKCType.Human)
+                        numPlayersTemp++;
+                    else
+                        tempKartController.acceleration = tempKartController.base_acceleration;
+                }
+
+                foreach (var car in CPUsAhead)
+                    car.acceleration = car.base_acceleration * (1 - (car.max_acceleration_change * GameState.Instance.getScorePenaltyCPUSpeed(car.playerName, Players[0].playerName)));
+
+                foreach (var car in CPUsBehind)
+                    car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.playerName, Players[numPlayers - 1].playerName)));
+            }
         }
     }
 

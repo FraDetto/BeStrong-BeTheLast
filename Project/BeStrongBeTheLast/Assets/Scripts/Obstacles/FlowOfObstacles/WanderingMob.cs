@@ -210,7 +210,7 @@ public class WanderingMob : aCollisionManager
             thisRigidbody.AddForce((transform.up - hitDirection) * 12000, ForceMode.Impulse);
 
             foreach (Collider collider in colliders)
-                collider.enabled = false;
+                collider.isTrigger = true;
         });
 
     bool AvoidTag(Collider collider)

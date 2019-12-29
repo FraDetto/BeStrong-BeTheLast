@@ -45,7 +45,7 @@ public abstract class aKartController : aCollisionManager
 
     float rotate, currentRotate;
     protected float driftPower;
-    int driftDirection, driftMode;
+    internal int driftDirection, driftMode;
     internal bool drifting, first, second, third;
     protected bool driftDisabled;
     Color currentDriftColor;
@@ -93,7 +93,7 @@ public abstract class aKartController : aCollisionManager
     public Transform flashParticles;
     public Color[] turboColors;
 
-    protected const byte splineDistance = 5;
+    // protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
@@ -195,7 +195,7 @@ public abstract class aKartController : aCollisionManager
             else if (!hittingLeft && !hittingRight)
             {
                 Accelerate(2f);
-                sphere.AddForce(kartNormal.transform.forward * 300f, ForceMode.Impulse);
+                sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
                 settingOnTrack = false;
             }
         }
@@ -451,8 +451,6 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        sphere.velocity = transform.forward * acceleration / 2f;
-
         float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
 
         if (amount > 1)

@@ -58078,6 +58078,8 @@ MonoBehaviour:
     m_Bits: 4096
   CurrentSplineObject: {fileID: 0}
   TempestivityOfDriftGearChange: 3
+  base_acceleration: 80
+  max_acceleration_change: 0.5
   acceleration: 80
   steering: 16
   gravity: 25
@@ -58119,7 +58121,6 @@ MonoBehaviour:
   tanking: {fileID: 3128809539423854917, guid: 02721b404cf4de541a27957b9847da9b, type: 3}
   rotating: {fileID: 4702895947007250410, guid: d0a53d487960f094f9e13440e54b5c48,
     type: 3}
-  rankPanel: {fileID: 0}
   UsaWrongWay: 1
   "Probabilit\xE0DiSparare": 1
 --- !u!82 &9036930390614224113
@@ -67833,6 +67834,7 @@ GameObject:
   - component: {fileID: 7640973203804353925}
   - component: {fileID: 8652953475835096652}
   - component: {fileID: 8220600757495567951}
+  - component: {fileID: 2416875802591309404}
   m_Layer: 2
   m_Name: FrontSpawnpoint
   m_TagString: Untagged
@@ -67881,6 +67883,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lato: 0
+--- !u!114 &2416875802591309404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362537349113299850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cfb659260fca24f8d61b67918b7a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2526320943479949806
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,8 +47,18 @@ public class CounterBehaviour : aAbilitiesBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
-            if (!other.transform.root.gameObject.Equals(transform.root.gameObject))
+        {
+            if(!other.transform.root.gameObject.Equals(transform.root.gameObject))
                 other.transform.root.GetComponentInChildren<KartCollision>().countered = true;
+        }
+        else if(other.CompareTag("Obstacles"))
+        {
+
+        }
+        else if(other.gameObject.layer == 12)
+        {
+
+        }
     }
 
     protected override void LifeTimeElapsed()
