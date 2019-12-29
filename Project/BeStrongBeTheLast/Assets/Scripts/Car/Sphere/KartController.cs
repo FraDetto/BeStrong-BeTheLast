@@ -391,10 +391,7 @@ public sealed class KartController : aBSBTLKart
 
             RaycastHit hit;
             if(!Physics.Raycast(transform.position, transform.forward, out hit, Vector3.Distance(this.transform.position, detectedObstacles[0].transform.position), wallMask))
-            {
                 nearestObstacle = detectedObstacles[0];
-                Debug.Log("I'm " + transform.name + " and I'm pointing towards " + nearestObstacle);
-            }
                 
         }
 
