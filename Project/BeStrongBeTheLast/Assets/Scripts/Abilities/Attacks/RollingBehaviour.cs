@@ -23,6 +23,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
     {
         Start_();
         bouncing = transform.parent.gameObject;
+        user = bouncing.GetComponent<BouncingBehaviour>().user;
     }
 
     void Update()
@@ -39,9 +40,14 @@ public class RollingBehaviour : aAbilitiesBehaviour
     private void OnTriggerEnter(Collider other) =>
         onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
-            if (!other.transform.root.gameObject.Equals(GetComponentInParent<BouncingBehaviour>().user))
+            if (!other.transform.root.gameObject.Equals(user))
             {
                 kartController.Accelerate(accelerationFromShot);
+                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                {
+                    c.hitBy = user;
+                    StartCoroutine(c.hitByImmunity());
+                }
                 KillMe();
             }
         });

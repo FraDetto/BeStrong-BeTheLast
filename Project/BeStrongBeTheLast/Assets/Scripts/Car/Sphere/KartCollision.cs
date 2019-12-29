@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using Assets.Scripts.Obstacles.Base;
 using UnityEngine;
+using System.Collections;
 
 public class KartCollision : aCollisionManager
 {
@@ -23,7 +24,8 @@ public class KartCollision : aCollisionManager
 
     private KartController myKartController;
 
-    internal bool countered;
+
+    internal GameObject hitBy;
     internal float rotatingPush = 1f;
 
 
@@ -31,6 +33,12 @@ public class KartCollision : aCollisionManager
     {
         var kart = transform.root.GetChild(0);
         myKartController = kart.GetComponent<KartController>();
+    }
+
+    internal IEnumerator hitByImmunity()
+    {
+        yield return new WaitForSeconds(2f);
+        hitBy = null;
     }
 
     private void OnTriggerEnter(Collider collider) =>
@@ -46,39 +54,20 @@ public class KartCollision : aCollisionManager
                 {
                     case Mode.left:
                     case Mode.right:
-                        if (countered)
-                        {
-                            kartController.AddForce(2000 + 1000 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
-                            countered = false;
-                        }
-                        else
-                        {
+                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
                             kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
-                        }
                         break;
 
                     case Mode.rear:
-                        if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
-                        {
-                            if (countered)
-                            {
-                                myKartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, -hitDirection);
-                                kartController.AddForce(200 * forceModifier * rotatingPush, ForceMode.Impulse, hitDirection);
-
-                                kartController.Accelerate(1.1f + 1f * forceModifier * rotatingPush);
-                                myKartController.Accelerate(0.9f - 0.5f * forceModifier * rotatingPush);
-
-                                countered = false;
-                            }
-                            else
-                            {
+                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
+                            if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
+                            {   
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
                                 kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
 
                                 myKartController.Accelerate(1.1f + 1f * forceModifier);
                                 kartController.Accelerate(0.9f - 0.5f * forceModifier);
                             }
-                        }
                         break;
                 }
             }
