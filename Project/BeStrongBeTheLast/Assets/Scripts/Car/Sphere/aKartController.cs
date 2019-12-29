@@ -93,7 +93,7 @@ public abstract class aKartController : aCollisionManager
     public Transform flashParticles;
     public Color[] turboColors;
 
-    protected const byte splineDistance = 5;
+    // protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;

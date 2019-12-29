@@ -9,7 +9,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public sealed class KartController : aBSBTLKart
 {
@@ -28,13 +27,13 @@ public sealed class KartController : aBSBTLKart
     // =============== CPU ===============
     private const byte errorDelta = 8;
 
+    private ObstacleDetector frontSpawnpoint_obstacleDetector;
+
     private GameObject[] CPUCars;
     private GameObject[] PlayersCars;
     private List<KartController> AllCars = new List<KartController>();
 
     private bool bJumpReleased;
-    private float LastStuck = -1;
-    private Vector3 lastPosition;
 
     private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>();
     private Stack<GameObject> excludeObstacles = new Stack<GameObject>(5);
@@ -50,13 +49,12 @@ public sealed class KartController : aBSBTLKart
     [Range(0, 1)]
     public float ProbabilitàDiSparare = 0.5f;
 
-    private bool aspettandoDiSparare;
-
 
     private void Start()
     {
         CPUCars = GameObject.FindGameObjectsWithTag("CPU");
         PlayersCars = GameObject.FindGameObjectsWithTag("Player");
+        frontSpawnpoint_obstacleDetector = frontSpawnpoint.GetComponent<ObstacleDetector>();
 
         var AllCarsTemp = new List<GameObject>(CPUCars.Length + PlayersCars.Length);
         AllCarsTemp.AddRange(CPUCars);
@@ -99,8 +97,8 @@ public sealed class KartController : aBSBTLKart
             case eKCType.Human:
                 var input = "P" + playerNumber;
 
-                if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
-                    setDestination(0, 0, false, CurrentSplineObject);
+                //if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
+                //    setDestination(0, 0, false, CurrentSplineObject);
 
                 if (wrong || (!wrong && wrongWayTimer < wrongWayMaxTimer))
                 {
@@ -147,11 +145,11 @@ public sealed class KartController : aBSBTLKart
                 break;
 
             case eKCType.CPU:
-                if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
-                    setDestinationWithError();
+                //if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
+                //    setDestinationWithError();
 
-                if (CurrentSplineObject != null && CurrentSplineObject.CanBeClosedByThisWall != null && CurrentSplineObject.CanBeClosedByThisWall.closed)
-                    setDestinationWithError();
+                if (CurrentSplineObject != null && CurrentSplineObject.isThisSplineClosed())
+                    setDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
                 CPU_AI_Find_Obstacles(wrong);
 
@@ -196,20 +194,6 @@ public sealed class KartController : aBSBTLKart
                         if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
                             speed = 0;
 
-                if (transform.position == lastPosition)
-                {
-                    if (LastStuck > -1)
-                        LastStuck = Time.time;
-
-                    if (Time.time - LastStuck > 6)
-                    {
-                        var p = CurrentSplineObject.transform.position;
-                        transform.position = new Vector3(p.x, p.y + 2, p.z);
-                        LastStuck = -1;
-                    }
-                }
-
-                lastPosition = transform.position;
                 break;
         }
 
@@ -269,26 +253,6 @@ public sealed class KartController : aBSBTLKart
     internal void nextSpline() =>
         setDestination(0, 0);
 
-    private bool FindEnemyDirection(Vector3 direction)
-    {
-        // TODO NON FUNZIONA
-        RaycastHit raycastHit_;
-        Vector3 d;
-
-        for (float angolo = -45; angolo < 45; angolo += 10)
-        {
-            d = Quaternion.AngleAxis(angolo, Vector3.up) * direction;
-            Physics.Raycast(transform.position, d, out raycastHit_, 60);
-
-            if (raycastHit_.collider)
-                if (raycastHit_.collider.gameObject)
-                    if (GB.CompareORTags(raycastHit_.collider.gameObject, "CPU", "Player"))
-                        return true;
-        }
-
-        return false;
-    }
-
     private void CPU_AI_Find_UseWeapons()
     {
         foreach (var car in AllCars)
@@ -317,7 +281,7 @@ public sealed class KartController : aBSBTLKart
         {
             if (!Equals(kartController))
             {
-
+                // si doveva usare ma non l'abbiamo usato ancora
             }
         });
 
@@ -359,50 +323,29 @@ public sealed class KartController : aBSBTLKart
 
     private GameObject selectaCandidateObstacleToFollow()
     {
-        GameObject nearestObstacle = null;
-        List<GameObject> detectedObstacles = frontSpawnpoint.GetComponent<ObstacleDetector>().detectedObstacles;
-        /*var nearDistandce = float.MaxValue;
+        var detectedObstacles = frontSpawnpoint_obstacleDetector.detectedObstacles;
 
-        foreach (var root in SceneManager.GetActiveScene().GetRootGameObjects())
-            if (root.name.Equals("Obstacles"))
-                foreach (var obstacle in GB.FindGameObjectsInChildWithTag(root.transform, "Obstacles"))
-                {
-                    var dist = Vector3.Distance(transform.position, obstacle.transform.position);
-
-                    if (dist < obstacleDistance)
-                        if (excludeObstacle != obstacle)
-                            if (!currentObstacleOtherCPU.Contains(obstacle))
-                            {
-                                var distance_MeToNextSpline = Vector3.Distance(transform.position, curSplinePos);
-                                var distance_ObstacleToNextSpline = Vector3.Distance(obstacle.transform.position, curSplinePos);
-
-                                if (distance_MeToNextSpline > distance_ObstacleToNextSpline)
-                                    if (dist < nearDistandce)
-                                    {
-                                        nearDistandce = dist;
-                                        nearestObstacle = obstacle;
-                                    }
-                            }
-                }*/
-
-        if(detectedObstacles.Count != 0)
+        if (detectedObstacles.Count > 0)
         {
-            detectedObstacles.OrderBy(obstacle => Vector3.Distance(this.transform.position, obstacle.transform.position)).ToList();
+            var ostacoloScelto = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.transform.position)).First();
 
-            RaycastHit hit;
-            if(!Physics.Raycast(transform.position, transform.forward, out hit, Vector3.Distance(this.transform.position, detectedObstacles[0].transform.position), wallMask))
-                nearestObstacle = detectedObstacles[0];
-                
+            if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.transform.position), wallMask))
+            {
+                Debug.Log("I'm " + transform.name + " and I'm pointing towards " + ostacoloScelto);
+                return ostacoloScelto;
+            }
         }
 
-        return nearestObstacle;
-
+        return null;
     }
 
     internal void SetObstacleDestroyed(GameObject gameObject)
     {
         excludeObstacles.Push(gameObject);
-        currentObstacleOtherCPU.Remove(currentObstacle);
+
+        if (currentObstacle)
+            currentObstacleOtherCPU.Remove(currentObstacle);
+
         currentObstacle = null;
     }
 
