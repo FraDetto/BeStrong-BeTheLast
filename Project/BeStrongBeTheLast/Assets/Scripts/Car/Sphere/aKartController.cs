@@ -33,7 +33,7 @@ public abstract class aKartController : aCollisionManager
     //PostProcessVolume postVolume;
     internal PostProcessProfile postProfile;
 
-    RaycastHit hitNear, giovane;
+    RaycastHit hitNear;
     //RaycastHit hitOn, hitNear;
 
     List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
@@ -62,6 +62,12 @@ public abstract class aKartController : aCollisionManager
 
     [Range(0, 8)]
     public byte playerNumber = 1;
+
+    protected string JoystickName =>
+        "P" + playerNumber;
+
+    internal string playerName =>
+        transform.parent.gameObject.name;
 
     public LayerMask wallMask;
 
@@ -106,21 +112,10 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    internal float driftHeatingValue;
-
-    internal bool driftCooldown;
-
-    internal bool iAmAnnoyed;
-
-    internal bool settingOnTrack, rotateToSpline = false;
-
-    internal float annoyingAmount = 1f;
+    internal float driftHeatingValue, annoyingAmount = 1f, gravityMultiplier = 1f;
+    internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource boostAudioSource;
-
-    internal float gravityMultiplier = 1f;
-
-    protected bool wrong;
 
 
     protected void Start_()
@@ -167,8 +162,8 @@ public abstract class aKartController : aCollisionManager
 
         if (settingOnTrack)
         {
-            var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
-            var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+            var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), 2f, wallMask);
+            var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), 2f, wallMask);
 
             if (hittingLeft && hittingRight)
             {
@@ -257,13 +252,16 @@ public abstract class aKartController : aCollisionManager
                 clearDrift();
             }
             else
+            {
                 driftHeatingValue += heatingSpeed * Time.deltaTime;
+            }
         }
         else
         {
             if (driftHeatingValue < 0f)
             {
                 driftHeatingValue = 0f;
+
                 if (driftCooldown)
                 {
                     driftCooldown = false;
@@ -271,7 +269,9 @@ public abstract class aKartController : aCollisionManager
                 }
             }
             else if (!iAmAnnoyed)
+            {
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
+            }
         }
 
         if (jumpBUp && drifting)
@@ -337,6 +337,31 @@ public abstract class aKartController : aCollisionManager
         //Normal Rotation
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
+    }
+
+    protected bool wrongWayFromSpline
+    {
+        get
+        {
+            if (!wrongWayImmunity)
+            {
+                var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
+                var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
+
+                var wrong =
+                    lastSplineDistance > 0 &&
+                    prevSplineDistance > 0 &&
+                    currentSplineDistance1 > lastSplineDistance &&
+                    (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[playerName] == 0);
+
+                lastSplineDistance = currentSplineDistance1;
+                prevSplineDistance = currentSplineDistance0;
+
+                return wrong;
+            }
+
+            return false;
+        }
     }
 
     protected void clearDrift()
@@ -579,7 +604,7 @@ public abstract class aKartController : aCollisionManager
 
     internal void SetOnTrack()
     {
-        if (wrong)
+        if (wrongWayFromSpline)
         {
             var dir = lookAtDestOriginal - transform.position;
             var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
@@ -595,7 +620,9 @@ public abstract class aKartController : aCollisionManager
             Accelerate(3f);
         }
         else
+        {
             settingOnTrack = true;
+        }
     }
 
     internal void activNewCamera(int indexCamToActiv, int indexCamToDis)
@@ -606,8 +633,5 @@ public abstract class aKartController : aCollisionManager
 
     protected bool CanDrift() =>
         !driftCooldown;
-
-    internal string playerName =>
-        transform.parent.gameObject.name;
 
 }

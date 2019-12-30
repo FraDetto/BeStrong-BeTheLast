@@ -40,7 +40,6 @@ public sealed class KartController : aBSBTLKart
     private GameObject currentObstacle;
     // =============== CPU ===============    
 
-
     private GameObject excludeObstacle =>
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
@@ -48,6 +47,9 @@ public sealed class KartController : aBSBTLKart
 
     [Range(0, 1)]
     public float ProbabilitàDiSparare = 0.5f;
+
+    float lastObstacleDistance, prevObstacleDistance;
+    Vector3 curObstaclePos, prevObstaclePos;
 
 
     private void Start()
@@ -85,20 +87,18 @@ public sealed class KartController : aBSBTLKart
         started = true;
     }
 
+    private void FixedUpdate() =>
+        FixedUpdate_();
+
     private void Update()
     {
         if (Paused)
             return;
 
-        wrong = wrongWay;
-
         switch (KCType)
         {
             case eKCType.Human:
-                var input = "P" + playerNumber;
-
-                //if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
-                //    setDestination(0, 0, false, CurrentSplineObject);
+                var wrong = wrongWayFromSpline;
 
                 if (wrong || (!wrong && wrongWayTimer < wrongWayMaxTimer))
                 {
@@ -110,9 +110,9 @@ public sealed class KartController : aBSBTLKart
                     driftDisabled = !touchingGround;
 
                     Update_(
-                        touchingGround ? GB.GetAxis(input + "Horizontal") : 0,
-                        GB.GetButton(input + "Drift"),
-                        GB.GetButtonUp(input + "Drift")
+                        touchingGround ? GB.GetAxis(JoystickName + "Horizontal") : 0,
+                        GB.GetButton(JoystickName + "Drift"),
+                        GB.GetButtonUp(JoystickName + "Drift")
                     );
                 }
 
@@ -123,12 +123,12 @@ public sealed class KartController : aBSBTLKart
                     driftDisabled = true;
                 }
 
-                if (GB.GetButtonDown(input + "Counter") || GB.GetAxis(input + "Counter") != 0)
+                if (GB.GetButtonDown(JoystickName + "Counter") || GB.GetAxis(JoystickName + "Counter") != 0)
                     Counter();
 
-                if (GB.GetButtonDown(input + "Projectile"))
+                if (GB.GetButtonDown(JoystickName + "Projectile"))
                 {
-                    var direzione = Input.GetAxis(input + "Vertical") < 0 ? rearSpawnpoint : frontSpawnpoint;
+                    var direzione = Input.GetAxis(JoystickName + "Vertical") < 0 ? rearSpawnpoint : frontSpawnpoint;
 
                     if (myAbility.myAttractor == null)
                         Projectile(direzione);
@@ -136,22 +136,19 @@ public sealed class KartController : aBSBTLKart
                         Attractor(direzione);
                 }
 
-                if (GB.GetButtonDown(input + "Special") || GB.GetAxis(input + "Special") != 0)
+                if (GB.GetButtonDown(JoystickName + "Special") || GB.GetAxis(JoystickName + "Special") != 0)
                     Special();
 
-                if (GB.GetButtonDown(input + "MenuA") && rankPanel)
+                if (GB.GetButtonDown(JoystickName + "MenuA") && rankPanel)
                     rankPanel.SetActive(!rankPanel.activeSelf);
 
                 break;
 
             case eKCType.CPU:
-                //if (Vector3.Distance(transform.position, lookAtDestOriginal) < splineDistance)
-                //    setDestinationWithError();
-
                 if (CurrentSplineObject != null && CurrentSplineObject.isThisSplineClosed())
                     setDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
-                CPU_AI_Find_Obstacles(wrong);
+                CPU_AI_Find_Obstacles(wrongWayFromObstacle);
 
                 bool steerCond = !iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0;
 
@@ -197,7 +194,7 @@ public sealed class KartController : aBSBTLKart
                 break;
         }
 
-        Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
+        // Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
         Debug.DrawLine(transform.position, lookAtDest, Color.yellow);
     }
 
@@ -213,26 +210,23 @@ public sealed class KartController : aBSBTLKart
         return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
 
-    private void FixedUpdate() =>
-        FixedUpdate_();
-
-    private bool wrongWay
+    private bool wrongWayFromObstacle
     {
         get
         {
             if (!wrongWayImmunity)
             {
-                var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
-                var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
+                var currentObstacleDistance1 = Vector3.Distance(transform.position, curObstaclePos);
+                var currentObstacleDistance0 = Vector3.Distance(transform.position, prevObstaclePos);
 
                 var wrong =
-                    lastSplineDistance > 0 &&
-                    prevSplineDistance > 0 &&
-                    currentSplineDistance1 > lastSplineDistance &&
-                    (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[playerName] == 0);
+                    lastObstacleDistance > 0 &&
+                    prevObstacleDistance > 0 &&
+                    currentObstacleDistance1 > lastObstacleDistance &&
+                    currentObstacleDistance0 < prevObstacleDistance;
 
-                lastSplineDistance = currentSplineDistance1;
-                prevSplineDistance = currentSplineDistance0;
+                lastObstacleDistance = currentObstacleDistance1;
+                prevObstacleDistance = currentObstacleDistance0;
 
                 return wrong;
             }
@@ -287,6 +281,9 @@ public sealed class KartController : aBSBTLKart
 
     private void CPU_AI_Find_Obstacles(bool wrong)
     {
+        if (currentObstacle)
+            prevObstaclePos = currentObstacle.transform.position;
+
         if (wrong)
         {
             if (currentObstacle != null && excludeObstacle != currentObstacle)
@@ -319,6 +316,9 @@ public sealed class KartController : aBSBTLKart
                 }
             }
         }
+
+        if (currentObstacle)
+            curObstaclePos = currentObstacle.transform.position;
     }
 
     private GameObject selectaCandidateObstacleToFollow()
