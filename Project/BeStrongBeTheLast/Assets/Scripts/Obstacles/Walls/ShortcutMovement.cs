@@ -21,8 +21,13 @@ public class ShortcutMovement : PausableMonoBehaviour
     private ShortcutInstantClose trigger;
 
 
-    void Start() =>
+    void Start()
+    {
         staticFrames = (autoMovement) ? Random.Range(0, maxStaticFrames) : 10;
+        CloseNow(trigger.timeoutReset);
+    }
+        
+        
 
     void FixedUpdate()
     {
