@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2947697304079475875}
   - component: {fileID: 2947697304079475873}
   - component: {fileID: 8033534256492381100}
+  - component: {fileID: 2824515476264810837}
   m_Layer: 0
   m_Name: SlowingPuddle
   m_TagString: Obstacles
@@ -106,6 +107,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.9
   m_Center: {x: -0.46, y: 0.06, z: -0.42}
+--- !u!54 &2824515476264810837
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2947697304079475872}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1730128649
 PrefabInstance:
   m_ObjectHideFlags: 0
