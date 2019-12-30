@@ -43,6 +43,7 @@ public sealed class KartController : aBSBTLKart
     private GameObject excludeObstacle =>
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
+    private float currentObstacleDistance, prevObstacleDistance;
     internal bool started;
 
     [Range(0, 1)]
@@ -206,8 +207,6 @@ public sealed class KartController : aBSBTLKart
 
         return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
-
-    float currentObstacleDistance, prevObstacleDistance;
 
     private bool wrongWayFromObstacle
     {
