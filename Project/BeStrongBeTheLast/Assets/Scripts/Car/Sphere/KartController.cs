@@ -48,9 +48,6 @@ public sealed class KartController : aBSBTLKart
     [Range(0, 1)]
     public float ProbabilitàDiSparare = 0.5f;
 
-    float lastObstacleDistance, prevObstacleDistance;
-    Vector3 curObstaclePos, prevObstaclePos;
-
 
     private void Start()
     {
@@ -210,23 +207,22 @@ public sealed class KartController : aBSBTLKart
         return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
 
+    float currentObstacleDistance, prevObstacleDistance;
+
     private bool wrongWayFromObstacle
     {
         get
         {
-            if (!wrongWayImmunity)
+            if (currentObstacle)
             {
-                var currentObstacleDistance1 = Vector3.Distance(transform.position, curObstaclePos);
-                var currentObstacleDistance0 = Vector3.Distance(transform.position, prevObstaclePos);
+                currentObstacleDistance = Vector3.Distance(transform.position, currentObstacle.transform.position);
 
                 var wrong =
-                    lastObstacleDistance > 0 &&
+                    currentObstacleDistance > 0 &&
                     prevObstacleDistance > 0 &&
-                    currentObstacleDistance1 > lastObstacleDistance &&
-                    currentObstacleDistance0 < prevObstacleDistance;
+                    currentObstacleDistance > prevObstacleDistance;
 
-                lastObstacleDistance = currentObstacleDistance1;
-                prevObstacleDistance = currentObstacleDistance0;
+                prevObstacleDistance = currentObstacleDistance;
 
                 return wrong;
             }
@@ -281,9 +277,6 @@ public sealed class KartController : aBSBTLKart
 
     private void CPU_AI_Find_Obstacles(bool wrong)
     {
-        if (currentObstacle)
-            prevObstaclePos = currentObstacle.transform.position;
-
         if (wrong)
         {
             if (currentObstacle != null && excludeObstacle != currentObstacle)
@@ -316,9 +309,6 @@ public sealed class KartController : aBSBTLKart
                 }
             }
         }
-
-        if (currentObstacle)
-            curObstaclePos = currentObstacle.transform.position;
     }
 
     private GameObject selectaCandidateObstacleToFollow()
