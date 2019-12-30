@@ -20,6 +20,9 @@ public class CounterBehaviour : aAbilitiesBehaviour
     internal float diametroDiAzione =>
         raggioDiAzione * 2;
 
+    public float accelerationFromCounter=2f;
+
+
     private void Start()
     {
         var abilities = new Dictionary<aBSBTLKart.ePlayer, string>()
@@ -49,7 +52,17 @@ public class CounterBehaviour : aAbilitiesBehaviour
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
             if(!other.transform.root.gameObject.Equals(transform.root.gameObject))
-                other.transform.root.GetComponentInChildren<KartCollision>().countered = true;
+            {
+                var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
+                kartController.Accelerate(accelerationFromCounter);
+
+                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                {
+                    c.hitBy = user;
+                    StartCoroutine(c.hitByImmunity());
+                }
+                    
+            }   
         }
         else if(other.CompareTag("Obstacles"))
         {

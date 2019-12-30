@@ -26,7 +26,7 @@ public class RotatingBehaviour : aAbilitiesBehaviour
             {
                 var kartCollision = other.transform.root.GetComponentInChildren<KartCollision>();
 
-                kartCollision.countered = true;
+                //kartCollision.countered = true;
                 kartCollision.rotatingPush = 2f;
             }
     }

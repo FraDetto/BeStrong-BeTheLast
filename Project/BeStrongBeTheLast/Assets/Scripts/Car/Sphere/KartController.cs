@@ -330,10 +330,7 @@ public sealed class KartController : aBSBTLKart
             var ostacoloScelto = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.transform.position)).First();
 
             if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.transform.position), wallMask))
-            {
-                Debug.Log("I'm " + transform.name + " and I'm pointing towards " + ostacoloScelto);
                 return ostacoloScelto;
-            }
         }
 
         return null;

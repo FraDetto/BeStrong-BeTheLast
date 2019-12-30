@@ -67,6 +67,11 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 else if (target != null)
                 {
                     target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot);
+                    foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                    {
+                        c.hitBy = user;
+                        StartCoroutine(c.hitByImmunity());
+                    }
                     KillMe();
                 }
             }
