@@ -319,12 +319,13 @@ public sealed class KartController : aBSBTLKart
 
         if (detectedObstacles.Count > 0)
         {
-            var ostacoliScelti = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.transform.position));
+            var ostacoliScelti = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.Value.transform.position));
 
             foreach (var ostacoloScelto in ostacoliScelti)
-                if (ExcludeObstacle != ostacoloScelto)
-                    if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.transform.position), wallMask))
-                        return ostacoloScelto;
+                if (ostacoloScelto.Value)
+                    if (ExcludeObstacle != ostacoloScelto.Value)
+                        if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.Value.transform.position), wallMask))
+                            return ostacoloScelto.Value;
         }
 
         return null;
