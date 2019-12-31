@@ -47,7 +47,12 @@ public class LapManager : PausableMonoBehaviour
         else
         {
             foreach (var kartController in FindObjectsOfType<KartController>())
+            {
                 kartController.Paused = false;
+                kartController.AddForce(25000f, ForceMode.Impulse, kartController.transform.forward);
+                kartController.Accelerate(5f);
+            }
+                
         }
     }
 
@@ -58,9 +63,25 @@ public class LapManager : PausableMonoBehaviour
             if (GameState.Instance.laps.ContainsKey(player.name))
                 lapText.text = "Lap " + Mathf.Max(1, GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
 
-            if (GameState.Instance.positions.ContainsKey(player.name))
-                posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
-
+            if(GameState.Instance.positions.ContainsKey(player.name))
+            {
+                //posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
+                switch (GameState.Instance.getCurrentRanking(player.name))
+                {
+                    case 1:
+                        posText.text = "1st";
+                        break;
+                    case 2:
+                        posText.text = "2nd";
+                        break;
+                    case 3:
+                        posText.text = "3rd";
+                        break;
+                    default:
+                        posText.text = GameState.Instance.getCurrentRanking(player.name) + "th";
+                        break;
+                }
+            }
             if (!(GameState.Instance.laps[player.name] <= GameState.Instance.lapsNumberSetting))
             {
                 endPanel.SetActive(true);
