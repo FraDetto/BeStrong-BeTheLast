@@ -22,7 +22,7 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
 
     public GameObject user;
 
-    public float lengthTimeInSeconds = 5f;
+    public float lengthTimeInSeconds = 5;
 
     public bool UseScorBiasBonus = true;
 
@@ -46,7 +46,7 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
         var sec = lengthTimeInSeconds;
 
         if (UseScorBiasBonus && kartController)
-            sec *= 1 + GameState.Instance.getScoreBiasBonus(kartController.playerName);
+            sec *= 1 + GameState.Instance.getScoreBiasBonus(kartController.PlayerName);
 
         yield return new WaitForSeconds(sec);
 

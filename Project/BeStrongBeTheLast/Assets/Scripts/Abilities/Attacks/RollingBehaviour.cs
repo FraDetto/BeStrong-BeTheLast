@@ -10,11 +10,10 @@ using UnityEngine;
 
 public class RollingBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField]
-    private LayerMask roadMask;
 
-    [SerializeField]
-    private float accelerationFromShot;
+    public LayerMask roadMask;
+
+    public float accelerationFromShot = 10;
 
     private GameObject bouncing;
 
@@ -43,11 +42,13 @@ public class RollingBehaviour : aAbilitiesBehaviour
             if (!other.transform.root.gameObject.Equals(user))
             {
                 kartController.Accelerate(accelerationFromShot);
-                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+
+                foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());
                 }
+
                 KillMe();
             }
         });

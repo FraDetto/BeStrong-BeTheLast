@@ -7,8 +7,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using Assets.Scripts.Obstacles.Base;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class KartCollision : aCollisionManager
 {
@@ -54,14 +54,14 @@ public class KartCollision : aCollisionManager
                 {
                     case Mode.left:
                     case Mode.right:
-                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
+                        if (!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
                             kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
                         break;
 
                     case Mode.rear:
-                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
+                        if (!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
                             if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
-                            {   
+                            {
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
                                 kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
 

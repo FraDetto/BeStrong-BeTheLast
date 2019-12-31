@@ -12,15 +12,13 @@ using UnityEngine;
 public class RepulsiveWallStraight : aCollisionManager
 {
 
+    public LayerMask roadMask;
     public bool AttivaCollisioniConMura;
 
     private bool active = true;
     private KartController kartController;
     private AudioSource audioData;
     private float distToGround;
-
-    [SerializeField]
-    private LayerMask roadMask;
 
 
     private void Start()

@@ -29,7 +29,7 @@ public class ChangeFloor : PausableMonoBehaviour
                 kart.gravityMultiplier = Mathf.Clamp(gravityMultiplier, 0.5f, 2f);
 
                 if (kart.playerType.Equals(aKartController.eKCType.Human))
-                    kart.activNewCamera(camToActive, camToDis);
+                    kart.ActivNewCamera(camToActive, camToDis);
 
                 //camToActive.SetActive(true);
                 //camToDis.SetActive(false);   

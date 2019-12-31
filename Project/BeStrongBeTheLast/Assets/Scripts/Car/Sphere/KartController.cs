@@ -72,7 +72,7 @@ public sealed class KartController : aBSBTLKart
         {
             case eKCType.Human:
                 GameState.Instance.kartTypes.Add(transform.parent.name, "Player");
-                setDestination(0, 0, true);
+                SetDestination(0, 0, true);
                 break;
 
             case eKCType.CPU:
@@ -96,7 +96,7 @@ public sealed class KartController : aBSBTLKart
         switch (KCType)
         {
             case eKCType.Human:
-                var wrong = wrongWayFromSpline;
+                var wrong = WrongWayFromSpline;
 
                 if (wrong || (!wrong && wrongWayTimer < wrongWayMaxTimer))
                 {
@@ -177,7 +177,7 @@ public sealed class KartController : aBSBTLKart
                     bJumpReleased = false;
 
                 if (!drift_)
-                    clearDrift();
+                    ClearDrift();
 
                 Update_(driftAxis, jumpBDown, jumpBUP);
 
@@ -237,10 +237,10 @@ public sealed class KartController : aBSBTLKart
         setDestinationWithError(CurrentSplineObject.nextRandomSpline);
 
     internal void setDestinationWithError(SplineObject nextSpline) =>
-           setDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);
+           SetDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);
 
     internal void nextSpline() =>
-        setDestination(0, 0);
+        SetDestination(0, 0);
 
     private void CPU_AI_Find_UseWeapons()
     {

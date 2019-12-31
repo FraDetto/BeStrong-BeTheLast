@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-public class CameraManager : PausableMonoBehaviour
+public class CameraManager : MonoBehaviour
 {
 
     internal Transform lookAtTarget, positionTarget;
@@ -17,7 +17,7 @@ public class CameraManager : PausableMonoBehaviour
     public float smoothing = 0.7f;
 
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (lookAtTarget != null && positionTarget != null)
         {

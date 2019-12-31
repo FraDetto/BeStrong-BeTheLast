@@ -10,8 +10,8 @@ using UnityEngine;
 
 public class SingleShotBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField]
-    private LayerMask roadMask;
+
+    public LayerMask roadMask;
 
     public TrishotBehaviour trishotBehaviour;
 
@@ -39,7 +39,7 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(trishotBehaviour.accelerationFromShot);
 
-                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());

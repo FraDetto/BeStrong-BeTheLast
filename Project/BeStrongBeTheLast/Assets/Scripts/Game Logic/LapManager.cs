@@ -10,16 +10,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-class LapManager : PausableMonoBehaviour
+public class LapManager : PausableMonoBehaviour
 {
-
-    public Text lapText, posText, startText, endText;
-    public GameObject player;
-    public GameObject pausePanel, endPanel;
-    private int countdown;
 
     [Range(0, 9)]
     public int countDownDuration;
+
+    public Text lapText, posText, startText, endText;
+    public GameObject player, pausePanel, endPanel;
+    private int countdown;
 
 
     private void Start()

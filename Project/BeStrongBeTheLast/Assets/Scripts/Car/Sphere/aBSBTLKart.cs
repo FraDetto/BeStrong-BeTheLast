@@ -15,12 +15,13 @@ public abstract class aBSBTLKart : aKartController
 {
 
     [Header("Abilities - Properties")]
-    [SerializeField] internal Transform frontSpawnpoint;
-    [SerializeField] internal Transform rearSpawnpoint;
-    [SerializeField] private float regenSpeed;
-    [SerializeField] private float counterCooldown;
-    [SerializeField] private float projectileCooldown;
-    [SerializeField] private float specialCooldown;
+    public Transform frontSpawnpoint;
+    public Transform rearSpawnpoint;
+
+    [SerializeField] private float regenSpeed = 0.1f;
+    [SerializeField] private float counterCooldown = 2.5f;
+    [SerializeField] private float projectileCooldown = 5;
+    [SerializeField] private float specialCooldown = 15;
 
     public enum ePlayer
     {
@@ -125,7 +126,7 @@ public abstract class aBSBTLKart : aKartController
         if (Paused)
             return;
 
-        powerGaugeValue += regenSpeed * Mathf.Pow(2, driftMode) * (1 + GameState.Instance.getScoreBiasBonus(playerName)) * Time.deltaTime;
+        powerGaugeValue += regenSpeed * Mathf.Pow(2, driftMode) * (1 + GameState.Instance.getScoreBiasBonus(PlayerName)) * Time.deltaTime;
 
         if (powerGaugeValue > 1)
             powerGaugeValue = 1;

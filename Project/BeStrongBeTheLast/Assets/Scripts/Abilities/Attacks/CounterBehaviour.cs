@@ -12,6 +12,8 @@ using UnityEngine;
 public class CounterBehaviour : aAbilitiesBehaviour
 {
 
+    public float accelerationFromCounter = 2f;
+
     public SphereCollider sphereCollider;
 
     internal float raggioDiAzione =>
@@ -19,8 +21,6 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
     internal float diametroDiAzione =>
         raggioDiAzione * 2;
-
-    public float accelerationFromCounter=2f;
 
 
     private void Start()
@@ -51,24 +51,24 @@ public class CounterBehaviour : aAbilitiesBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            if(!other.transform.root.gameObject.Equals(transform.root.gameObject))
+            if (!other.transform.root.gameObject.Equals(transform.root.gameObject))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(accelerationFromCounter);
 
-                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());
                 }
-                    
-            }   
+
+            }
         }
-        else if(other.CompareTag("Obstacles"))
+        else if (other.CompareTag("Obstacles"))
         {
 
         }
-        else if(other.gameObject.layer == 12)
+        else if (other.gameObject.layer == 12)
         {
 
         }

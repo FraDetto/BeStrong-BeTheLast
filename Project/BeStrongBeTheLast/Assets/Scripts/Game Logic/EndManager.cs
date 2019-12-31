@@ -15,10 +15,13 @@ public class EndManager : PausableMonoBehaviour
 
     public GameObject[] cars;
     public Transform CPUSplineRoot;
+
     public SceneField scena;
+
     public bool continueRaceWithoutPlayers = false;
+
     public GameObject portalPrefab;
-    public bool teleporterSpawned = false;
+    internal bool teleporterSpawned = false;
 
 
     private void Start()
@@ -55,7 +58,7 @@ public class EndManager : PausableMonoBehaviour
             }
         }
 
-        if (endGame())
+        if (EndGame())
         {
             var finalCPUs = new HashSet<string>();
             var objToRemove = new List<GameState.RankObj>();
@@ -78,7 +81,7 @@ public class EndManager : PausableMonoBehaviour
         }
     }
 
-    private bool endGame()
+    private bool EndGame()
     {
         foreach (var lap in GameState.Instance.laps)
             if ((!GameState.Instance.kartTypes[lap.Key].Equals("CPU") || continueRaceWithoutPlayers) && lap.Value <= GameState.Instance.lapsNumberSetting)
@@ -87,7 +90,7 @@ public class EndManager : PausableMonoBehaviour
         return true;
     }
 
-    private void spawnPortal(Transform transform)
+    private void SpawnPortal(Transform transform)
     {
         var portal = Instantiate(portalPrefab, transform.position, transform.rotation);
         var portalScript = portal.GetComponent<TeleporterPortal>();
@@ -96,7 +99,7 @@ public class EndManager : PausableMonoBehaviour
         teleporterSpawned = true;
     }
 
-    public void teleportCar(GameObject car)
+    public void TeleportCar(GameObject car)
     {
         var controller = car.GetComponentInChildren<KartController>();
         var sphere = controller.sphere;
@@ -146,7 +149,7 @@ public class EndManager : PausableMonoBehaviour
                             int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
                             var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
 
-                            spawnPortal(splineTransform);
+                            SpawnPortal(splineTransform);
                         }
                 }
             }
@@ -184,10 +187,10 @@ public class EndManager : PausableMonoBehaviour
                 }
 
                 foreach (var car in CPUsAhead)
-                    car.acceleration = car.base_acceleration * (1 - (car.max_acceleration_change * GameState.Instance.getScorePenaltyCPUSpeed(car.playerName, Players[0].playerName)));
+                    car.acceleration = car.base_acceleration * (1 - (car.max_acceleration_change * GameState.Instance.getScorePenaltyCPUSpeed(car.PlayerName, Players[0].PlayerName)));
 
                 foreach (var car in CPUsBehind)
-                    car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.playerName, Players[numPlayers - 1].playerName)));
+                    car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.PlayerName, Players[numPlayers - 1].PlayerName)));
             }
         }
     }

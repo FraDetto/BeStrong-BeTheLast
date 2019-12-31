@@ -23,11 +23,9 @@ public class ShortcutMovement : PausableMonoBehaviour
 
     void Start()
     {
-        staticFrames = (autoMovement) ? Random.Range(0, maxStaticFrames) : 10;
+        staticFrames = autoMovement ? Random.Range(0, maxStaticFrames) : 10;
         CloseNow(trigger.timeoutReset);
     }
-        
-        
 
     void FixedUpdate()
     {

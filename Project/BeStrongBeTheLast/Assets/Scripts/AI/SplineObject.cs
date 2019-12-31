@@ -129,7 +129,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             switch (kartController.KCType)
             {
                 case aKartController.eKCType.Human:
-                    kartController.setDestination(0, 0, false, nextFirstSpline);
+                    kartController.SetDestination(0, 0, false, nextFirstSpline);
                     break;
 
                 case aKartController.eKCType.CPU:

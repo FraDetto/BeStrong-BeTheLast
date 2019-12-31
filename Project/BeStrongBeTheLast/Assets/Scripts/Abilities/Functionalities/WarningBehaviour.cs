@@ -30,11 +30,11 @@ public class WarningBehaviour : aCollisionManager
         {
             onCollisionWithPlayer_or_CPU(other, (kartController) =>
             {
-                switch(myKartController.KCType)
+                switch (myKartController.KCType)
                 {
                     case aKartController.eKCType.CPU:
-                        if(myKartController.canUseProjectile())
-                            switch(lato)
+                        if (myKartController.canUseProjectile())
+                            switch (lato)
                             {
                                 case GB.ELato.Avanti:
                                     myKartController.Projectile(myKartController.frontSpawnpoint);
@@ -43,7 +43,7 @@ public class WarningBehaviour : aCollisionManager
                                     myKartController.Projectile(myKartController.rearSpawnpoint);
                                     break;
                             }
-                    break;
+                        break;
                 }
             });
         }
