@@ -60,7 +60,7 @@ public class KartCollision : aCollisionManager
 
                     case Mode.rear:
                         if (!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
-                            if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
+                            if (myKartController.CurrentSplineDistance <= kartController.CurrentSplineDistance && speedDifference > 1)
                             {
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
                                 kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);

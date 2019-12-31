@@ -17,8 +17,8 @@ public sealed class KartController : aBSBTLKart
 
     // ============== HUMAN ==============
     public bool UsaWrongWay;
-
-    private float wrongWayTimer = 2, wrongWayMaxTimer = 1;
+    private float wrongWayTimer = 2;
+    private readonly float wrongWayMaxTimer = 1;
 
     internal GameObject rankPanel;
 
@@ -36,11 +36,11 @@ public sealed class KartController : aBSBTLKart
     private bool bJumpReleased;
 
     private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>();
-    private Stack<GameObject> excludeObstacles = new Stack<GameObject>(5);
+    private FixedSizedQueue<GameObject> excludeObstacles = new FixedSizedQueue<GameObject>(5);
     private GameObject currentObstacle;
     // =============== CPU ===============    
 
-    private GameObject excludeObstacle =>
+    private GameObject ExcludeObstacle =>
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
 
     private float currentObstacleDistance, prevObstacleDistance;
@@ -77,7 +77,7 @@ public sealed class KartController : aBSBTLKart
 
             case eKCType.CPU:
                 GameState.Instance.kartTypes.Add(transform.parent.name, "CPU");
-                setDestinationWithError();
+                SetDestinationWithError();
                 break;
         }
 
@@ -144,22 +144,25 @@ public sealed class KartController : aBSBTLKart
 
             case eKCType.CPU:
                 if (CurrentSplineObject != null && CurrentSplineObject.isThisSplineClosed())
-                    setDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
+                    SetDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
-                CPU_AI_Find_Obstacles(wrongWayFromObstacle);
+                CPU_AI_Find_Obstacles(WrongWayFromSpline || WrongWayFromObstacle);
 
                 bool steerCond = !iAmBlinded || Mathf.CeilToInt(Time.time) % 3 == 0;
 
-                CPU_AI_Find_UseWeapons();
+                CPU_AI_UseWeapons();
+
+                lookAtDest.y = 0;
+                lookAtDestOriginal.y = 0;
 
                 var drift_ = CurrentSplineObject.splineType == SplineObject.eSplineType.Drift;
                 var jumpBUP = !bJumpReleased && drift_ && driftPower > 250;
                 var jumpBDown = drift_ && !jumpBUP;
-                var driftAxis = (drift_ ? 0.0001f : 0);
+                var driftAxis = drift_ ? 0.0001f : 0;
 
                 if (steerCond)
                 {
-                    float angle = steerAngle(lookAtDest);
+                    float angle = SteerAngle(lookAtDest);
                     bool turn = Mathf.Abs(angle) > 10f;
                     bool left = angle < 0;
 
@@ -192,11 +195,11 @@ public sealed class KartController : aBSBTLKart
                 break;
         }
 
-        // Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
-        Debug.DrawLine(transform.position, lookAtDest, Color.yellow);
+        Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
+        Debug.DrawLine(transform.position, lookAtDest, Color.red);
     }
 
-    private float steerAngle(Vector3 dest)
+    private float SteerAngle(Vector3 dest)
     {
         dest.y = 0;
 
@@ -208,7 +211,7 @@ public sealed class KartController : aBSBTLKart
         return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
     }
 
-    private bool wrongWayFromObstacle
+    private bool WrongWayFromObstacle
     {
         get
         {
@@ -230,19 +233,19 @@ public sealed class KartController : aBSBTLKart
         }
     }
 
-    public float currentSplineDistance =>
+    public float CurrentSplineDistance =>
         Vector3.Distance(transform.position, curSplinePos);
 
-    internal void setDestinationWithError() =>
-        setDestinationWithError(CurrentSplineObject.nextRandomSpline);
+    internal void SetDestinationWithError() =>
+        SetDestinationWithError(CurrentSplineObject.nextRandomSpline);
 
-    internal void setDestinationWithError(SplineObject nextSpline) =>
+    internal void SetDestinationWithError(SplineObject nextSpline) =>
            SetDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);
 
-    internal void nextSpline() =>
+    internal void NextSpline() =>
         SetDestination(0, 0);
 
-    private void CPU_AI_Find_UseWeapons()
+    private void CPU_AI_UseWeapons()
     {
         foreach (var car in AllCars)
             if (!Equals(car))
@@ -265,7 +268,7 @@ public sealed class KartController : aBSBTLKart
             }
     }
 
-    internal void fieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider) =>
+    internal void FieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider) =>
         onCollisionWithPlayer_or_CPU(collider, (kartController) =>
         {
             if (!Equals(kartController))
@@ -278,8 +281,8 @@ public sealed class KartController : aBSBTLKart
     {
         if (wrong)
         {
-            if (currentObstacle != null && excludeObstacle != currentObstacle)
-                excludeObstacles.Push(currentObstacle);
+            if (currentObstacle != null && ExcludeObstacle != currentObstacle)
+                excludeObstacles.Enqueue(currentObstacle);
 
             if (currentObstacle != null)
                 currentObstacleOtherCPU.Remove(currentObstacle);
@@ -289,13 +292,13 @@ public sealed class KartController : aBSBTLKart
         }
         else
         {
-            if (currentObstacle && excludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
+            if (currentObstacle && ExcludeObstacle != currentObstacle && Vector3.Distance(transform.position, currentObstacle.transform.position) < obstacleDistance)
             {
                 lookAtDest = currentObstacle.transform.position;
             }
             else
             {
-                currentObstacle = selectaCandidateObstacleToFollow();
+                currentObstacle = SelectaCandidateObstacleToFollow();
 
                 if (currentObstacle)
                 {
@@ -310,16 +313,18 @@ public sealed class KartController : aBSBTLKart
         }
     }
 
-    private GameObject selectaCandidateObstacleToFollow()
+    private GameObject SelectaCandidateObstacleToFollow()
     {
         var detectedObstacles = frontSpawnpoint_obstacleDetector.detectedObstacles;
 
         if (detectedObstacles.Count > 0)
         {
-            var ostacoloScelto = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.transform.position)).First();
+            var ostacoliScelti = detectedObstacles.OrderBy(obstacle => Vector3.Distance(transform.position, obstacle.transform.position));
 
-            if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.transform.position), wallMask))
-                return ostacoloScelto;
+            foreach (var ostacoloScelto in ostacoliScelti)
+                if (ExcludeObstacle != ostacoloScelto)
+                    if (!Physics.Raycast(transform.position, transform.forward, Vector3.Distance(transform.position, ostacoloScelto.transform.position), wallMask))
+                        return ostacoloScelto;
         }
 
         return null;
@@ -327,7 +332,8 @@ public sealed class KartController : aBSBTLKart
 
     internal void SetObstacleDestroyed(GameObject gameObject)
     {
-        excludeObstacles.Push(gameObject);
+        if (gameObject != null)
+            excludeObstacles.Enqueue(gameObject);
 
         if (currentObstacle)
             currentObstacleOtherCPU.Remove(currentObstacle);
