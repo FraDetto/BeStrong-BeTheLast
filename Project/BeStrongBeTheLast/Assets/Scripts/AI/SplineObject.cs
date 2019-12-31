@@ -133,7 +133,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                     break;
 
                 case aKartController.eKCType.CPU:
-                    kartController.setDestinationWithError(nextRandomSpline);
+                    kartController.SetDestinationWithError(nextRandomSpline);
                     break;
             }
         });

@@ -11,9 +11,9 @@ using UnityEngine;
 public class SingleShotBehaviour : aAbilitiesBehaviour
 {
 
-    public LayerMask roadMask;
+    public LayerMask roadMask, wallMask;
 
-    public TrishotBehaviour trishotBehaviour;
+    TrishotBehaviour trishotBehaviour;
 
 
     private void Start() =>
@@ -21,7 +21,7 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 100, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
@@ -48,8 +48,10 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
                 KillMe();
             }
         }
-        else if (other.gameObject.layer.Equals(12))
+        else if (other.gameObject.layer == wallMask)
+        {
             KillMe();
+        }
     }
 
     protected override void LifeTimeElapsed()

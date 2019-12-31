@@ -30,11 +30,9 @@ public abstract class aKartController : aCollisionManager
 
     public CinemachineImpulseSource vCam;
 
-    //PostProcessVolume postVolume;
     internal PostProcessProfile postProfile;
 
     RaycastHit hitNear;
-    //RaycastHit hitOn, hitNear;
 
     List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
     List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
@@ -77,11 +75,13 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
+    private const float real_gravity = 25;
+    private float accelleration_gravity = 25;
+
     public float base_acceleration = 80f;
     public float max_acceleration_change = 0.5f;
     public float acceleration = 30f;
     public float steering = 80f;
-    public float gravity = 20f;
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
     public bool enableSpeedRubberbanding;
@@ -99,7 +99,6 @@ public abstract class aKartController : aCollisionManager
     public Transform flashParticles;
     public Color[] turboColors;
 
-    // protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
@@ -112,10 +111,12 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    internal float driftHeatingValue, annoyingAmount = 1f, gravityMultiplier = 1f;
+    internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
     internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource boostAudioSource;
+
+    internal bool touchingGround = true;
 
 
     protected void Start_()
@@ -327,7 +328,13 @@ public abstract class aKartController : aCollisionManager
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
-        sphere.AddForce(Vector3.down * gravity * gravityMultiplier, ForceMode.Acceleration);
+        if (touchingGround) // premesso che questo booleano sia vero        
+            accelleration_gravity = real_gravity;
+        else
+            accelleration_gravity += 5; // da tunare        
+
+        sphere.AddForce(Vector3.down * accelleration_gravity, ForceMode.Acceleration);
+        //sphere.AddForce(Vector3.down * accelleration_gravity * gravityMultiplier, ForceMode.Acceleration);
 
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);

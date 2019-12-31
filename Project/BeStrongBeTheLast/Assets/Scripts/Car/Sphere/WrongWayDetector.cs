@@ -19,7 +19,7 @@ public class WrongWayDetector : PausableMonoBehaviour
         {
             var kart = GB.FindTransformInChildWithName(go, "Kart");
             var kartController = kart.gameObject.GetComponent<KartController>();
-            kartController.nextSpline();
+            kartController.NextSpline();
         }
     }
 

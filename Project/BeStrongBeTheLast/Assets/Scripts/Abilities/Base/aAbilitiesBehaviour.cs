@@ -20,7 +20,7 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
     protected KartController kartController;
     protected List<KartController> players, bots, allCars;
 
-    public GameObject user;
+    internal GameObject user;
 
     public float lengthTimeInSeconds = 5;
 

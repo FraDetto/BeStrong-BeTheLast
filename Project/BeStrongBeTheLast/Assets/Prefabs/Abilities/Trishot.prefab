@@ -111,6 +111,9 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4096
   trishotBehaviour: {fileID: 0}
 --- !u!54 &5745777598107284467
 Rigidbody:
@@ -124,7 +127,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -239,6 +242,9 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4096
   trishotBehaviour: {fileID: 0}
 --- !u!54 &5810884103063149583
 Rigidbody:
@@ -252,7 +258,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -305,8 +311,8 @@ MonoBehaviour:
   user: {fileID: 0}
   lengthTimeInSeconds: 5
   UseScorBiasBonus: 0
-  speed: 60
   accelerationFromShot: 5
+  speed: 60
 --- !u!1 &6535925821844949886
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +424,9 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4096
   trishotBehaviour: {fileID: 0}
 --- !u!54 &1070386622037199995
 Rigidbody:
@@ -431,7 +440,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

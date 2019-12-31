@@ -28,11 +28,8 @@ public class RepulsiveWallStraight : aCollisionManager
         distToGround = transform.GetComponent<Collider>().bounds.extents.y;
     }
 
-    private bool IsGrounded() =>
-        Physics.Raycast(kartController.transform.position, Vector3.down, distToGround + 0.2f, roadMask);
-
     private void FixedUpdate() =>
-        kartController.touchingGround = IsGrounded();
+        kartController.touchingGround = Physics.Raycast(kartController.transform.position, Vector3.down, distToGround + 0.2f, roadMask);
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -44,7 +41,7 @@ public class RepulsiveWallStraight : aCollisionManager
                 kartController.SetOnTrack();
 
         if (GB.CompareORTags(collision.gameObject, "ShortcutWall"))
-            kartController.nextSpline();
+            kartController.NextSpline();
     }
 
     public void SetEnabled(bool setting) =>
