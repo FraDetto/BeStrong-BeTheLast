@@ -13,8 +13,6 @@ using UnityEngine;
 public sealed class KartController : aBSBTLKart
 {
 
-    internal bool touchingGround = true;
-
     // ============== HUMAN ==============
     public bool UsaWrongWay;
     private float wrongWayTimer = 2;

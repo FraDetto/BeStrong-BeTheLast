@@ -26,7 +26,8 @@ public class ChangeFloor : PausableMonoBehaviour
             {
                 var kart = co.transform.root.GetComponentInChildren<KartController>();
 
-                kart.gravityMultiplier = Mathf.Clamp(gravityMultiplier, 0.5f, 2f);
+                //è stato fatto al rigo 331 di aKartController
+                //kart.gravityMultiplier = Mathf.Clamp(gravityMultiplier, 0.5f, 2f);
 
                 if (kart.playerType.Equals(aKartController.eKCType.Human))
                     kart.ActivNewCamera(camToActive, camToDis);
