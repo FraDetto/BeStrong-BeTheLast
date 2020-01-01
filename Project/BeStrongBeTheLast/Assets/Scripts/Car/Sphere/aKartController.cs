@@ -362,7 +362,7 @@ public abstract class aKartController : aCollisionManager
                     currSplineDistance_ > currSplineDistance &&
                     prevSplineDistance_ > prevSplineDistance;
 
-                //(prevSplineDistance_ < prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
+                //(prevSplineDistance_ > prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
 
                 currSplineDistance = currSplineDistance_;
                 prevSplineDistance = prevSplineDistance_;

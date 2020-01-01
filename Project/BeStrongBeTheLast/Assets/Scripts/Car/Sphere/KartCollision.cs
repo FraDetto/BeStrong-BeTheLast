@@ -47,19 +47,19 @@ public class KartCollision : aCollisionManager
             if (myKartController && kartController && myKartController != kartController)
             {
                 var speedDifference = Mathf.Abs(myKartController.currentSpeed - kartController.currentSpeed);
-                var forceModifier = (myKartController.currentSpeed > kartController.currentSpeed) ? (speedDifference / myKartController.currentSpeed) : (speedDifference / kartController.currentSpeed);
+                var forceModifier = speedDifference / Mathf.Max(0.01f, myKartController.currentSpeed > kartController.currentSpeed ? myKartController.currentSpeed : kartController.currentSpeed);
                 var hitDirection = collider.transform.position - transform.position;
 
                 switch (mode)
                 {
                     case Mode.left:
                     case Mode.right:
-                        if (!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
+                        if (!hitBy || !kartController.transform.root.gameObject)
                             kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
                         break;
 
                     case Mode.rear:
-                        if (!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
+                        if (!hitBy || !kartController.transform.root.gameObject)
                             if (myKartController.CurrentSplineDistance <= kartController.CurrentSplineDistance && speedDifference > 1)
                             {
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
