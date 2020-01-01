@@ -613,9 +613,9 @@ public abstract class aKartController : aCollisionManager
         }
     }
 
-    internal void SetOnTrack()
+    internal void SetOnTrack(bool wrong)
     {
-        if (WrongWayFromSpline)
+        if (wrong)
         {
             var dir = lookAtDestOriginal - transform.position;
             var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
@@ -627,8 +627,8 @@ public abstract class aKartController : aCollisionManager
             transform.eulerAngles = eul;
             dir.y = 0; // giusto?
 
-            sphere.AddForce(dir.normalized * 500f, ForceMode.Impulse);
-            Accelerate(3f);
+            sphere.AddForce(dir.normalized * 25000f, ForceMode.Impulse);
+            Accelerate(5f);
         }
         else
         {

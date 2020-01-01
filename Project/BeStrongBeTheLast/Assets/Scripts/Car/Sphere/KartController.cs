@@ -114,7 +114,7 @@ public sealed class KartController : aBSBTLKart
 
                 if (UsaWrongWay && wrong)
                 {
-                    SetOnTrack();
+                    SetOnTrack(true);
                     wrongWayTimer = 0;
                     driftDisabled = true;
                 }

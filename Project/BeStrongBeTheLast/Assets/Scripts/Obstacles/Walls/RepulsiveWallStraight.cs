@@ -38,7 +38,7 @@ public class RepulsiveWallStraight : aCollisionManager
 
         if (AttivaCollisioniConMura && active)
             if (collision.collider.gameObject.layer == 12)
-                kartController.SetOnTrack();
+                kartController.SetOnTrack(false);
 
         if (GB.CompareORTags(collision.gameObject, "ShortcutWall"))
             kartController.NextSpline();
