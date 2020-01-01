@@ -105,7 +105,7 @@ public abstract class aKartController : aCollisionManager
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
-    protected float lastSplineDistance, prevSplineDistance;
+    protected float currSplineDistance, prevSplineDistance;
 
     private readonly string[] tubes = { "Tube001", "Tube002" };
 
@@ -353,17 +353,19 @@ public abstract class aKartController : aCollisionManager
         {
             if (!wrongWayImmunity)
             {
-                var currentSplineDistance1 = Vector3.Distance(transform.position, curSplinePos);
-                var currentSplineDistance0 = Vector3.Distance(transform.position, prevSplinePos);
+                var currSplineDistance_ = Vector3.Distance(transform.position, curSplinePos);
+                var prevSplineDistance_ = Vector3.Distance(transform.position, prevSplinePos);
 
                 var wrong =
-                    lastSplineDistance > 0 &&
+                    currSplineDistance > 0 &&
                     prevSplineDistance > 0 &&
-                    currentSplineDistance1 > lastSplineDistance &&
-                    (currentSplineDistance0 < prevSplineDistance || GameState.Instance.positions[PlayerName] == 0);
+                    currSplineDistance_ > currSplineDistance &&
+                    prevSplineDistance_ > prevSplineDistance;
 
-                lastSplineDistance = currentSplineDistance1;
-                prevSplineDistance = currentSplineDistance0;
+                //(prevSplineDistance_ < prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
+
+                currSplineDistance = currSplineDistance_;
+                prevSplineDistance = prevSplineDistance_;
 
                 return wrong;
             }
@@ -591,7 +593,7 @@ public abstract class aKartController : aCollisionManager
     {
         if (nextSpline)
         {
-            lastSplineDistance = 0;
+            currSplineDistance = 0;
             prevSplineDistance = 0;
 
             prevSplinePos = CurrentSplineObject.transform.position;

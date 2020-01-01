@@ -52,7 +52,6 @@ public class LapManager : PausableMonoBehaviour
                 kartController.AddForce(25000f, ForceMode.Impulse, kartController.transform.forward);
                 kartController.Accelerate(5f);
             }
-                
         }
     }
 
@@ -63,7 +62,7 @@ public class LapManager : PausableMonoBehaviour
             if (GameState.Instance.laps.ContainsKey(player.name))
                 lapText.text = "Lap " + Mathf.Max(1, GameState.Instance.laps[player.name]) + "/" + GameState.Instance.lapsNumberSetting;
 
-            if(GameState.Instance.positions.ContainsKey(player.name))
+            if (GameState.Instance.positions.ContainsKey(player.name))
             {
                 //posText.text = GameState.Instance.getCurrentRanking(player.name) + "/" + GameState.Instance.kartControllers.Count;
                 switch (GameState.Instance.getCurrentRanking(player.name))
