@@ -19280,10 +19280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5748dae6a874114db044c2809add69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttivaCollisioniConMura: 1
   roadMask:
     serializedVersion: 2
     m_Bits: 2048
+  AttivaCollisioniConMura: 1
 --- !u!82 &1439970385202661617
 AudioSource:
   m_ObjectHideFlags: 0
@@ -58082,10 +58082,9 @@ MonoBehaviour:
   max_acceleration_change: 0.5
   acceleration: 80
   steering: 16
-  gravity: 25
   heatingSpeed: 0.25
-  driftPenalty: 1
-  enableSpeedRubberbanding: 0
+  driftPenalty: 0.5
+  enableSpeedRubberbanding: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 2355
@@ -58102,10 +58101,10 @@ MonoBehaviour:
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
   frontSpawnpoint: {fileID: 1573634367110444934}
   rearSpawnpoint: {fileID: 5170522781035576951}
-  regenSpeed: 0.1
+  regenSpeed: 0.01
   counterCooldown: 2.5
   projectileCooldown: 5
-  specialCooldown: 15
+  specialCooldown: 30
   playerType: 1
   counter: {fileID: 4702895947007250410, guid: 81509e9adb1ed2248b181e5058f0093c, type: 3}
   trishot: {fileID: 6535925821718938808, guid: 22a1ac197d3f6e541907ba4299b88f4e, type: 3}
@@ -87458,11 +87457,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028681050684062192, guid: 2cc136062196c2e499dfea8c8502f9f8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7028681050684062192, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
@@ -87482,26 +87476,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1284683511250782237}
     - target: {fileID: 9175084481162040329, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 4592427687517662225, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 2691190445411630116, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 3585701139489685433, guid: 2cc136062196c2e499dfea8c8502f9f8,
-        type: 3}
-      propertyPath: kartController
-      value: 
-      objectReference: {fileID: 1284683511250782237}
-    - target: {fileID: 8431724759286724889, guid: 2cc136062196c2e499dfea8c8502f9f8,
         type: 3}
       propertyPath: kartController
       value: 
