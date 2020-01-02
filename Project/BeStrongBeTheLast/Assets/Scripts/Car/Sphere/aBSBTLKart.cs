@@ -153,7 +153,7 @@ public abstract class aBSBTLKart : aKartController
         {
             Instantiate(myAbility.myAttractor, spawnPoint.position, spawnPoint.rotation, transform);
 
-            myAbility.myAttractor_inAction = true;
+            //myAbility.myAttractor_inAction = true;
             attracted = false;
             powerGaugeValue -= 0.5f;
             projectileRecharging = true;
@@ -175,7 +175,7 @@ public abstract class aBSBTLKart : aKartController
             }
             else if (weapon.Equals(myAbility.myProjectile))
             {
-                myAbility.myProjectile_inAction = true;
+                //myAbility.myProjectile_inAction = true;
                 powerGaugeValue -= 0.5f;
                 projectileRecharging = true;
                 StartCoroutine(ProjectileCooldown());
@@ -189,7 +189,7 @@ public abstract class aBSBTLKart : aKartController
         {
             Instantiate(myAbility.mySpecial, transform);
 
-            myAbility.mySpecial_inAction = true;
+            //myAbility.mySpecial_inAction = true;
             powerGaugeValue -= 0.75f;
             specialRecharging = true;
             StartCoroutine(SpecialCooldown());

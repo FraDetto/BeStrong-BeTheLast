@@ -37,6 +37,8 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
         allCars = new List<KartController>();
         allCars.AddRange(players);
         allCars.AddRange(bots);
+
+        StartCoroutine(Lifetime());
     }
 
     protected abstract void LifeTimeElapsed();
@@ -57,13 +59,18 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
 
     protected void KillMe()
     {
-        if (kartController)
+        /*RIC: Ho commentato sta roba perché dava fastidio al trishot. L'intento era quello di evitare che uno potesse usare due volte la stessa abilità, ma questo non è possibile se 
+         * A) il regen del mana viene impostato alla velocità reale (0.01) e non valori di test;
+         * B) il cooldown è sempre più alto della durata massima di una special (contando anche il bias dato dalla posizione);
+         */
+
+        /*if (kartController)
             if (IsSame(kartController.myAbility.myProjectile))
                 kartController.myAbility.myProjectile_inAction = false;
             else if (IsSame(kartController.myAbility.mySpecial))
                 kartController.myAbility.mySpecial_inAction = false;
             else if (IsSame(kartController.myAbility.myAttractor))
-                kartController.myAbility.myAttractor_inAction = false;
+                kartController.myAbility.myAttractor_inAction = false; */
 
         //if (enabled)
         Destroy(gameObject);

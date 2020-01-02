@@ -26,6 +26,9 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
         }
+
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+            KillMe();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,10 +50,6 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
 
                 KillMe();
             }
-        }
-        else if (other.gameObject.layer == wallMask)
-        {
-            KillMe();
         }
     }
 
