@@ -84,7 +84,7 @@ public static class GB
         }
     }
 
-    public static bool between<A>(A item, A from_, A to_) where A : System.IComparable
+    public static bool Between<A>(A item, A from_, A to_) where A : System.IComparable
     {
         return item.CompareTo(from_) >= 0 && item.CompareTo(to_) <= 0;
     }
@@ -99,12 +99,12 @@ public static class GB
         return r;
     }
 
-    public static List<T> getOnlyWithComponentWithTag<T>(string tag)
+    public static List<T> GetOnlyWithComponentWithTag<T>(string tag)
     {
-        return getOnlyWithComponent<T>(GameObject.FindGameObjectsWithTag(tag));
+        return GetOnlyWithComponent<T>(GameObject.FindGameObjectsWithTag(tag));
     }
 
-    public static List<T> getOnlyWithComponent<T>(GameObject[] lista)
+    public static List<T> GetOnlyWithComponent<T>(GameObject[] lista)
     {
         var R = new List<T>();
 
@@ -119,7 +119,7 @@ public static class GB
         return R;
     }
 
-    public static bool compareVector3(EAxis exclude, Vector3 a, Vector3 b)
+    public static bool CompareVector3(EAxis exclude, Vector3 a, Vector3 b)
     {
         var x = (a.x == b.x);
         var y = (a.y == b.y);

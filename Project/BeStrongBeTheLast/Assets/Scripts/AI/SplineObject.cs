@@ -58,7 +58,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             while (true)
             {
                 foreach (var nextS in nextSplines)
-                    if (!isWallClosed(nextS))
+                    if (!IsWallClosed(nextS, null))
                     {
                         nextS.prev_Spline = this;
 
@@ -82,7 +82,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             while (true)
             {
                 foreach (var nextS in nextSplines)
-                    if (!isWallClosed(nextS))
+                    if (!IsWallClosed(nextS, null))
                         if (nextS.probability == 0 || Random.value < nextS.probability)
                         {
                             nextS.prev_Spline = this;
@@ -108,14 +108,17 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         OnDrawGizmosSelected();
     }
 
-    internal bool isThisSplineClosed() =>
-        (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed) || (prev_Spline != null && prev_Spline.CanBeClosedByThisWall != null && prev_Spline.CanBeClosedByThisWall.closed);
+    private bool IsClosed(ShortcutMovement shortcut, KartController kartController) =>
+        shortcut != null && shortcut.closed && (shortcut.wallClosedBy == null || !shortcut.wallClosedBy.Equals(kartController));
 
-    private bool isWallClosed(SplineObject destination) =>
-        (CanBeClosedByThisWall != null && CanBeClosedByThisWall.closed) || (destination.CanBeClosedByThisWall != null && destination.CanBeClosedByThisWall.closed);
+    internal bool IsThisSplineClosed(KartController kartController) =>
+        IsClosed(CanBeClosedByThisWall, kartController) || (prev_Spline != null && IsClosed(prev_Spline.CanBeClosedByThisWall, kartController));
+
+    private bool IsWallClosed(SplineObject destination, KartController kartController) =>
+        IsClosed(CanBeClosedByThisWall, kartController) || IsClosed(destination.CanBeClosedByThisWall, kartController);
 
     public int CompareTo(object obj) =>
-      obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
+        obj is SplineObject ? name.CompareTo((obj as SplineObject).name) : 0;
 
     private void OnDrawGizmosSelected()
     {
