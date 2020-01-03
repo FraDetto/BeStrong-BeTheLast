@@ -639,8 +639,8 @@ public abstract class aKartController : aCollisionManager
             transform.eulerAngles = eul;
             dir.y = 0; // giusto?
 
-            sphere.AddForce(dir.normalized * 25000f, ForceMode.Impulse);
-            Accelerate(5f);
+            sphere.AddForce(dir.normalized * 10000f, ForceMode.Impulse);
+            Accelerate(4f);
         }
         else
         {
