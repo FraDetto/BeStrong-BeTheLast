@@ -105,7 +105,7 @@ public abstract class aKartController : aCollisionManager
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
-    protected float currSplineDistance, prevSplineDistance;
+    protected float currSplineDistance_t0, prevSplineDistance_t0;
 
     private readonly string[] tubes = { "Tube001", "Tube002" };
 
@@ -353,19 +353,19 @@ public abstract class aKartController : aCollisionManager
         {
             if (!wrongWayImmunity)
             {
-                var currSplineDistance_ = Vector3.Distance(transform.position, curSplinePos);
-                var prevSplineDistance_ = Vector3.Distance(transform.position, prevSplinePos);
+                var currSplineDistance_t1 = Vector3.Distance(transform.position, curSplinePos);
+                var prevSplineDistance_t1 = Vector3.Distance(transform.position, prevSplinePos);
 
                 var wrong =
-                    currSplineDistance > 0 &&
-                    prevSplineDistance > 0 &&
-                    currSplineDistance_ > currSplineDistance &&
-                    prevSplineDistance_ > prevSplineDistance;
+                    currSplineDistance_t0 > 0 &&
+                    prevSplineDistance_t0 > 0 &&
+                    currSplineDistance_t1 > currSplineDistance_t0 &&
+                    prevSplineDistance_t1 < prevSplineDistance_t0;
 
-                //(prevSplineDistance_ > prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
+                // (prevSplineDistance_ < prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
 
-                currSplineDistance = currSplineDistance_;
-                prevSplineDistance = prevSplineDistance_;
+                currSplineDistance_t0 = currSplineDistance_t1;
+                prevSplineDistance_t0 = prevSplineDistance_t1;
 
                 return wrong;
             }
@@ -593,8 +593,8 @@ public abstract class aKartController : aCollisionManager
     {
         if (nextSpline)
         {
-            currSplineDistance = 0;
-            prevSplineDistance = 0;
+            currSplineDistance_t0 = 0;
+            prevSplineDistance_t0 = 0;
 
             prevSplinePos = CurrentSplineObject.transform.position;
 
