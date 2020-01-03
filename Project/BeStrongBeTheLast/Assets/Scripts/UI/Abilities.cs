@@ -17,7 +17,7 @@ public class Abilities : PausableMonoBehaviour
 
     public Slider powerGauge;
     public Slider driftHeating;
-    public Text warningText;
+    public Image warningImage;
     public GameObject driftHeatingFill, panelRankings;
     public GameObject counterIcon, projectileIcon, specialIcon;
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
@@ -80,7 +80,7 @@ public class Abilities : PausableMonoBehaviour
             oldCanUseProj = kartController.canUseProjectile();
             oldCanUseSpecial = kartController.canUseSpecial();
 
-            warningText.enabled = kartController.warning;
+            warningImage.enabled = kartController.warning;
         }
     }
 
