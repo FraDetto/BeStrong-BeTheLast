@@ -179,19 +179,13 @@ public abstract class aKartController : aCollisionManager
                 transform.eulerAngles = eul;
             }
             else if (hittingLeft && !hittingRight)
-            {
                 xAxis = 1f;
-                Accelerate(2f);
-            }
             else if (!hittingLeft && hittingRight)
-            {
                 xAxis = -1f;
-                Accelerate(2f);
-            }
             else if (!hittingLeft && !hittingRight)
             {
-                Accelerate(2f);
-                sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
+                Accelerate(2.5f);
+                sphere.AddForce(transform.forward * 500f, ForceMode.Impulse);
                 settingOnTrack = false;
             }
         }
@@ -531,7 +525,7 @@ public abstract class aKartController : aCollisionManager
 
     public void AddForce(float force, ForceMode forceMode, Vector3 direction)
     {
-        GetWrongWayImmunity(2f);
+        //GetWrongWayImmunity(2f);
 
         direction.y = 0; // giusto?
         sphere.AddForce(direction * force, forceMode);
