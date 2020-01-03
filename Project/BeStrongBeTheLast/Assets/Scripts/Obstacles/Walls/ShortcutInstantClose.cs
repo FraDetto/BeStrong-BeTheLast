@@ -16,7 +16,7 @@ public class ShortcutInstantClose : PausableMonoBehaviour
     public int timeoutReset;
 
 
-    private void Start()
+    private void Awake()
     {
         shortcutMovement = wall.GetComponent<ShortcutMovement>();
         shortcutMovement.setTrigger(this);
