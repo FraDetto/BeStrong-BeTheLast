@@ -529,9 +529,10 @@ public abstract class aKartController : aCollisionManager
     public void EnableHardRotate(bool enable_) =>
         hardRotate = enable_;
 
-    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction, bool GetTheWrongWayImmunity)
     {
-        GetWrongWayImmunity(2f);
+        if (GetTheWrongWayImmunity)
+            GetWrongWayImmunity(2f);
 
         direction.y = 0; // giusto?
         sphere.AddForce(direction * force, forceMode);
@@ -598,8 +599,19 @@ public abstract class aKartController : aCollisionManager
 
             prevSplinePos = CurrentSplineObject.transform.position;
 
-            if (!firstTime)
+            if (firstTime)
+            {
+                var c = CurrentSplineObject;
+
+                while (CurrentSplineObject.prev_Spline == null)
+                    c = c.nextFirstSpline;
+
+                prevSplinePos = CurrentSplineObject.prev_Spline.transform.position;
+            }
+            else
+            {
                 CurrentSplineObject = nextSpline;
+            }
 
             curSplinePos = CurrentSplineObject.transform.position;
 

@@ -29,7 +29,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     public SplineObject CanBeClosedByThisWall_AlternativeFork;
     public bool MostraInPlay = false;
 
-    private SplineObject prev_Spline;
+    internal SplineObject prev_Spline;
 
 
     internal SplineObject nextAlternativeSpline
