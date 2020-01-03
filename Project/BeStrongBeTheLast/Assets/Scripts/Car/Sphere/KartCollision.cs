@@ -55,15 +55,15 @@ public class KartCollision : aCollisionManager
                     case Mode.left:
                     case Mode.right:
                         if (!hitBy || !kartController.transform.root.gameObject)
-                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
+                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection, true);
                         break;
 
                     case Mode.rear:
                         if (!hitBy || !kartController.transform.root.gameObject)
                             if (myKartController.CurrentSplineDistance <= kartController.CurrentSplineDistance && speedDifference > 1)
                             {
-                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
-                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection, true);
+                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection, true);
 
                                 myKartController.Accelerate(1.1f + 1f * forceModifier);
                                 kartController.Accelerate(0.9f - 0.5f * forceModifier);

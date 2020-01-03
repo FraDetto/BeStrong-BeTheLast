@@ -62,7 +62,7 @@ public sealed class KartController : aBSBTLKart
         {
             case eKCType.Human:
                 GameState.Instance.kartTypes.Add(transform.parent.name, "Player");
-                SetDestination(0, 0, true);
+                SetDestination(0, 0, true, CurrentSplineObject);
                 break;
 
             case eKCType.CPU:
@@ -133,7 +133,7 @@ public sealed class KartController : aBSBTLKart
                 break;
 
             case eKCType.CPU:
-                if (CurrentSplineObject != null && CurrentSplineObject.isThisSplineClosed())
+                if (CurrentSplineObject != null && CurrentSplineObject.IsThisSplineClosed(this))
                     SetDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
                 CPU_AI_Find_Obstacles(WrongWayFromSpline || WrongWayFromObstacle);

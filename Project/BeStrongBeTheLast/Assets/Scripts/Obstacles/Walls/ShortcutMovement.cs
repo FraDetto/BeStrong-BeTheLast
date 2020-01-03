@@ -11,11 +11,14 @@ using UnityEngine;
 public class ShortcutMovement : PausableMonoBehaviour
 {
 
+    public bool autoMovement = false;
+
     public int maxStaticFrames;
     public float basePositionClosed, basePositionOpen;
 
+    internal KartController wallClosedBy;
     internal bool closed = true;
-    public bool autoMovement = false;
+
     private bool forceClose = false;
     private int staticFrames, currentStaticFrames, newStaticFrames;
     private ShortcutInstantClose trigger;
@@ -62,7 +65,7 @@ public class ShortcutMovement : PausableMonoBehaviour
                 newStaticFrames = 0;
 
                 if (trigger)
-                    trigger.Reset();
+                    trigger.Reset_();
             }
         }
 

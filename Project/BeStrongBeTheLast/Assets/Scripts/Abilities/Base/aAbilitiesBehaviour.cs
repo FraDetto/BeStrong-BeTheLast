@@ -31,8 +31,8 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
     {
         kartController = GB.FindComponentInDadWithName<KartController>(transform, "Controller");
 
-        players = GB.getOnlyWithComponentWithTag<KartController>("Player");
-        bots = GB.getOnlyWithComponentWithTag<KartController>("CPU");
+        players = GB.GetOnlyWithComponentWithTag<KartController>("Player");
+        bots = GB.GetOnlyWithComponentWithTag<KartController>("CPU");
 
         allCars = new List<KartController>();
         allCars.AddRange(players);
