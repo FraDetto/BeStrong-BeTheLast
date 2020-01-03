@@ -16,27 +16,27 @@ public sealed class KartController : aBSBTLKart
     // ============== HUMAN ==============
     public bool UsaWrongWay;
     private float wrongWayTimer = 2;
-    private readonly float wrongWayMaxTimer = 1;
+    private const float wrongWayMaxTimer = 1;
 
     internal GameObject rankPanel;
-
     // ============== HUMAN ==============
+
 
     // =============== CPU ===============
     private const byte errorDelta = 8;
 
     private ObstacleDetector frontSpawnpoint_obstacleDetector;
 
-    private GameObject[] CPUCars;
-    private GameObject[] PlayersCars;
+    private List<KartController> PlayersCars, CPUCars;
     private List<KartController> AllCars = new List<KartController>();
 
     private bool bJumpReleased;
 
-    private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>();
+    private static HashSet<GameObject> currentObstacleOtherCPU = new HashSet<GameObject>(); // common to ALL instance of KartController
     private FixedSizedQueue<GameObject> excludeObstacles = new FixedSizedQueue<GameObject>(5);
     private GameObject currentObstacle;
     // =============== CPU ===============    
+
 
     private GameObject ExcludeObstacle =>
         excludeObstacles.Count > 0 ? excludeObstacles.Peek() : null;
@@ -44,27 +44,19 @@ public sealed class KartController : aBSBTLKart
     private float currentObstacleDistance, prevObstacleDistance;
     internal bool started;
 
-    [Range(0, 1)]
-    public float ProbabilitàDiSparare = 0.5f;
+    //[Range(0, 1)] non è stato più usato
+    //public float ProbabilitàDiSparare = 0.5f;
 
 
     private void Start()
     {
-        CPUCars = GameObject.FindGameObjectsWithTag("CPU");
-        PlayersCars = GameObject.FindGameObjectsWithTag("Player");
         frontSpawnpoint_obstacleDetector = frontSpawnpoint.GetComponent<ObstacleDetector>();
 
-        var AllCarsTemp = new List<GameObject>(CPUCars.Length + PlayersCars.Length);
-        AllCarsTemp.AddRange(CPUCars);
-        AllCarsTemp.AddRange(PlayersCars);
+        CPUCars = GetKartControllers(GameObject.FindGameObjectsWithTag("CPU"));
+        PlayersCars = GetKartControllers(GameObject.FindGameObjectsWithTag("Player"));
 
-        foreach (var c in AllCarsTemp)
-        {
-            var kc = c.GetComponent<KartController>();
-
-            if (kc)
-                AllCars.Add(kc);
-        }
+        AllCars.AddRange(CPUCars);
+        AllCars.AddRange(PlayersCars);
 
         switch (KCType)
         {
@@ -184,11 +176,6 @@ public sealed class KartController : aBSBTLKart
 
                 if (jumpBUP)
                     bJumpReleased = true;
-
-                foreach (var cpu in CPUCars)
-                    if (!cpu.name.Equals(name))
-                        if (Vector3.Distance(cpu.transform.position, transform.position) < 0.5)
-                            speed = 0;
 
                 break;
         }
@@ -338,6 +325,21 @@ public sealed class KartController : aBSBTLKart
             currentObstacleOtherCPU.Remove(currentObstacle);
 
         currentObstacle = null;
+    }
+
+    private List<KartController> GetKartControllers(GameObject[] cars)
+    {
+        var R = new List<KartController>();
+
+        foreach (var c in cars)
+        {
+            var kc = c.GetComponent<KartController>();
+
+            if (kc)
+                R.Add(kc);
+        }
+
+        return R;
     }
 
 }
