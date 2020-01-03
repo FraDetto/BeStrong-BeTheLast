@@ -30,16 +30,21 @@ public class WarningBehaviour : aCollisionManager
         {
             onCollisionWithPlayer_or_CPU(other, (kartController) =>
             {
-                if (!Equals(kartController))
-                    switch (lato)
-                    {
-                        case GB.ELato.Avanti:
-                            myKartController.Projectile(myKartController.frontSpawnpoint);
-                            break;
-                        case GB.ELato.Dietro:
-                            myKartController.Projectile(myKartController.rearSpawnpoint);
-                            break;
-                    }
+                switch (myKartController.KCType)
+                {
+                    case aKartController.eKCType.CPU:
+                        if (myKartController.canUseProjectile())
+                            switch (lato)
+                            {
+                                case GB.ELato.Avanti:
+                                    myKartController.Projectile(myKartController.frontSpawnpoint);
+                                    break;
+                                case GB.ELato.Dietro:
+                                    myKartController.Projectile(myKartController.rearSpawnpoint);
+                                    break;
+                            }
+                        break;
+                }
             });
         }
         else if (GB.CompareORTags(other, "Projectile"))

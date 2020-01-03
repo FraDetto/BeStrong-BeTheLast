@@ -61,7 +61,7 @@ internal static class GameState
                     ro = rankingsDict[kartScore.Key];
                 }
 
-                ro.set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].getCurrentSplineDistance());
+                ro.set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].GetCurrentSplineDistance());
             }
 
             rankings = rankings.OrderByDescending(c => c.getScore()).ThenBy(c => c.getDist()).ToList();

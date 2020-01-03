@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d381c564ddac04eb86740538e4e836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthTimeInSeconds: 5
+  lengthTimeInSeconds: 100
   UseScorBiasBonus: 0
   roadMask:
     serializedVersion: 2
@@ -115,8 +115,8 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 4096
-  speed: 50
-  accelerationFromShot: 2
+  speed: 45
+  accelerationFromShot: 10
 --- !u!135 &5480010414495687965
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -128,8 +128,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0, z: 7}
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 10}
 --- !u!54 &6491401047111595581
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

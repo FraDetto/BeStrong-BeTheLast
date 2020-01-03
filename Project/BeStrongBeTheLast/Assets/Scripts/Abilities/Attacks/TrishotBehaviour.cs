@@ -11,10 +11,8 @@ using UnityEngine;
 
 public class TrishotBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField]
-    private float speed;
 
-    public float accelerationFromShot;
+    public float accelerationFromShot, speed;
 
     private List<GameObject> shots = new List<GameObject>();
 

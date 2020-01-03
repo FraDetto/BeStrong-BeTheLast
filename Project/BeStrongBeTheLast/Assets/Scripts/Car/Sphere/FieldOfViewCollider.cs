@@ -25,7 +25,7 @@ public class FieldOfViewCollider : PausableMonoBehaviour
         switch (kartController.KCType)
         {
             case aKartController.eKCType.CPU:
-                kartController.fieldOfViewCollision(direction, other);
+                kartController.FieldOfViewCollision(direction, other);
                 break;
         }
     }

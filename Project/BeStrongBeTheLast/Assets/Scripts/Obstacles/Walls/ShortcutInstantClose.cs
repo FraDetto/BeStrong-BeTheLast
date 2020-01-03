@@ -11,11 +11,13 @@ using UnityEngine;
 public class ShortcutInstantClose : PausableMonoBehaviour
 {
 
-    public GameObject wall;
-    private ShortcutMovement shortcutMovement;
     public int timeoutReset;
+    public GameObject wall;
+
+    private ShortcutMovement shortcutMovement;
 
 
+    //private void Awake() // Miky: perché awake?
     private void Start()
     {
         shortcutMovement = wall.GetComponent<ShortcutMovement>();
@@ -27,7 +29,10 @@ public class ShortcutInstantClose : PausableMonoBehaviour
         var go = other.gameObject.transform.root.gameObject;
 
         if (GB.CompareORTags(go, "Player", "CPU"))
+        {
+            shortcutMovement.wallClosedBy = go.GetComponentInChildren<KartController>();
             InstantClose(timeoutReset);
+        }
     }
 
     private void InstantClose(int timeout)
@@ -36,7 +41,7 @@ public class ShortcutInstantClose : PausableMonoBehaviour
         shortcutMovement.CloseNow(timeout);
     }
 
-    public void Reset() =>
+    public void Reset_() =>
         transform.GetComponent<Collider>().isTrigger = true;
 
 }

@@ -10,20 +10,13 @@ using UnityEngine;
 
 public class HomingBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField]
-    private LayerMask roadMask;
 
-    [SerializeField]
-    private LayerMask wallMask;
+    public LayerMask roadMask, wallMask;
 
-    [SerializeField]
-    private float speed;
-
-    [SerializeField]
-    private float accelerationFromShot;
+    public float speed = 50;
+    public float accelerationFromShot = 5;
 
     private GameObject target;
-
     private SphereCollider range;
 
 
@@ -37,12 +30,12 @@ public class HomingBehaviour : aAbilitiesBehaviour
         range = GetComponent<SphereCollider>();
     }
 
-    void Update()
+    private void Update()
     {
         if (target != null)
             transform.LookAt(target.transform);
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 100, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
@@ -67,11 +60,13 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 else if (target != null)
                 {
                     target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot);
-                    foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+
+                    foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                     {
                         c.hitBy = user;
                         StartCoroutine(c.hitByImmunity());
                     }
+
                     KillMe();
                 }
             }

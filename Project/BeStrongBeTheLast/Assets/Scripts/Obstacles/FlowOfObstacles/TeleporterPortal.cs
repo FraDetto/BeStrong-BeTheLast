@@ -18,7 +18,7 @@ public class TeleporterPortal : PausableMonoBehaviour
 
         if (GB.CompareORTags(go, "Player", "CPU"))
         {
-            endScriptCallback.teleportCar(go);
+            endScriptCallback.TeleportCar(go);
             endScriptCallback.teleporterSpawned = false;
 
             Destroy(transform.root.gameObject);

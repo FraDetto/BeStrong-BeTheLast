@@ -12,15 +12,13 @@ using UnityEngine;
 public class RepulsiveWallStraight : aCollisionManager
 {
 
+    public LayerMask roadMask;
     public bool AttivaCollisioniConMura;
 
     private bool active = true;
     private KartController kartController;
     private AudioSource audioData;
     private float distToGround;
-
-    [SerializeField]
-    private LayerMask roadMask;
 
 
     private void Start()
@@ -30,11 +28,8 @@ public class RepulsiveWallStraight : aCollisionManager
         distToGround = transform.GetComponent<Collider>().bounds.extents.y;
     }
 
-    private bool IsGrounded() =>
-        Physics.Raycast(kartController.transform.position, Vector3.down, distToGround + 0.2f, roadMask);
-
     private void FixedUpdate() =>
-        kartController.touchingGround = IsGrounded();
+        kartController.touchingGround = Physics.Raycast(kartController.transform.position, Vector3.down, distToGround + 0.2f, roadMask);
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -43,10 +38,10 @@ public class RepulsiveWallStraight : aCollisionManager
 
         if (AttivaCollisioniConMura && active)
             if (collision.collider.gameObject.layer == 12)
-                kartController.SetOnTrack();
+                kartController.SetOnTrack(false);
 
         if (GB.CompareORTags(collision.gameObject, "ShortcutWall"))
-            kartController.nextSpline();
+            kartController.NextSpline();
     }
 
     public void SetEnabled(bool setting) =>

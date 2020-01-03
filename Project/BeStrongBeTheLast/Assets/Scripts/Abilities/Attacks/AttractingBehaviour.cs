@@ -11,14 +11,9 @@ using UnityEngine;
 public class AttractingBehaviour : aAbilitiesBehaviour
 {
 
-    [SerializeField]
-    private float speed;
-
-    [SerializeField]
-    private float shrinkingSpeed;
+    public float speed, shrinkingSpeed;
 
     private GameObject projectile;
-
     private bool attracting;
 
 

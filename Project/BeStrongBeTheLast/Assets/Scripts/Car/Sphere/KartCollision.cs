@@ -7,8 +7,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using Assets.Scripts.Obstacles.Base;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class KartCollision : aCollisionManager
 {
@@ -47,23 +47,23 @@ public class KartCollision : aCollisionManager
             if (myKartController && kartController && myKartController != kartController)
             {
                 var speedDifference = Mathf.Abs(myKartController.currentSpeed - kartController.currentSpeed);
-                var forceModifier = (myKartController.currentSpeed > kartController.currentSpeed) ? (speedDifference / myKartController.currentSpeed) : (speedDifference / kartController.currentSpeed);
+                var forceModifier = speedDifference / Mathf.Max(0.01f, myKartController.currentSpeed > kartController.currentSpeed ? myKartController.currentSpeed : kartController.currentSpeed);
                 var hitDirection = collider.transform.position - transform.position;
 
                 switch (mode)
                 {
                     case Mode.left:
                     case Mode.right:
-                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
-                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection);
+                        if (!hitBy || !kartController.transform.root.gameObject)
+                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection, true);
                         break;
 
                     case Mode.rear:
-                        if(!hitBy || (hitBy && kartController.transform.root.gameObject != hitBy))
-                            if (myKartController.currentSplineDistance <= kartController.currentSplineDistance && speedDifference > 1)
-                            {   
-                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection);
-                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection);
+                        if (!hitBy || !kartController.transform.root.gameObject)
+                            if (myKartController.CurrentSplineDistance <= kartController.CurrentSplineDistance && speedDifference > 1)
+                            {
+                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection, true);
+                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection, true);
 
                                 myKartController.Accelerate(1.1f + 1f * forceModifier);
                                 kartController.Accelerate(0.9f - 0.5f * forceModifier);

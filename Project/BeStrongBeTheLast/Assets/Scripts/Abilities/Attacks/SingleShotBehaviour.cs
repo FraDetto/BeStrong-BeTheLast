@@ -10,10 +10,10 @@ using UnityEngine;
 
 public class SingleShotBehaviour : aAbilitiesBehaviour
 {
-    [SerializeField]
-    private LayerMask roadMask;
 
-    public TrishotBehaviour trishotBehaviour;
+    public LayerMask roadMask, wallMask;
+
+    TrishotBehaviour trishotBehaviour;
 
 
     private void Start() =>
@@ -21,11 +21,14 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, roadMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 100, roadMask))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
         }
+
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+            KillMe();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,7 +42,7 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(trishotBehaviour.accelerationFromShot);
 
-                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());
@@ -48,8 +51,6 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
                 KillMe();
             }
         }
-        else if (other.gameObject.layer.Equals(12))
-            KillMe();
     }
 
     protected override void LifeTimeElapsed()

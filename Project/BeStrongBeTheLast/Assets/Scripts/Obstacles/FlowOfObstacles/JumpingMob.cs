@@ -113,7 +113,7 @@ public class JumpingMob : WanderingMob
                 case Phases.rotating:
                     var hitDirection = collision.collider.transform.position - transform.position;
 
-                    kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward);
+                    kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward, true);
                     kartController.Accelerate(slowAmount);
                     kartController.SetObstacleDestroyed(gameObject);
 

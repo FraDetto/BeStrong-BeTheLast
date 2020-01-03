@@ -11,8 +11,7 @@ using UnityEngine;
 public class BouncingBehaviour : aAbilitiesBehaviour
 {
 
-    [SerializeField]
-    private LayerMask wallMask;
+    public LayerMask wallMask;
 
     public float speed;
 

@@ -30,11 +30,9 @@ public abstract class aKartController : aCollisionManager
 
     public CinemachineImpulseSource vCam;
 
-    //PostProcessVolume postVolume;
     internal PostProcessProfile postProfile;
 
-    RaycastHit hitNear, giovane;
-    //RaycastHit hitOn, hitNear;
+    RaycastHit hitNear;
 
     List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
     List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
@@ -63,6 +61,12 @@ public abstract class aKartController : aCollisionManager
     [Range(0, 8)]
     public byte playerNumber = 1;
 
+    protected string JoystickName =>
+        "P" + playerNumber;
+
+    internal string PlayerName =>
+        transform.parent.gameObject.name;
+
     public LayerMask wallMask;
 
     public SplineObject CurrentSplineObject;
@@ -71,11 +75,13 @@ public abstract class aKartController : aCollisionManager
     [Range(1, 6)]
     public float TempestivityOfDriftGearChange = 4;
 
+    private const float real_gravity = 25;
+    private float accelleration_gravity = 25;
+
     public float base_acceleration = 80f;
     public float max_acceleration_change = 0.5f;
     public float acceleration = 30f;
     public float steering = 80f;
-    public float gravity = 20f;
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
     public bool enableSpeedRubberbanding;
@@ -93,34 +99,24 @@ public abstract class aKartController : aCollisionManager
     public Transform flashParticles;
     public Color[] turboColors;
 
-    // protected const byte splineDistance = 5;
     protected const byte obstacleDistance = 30;
 
     protected Vector3 lookAtDest, lookAtDestOriginal, curSplinePos, prevSplinePos;
     private bool isSquished = false, limitSpeed = false, hardRotate = true;
     private float limitSpeedValue;
 
-    protected float lastSplineDistance, prevSplineDistance;
+    protected float currSplineDistance_t0, prevSplineDistance_t0;
 
-    private string[] tubes = { "Tube001", "Tube002" };
+    private readonly string[] tubes = { "Tube001", "Tube002" };
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    internal float driftHeatingValue;
-
-    internal bool driftCooldown;
-
-    internal bool iAmAnnoyed;
-
-    internal bool settingOnTrack, rotateToSpline = false;
-
-    internal float annoyingAmount = 1f;
+    internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
+    internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource boostAudioSource;
 
-    internal float gravityMultiplier = 1f;
-
-    protected bool wrong;
+    internal bool touchingGround = true;
 
 
     protected void Start_()
@@ -167,8 +163,8 @@ public abstract class aKartController : aCollisionManager
 
         if (settingOnTrack)
         {
-            var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
-            var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), out giovane, 2f, wallMask);
+            var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), 2f, wallMask);
+            var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), 2f, wallMask);
 
             if (hittingLeft && hittingRight)
             {
@@ -210,7 +206,7 @@ public abstract class aKartController : aCollisionManager
         {
             jumpBDown = false;
             jumpBUp = false;
-            clearDrift();
+            ClearDrift();
         }
 
         //Steer
@@ -230,7 +226,8 @@ public abstract class aKartController : aCollisionManager
 
             foreach (var p in primaryParticles)
             {
-                p.startColor = Color.clear;
+                var pMain = p.main;
+                pMain.startColor = Color.clear;
                 p.Play();
             }
 
@@ -254,16 +251,19 @@ public abstract class aKartController : aCollisionManager
                 driftHeatingValue = 1f;
                 driftCooldown = true;
                 heatingSpeed *= driftPenalty;
-                clearDrift();
+                ClearDrift();
             }
             else
+            {
                 driftHeatingValue += heatingSpeed * Time.deltaTime;
+            }
         }
         else
         {
             if (driftHeatingValue < 0f)
             {
                 driftHeatingValue = 0f;
+
                 if (driftCooldown)
                 {
                     driftCooldown = false;
@@ -271,7 +271,9 @@ public abstract class aKartController : aCollisionManager
                 }
             }
             else if (!iAmAnnoyed)
+            {
                 driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
+            }
         }
 
         if (jumpBUp && drifting)
@@ -326,7 +328,13 @@ public abstract class aKartController : aCollisionManager
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
         //Gravity
-        sphere.AddForce(Vector3.down * gravity * gravityMultiplier, ForceMode.Acceleration);
+        if (touchingGround) // premesso che questo booleano sia vero        
+            accelleration_gravity = real_gravity;
+        else
+            accelleration_gravity += 5; // da tunare        
+
+        sphere.AddForce(Vector3.down * accelleration_gravity, ForceMode.Acceleration);
+        //sphere.AddForce(Vector3.down * accelleration_gravity * gravityMultiplier, ForceMode.Acceleration);
 
         //Steering
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
@@ -339,7 +347,34 @@ public abstract class aKartController : aCollisionManager
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
     }
 
-    protected void clearDrift()
+    protected bool WrongWayFromSpline
+    {
+        get
+        {
+            if (!wrongWayImmunity)
+            {
+                var currSplineDistance_t1 = Vector3.Distance(transform.position, curSplinePos);
+                var prevSplineDistance_t1 = Vector3.Distance(transform.position, prevSplinePos);
+
+                var wrong =
+                    currSplineDistance_t0 > 0 &&
+                    prevSplineDistance_t0 > 0 &&
+                    currSplineDistance_t1 > currSplineDistance_t0 &&
+                    prevSplineDistance_t1 < prevSplineDistance_t0;
+
+                // (prevSplineDistance_ < prevSplineDistance || GameState.Instance.positions[PlayerName] == 0); // Miky: a che serve?
+
+                currSplineDistance_t0 = currSplineDistance_t1;
+                prevSplineDistance_t0 = prevSplineDistance_t1;
+
+                return wrong;
+            }
+
+            return false;
+        }
+    }
+
+    protected void ClearDrift()
     {
         driftDirection = 0;
         driftPower = 0;
@@ -351,7 +386,8 @@ public abstract class aKartController : aCollisionManager
 
         foreach (var p in primaryParticles)
         {
-            p.startColor = Color.clear;
+            var pMain = p.main;
+            pMain.startColor = Color.clear;
             p.Stop();
         }
 
@@ -372,7 +408,7 @@ public abstract class aKartController : aCollisionManager
                     break;
             }
 
-        clearDrift();
+        ClearDrift();
     }
 
     void Steer(int direction, float amount) =>
@@ -440,7 +476,7 @@ public abstract class aKartController : aCollisionManager
         }
     }
 
-    public float getCurrentSplineDistance() =>
+    public float GetCurrentSplineDistance() =>
         Vector3.Distance(CurrentSplineObject.transform.position, transform.position);
 
     void Speed(float x) =>
@@ -451,7 +487,7 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        float bonusBias = GameState.Instance.getScoreBiasBonus(playerName);
+        float bonusBias = GameState.Instance.getScoreBiasBonus(PlayerName);
 
         if (amount > 1)
             amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
@@ -493,21 +529,22 @@ public abstract class aKartController : aCollisionManager
     public void EnableHardRotate(bool enable_) =>
         hardRotate = enable_;
 
-    public void AddForce(float force, ForceMode forceMode, Vector3 direction)
+    public void AddForce(float force, ForceMode forceMode, Vector3 direction, bool GetTheWrongWayImmunity)
     {
-        getWrongWayImmunity(2f);
+        if (GetTheWrongWayImmunity)
+            GetWrongWayImmunity(2f);
 
         direction.y = 0; // giusto?
         sphere.AddForce(direction * force, forceMode);
     }
 
-    public void getWrongWayImmunity(float duration)
+    public void GetWrongWayImmunity(float duration)
     {
         wrongWayImmunity = true;
-        StartCoroutine(disableWrongWayImmunity(duration));
+        StartCoroutine(DisableWrongWayImmunity(duration));
     }
 
-    IEnumerator disableWrongWayImmunity(float countdown)
+    IEnumerator DisableWrongWayImmunity(float countdown)
     {
         yield return new WaitForSeconds(countdown);
         wrongWayImmunity = false;
@@ -547,23 +584,34 @@ public abstract class aKartController : aCollisionManager
                 pp.Play();
     }
 
-    internal void setDestination(float xRndError, float zRndError) =>
-        setDestination(xRndError, zRndError, false);
+    internal void SetDestination(float xRndError, float zRndError) =>
+        SetDestination(xRndError, zRndError, false);
 
-    internal void setDestination(float xRndError, float zRndError, bool firstTime) =>
-        setDestination(xRndError, zRndError, first, CurrentSplineObject.nextFirstSpline);
+    internal void SetDestination(float xRndError, float zRndError, bool firstTime) =>
+        SetDestination(xRndError, zRndError, first, CurrentSplineObject.nextFirstSpline);
 
-    internal void setDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
+    internal void SetDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
     {
         if (nextSpline)
         {
-            lastSplineDistance = 0;
-            prevSplineDistance = 0;
+            currSplineDistance_t0 = 0;
+            prevSplineDistance_t0 = 0;
 
             prevSplinePos = CurrentSplineObject.transform.position;
 
-            if (!firstTime)
+            if (firstTime)
+            {
+                var c = CurrentSplineObject;
+
+                while (CurrentSplineObject.prev_Spline == null)
+                    c = c.nextFirstSpline;
+
+                prevSplinePos = CurrentSplineObject.prev_Spline.transform.position;
+            }
+            else
+            {
                 CurrentSplineObject = nextSpline;
+            }
 
             curSplinePos = CurrentSplineObject.transform.position;
 
@@ -577,7 +625,7 @@ public abstract class aKartController : aCollisionManager
         }
     }
 
-    internal void SetOnTrack()
+    internal void SetOnTrack(bool wrong)
     {
         if (wrong)
         {
@@ -591,14 +639,16 @@ public abstract class aKartController : aCollisionManager
             transform.eulerAngles = eul;
             dir.y = 0; // giusto?
 
-            sphere.AddForce(dir.normalized * 500f, ForceMode.Impulse);
-            Accelerate(3f);
+            sphere.AddForce(dir.normalized * 10000f, ForceMode.Impulse);
+            Accelerate(4f);
         }
         else
+        {
             settingOnTrack = true;
+        }
     }
 
-    internal void activNewCamera(int indexCamToActiv, int indexCamToDis)
+    internal void ActivNewCamera(int indexCamToActiv, int indexCamToDis)
     {
         camera_.transform.GetChild(indexCamToActiv).gameObject.SetActive(true);
         camera_.transform.GetChild(indexCamToDis).gameObject.SetActive(false);
@@ -606,8 +656,5 @@ public abstract class aKartController : aCollisionManager
 
     protected bool CanDrift() =>
         !driftCooldown;
-
-    internal string playerName =>
-        transform.parent.gameObject.name;
 
 }
