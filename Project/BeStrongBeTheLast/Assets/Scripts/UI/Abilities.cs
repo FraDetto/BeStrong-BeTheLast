@@ -27,8 +27,8 @@ public class Abilities : PausableMonoBehaviour
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
 
-    private Color heatedColor = new Color32(242, 66, 66, 255);
-    private Color coldColor = new Color32(0, 57, 171, 255);
+    //private Color heatedColor = new Color32(242, 66, 66, 255);
+    //private Color coldColor = new Color32(0, 57, 171, 255);
 
     private bool started;
 
@@ -42,7 +42,7 @@ public class Abilities : PausableMonoBehaviour
     {
         if (started)
         {
-            Color driftHeatingFill_Color;
+            //Color driftHeatingFill_Color;
 
             float driftValue = kartController.driftHeatingValue;
             float driftValueAdjusted = driftValue * 0.7f + 0.3f;
@@ -50,14 +50,17 @@ public class Abilities : PausableMonoBehaviour
             driftHeating.value = driftValueAdjusted;
             powerGauge.value = kartController.powerGaugeValue;
 
-            if (driftValue > 0.7)
-                driftHeatingFill_Color = heatedColor;
-            else if (driftValue < 0.3)
-                driftHeatingFill_Color = coldColor;
-            else
-                driftHeatingFill_Color = Color.Lerp(coldColor, heatedColor, (driftValue - 0.3f) * 2.5f);
+            /* if (driftValue > 0.7)
+                 driftHeatingFill_Color = heatedColor;
+             else if (driftValue < 0.3)
+                 driftHeatingFill_Color = coldColor;
+             else
+                 driftHeatingFill_Color = Color.Lerp(coldColor, heatedColor, (driftValue - 0.3f) * 2.5f);
 
-            driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color;
+             driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color; */
+
+            driftHeatingFill.transform.GetChild(0).gameObject.SetActive(kartController.driftCooldown);
+
 
             var newCanUseCounter = kartController.canUseCounter();
             var newCanUseProj = kartController.canUseProjectile() || kartController.canUseAttractor();
