@@ -133,7 +133,7 @@ public sealed class KartController : aBSBTLKart
                 break;
 
             case eKCType.CPU:
-                if (CurrentSplineObject != null && CurrentSplineObject.IsThisSplineClosed(this))
+                if (CurrentSplineObject && CurrentSplineObject.IsThisSplineClosed(this))
                     SetDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
 
                 CPU_AI_Find_Obstacles(WrongWayFromSpline || WrongWayFromObstacle);

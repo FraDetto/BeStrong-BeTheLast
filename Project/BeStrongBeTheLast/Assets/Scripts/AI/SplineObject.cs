@@ -38,14 +38,14 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         {
             while (true)
             {
-                if (CanBeClosedByThisWall_AlternativeFork != null)
+                if (CanBeClosedByThisWall_AlternativeFork)
                 {
                     CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
 
                     return CanBeClosedByThisWall_AlternativeFork;
                 }
 
-                if (prev_Spline.CanBeClosedByThisWall_AlternativeFork != null)
+                if (prev_Spline.CanBeClosedByThisWall_AlternativeFork)
                     return prev_Spline.CanBeClosedByThisWall_AlternativeFork;
             }
         }
@@ -65,7 +65,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                         return nextS;
                     }
 
-                if (CanBeClosedByThisWall_AlternativeFork != null)
+                if (CanBeClosedByThisWall_AlternativeFork)
                 {
                     CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
 
@@ -90,7 +90,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                             return nextS;
                         }
 
-                if (CanBeClosedByThisWall_AlternativeFork != null)
+                if (CanBeClosedByThisWall_AlternativeFork)
                 {
                     CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
 
@@ -109,10 +109,10 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     }
 
     private bool IsClosed(ShortcutMovement shortcut, KartController kartController) =>
-        shortcut != null && shortcut.closed && (shortcut.wallClosedBy == null || !shortcut.wallClosedBy.Equals(kartController));
+        shortcut && shortcut.closed && (shortcut.wallClosedBy == null || !shortcut.wallClosedBy.Equals(kartController));
 
     internal bool IsThisSplineClosed(KartController kartController) =>
-        IsClosed(CanBeClosedByThisWall, kartController) || (prev_Spline != null && IsClosed(prev_Spline.CanBeClosedByThisWall, kartController));
+        IsClosed(CanBeClosedByThisWall, kartController) || (prev_Spline && IsClosed(prev_Spline.CanBeClosedByThisWall, kartController));
 
     private bool IsWallClosed(SplineObject destination, KartController kartController) =>
         IsClosed(CanBeClosedByThisWall, kartController) || IsClosed(destination.CanBeClosedByThisWall, kartController);
