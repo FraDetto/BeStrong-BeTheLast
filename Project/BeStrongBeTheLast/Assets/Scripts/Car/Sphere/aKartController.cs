@@ -111,7 +111,7 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
+    public float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
     internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource boostAudioSource;
@@ -180,13 +180,13 @@ public abstract class aKartController : aCollisionManager
             }
             else if (hittingLeft && !hittingRight)
             {
-                xAxis = 1f;
                 Accelerate(2f);
+                xAxis = 1f;
             }
             else if (!hittingLeft && hittingRight)
             {
-                xAxis = -1f;
                 Accelerate(2f);
+                xAxis = -1f;
             }
             else if (!hittingLeft && !hittingRight)
             {
@@ -219,7 +219,7 @@ public abstract class aKartController : aCollisionManager
         }
 
         //Drift
-        if (CanDrift() && jumpBDown && /*!drifting &&*/ xAxis != 0)
+        if (CanDrift() && jumpBDown && xAxis != 0)
         {
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;

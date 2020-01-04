@@ -16,7 +16,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
     public float accelerationFromShot = 10;
 
     private GameObject bouncing;
-
+    public GameObject explosion;
 
     private void Start()
     {
@@ -49,7 +49,9 @@ public class RollingBehaviour : aAbilitiesBehaviour
                     StartCoroutine(c.hitByImmunity());
                 }
 
-                KillMe();
+                Instantiate(explosion, transform.position, transform.rotation);
+
+                KillMe(); 
             }
         });
 
