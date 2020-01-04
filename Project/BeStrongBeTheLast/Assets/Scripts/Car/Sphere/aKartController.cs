@@ -111,13 +111,16 @@ public abstract class aKartController : aCollisionManager
 
     private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
 
-    public float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
+    internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
     internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource boostAudioSource;
 
     internal bool touchingGround = true;
 
+    private GameState.GameStateInternal gameState = GameState.Instance;
+
+    private int numberOfPlayers; 
 
     protected void Start_()
     {
@@ -154,6 +157,8 @@ public abstract class aKartController : aCollisionManager
 
         if (!CurrentSplineObject)
             throw new Exception("Non hai settato CurrentSplineObject!");
+
+        numberOfPlayers = gameState.positions.Count-1; //Formula goes from 0 to 7 insted of 1 to 8
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
@@ -487,7 +492,7 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        float bonusBias = GameState.Instance.getScoreBiasBonus(PlayerName);
+        float bonusBias = gameState.getScoreBiasBonus(PlayerName);
 
         if (amount > 1)
             amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
@@ -656,5 +661,11 @@ public abstract class aKartController : aCollisionManager
 
     protected bool CanDrift() =>
         !driftCooldown;
+
+    /* To be used when you want effects changing depending on your rank:
+     * Amount is the base amount of the effect (e.g. 0.5 for annoying amount)
+     * AmountDiff is the difference between amount and the maxAmount (e.g. maxAmount is 1 for annoying, so amountDiff will be 0.5) */
+    internal float EffectDistributionFormula(float amount, float amountDiff) =>
+        amount + (amountDiff * ((numberOfPlayers - (gameState.getCurrentRanking(PlayerName) - 1)) / (float)numberOfPlayers));
 
 }

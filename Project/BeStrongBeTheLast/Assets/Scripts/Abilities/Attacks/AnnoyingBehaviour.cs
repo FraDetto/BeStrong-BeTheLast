@@ -11,8 +11,8 @@ using UnityEngine;
 
 public class AnnoyingBehaviour : aAbilitiesBehaviour
 {
-
-    public float annoyingAmount = 0.5f;
+    public float maxAnnoyingAmount = 1f; //Here 1 means that no annoying will be applied to your steer...
+    public float annoyingAmount = 0.5f; //...In the worst scenario you will get 0.5 which means half your steering axis
 
 
     void Start()
@@ -28,10 +28,11 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
 
     private void AnnoyCars(List<KartController> cars, float annoyingAmount, bool annoyed)
     {
+        var annoyingDiff = maxAnnoyingAmount - annoyingAmount;
         foreach(var car in cars)
             if(car != kartController)
                 if(annoyed)
-                    car.annoyMe(annoyingAmount * (2 - GameState.Instance.getScoreBiasBonus(car.PlayerName)), annoyed);
+                    car.annoyMe(car.EffectDistributionFormula(annoyingAmount, annoyingDiff), annoyed);
                 else
                     car.annoyMe(1f, annoyed);
     }
