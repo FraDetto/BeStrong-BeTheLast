@@ -21,7 +21,7 @@ public class Abilities : PausableMonoBehaviour
     public GameObject driftHeatingFill, panelRankings, blinding;
     public GameObject counterIcon, projectileIcon, specialIcon;
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
-    public GameObject cameraParticles1, cameraParticles2, cameraParticles3;
+    public GameObject counterUI, projectileUI, specialUI;
     public ParticleSystem particles;
     public Material blindMat;
     public float maxDissolveAmount=0.5f;
@@ -69,14 +69,18 @@ public class Abilities : PausableMonoBehaviour
             var newCanUseProj = kartController.canUseProjectile() || kartController.canUseAttractor();
             var newCanUseSpecial = kartController.canUseSpecial();
 
-            if (newCanUseCounter && newCanUseCounter != oldCanUseCounter)
-                PlayParticle(cameraParticles1, abilityReady);
+            /*if(newCanUseCounter && newCanUseCounter != oldCanUseCounter)
+                counterUI.transform.GetChild(0).gameObject.SetActive(true);
 
             if (newCanUseProj && newCanUseProj != oldCanUseProj)
-                PlayParticle(cameraParticles2, abilityReady);
+                projectileUI.transform.GetChild(0).gameObject.SetActive(true);
 
             if (newCanUseSpecial && newCanUseSpecial != oldCanUseSpecial)
-                PlayParticle(cameraParticles3, specialReady);
+                specialUI.transform.GetChild(0).gameObject.SetActive(true);*/
+            
+            counterUI.transform.GetChild(0).gameObject.SetActive(newCanUseCounter);
+            projectileUI.transform.GetChild(0).gameObject.SetActive(newCanUseProj);
+            specialUI.transform.GetChild(0).gameObject.SetActive(newCanUseSpecial); 
 
             counterIcon.GetComponent<Image>().sprite = newCanUseCounter ? shieldAct : shieldInact;
             projectileIcon.GetComponent<Image>().sprite = newCanUseProj ? projectileAct : projectileInact;
@@ -101,10 +105,9 @@ public class Abilities : PausableMonoBehaviour
         }
     }
 
-    private void PlayParticle(GameObject cameraParticles, AudioSource sound)
+    private void PlayParticle(GameObject abilityUI, AudioSource sound)
     {
         disableParticleCameras();
-        cameraParticles.SetActive(true);
 
         if (!particlesPlayed)
         {
@@ -123,9 +126,9 @@ public class Abilities : PausableMonoBehaviour
 
     private void disableParticleCameras()
     {
-        cameraParticles1.SetActive(false);
-        cameraParticles2.SetActive(false);
-        cameraParticles3.SetActive(false);
+        counterUI.transform.GetChild(0).gameObject.SetActive(false);
+        projectileUI.transform.GetChild(0).gameObject.SetActive(false);
+        specialUI.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private IEnumerator delayedStart()
