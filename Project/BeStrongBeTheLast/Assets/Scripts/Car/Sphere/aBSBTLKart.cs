@@ -83,7 +83,7 @@ public abstract class aBSBTLKart : aKartController
 
     internal float powerGaugeValue;
 
-    protected bool iAmBlinded;
+    internal bool iAmBlinded;
 
     internal bool warning;
 

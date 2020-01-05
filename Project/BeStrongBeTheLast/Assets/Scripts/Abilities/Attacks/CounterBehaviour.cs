@@ -64,14 +64,6 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
             }
         }
-        else if (other.CompareTag("Obstacles"))
-        {
-
-        }
-        else if (other.gameObject.layer == 12)
-        {
-
-        }
     }
 
     protected override void LifeTimeElapsed()

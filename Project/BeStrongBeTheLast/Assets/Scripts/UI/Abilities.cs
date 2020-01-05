@@ -18,11 +18,14 @@ public class Abilities : PausableMonoBehaviour
     public Slider powerGauge;
     public Slider driftHeating;
     public Image warningImage;
-    public GameObject driftHeatingFill, panelRankings;
+    public GameObject driftHeatingFill, panelRankings, blinding;
     public GameObject counterIcon, projectileIcon, specialIcon;
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
     public GameObject cameraParticles1, cameraParticles2, cameraParticles3;
     public ParticleSystem particles;
+    public Material blindMat;
+    public float maxDissolveAmount=0.5f;
+    public float dissolveAmount=0f;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
@@ -84,6 +87,15 @@ public class Abilities : PausableMonoBehaviour
             oldCanUseSpecial = kartController.canUseSpecial();
 
             warningImage.enabled = kartController.warning;
+
+            blinding.SetActive(kartController.iAmBlinded);
+
+            // Sta roba non va come dovrebbe. 
+
+            var dissolveDiff = maxDissolveAmount - dissolveAmount;
+            blindMat.SetFloat("_DissolvePower", kartController.EffectDistributionFormula(dissolveAmount, dissolveDiff));
+
+            blinding.GetComponent<Image>().material = blindMat;
         }
     }
 

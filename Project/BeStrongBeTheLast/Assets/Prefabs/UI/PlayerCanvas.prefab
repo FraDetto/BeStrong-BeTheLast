@@ -1467,6 +1467,7 @@ MonoBehaviour:
   warningImage: {fileID: 9065203359704326041}
   driftHeatingFill: {fileID: 1756235849150715525}
   panelRankings: {fileID: 9284250423932032}
+  blinding: {fileID: 3082278053120390798}
   counterIcon: {fileID: 2176941838427647131}
   projectileIcon: {fileID: 1748808356101473084}
   specialIcon: {fileID: 5657110014261327282}
@@ -1480,6 +1481,7 @@ MonoBehaviour:
   cameraParticles2: {fileID: 8876532897627268158}
   cameraParticles3: {fileID: 8955821728653393229}
   particles: {fileID: 0}
+  blindMat: {fileID: 2100000, guid: 938b8e402e563b64c8c22c18ae000a1f, type: 2}
   abilityReady: {fileID: 4405930676058790426}
   specialReady: {fileID: 46376031270801868}
 --- !u!82 &4405930676058790426
@@ -2751,6 +2753,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07f182a74bbb81d49879805c9e19bc9d, type: 3}
+--- !u!1 &3082278053120390798 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4427509881348483690, guid: 07f182a74bbb81d49879805c9e19bc9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1709080085861489892}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3082278053120390801 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4427509881348483701, guid: 07f182a74bbb81d49879805c9e19bc9d,
@@ -2971,15 +2979,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eb2ba42092b1154dafd998ca3552667, type: 3}
---- !u!224 &653893239775092535 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7326546239129336499, guid: 6eb2ba42092b1154dafd998ca3552667,
-    type: 3}
-  m_PrefabInstance: {fileID: 7835707632115901828}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9284250423932032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7826971831852847364, guid: 6eb2ba42092b1154dafd998ca3552667,
+    type: 3}
+  m_PrefabInstance: {fileID: 7835707632115901828}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &653893239775092535 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7326546239129336499, guid: 6eb2ba42092b1154dafd998ca3552667,
     type: 3}
   m_PrefabInstance: {fileID: 7835707632115901828}
   m_PrefabAsset: {fileID: 0}
