@@ -10,13 +10,37 @@ using UnityEngine;
 
 public class RotatingBehaviour : aAbilitiesBehaviour
 {
+    public float accelerationFromShot = 15f;
+    public float rotatingSpeed = 2f;
+    public float targetRadius = 5f;
+
+    private CapsuleCollider collider;
 
     private void Start()
     {
         Start_();
 
         user = transform.root.gameObject;
+        collider = GetComponent<CapsuleCollider>();
+
         StartCoroutine(Lifetime());
+    }
+
+    private void Update()
+    {
+        if(collider.radius < targetRadius)
+        {
+            collider.radius += Time.deltaTime;
+            if(collider.radius > targetRadius)
+                collider.radius = targetRadius;
+        }
+
+        /* Non funziona come dovrebbe
+         
+        var kartController = transform.root.GetComponentInChildren<KartController>();
+        kartController.ApplyRotation(rotatingSpeed);
+
+        */
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,10 +48,14 @@ public class RotatingBehaviour : aAbilitiesBehaviour
         if (GB.CompareORTags(other, "Player", "CPU"))
             if (!other.transform.root.gameObject.Equals(user))
             {
-                var kartCollision = other.transform.root.GetComponentInChildren<KartCollision>();
+                var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
+                kartController.Accelerate(accelerationFromShot);
 
-                //kartCollision.countered = true;
-                kartCollision.rotatingPush = 2f;
+                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                {
+                    c.hitBy = user;
+                    StartCoroutine(c.hitByImmunity());
+                }
             }
     }
 

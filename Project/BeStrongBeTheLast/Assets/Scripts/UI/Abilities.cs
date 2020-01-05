@@ -90,12 +90,14 @@ public class Abilities : PausableMonoBehaviour
 
             blinding.SetActive(kartController.iAmBlinded);
 
-            // Sta roba non va come dovrebbe. 
+            /* Non funziona come dovrebbe. 
 
             var dissolveDiff = maxDissolveAmount - dissolveAmount;
             blindMat.SetFloat("_DissolvePower", kartController.EffectDistributionFormula(dissolveAmount, dissolveDiff));
 
             blinding.GetComponent<Image>().material = blindMat;
+
+            */
         }
     }
 

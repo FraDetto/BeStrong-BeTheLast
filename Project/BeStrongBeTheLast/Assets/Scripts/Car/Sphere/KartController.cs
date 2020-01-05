@@ -342,4 +342,9 @@ public sealed class KartController : aBSBTLKart
         return R;
     }
 
+    internal void ApplyRotation(float speed)
+    {
+        transform.Rotate(Vector3.up, speed * Time.deltaTime);
+    }
+
 }
