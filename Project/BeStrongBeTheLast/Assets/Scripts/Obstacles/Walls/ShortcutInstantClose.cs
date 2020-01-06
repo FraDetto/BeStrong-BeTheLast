@@ -21,7 +21,7 @@ public class ShortcutInstantClose : PausableMonoBehaviour
     private void Start()
     {
         shortcutMovement = wall.GetComponent<ShortcutMovement>();
-        shortcutMovement.setTrigger(this);
+        shortcutMovement.SetTrigger(this);
     }
 
     private void OnTriggerExit(Collider other)

@@ -27,7 +27,7 @@ public class ShortcutTrigger : PausableMonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (Random.Range(0, 100) < flipChance)
-                wallScript.forceChangeState();
+                wallScript.ForceChangeState();
         }
     }
 

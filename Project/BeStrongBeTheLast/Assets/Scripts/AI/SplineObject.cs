@@ -32,7 +32,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     internal SplineObject prev_Spline;
 
 
-    internal SplineObject nextAlternativeSpline
+    internal SplineObject NextAlternativeSpline
     {
         get
         {
@@ -51,51 +51,45 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         }
     }
 
-    internal SplineObject nextFirstSpline
+    internal SplineObject NextFirstSpline(aKartController kartController)
     {
-        get
+        while (true)
         {
-            while (true)
+            foreach (var nextS in nextSplines)
+                if (!IsWallClosed(nextS, kartController))
+                {
+                    nextS.prev_Spline = this;
+
+                    return nextS;
+                }
+
+            if (CanBeClosedByThisWall_AlternativeFork)
             {
-                foreach (var nextS in nextSplines)
-                    if (!IsWallClosed(nextS, null))
+                CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
+
+                return CanBeClosedByThisWall_AlternativeFork;
+            }
+        }
+    }
+
+    internal SplineObject NextRandomSpline(aKartController kartController)
+    {
+        while (true)
+        {
+            foreach (var nextS in nextSplines)
+                if (!IsWallClosed(nextS, kartController))
+                    if (nextS.probability == 0 || Random.value < nextS.probability)
                     {
                         nextS.prev_Spline = this;
 
                         return nextS;
                     }
 
-                if (CanBeClosedByThisWall_AlternativeFork)
-                {
-                    CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
-
-                    return CanBeClosedByThisWall_AlternativeFork;
-                }
-            }
-        }
-    }
-
-    internal SplineObject nextRandomSpline
-    {
-        get
-        {
-            while (true)
+            if (CanBeClosedByThisWall_AlternativeFork)
             {
-                foreach (var nextS in nextSplines)
-                    if (!IsWallClosed(nextS, null))
-                        if (nextS.probability == 0 || Random.value < nextS.probability)
-                        {
-                            nextS.prev_Spline = this;
+                CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
 
-                            return nextS;
-                        }
-
-                if (CanBeClosedByThisWall_AlternativeFork)
-                {
-                    CanBeClosedByThisWall_AlternativeFork.prev_Spline = this;
-
-                    return CanBeClosedByThisWall_AlternativeFork;
-                }
+                return CanBeClosedByThisWall_AlternativeFork;
             }
         }
     }
@@ -108,13 +102,13 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         OnDrawGizmosSelected();
     }
 
-    private bool IsClosed(ShortcutMovement shortcut, KartController kartController) =>
+    private bool IsClosed(ShortcutMovement shortcut, aKartController kartController) =>
         shortcut && shortcut.closed && (shortcut.wallClosedBy == null || !shortcut.wallClosedBy.Equals(kartController));
 
-    internal bool IsThisSplineClosed(KartController kartController) =>
+    internal bool IsThisSplineClosed(aKartController kartController) =>
         IsClosed(CanBeClosedByThisWall, kartController) || (prev_Spline && IsClosed(prev_Spline.CanBeClosedByThisWall, kartController));
 
-    private bool IsWallClosed(SplineObject destination, KartController kartController) =>
+    private bool IsWallClosed(SplineObject destination, aKartController kartController) =>
         IsClosed(CanBeClosedByThisWall, kartController) || IsClosed(destination.CanBeClosedByThisWall, kartController);
 
     public int CompareTo(object obj) =>
@@ -132,11 +126,11 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
             switch (kartController.KCType)
             {
                 case aKartController.eKCType.Human:
-                    kartController.SetDestination(0, 0, false, nextFirstSpline);
+                    kartController.SetDestination(0, 0, false, NextFirstSpline(kartController));
                     break;
 
                 case aKartController.eKCType.CPU:
-                    kartController.SetDestinationWithError(nextRandomSpline);
+                    kartController.SetDestinationWithError(NextRandomSpline(kartController));
                     break;
             }
         });
