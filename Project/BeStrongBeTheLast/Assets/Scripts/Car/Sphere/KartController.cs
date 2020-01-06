@@ -47,6 +47,9 @@ public sealed class KartController : aBSBTLKart
     //[Range(0, 1)] non è stato più usato
     //public float ProbabilitàDiSparare = 0.5f;
 
+    [Range(20, 200)]
+    public byte MaxKMH = 120;
+
 
     private void Start()
     {
@@ -179,6 +182,9 @@ public sealed class KartController : aBSBTLKart
 
                 break;
         }
+
+        if (GB.ms_to_kmh(sphere.velocity.magnitude) > MaxKMH)
+            sphere.velocity = sphere.velocity.normalized * GB.kmh_to_ms(MaxKMH);
 
         Debug.DrawLine(transform.position, lookAtDestOriginal, Color.green);
         Debug.DrawLine(transform.position, lookAtDest, Color.red);

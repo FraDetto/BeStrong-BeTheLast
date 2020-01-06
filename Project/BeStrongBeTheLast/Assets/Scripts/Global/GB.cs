@@ -308,15 +308,14 @@ public static class GB
         return R;
     }
 
-    public static double ms_to_kmh(float meters_per_seconds)
-    {
-        return meters_per_seconds * 3.6;
-    }
+    public static float kmh_to_ms(float km_per_seconds) =>
+        km_per_seconds / 3.6f;
 
-    public static double ms_to_mph(float meters_per_seconds)
-    {
-        return meters_per_seconds * 2.237;
-    }
+    public static float ms_to_kmh(float meters_per_seconds) =>
+        meters_per_seconds * 3.6f;
+
+    public static float ms_to_mph(float meters_per_seconds) =>
+        meters_per_seconds * 2.237f;
 
     public static T getRandomEnum<T>()
     {
