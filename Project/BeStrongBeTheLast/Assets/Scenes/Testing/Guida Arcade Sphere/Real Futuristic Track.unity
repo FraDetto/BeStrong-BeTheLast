@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009786535, g: 0.05188808, b: 0.1522932, a: 1}
+  m_IndirectSpecularColor: {r: 0.009783041, g: 0.051865704, b: 0.15223715, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1178,12 +1178,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 1
   kartOnTheSceneOrCPUToFollow: {fileID: 2085206946}
+  firstSpline: {fileID: 1359271187}
   cameras:
   - {fileID: 1566111164}
   - {fileID: 91232158}
   - {fileID: 1457604672}
   - {fileID: 518858229}
-  firstSpline: {fileID: 1359271187}
 --- !u!4 &166038841
 Transform:
   m_ObjectHideFlags: 0
@@ -13309,22 +13309,22 @@ PrefabInstance:
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.01151949
+      value: -0.0059354883
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.014244355
+      value: -0.014624263
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.54459435
+      value: -0.15864874
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.83849955
+      value: -0.98720896
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
@@ -13409,22 +13409,22 @@ PrefabInstance:
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.045200896
+      value: -0.013097089
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.08586636
+      value: 0.10675252
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.8978342
+      value: -0.88843024
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.42950878
+      value: 0.44623327
       objectReference: {fileID: 0}
     - target: {fileID: 8684401572784626255, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
@@ -14203,12 +14203,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 2
   kartOnTheSceneOrCPUToFollow: {fileID: 1982920277}
+  firstSpline: {fileID: 1359271187}
   cameras:
   - {fileID: 583222808}
   - {fileID: 583222807}
   - {fileID: 583222806}
   - {fileID: 583222805}
-  firstSpline: {fileID: 1359271187}
 --- !u!4 &668552176
 Transform:
   m_ObjectHideFlags: 0
@@ -16179,12 +16179,52 @@ PrefabInstance:
     - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 452.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 111.74997
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436643826959696096, guid: 1905b82e8073faf4db72d5485a8037b5,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1117665019674115866, guid: 1905b82e8073faf4db72d5485a8037b5, type: 3}
@@ -17239,8 +17279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 1839739931}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1 &911234567
 GameObject:
   m_ObjectHideFlags: 0
@@ -24353,8 +24393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 1393067282}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1001 &1150007892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25322,8 +25362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 1635360206}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1 &1288679694
 GameObject:
   m_ObjectHideFlags: 0
@@ -26111,8 +26151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 875690323}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1 &1354203159
 GameObject:
   m_ObjectHideFlags: 0
@@ -26312,7 +26352,7 @@ PrefabInstance:
     - target: {fileID: 1284683510941405281, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.76
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510941405281, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
@@ -26364,6 +26404,11 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1359271187}
+    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
+        type: 3}
+      propertyPath: distanzaYDallaSfera
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5581485611791282758, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -31647,8 +31692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 1331394742}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1001 &1509009745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31860,8 +31905,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   kartOnTheSceneOrCPUToFollow: {fileID: 1150007893}
-  cameras: []
   firstSpline: {fileID: 1359271187}
+  cameras: []
 --- !u!1 &1550408344
 GameObject:
   m_ObjectHideFlags: 0
@@ -38907,22 +38952,22 @@ PrefabInstance:
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.006068855
+      value: 0.016550617
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.059007056
+      value: -0.07320601
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5647746
+      value: 0.74262893
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8231106
+      value: 0.6654843
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
@@ -38957,22 +39002,22 @@ PrefabInstance:
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.012071763
+      value: 0.021772208
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.05223518
+      value: 0.06942624
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.89619243
+      value: -0.8926141
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.44041464
+      value: 0.44491118
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}

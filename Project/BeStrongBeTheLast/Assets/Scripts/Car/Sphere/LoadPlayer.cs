@@ -19,8 +19,9 @@ public class LoadPlayer : PausableMonoBehaviour
     private GameObject playerOnTheSceneOrCPUToFollow;
     public KartController kartOnTheSceneOrCPUToFollow;
 
-    public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
     public SplineObject firstSpline;
+
+    public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
 
 
     private void Start()

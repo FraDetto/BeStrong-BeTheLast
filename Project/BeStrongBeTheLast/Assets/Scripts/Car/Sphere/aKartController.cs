@@ -54,6 +54,9 @@ public abstract class aKartController : aCollisionManager
     public Rigidbody sphere;
     public float currentSpeed;
 
+    public float distanzaYDallaSfera = 0.4f;
+    private Vector3 vettoreCorrezioneSfera;
+
 
     [Header("AI")]
     public eKCType KCType = eKCType.Human;
@@ -112,8 +115,6 @@ public abstract class aKartController : aCollisionManager
 
     private readonly string[] tubes = { "Tube001", "Tube002" };
 
-    private Vector3 vettoreCorrezioneSfera = new Vector3(0, 0.4f, 0);
-
     internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
     internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
@@ -128,6 +129,8 @@ public abstract class aKartController : aCollisionManager
     protected void Start_()
     {
         Paused = true;
+
+        vettoreCorrezioneSfera = new Vector3(0, distanzaYDallaSfera, 0);
 
         if (camera_ == null)
             foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
