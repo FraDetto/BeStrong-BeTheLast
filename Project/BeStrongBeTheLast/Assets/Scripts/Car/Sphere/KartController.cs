@@ -47,9 +47,6 @@ public sealed class KartController : aBSBTLKart
     //[Range(0, 1)] non è stato più usato
     //public float ProbabilitàDiSparare = 0.5f;
 
-    [Range(20, 200)]
-    public byte MaxKMH = 120;
-
 
     private void Start()
     {
