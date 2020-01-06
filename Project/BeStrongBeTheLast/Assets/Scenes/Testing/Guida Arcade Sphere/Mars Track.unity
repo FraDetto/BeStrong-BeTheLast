@@ -3659,13 +3659,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5402fe5a7fb57d846982a18d5d643959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerNumber: 1
+  kartOnTheSceneOrCPUToFollow: {fileID: 0}
   cameras:
   - {fileID: 0}
   - {fileID: 91232158}
   - {fileID: 1457604672}
   - {fileID: 518858229}
   firstSpline: {fileID: 0}
-  playerOnTheSceneOrCPUToFollow: {fileID: 0}
 --- !u!4 &166038841
 Transform:
   m_ObjectHideFlags: 0
@@ -15164,7 +15165,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1226054322}
+      objectReference: {fileID: 2014042452}
     - target: {fileID: 8488473236611173596, guid: 1905b82e8073faf4db72d5485a8037b5,
         type: 3}
       propertyPath: countDownDuration
@@ -15174,7 +15175,7 @@ PrefabInstance:
         type: 3}
       propertyPath: kartController
       value: 
-      objectReference: {fileID: 2085206946}
+      objectReference: {fileID: 1393067282}
     - target: {fileID: 5005786390208683392, guid: 1905b82e8073faf4db72d5485a8037b5,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -24324,7 +24325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1226504938}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: InvisibleWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26252,7 +26253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1291153156}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28085,6 +28086,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b71d46600b6f23446884b12b7facf4d9, type: 3}
+--- !u!114 &1393067282 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1393067281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa674e97f0a45747bb77a3b74099d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1401615395
 GameObject:
   m_ObjectHideFlags: 0
@@ -42880,7 +42893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2079065767}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DoorForShortcut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44718,11 +44731,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CinemachineBrainP1
       objectReference: {fileID: 0}
-    - target: {fileID: 8684401571207103542, guid: 55ab135c16f9ba244ba80b1238805b30,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -44741,22 +44749,22 @@ PrefabInstance:
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.009811733
+      value: 0.00896137
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0012299387
+      value: 0.013028022
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.421537
+      value: 0.36217248
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.90675735
+      value: 0.931977
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103543, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
@@ -44778,25 +44786,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8684401571207103542, guid: 55ab135c16f9ba244ba80b1238805b30,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684401571207103541, guid: 55ab135c16f9ba244ba80b1238805b30,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684401571207103541, guid: 55ab135c16f9ba244ba80b1238805b30,
+        type: 3}
+      propertyPath: stopNaNPropagation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.02613988
+      value: -0.023906777
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.10083139
+      value: -0.105605416
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.8638312
+      value: 0.86194015
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.49289486
+      value: -0.4953133
       objectReference: {fileID: 0}
     - target: {fileID: 8684401571627164055, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
@@ -44853,16 +44876,6 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1940186817}
-    - target: {fileID: 8684401571207103541, guid: 55ab135c16f9ba244ba80b1238805b30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8684401571207103541, guid: 55ab135c16f9ba244ba80b1238805b30,
-        type: 3}
-      propertyPath: stopNaNPropagation
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8684401571207103540, guid: 55ab135c16f9ba244ba80b1238805b30,
         type: 3}
       propertyPath: m_Enabled
