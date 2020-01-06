@@ -22,7 +22,7 @@ public class LoadPlayer : PausableMonoBehaviour
     {
         if (!playerOnTheSceneOrCPUToFollow)
             playerOnTheSceneOrCPUToFollow = Instantiate(
-                Resources.Load("Models/Real Kart/Prefabs/" + GameState.Instance.playerChampName) as GameObject,
+                Resources.Load("Models/Real Kart/Prefabs/Kiddo") as GameObject, // GameState.Instance.playerChampName
                 transform.position,
                 Quaternion.identity
             );
