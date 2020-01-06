@@ -23,7 +23,7 @@ internal static class GameState
     internal class GameStateInternal
     {
         //CURRENT RACE OPTIONS
-        internal string[] playersChampName = new string[0]; // lasciare a 0
+        internal List<string> playersChampName = new List<string>();
 
         internal string selectedTrackName;
         internal int lapsNumberSetting = 3;

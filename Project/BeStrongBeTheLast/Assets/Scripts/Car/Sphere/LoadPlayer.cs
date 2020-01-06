@@ -14,10 +14,11 @@ public class LoadPlayer : PausableMonoBehaviour
 {
 
     [Range(0, 8)]
-    public byte PlayerNumber = 1;
+    public byte PlayerNumber;
 
     private GameObject playerOnTheSceneOrCPUToFollow;
     public KartController kartOnTheSceneOrCPUToFollow;
+    public GameObject UI;
 
     public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
     public SplineObject firstSpline;
@@ -25,18 +26,24 @@ public class LoadPlayer : PausableMonoBehaviour
 
     private void Start()
     {
-        if (PlayerNumber > 0 && GameState.Instance.playersChampName.Length > 0)
+        if (PlayerNumber > 0 && GameState.Instance.playersChampName.Count > 0)
         {
             playerOnTheSceneOrCPUToFollow = Instantiate(
-                Resources.Load("Models/Real Kart/Prefabs/" + GameState.Instance.playersChampName[PlayerNumber]) as GameObject,
+                Resources.Load("Models/Prefabs/Characters/" + GameState.Instance.playersChampName[PlayerNumber - 1]) as GameObject,
                 transform.position,
                 Quaternion.identity
             );
 
-            playerOnTheSceneOrCPUToFollow.gameObject.name = "Player" + PlayerNumber;
+            playerOnTheSceneOrCPUToFollow.gameObject.name = GameState.Instance.playersChampName[PlayerNumber - 1];
 
-            var kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
-            kartOnTheSceneOrCPUToFollow = kart.GetComponent<KartController>();
+            kartOnTheSceneOrCPUToFollow = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
+            kartOnTheSceneOrCPUToFollow.KCType = aKartController.eKCType.Human;
+            kartOnTheSceneOrCPUToFollow.Paused = true;
+            kartOnTheSceneOrCPUToFollow.playerNumber = PlayerNumber;
+            UI.GetComponentInChildren<LapManager>().player = playerOnTheSceneOrCPUToFollow;
+            UI.GetComponentInChildren<Abilities>().kartController = kartOnTheSceneOrCPUToFollow;
+            EndManager endManager =  firstSpline.transform.parent.GetComponentInChildren<EndManager>();
+            endManager.cars[5 + PlayerNumber] = playerOnTheSceneOrCPUToFollow;
         }
 
 
