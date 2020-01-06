@@ -30,7 +30,8 @@ public class RaceOptionsSelector : PausableMonoBehaviour
         GameState.Instance.selectedTrackName = trackName;
         GameState.Instance.playersChampName = new string[numP];
 
-        GB.GotoSceneName("KartSelection");
+        //GB.GotoSceneName("KartSelection");
+        LoadTrack();
     }
 
     // Fase 2 Player Selection
