@@ -27,7 +27,9 @@ public class LapManager : PausableMonoBehaviour
     {
         countdown = countDownDuration;
         startLoop();
-        count.Play();
+
+        if (count.isActiveAndEnabled)
+            count.Play();
     }
 
     private void startLoop()

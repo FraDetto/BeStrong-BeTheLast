@@ -24,8 +24,8 @@ public class Abilities : PausableMonoBehaviour
     public GameObject counterUI, projectileUI, specialUI;
     public ParticleSystem particles;
     public Material blindMat;
-    public float maxDissolveAmount=0.5f;
-    public float dissolveAmount=0f;
+    public float maxDissolveAmount = 0.5f;
+    public float dissolveAmount = 0f;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
@@ -76,7 +76,7 @@ public class Abilities : PausableMonoBehaviour
 
             if (newCanUseSpecial && newCanUseSpecial != oldCanUseSpecial)
                 specialUI.transform.GetChild(0).gameObject.SetActive(true);*/
-            
+
             var counterReady = counterUI.transform.GetChild(0).gameObject;
             var projectileReady = projectileUI.transform.GetChild(0).gameObject;
             var specialReady = specialUI.transform.GetChild(0).gameObject;
@@ -85,27 +85,18 @@ public class Abilities : PausableMonoBehaviour
             var projectileUsed = projectileUI.transform.GetChild(1).gameObject;
             var specialUsed = specialUI.transform.GetChild(1).gameObject;
 
-            if(counterReady.active && kartController.counterRecharging)
-                counterUsed.active = true;
+            if (counterReady.activeInHierarchy)
+                counterUsed.SetActive(kartController.counterRecharging);
 
-            if(projectileReady.active && kartController.projectileRecharging)
-                projectileUsed.active = true;
+            if (projectileReady.activeInHierarchy)
+                projectileUsed.SetActive(kartController.projectileRecharging);
 
-            if(specialReady.active && kartController.specialRecharging)
-                specialUsed.active = true;
+            if (specialReady.activeInHierarchy)
+                specialUsed.SetActive(kartController.specialRecharging);
 
-            if(counterUsed.active && !kartController.counterRecharging)
-                counterUsed.active = false;
-
-            if(projectileUsed.active && !kartController.projectileRecharging)
-                projectileUsed.active = false;
-
-            if(specialUsed.active && !kartController.specialRecharging)
-                specialUsed.active = false;
-
-            counterReady.active = newCanUseCounter;
-            projectileReady.active = newCanUseProj;
-            specialReady.active = newCanUseSpecial;
+            counterReady.SetActive(newCanUseCounter);
+            projectileReady.SetActive(newCanUseProj);
+            specialReady.SetActive(newCanUseSpecial);
 
             counterIcon.GetComponent<Image>().sprite = newCanUseCounter ? shieldAct : shieldInact;
             projectileIcon.GetComponent<Image>().sprite = newCanUseProj ? projectileAct : projectileInact;
