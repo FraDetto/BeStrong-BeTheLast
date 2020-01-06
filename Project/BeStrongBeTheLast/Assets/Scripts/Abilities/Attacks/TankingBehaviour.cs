@@ -31,8 +31,6 @@ public class TankingBehaviour : aAbilitiesBehaviour
 
         rigidbody_.mass *= 2;
         rigidbody_.drag += 1;
-
-        StartCoroutine(Lifetime());
     }
 
     protected override void LifeTimeElapsed()

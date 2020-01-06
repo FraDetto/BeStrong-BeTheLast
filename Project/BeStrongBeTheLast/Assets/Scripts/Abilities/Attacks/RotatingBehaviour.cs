@@ -23,8 +23,6 @@ public class RotatingBehaviour : aAbilitiesBehaviour
 
         user = transform.root.gameObject;
         collider_ = GetComponent<CapsuleCollider>();
-
-        StartCoroutine(Lifetime());
     }
 
     private void Update()

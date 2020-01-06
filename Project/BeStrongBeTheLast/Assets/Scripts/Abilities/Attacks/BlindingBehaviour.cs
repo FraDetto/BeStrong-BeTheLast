@@ -16,8 +16,6 @@ public class BlindingBehaviour : aAbilitiesBehaviour
         Start_();
 
         BlindCars(allCars, true);
-
-        StartCoroutine(Lifetime());
     }
 
     private void BlindCars(List<KartController> cars, bool blinded)

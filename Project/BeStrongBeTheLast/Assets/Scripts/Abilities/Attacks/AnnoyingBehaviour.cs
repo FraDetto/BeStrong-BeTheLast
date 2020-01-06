@@ -22,7 +22,6 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
 
         AnnoyCars(allCars, annoyingAmount, true);
 
-        StartCoroutine(Lifetime());
     }
 
     private void AnnoyCars(List<KartController> cars, float annoyingAmount, bool annoyed)
