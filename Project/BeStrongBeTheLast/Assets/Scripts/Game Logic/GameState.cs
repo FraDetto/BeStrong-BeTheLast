@@ -23,7 +23,7 @@ internal static class GameState
     internal class GameStateInternal
     {
         //CURRENT RACE OPTIONS
-        internal FixedSizedQueue<string> playersChampName = new FixedSizedQueue<string>(2);
+        internal FixedSizedQueue<string> playersChampName;
 
         internal string selectedTrackName;
         internal int lapsNumberSetting = 3;

@@ -11,19 +11,37 @@ using UnityEngine.SceneManagement;
 public class RaceOptionsSelector : PausableMonoBehaviour
 {
 
+    private byte GetNumberOfPlayerByTrackName(string trackName)
+    {
+        switch (trackName)
+        {
+            case "Real Futuristic Track":
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
+    // Fase 1 Track Selection
+    public void SelectTrack(string trackName)
+    {
+        var numP = GetNumberOfPlayerByTrackName(trackName);
+
+        GameState.Instance.selectedTrackName = trackName;
+        GameState.Instance.playersChampName = new FixedSizedQueue<string>(numP);
+
+        GB.GotoSceneName("KartSelection");
+    }
+
+    // Fase 2 Player Selection
     public void AddThisPlayer(string champName) =>
         GameState.Instance.playersChampName.Enqueue(champName);
 
+    // Fase 3 Start game
     public void LoadTrack()
     {
         var track = "Scenes/Testing/Guida Arcade Sphere/" + GameState.Instance.selectedTrackName;
         SceneManager.LoadScene(track, LoadSceneMode.Single);
-    }
-
-    public void SelectTrack(string trackName)
-    {
-        GameState.Instance.selectedTrackName = trackName;
-        GB.GotoSceneName("KartSelection");
     }
 
 }
