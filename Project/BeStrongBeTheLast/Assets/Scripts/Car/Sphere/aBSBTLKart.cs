@@ -77,9 +77,9 @@ public abstract class aBSBTLKart : aKartController
 
     internal Transform debuff;
 
-    private bool counterRecharging;
-    private bool projectileRecharging;
-    private bool specialRecharging;
+    internal bool counterRecharging;
+    internal bool projectileRecharging;
+    internal bool specialRecharging;
 
     internal float powerGaugeValue;
 
@@ -95,11 +95,11 @@ public abstract class aBSBTLKart : aKartController
             { ePlayer.Bard, new sAbilities(homing, annoying) },
             { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
             { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
-            { ePlayer.Hypogeum, new sAbilities(homing, tanking) },
+            { ePlayer.Hypogeum, new sAbilities(null, tanking, attracting/*homing, tanking*/) },
             { ePlayer.Imps, new sAbilities(trishot, annoying) },
             { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
             { ePlayer.Politician, new sAbilities(trishot, blinding) },
-            { ePlayer.Steamdunker, new sAbilities(null, blinding, attracting) },
+            { ePlayer.Steamdunker, new sAbilities(homing, blinding/*null, blinding, attracting*/) },
         };
 
         // testing attracting

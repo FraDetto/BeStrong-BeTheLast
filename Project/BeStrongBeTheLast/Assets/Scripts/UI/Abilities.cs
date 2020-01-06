@@ -29,7 +29,6 @@ public class Abilities : PausableMonoBehaviour
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
-
     //private Color heatedColor = new Color32(242, 66, 66, 255);
     //private Color coldColor = new Color32(0, 57, 171, 255);
 
@@ -78,9 +77,35 @@ public class Abilities : PausableMonoBehaviour
             if (newCanUseSpecial && newCanUseSpecial != oldCanUseSpecial)
                 specialUI.transform.GetChild(0).gameObject.SetActive(true);*/
             
-            counterUI.transform.GetChild(0).gameObject.SetActive(newCanUseCounter);
-            projectileUI.transform.GetChild(0).gameObject.SetActive(newCanUseProj);
-            specialUI.transform.GetChild(0).gameObject.SetActive(newCanUseSpecial); 
+            var counterReady = counterUI.transform.GetChild(0).gameObject;
+            var projectileReady = projectileUI.transform.GetChild(0).gameObject;
+            var specialReady = specialUI.transform.GetChild(0).gameObject;
+
+            var counterUsed = counterUI.transform.GetChild(1).gameObject;
+            var projectileUsed = projectileUI.transform.GetChild(1).gameObject;
+            var specialUsed = specialUI.transform.GetChild(1).gameObject;
+
+            if(counterReady.active && kartController.counterRecharging)
+                counterUsed.active = true;
+
+            if(projectileReady.active && kartController.projectileRecharging)
+                projectileUsed.active = true;
+
+            if(specialReady.active && kartController.specialRecharging)
+                specialUsed.active = true;
+
+            if(counterUsed.active && !kartController.counterRecharging)
+                counterUsed.active = false;
+
+            if(projectileUsed.active && !kartController.projectileRecharging)
+                projectileUsed.active = false;
+
+            if(specialUsed.active && !kartController.specialRecharging)
+                specialUsed.active = false;
+
+            counterReady.active = newCanUseCounter;
+            projectileReady.active = newCanUseProj;
+            specialReady.active = newCanUseSpecial;
 
             counterIcon.GetComponent<Image>().sprite = newCanUseCounter ? shieldAct : shieldInact;
             projectileIcon.GetComponent<Image>().sprite = newCanUseProj ? projectileAct : projectileInact;

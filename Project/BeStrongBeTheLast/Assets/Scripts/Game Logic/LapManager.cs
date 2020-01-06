@@ -20,11 +20,14 @@ public class LapManager : PausableMonoBehaviour
     public GameObject player, pausePanel, endPanel;
     private int countdown;
 
+    public AudioSource count;
+
 
     private void Start()
     {
         countdown = countDownDuration;
         startLoop();
+        count.Play();
     }
 
     private void startLoop()

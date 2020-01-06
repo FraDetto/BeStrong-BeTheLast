@@ -185,17 +185,17 @@ public abstract class aKartController : aCollisionManager
             }
             else if (hittingLeft && !hittingRight)
             {
-                Accelerate(2f);
+                Accelerate(1.5f);
                 xAxis = 1f;
             }
             else if (!hittingLeft && hittingRight)
             {
-                Accelerate(2f);
+                Accelerate(1.5f);
                 xAxis = -1f;
             }
             else if (!hittingLeft && !hittingRight)
             {
-                Accelerate(2f);
+                Accelerate(1.5f);
                 sphere.AddForce(transform.forward * 300f, ForceMode.Impulse);
                 settingOnTrack = false;
             }

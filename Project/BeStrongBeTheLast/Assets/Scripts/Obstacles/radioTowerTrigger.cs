@@ -22,7 +22,7 @@ public class radioTowerTrigger : PausableMonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
             other.transform.root.GetComponentInChildren<KartController>().Accelerate(acceleration);
-            StartCoroutine(disableElectricity());
+            //StartCoroutine(disableElectricity());
         }
     }
 
