@@ -38,7 +38,8 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
         allCars.AddRange(players);
         allCars.AddRange(bots);
 
-        StartCoroutine(Lifetime());
+        if(lengthTimeInSeconds > 0f)
+            StartCoroutine(Lifetime());
     }
 
     protected abstract void LifeTimeElapsed();

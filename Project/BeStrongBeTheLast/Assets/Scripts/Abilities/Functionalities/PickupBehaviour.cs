@@ -39,6 +39,7 @@ public class PickupBehaviour : PausableMonoBehaviour
             collider_.enabled = false;
             mesh.enabled = false;
             particle.gameObject.SetActive(false);
+            StartCoroutine(Respawn());
         }
     }
 

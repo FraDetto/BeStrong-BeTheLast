@@ -20,7 +20,6 @@ public class AttractingBehaviour : aAbilitiesBehaviour
     void Start()
     {
         Start_();
-        StartCoroutine(Lifetime());
     }
 
     private void Update()

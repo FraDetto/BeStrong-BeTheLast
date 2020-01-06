@@ -23,7 +23,6 @@ public class BouncingBehaviour : aAbilitiesBehaviour
         Start_();
 
         rolling = transform.GetChild(0).gameObject;
-        StartCoroutine(Lifetime());
 
         user = transform.root.gameObject;
         transform.parent = null;

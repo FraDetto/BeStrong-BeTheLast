@@ -44,7 +44,6 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
         ability.gameObject.SetActive(true);
 
-        StartCoroutine(Lifetime());
     }
 
     private void OnTriggerEnter(Collider other)
