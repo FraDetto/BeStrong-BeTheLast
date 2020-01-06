@@ -134,7 +134,7 @@ public sealed class KartController : aBSBTLKart
 
             case eKCType.CPU:
                 if (CurrentSplineObject && CurrentSplineObject.IsThisSplineClosed(this))
-                    SetDestinationWithError(CurrentSplineObject.nextAlternativeSpline);
+                    SetDestinationWithError(CurrentSplineObject.NextAlternativeSpline);
 
                 CPU_AI_Find_Obstacles(WrongWayFromSpline || WrongWayFromObstacle);
 
@@ -222,7 +222,7 @@ public sealed class KartController : aBSBTLKart
         Vector3.Distance(transform.position, curSplinePos);
 
     internal void SetDestinationWithError() =>
-        SetDestinationWithError(CurrentSplineObject.nextRandomSpline);
+        SetDestinationWithError(CurrentSplineObject.NextRandomSpline(this));
 
     internal void SetDestinationWithError(SplineObject nextSpline) =>
            SetDestination(GB.NormalizedRandom(-1f, 1f) * errorDelta, GB.NormalizedRandom(-1f, 1f) * errorDelta, false, nextSpline);

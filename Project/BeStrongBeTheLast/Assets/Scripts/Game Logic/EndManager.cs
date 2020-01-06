@@ -110,14 +110,14 @@ public class EndManager : PausableMonoBehaviour
         lap = Mathf.FloorToInt(splineScore / (float)splineTot);
         splineIndex = Mathf.Max(0, (splineScore - lap * splineTot) % splineTot);
 
-        Debug.Log(splineIndex + "/" + splineTot);
+        // Debug.Log(splineIndex + "/" + splineTot);
 
         var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
 
         if (splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
             GameState.Instance.laps[controller.transform.root.gameObject.name]--;
 
-        // COSA FA?
+        // Miky: COSA FA?
         sphere.transform.position = splineTransform.position;
         controller.rotateToSpline = true;
     }

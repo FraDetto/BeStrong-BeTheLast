@@ -16,7 +16,7 @@ public class ShortcutMovement : PausableMonoBehaviour
     public int maxStaticFrames;
     public float basePositionClosed, basePositionOpen;
 
-    internal KartController wallClosedBy;
+    internal aKartController wallClosedBy;
     internal bool closed = true;
 
     private bool forceClose = false;
@@ -42,7 +42,7 @@ public class ShortcutMovement : PausableMonoBehaviour
             MantainPosition(ready_);
     }
 
-    public void setTrigger(ShortcutInstantClose trigger) =>
+    internal void SetTrigger(ShortcutInstantClose trigger) =>
         this.trigger = trigger;
 
     void MantainPosition(bool flipClosed)
@@ -72,20 +72,20 @@ public class ShortcutMovement : PausableMonoBehaviour
         currentStaticFrames++;
     }
 
-    public void forceChangeState()
+    internal void ForceChangeState()
     {
         currentStaticFrames = staticFrames + 10;
         forceClose = true;
     }
 
-    private void imposeNewTimeout(int timeout) =>
+    private void ImposeNewTimeout(int timeout) =>
         newStaticFrames = 60 * timeout;
 
-    public void CloseNow(int timeout)
+    internal void CloseNow(int timeout)
     {
         closed = false;
-        forceChangeState();
-        imposeNewTimeout(timeout);
+        ForceChangeState();
+        ImposeNewTimeout(timeout);
     }
 
 }

@@ -594,7 +594,7 @@ public abstract class aKartController : aCollisionManager
         SetDestination(xRndError, zRndError, false);
 
     internal void SetDestination(float xRndError, float zRndError, bool firstTime) =>
-        SetDestination(xRndError, zRndError, first, CurrentSplineObject.nextFirstSpline);
+        SetDestination(xRndError, zRndError, first, CurrentSplineObject.NextFirstSpline(this));
 
     internal void SetDestination(float xRndError, float zRndError, bool firstTime, SplineObject nextSpline)
     {
@@ -610,7 +610,7 @@ public abstract class aKartController : aCollisionManager
                 var c = CurrentSplineObject;
 
                 while (CurrentSplineObject.prev_Spline == null)
-                    c = c.nextFirstSpline;
+                    c = c.NextFirstSpline(this);
 
                 prevSplinePos = CurrentSplineObject.prev_Spline.transform.position;
             }
