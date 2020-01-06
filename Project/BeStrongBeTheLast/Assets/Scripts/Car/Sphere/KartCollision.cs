@@ -65,7 +65,8 @@ public class KartCollision : aCollisionManager
                                 myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection, true);
                                 kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection, true);
 
-                                myKartController.Accelerate(1.1f + 1f * forceModifier);
+                                //myKartController.Accelerate(1.1f + 1f * forceModifier); al mio paese 1 × Y = Y
+                                myKartController.Accelerate(1.1f + forceModifier);
                                 kartController.Accelerate(0.9f - 0.5f * forceModifier);
                             }
                         break;

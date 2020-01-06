@@ -26,7 +26,7 @@ internal static class GameState
         internal string playerChampName, selectedTrackName;
         internal int lapsNumberSetting = 3;
         internal int scoreBiasDeadZone = 5;
-        internal float maxScoreBias = 1f;
+        internal float maxScoreBias = 1;
         internal int averageSplineScore = 0;
         internal bool activateRubberBanding = true;
 
@@ -97,8 +97,6 @@ internal static class GameState
 
         public float getScoreBiasBonus(string tag)
         {
-            float scoreBias;
-
             if (activateRubberBanding)
             {
                 float scoreSum = 0, avgScore = 0, maxScore = 0, minScore = 0, betterPlayers = 0;
@@ -123,22 +121,16 @@ internal static class GameState
 
                 betterPlayers = countBetterPlayers / Mathf.Max(1, positions.Count - 1);
 
-                scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) +
-                            0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
-                            0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) *
-                            betterPlayers;
+                var scoreBias =
+                    0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - maxScore, 20), 0) +
+                    0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - avgScore, 20), 0) +
+                    0.03f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - minScore, 20), 0) * betterPlayers;
 
                 if (countBetterPlayers > 0)
-                    scoreBias = Mathf.Min(maxScoreBias, scoreBias);
-                else
-                    scoreBias = 0;
-            }
-            else
-            {
-                scoreBias = 0;
+                    return Mathf.Min(maxScoreBias, scoreBias);
             }
 
-            return scoreBias;
+            return 0;
         }
 
         public float getScorePenaltyCPUSpeed(string tag, string firstPlayerTag)

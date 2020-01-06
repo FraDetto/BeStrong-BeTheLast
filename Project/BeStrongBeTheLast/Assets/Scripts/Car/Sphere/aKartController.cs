@@ -646,7 +646,7 @@ public abstract class aKartController : aCollisionManager
             dir.y = 0; // giusto?
 
             sphere.AddForce(dir.normalized * 10000f, ForceMode.Impulse);
-            Accelerate(4f);
+            Accelerate(4);
         }
         else
         {
