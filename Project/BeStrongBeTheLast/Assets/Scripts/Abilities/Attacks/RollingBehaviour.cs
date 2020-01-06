@@ -18,6 +18,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
     private GameObject bouncing;
     public GameObject explosion;
 
+
     private void Start()
     {
         Start_();
@@ -51,7 +52,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
 
                 Instantiate(explosion, transform.position, transform.rotation);
 
-                KillMe(); 
+                KillMe();
             }
         });
 

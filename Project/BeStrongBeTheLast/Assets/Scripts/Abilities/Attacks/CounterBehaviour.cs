@@ -16,11 +16,11 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
     public SphereCollider sphereCollider;
 
-    internal float raggioDiAzione =>
+    internal float RaggioDiAzione =>
         sphereCollider.radius;
 
-    internal float diametroDiAzione =>
-        raggioDiAzione * 2;
+    internal float DiametroDiAzione =>
+        RaggioDiAzione * 2;
 
 
     private void Start()
@@ -50,7 +50,6 @@ public class CounterBehaviour : aAbilitiesBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
-        {
             if (!other.transform.root.gameObject.Equals(transform.root.gameObject))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
@@ -61,9 +60,7 @@ public class CounterBehaviour : aAbilitiesBehaviour
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());
                 }
-
             }
-        }
     }
 
     protected override void LifeTimeElapsed()

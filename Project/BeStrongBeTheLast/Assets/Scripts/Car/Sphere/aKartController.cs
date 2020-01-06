@@ -120,7 +120,7 @@ public abstract class aKartController : aCollisionManager
 
     private GameState.GameStateInternal gameState = GameState.Instance;
 
-    private int numberOfPlayers; 
+    private int numberOfPlayers;
 
     protected void Start_()
     {
@@ -158,7 +158,7 @@ public abstract class aKartController : aCollisionManager
         if (!CurrentSplineObject)
             throw new Exception("Non hai settato CurrentSplineObject!");
 
-        numberOfPlayers = gameState.positions.Count-1; //Formula goes from 0 to 7 insted of 1 to 8
+        numberOfPlayers = gameState.positions.Count - 1; //Formula goes from 0 to 7 insted of 1 to 8
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
@@ -493,14 +493,16 @@ public abstract class aKartController : aCollisionManager
     {
         float bonusBias = gameState.getScoreBiasBonus(PlayerName);
 
-        if (amount > 1)
-            amount = amount - (Mathf.Max(amount - 1.1f, 0)) * bonusBias;
-        else
-            amount = amount - (Mathf.Max(amount - 0.1f, 0)) * bonusBias;
+        amount -= Mathf.Max(amount - (amount > 1 ? 1.1f : 0.1f), 0) * bonusBias;
+
+        //if (amount > 1)
+        //    amount = amount - Mathf.Max(amount - 1.1f, 0) * bonusBias;
+        //else
+        //    amount = amount - Mathf.Max(amount - 0.1f, 0) * bonusBias;
 
         currentSpeed *= amount;
 
-        float speedCap = (enableSpeedRubberbanding) ? 200 - 60 * bonusBias : 200;
+        float speedCap = enableSpeedRubberbanding ? 200 - 60 * bonusBias : 200;
 
         if (currentSpeed > speedCap)
             currentSpeed = speedCap;

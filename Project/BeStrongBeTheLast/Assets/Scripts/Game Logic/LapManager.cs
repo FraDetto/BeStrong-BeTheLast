@@ -84,6 +84,7 @@ public class LapManager : PausableMonoBehaviour
                         break;
                 }
             }
+
             if (!(GameState.Instance.laps[player.name] <= GameState.Instance.lapsNumberSetting))
             {
                 endPanel.SetActive(true);

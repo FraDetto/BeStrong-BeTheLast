@@ -14,25 +14,26 @@ public class RotatingBehaviour : aAbilitiesBehaviour
     public float rotatingSpeed = 2f;
     public float targetRadius = 5f;
 
-    private CapsuleCollider collider;
+    private CapsuleCollider collider_; // collider esiste in MonoBehaviour
+
 
     private void Start()
     {
         Start_();
 
         user = transform.root.gameObject;
-        collider = GetComponent<CapsuleCollider>();
+        collider_ = GetComponent<CapsuleCollider>();
 
         StartCoroutine(Lifetime());
     }
 
     private void Update()
     {
-        if(collider.radius < targetRadius)
+        if (collider_.radius < targetRadius)
         {
-            collider.radius += Time.deltaTime;
-            if(collider.radius > targetRadius)
-                collider.radius = targetRadius;
+            collider_.radius += Time.deltaTime;
+            if (collider_.radius > targetRadius)
+                collider_.radius = targetRadius;
         }
 
         /* Non funziona come dovrebbe
@@ -51,7 +52,7 @@ public class RotatingBehaviour : aAbilitiesBehaviour
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
                 kartController.Accelerate(accelerationFromShot);
 
-                foreach(var c in other.transform.root.GetComponentsInChildren<KartCollision>())
+                foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {
                     c.hitBy = user;
                     StartCoroutine(c.hitByImmunity());

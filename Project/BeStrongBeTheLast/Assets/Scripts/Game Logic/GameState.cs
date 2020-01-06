@@ -61,7 +61,7 @@ internal static class GameState
                     ro = rankingsDict[kartScore.Key];
                 }
 
-                ro.set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].GetCurrentSplineDistance());
+                ro.Set(kartScore.Value, kartScore.Key, kartControllers[kartScore.Key].GetCurrentSplineDistance());
             }
 
             rankings = rankings.OrderByDescending(c => c.getScore()).ThenBy(c => c.getDist()).ToList();
@@ -149,17 +149,18 @@ internal static class GameState
             {
                 float myScore = positions[tag];
                 float playerScore = positions[firstPlayerTag];
-                if(myScore - scoreBiasDeadZone > playerScore)
+
+                if (myScore - scoreBiasDeadZone > playerScore)
                     scoreBias = 0.05f * Mathf.Max(Mathf.Min(myScore - scoreBiasDeadZone - playerScore, 20), 0);
             }
             else
             {
                 scoreBias = 0;
             }
-            
+
             return scoreBias;
         }
-        
+
         public float getScoreBonusCPUSpeed(string tag, string lastPlayerTag)
         {
             float scoreBias = 0;
@@ -168,13 +169,15 @@ internal static class GameState
             {
                 float myScore = positions[tag];
                 float playerScore = positions[lastPlayerTag];
-                if(myScore + scoreBiasDeadZone < playerScore)
+
+                if (myScore + scoreBiasDeadZone < playerScore)
                     scoreBias = 0.05f * Mathf.Max(Mathf.Min(playerScore - scoreBiasDeadZone - myScore, 20), 0);
             }
             else
             {
                 scoreBias = 0;
             }
+
             return scoreBias;
         }
     }
@@ -185,25 +188,18 @@ internal static class GameState
         private string tag;
         private float dist;
 
-        public void set(int score, string tag, float dist)
+        public void Set(int score, string tag, float dist)
         {
             this.score = score;
             this.tag = tag;
             this.dist = dist;
         }
 
-        public int getScore()
-        {
-            return score;
-        }
-        public string getTag()
-        {
-            return tag;
-        }
-        public float getDist()
-        {
-            return dist;
-        }
+        public int getScore() => score;
+
+        public string getTag() => tag;
+
+        public float getDist() => dist;
     }
 
 }
