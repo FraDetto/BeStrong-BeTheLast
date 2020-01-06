@@ -13,23 +13,32 @@ using UnityEngine;
 public class LoadPlayer : PausableMonoBehaviour
 {
 
+    [Range(0, 8)]
+    public byte PlayerNumber = 1;
+
+    private GameObject playerOnTheSceneOrCPUToFollow;
+    public KartController kartOnTheSceneOrCPUToFollow;
+
     public List<CinemachineImpulseSource> cameras = new List<CinemachineImpulseSource>();
     public SplineObject firstSpline;
-    public GameObject playerOnTheSceneOrCPUToFollow;
 
 
     private void Start()
     {
-        if (!playerOnTheSceneOrCPUToFollow)
+        if (PlayerNumber > 0 && GameState.Instance.playersChampName.Length > 0)
+        {
             playerOnTheSceneOrCPUToFollow = Instantiate(
-                Resources.Load("Models/Real Kart/Prefabs/Kiddo") as GameObject, // GameState.Instance.playerChampName
+                Resources.Load("Models/Real Kart/Prefabs/" + GameState.Instance.playersChampName[PlayerNumber]) as GameObject,
                 transform.position,
                 Quaternion.identity
             );
 
-        playerOnTheSceneOrCPUToFollow.gameObject.name = "Player";
+            playerOnTheSceneOrCPUToFollow.gameObject.name = "Player" + PlayerNumber;
 
-        var kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
+            var kart = playerOnTheSceneOrCPUToFollow.transform.Find("Kart");
+            kartOnTheSceneOrCPUToFollow = kart.GetComponent<KartController>();
+        }
+
 
         CinemachineImpulseSource camera1 = null;
 
@@ -37,20 +46,16 @@ public class LoadPlayer : PausableMonoBehaviour
         {
             var cinemachineVirtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
 
-            cinemachineVirtualCamera.Follow = kart;
-            cinemachineVirtualCamera.LookAt = kart;
+            cinemachineVirtualCamera.Follow = kartOnTheSceneOrCPUToFollow.transform;
+            cinemachineVirtualCamera.LookAt = kartOnTheSceneOrCPUToFollow.transform;
 
             if (!camera1 && camera.enabled)
                 camera1 = camera;
         }
 
-        var kartController = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<KartController>();
-        kartController.CurrentSplineObject = firstSpline;
-        kartController.vCam = camera1;
-        kartController.UsaWrongWay = true;
-
-        var repulsiveWallStraight = playerOnTheSceneOrCPUToFollow.GetComponentInChildren<RepulsiveWallStraight>();
-        repulsiveWallStraight.AttivaCollisioniConMura = true;
+        kartOnTheSceneOrCPUToFollow.CurrentSplineObject = firstSpline;
+        kartOnTheSceneOrCPUToFollow.vCam = camera1;
+        kartOnTheSceneOrCPUToFollow.UsaWrongWay = true;
     }
 
 }

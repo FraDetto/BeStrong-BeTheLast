@@ -28,14 +28,14 @@ public class RaceOptionsSelector : PausableMonoBehaviour
         var numP = GetNumberOfPlayerByTrackName(trackName);
 
         GameState.Instance.selectedTrackName = trackName;
-        GameState.Instance.playersChampName = new FixedSizedQueue<string>(numP);
+        GameState.Instance.playersChampName = new string[numP];
 
         GB.GotoSceneName("KartSelection");
     }
 
     // Fase 2 Player Selection
-    public void AddThisPlayer(string champName) =>
-        GameState.Instance.playersChampName.Enqueue(champName);
+    public void AddThisPlayer(string champName, byte numP) =>
+        GameState.Instance.playersChampName[numP] = champName;
 
     // Fase 3 Start game
     public void LoadTrack()
