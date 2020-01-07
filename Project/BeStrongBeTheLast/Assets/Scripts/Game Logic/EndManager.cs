@@ -22,10 +22,12 @@ public class EndManager : PausableMonoBehaviour
 
     public GameObject portalPrefab;
     internal bool teleporterSpawned = false;
+    public int lapNumber = 3;
 
 
     private void Start()
     {
+        GameState.Instance.lapsNumberSetting = lapNumber;
         foreach (var car in cars)
         {
             var Kart = car.transform.GetChild(0);
@@ -143,7 +145,7 @@ public class EndManager : PausableMonoBehaviour
                     else
                         GameState.Instance.scoreBiasÇounter[car.name] = 0;
 
-                    if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
+                    if (GameState.Instance.scoreBiasÇounter[car.name] > 600)
                         if (!teleporterSpawned)
                         {
                             GameState.Instance.scoreBiasÇounter[car.name] = 0;
