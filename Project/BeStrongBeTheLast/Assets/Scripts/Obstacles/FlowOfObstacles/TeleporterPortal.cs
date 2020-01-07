@@ -12,6 +12,7 @@ using UnityEngine;
 public class TeleporterPortal : PausableMonoBehaviour
 {
     public EndManager endScriptCallback;
+    public SplineObject assignedSpline;
 
     private void Start()
     {
@@ -26,14 +27,13 @@ public class TeleporterPortal : PausableMonoBehaviour
         if (GB.CompareORTags(go, "Player", "CPU"))
         {
             endScriptCallback.TeleportCar(go);
-            endScriptCallback.teleporterSpawned = false;
-
-            Destroy(transform.root.gameObject);
+            ClosePortal();
         }
     }
 
     public void ClosePortal()
     {
+        assignedSpline.ResetPortal();
         endScriptCallback.teleporterSpawned = false;
         Destroy(transform.root.gameObject);
     }
