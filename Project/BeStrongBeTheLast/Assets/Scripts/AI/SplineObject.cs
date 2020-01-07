@@ -149,4 +149,9 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         portalToClose = portal;
     }
 
+    public void ResetPortal()
+    {
+        closePortal = false;
+    }
+
 }

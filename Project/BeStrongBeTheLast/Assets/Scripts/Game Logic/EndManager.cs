@@ -153,10 +153,11 @@ public class EndManager : PausableMonoBehaviour
                             int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
                             var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
                             
-                            TeleporterPortal portal = SpawnPortal(splineTransform);
-                            
                             int splineIndex2 = (currentSplineIndex + 3) % CPUSplineRoot.childCount;
                             SplineObject splineObj = CPUSplineRoot.GetChild(splineIndex2).GetComponent<SplineObject>();
+
+                            TeleporterPortal portal = SpawnPortal(splineTransform);
+                            portal.assignedSpline = splineObj;
                             splineObj.ClosePortal(portal, car);
                         }
                 }
