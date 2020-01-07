@@ -32,4 +32,10 @@ public class TeleporterPortal : PausableMonoBehaviour
         }
     }
 
+    public void ClosePortal()
+    {
+        endScriptCallback.teleporterSpawned = false;
+        Destroy(transform.root.gameObject);
+    }
+
 }

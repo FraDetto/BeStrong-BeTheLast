@@ -90,13 +90,14 @@ public class EndManager : PausableMonoBehaviour
         return true;
     }
 
-    private void SpawnPortal(Transform transform)
+    private TeleporterPortal SpawnPortal(Transform transform)
     {
         var portal = Instantiate(portalPrefab, transform.position, transform.rotation);
         var portalScript = portal.GetComponent<TeleporterPortal>();
 
         portalScript.endScriptCallback = this;
         teleporterSpawned = true;
+        return portalScript;
     }
 
     public void TeleportCar(GameObject car)
@@ -145,11 +146,16 @@ public class EndManager : PausableMonoBehaviour
                     if (GameState.Instance.scoreBiasÇounter[car.name] > 1200)
                         if (!teleporterSpawned)
                         {
+                            GameState.Instance.scoreBiasÇounter[car.name] = 0;
                             int currentSplineIndex = kartController.CurrentSplineObject.transform.GetSiblingIndex();
                             int splineIndex = (currentSplineIndex + 2) % CPUSplineRoot.childCount;
                             var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
-
-                            SpawnPortal(splineTransform);
+                            
+                            TeleporterPortal portal = SpawnPortal(splineTransform);
+                            
+                            int splineIndex2 = (currentSplineIndex + 3) % CPUSplineRoot.childCount;
+                            SplineObject splineObj = CPUSplineRoot.GetChild(splineIndex2).GetComponent<SplineObject>();
+                            splineObj.ClosePortal(portal, car);
                         }
                 }
             }

@@ -82,7 +82,7 @@ public abstract class aKartController : aCollisionManager
     private float accelleration_gravity = 25;
 
     [Range(20, 200)]
-    public byte MaxKMH = 120;
+    public byte MaxKMH = 200;
 
     public float base_acceleration = 80f;
     public float max_acceleration_change = 0.5f;

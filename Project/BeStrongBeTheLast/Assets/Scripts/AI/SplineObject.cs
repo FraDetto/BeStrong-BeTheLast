@@ -28,6 +28,9 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     public ShortcutMovement CanBeClosedByThisWall;
     public SplineObject CanBeClosedByThisWall_AlternativeFork;
     public bool MostraInPlay = false;
+    private bool closePortal = false;
+    private GameObject portalCar;
+    private TeleporterPortal portalToClose;
 
     internal SplineObject prev_Spline;
 
@@ -123,6 +126,10 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
     private void OnTriggerEnter(Collider other) =>
         onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
+            if (closePortal && other.transform.root.gameObject.name.Equals(portalCar.name))
+            {
+                portalToClose.ClosePortal();
+            }
             switch (kartController.KCType)
             {
                 case aKartController.eKCType.Human:
@@ -134,5 +141,12 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
                     break;
             }
         });
+
+    public void ClosePortal(TeleporterPortal portal, GameObject car)
+    {
+        closePortal = true;
+        portalCar = car;
+        portalToClose = portal;
+    }
 
 }
