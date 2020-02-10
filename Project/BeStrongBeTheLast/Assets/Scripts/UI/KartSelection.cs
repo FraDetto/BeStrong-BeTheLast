@@ -11,12 +11,11 @@ using UnityEngine.UI;
 using UnityEngine;
 using Utilities;
 
-public class RaceOptionsSelector : PausableMonoBehaviour
+public class KartSelection : PausableMonoBehaviour
 {
     public SceneField startMenu;
     public SceneField trackSelection;
     private bool player1selected = false;
-    private bool player2added = false;
     private bool player2selected = false;
     public GameObject player2join;
     public GameObject p1kart;
@@ -47,21 +46,29 @@ public class RaceOptionsSelector : PausableMonoBehaviour
         }
 
 
-        if(Input.GetButtonDown("P2Special") && !player2added)
+        if(Input.GetButtonDown("P2Special") && !GameManager.instance.player2added)
         {
-            player2added  = true;
-            player2join.SetActive(!player2added);
-            p2kart.SetActive(player2added);
+            GameManager.instance.player2added = true;
+            player2join.SetActive(false);
+            p2kart.SetActive(true);
         }
-        else if(Input.GetButtonDown("P2Special") && player2added)
+        else if(Input.GetButtonDown("P2Special") && GameManager.instance.player2added)
         {
-            player2added = false;
-            player2join.SetActive(!player2added);
-            p2kart.SetActive(player2added);
+            GameManager.instance.player2added = false;
+            player2join.SetActive(true);
+            p2kart.SetActive(false);
         }
 
-        if(player1selected && (!player2added || player2selected))
+        if(player1selected && (!GameManager.instance.player2added || player2selected))
+        {
+            GameManager.instance.player1choice = p1kart.GetComponent<Text>().text;
+
+            if(player2selected)
+                GameManager.instance.player2choice = p2kart.GetComponent<Text>().text;
+
             SceneManager.LoadScene(trackSelection);
+        }
+            
 
     }
 

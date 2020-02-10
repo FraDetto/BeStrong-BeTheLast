@@ -23,7 +23,7 @@ public class LapManager : PausableMonoBehaviour
     public AudioSource count;
 
 
-    private void Start()
+    public void Start_()
     {
         countdown = countDownDuration;
         startLoop();

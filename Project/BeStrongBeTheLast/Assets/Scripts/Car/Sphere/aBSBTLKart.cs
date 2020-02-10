@@ -242,10 +242,6 @@ public abstract class aBSBTLKart : aKartController
         iAmBlinded = blind;
 
         debuff.Find("Blinded").gameObject.SetActive(blind);
-
-        Vignette v;
-        if (postProfile.TryGetSettings(out v))
-            v.enabled.Override(blind);
     }
 
     internal void annoyMe(float annoyingAmount, bool annoy)

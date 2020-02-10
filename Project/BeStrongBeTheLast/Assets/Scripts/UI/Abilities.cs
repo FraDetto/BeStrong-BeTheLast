@@ -35,7 +35,7 @@ public class Abilities : PausableMonoBehaviour
     private bool started;
 
 
-    private void Start()
+    public void Start_()
     {
         StartCoroutine(delayedStart());
     }

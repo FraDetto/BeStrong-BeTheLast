@@ -8,11 +8,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Utilities;
 
 public class EndgameScreen : PausableMonoBehaviour
 {
     public Text[] results;
-    public Button quit, mainMenu;
+    public Button mainMenu;
+    public SceneField startMenu;
 
     private void Start()
     {
@@ -26,15 +29,10 @@ public class EndgameScreen : PausableMonoBehaviour
                 results[i += 1].text = (finalRankings.Count - i) + " - " + finalRank;
     }
 
-    public void quitGame()
-    {
-        Application.Quit();
-    }
-
     public void resetGame()
     {
         GameState.resetGame();
-        GB.GotoSceneName("StartMenu");
+        SceneManager.LoadScene(startMenu);
     }
 
 

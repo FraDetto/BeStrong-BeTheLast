@@ -25,8 +25,7 @@ public abstract class aKartController : aCollisionManager
 
 
     [Header("Camera")]
-    [SerializeField]
-    protected Camera camera_; //camera fa parte di GameObject.camera
+    public Camera camera_; //camera fa parte di GameObject.camera
 
     public CinemachineImpulseSource vCam;
 
@@ -144,10 +143,7 @@ public abstract class aKartController : aCollisionManager
                 boostAudioSource = a;
                 break;
             }
-
-        //var postVolume = Camera.main.GetComponent<PostProcessVolume>();
-        var postVolume = camera_.GetComponent<PostProcessVolume>();
-        postProfile = postVolume.profile;
+        
 
         for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
             primaryParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
