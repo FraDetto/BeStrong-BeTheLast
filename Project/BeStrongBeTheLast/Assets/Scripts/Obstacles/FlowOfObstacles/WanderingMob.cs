@@ -186,6 +186,7 @@ public class WanderingMob : aCollisionManager
     {
         if (thisRigidbody.position.y > 30 || flyingFrames > maxFlyingFrames)
         {
+            //Debug.Log("STAMPA ERRORE " + transform.parent.name + " risultatooo " + transform.parent.GetComponent<WanderingMobSpawner>());
             transform.parent.GetComponent<WanderingMobSpawner>().SpawnNew(avoidBehaviour);
             Destroy(gameObject);
         }
