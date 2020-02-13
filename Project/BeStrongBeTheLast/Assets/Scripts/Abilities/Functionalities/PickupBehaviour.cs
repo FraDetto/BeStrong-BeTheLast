@@ -29,6 +29,11 @@ public class PickupBehaviour : PausableMonoBehaviour
         particle = transform.GetChild(1);
     }
 
+    public void Update()
+    {
+        transform.Rotate(Vector3.up * 500f * Time.deltaTime);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
