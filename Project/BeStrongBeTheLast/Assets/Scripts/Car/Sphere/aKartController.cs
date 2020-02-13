@@ -117,6 +117,7 @@ public abstract class aKartController : aCollisionManager
     internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
     internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
+    private AudioSource driftAudioSource;
     private AudioSource boostAudioSource;
 
     internal bool touchingGround = true;
@@ -127,6 +128,9 @@ public abstract class aKartController : aCollisionManager
 
     protected void Start_()
     {
+        if(vCam)
+            vCam.gameObject.SetActive(true);
+
         Paused = true;
 
         vettoreCorrezioneSfera = new Vector3(0, distanzaYDallaSfera, 0);
@@ -137,12 +141,8 @@ public abstract class aKartController : aCollisionManager
                     camera_ = root.GetComponent<Camera>();
 
         var audioSources = GetComponents<AudioSource>();
-        foreach (var a in audioSources)
-            if (!a.loop)
-            {
-                boostAudioSource = a;
-                break;
-            }
+        driftAudioSource = audioSources[1];
+        boostAudioSource = audioSources[2];
         
 
         for (var i = 0; i < wheelParticles.GetChild(0).childCount; i++)
@@ -227,6 +227,7 @@ public abstract class aKartController : aCollisionManager
         //Drift
         if (CanDrift() && jumpBDown && xAxis != 0)
         {
+            driftAudioSource.Play();
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
 
@@ -382,6 +383,7 @@ public abstract class aKartController : aCollisionManager
 
     protected void ClearDrift()
     {
+        driftAudioSource.Stop();
         driftDirection = 0;
         driftPower = 0;
         driftMode = 0;
@@ -402,8 +404,6 @@ public abstract class aKartController : aCollisionManager
 
     void Boost()
     {
-        boostAudioSource.Play(0);
-
         if (driftMode > 0)
             switch (KCType)
             {
@@ -587,6 +587,9 @@ public abstract class aKartController : aCollisionManager
 
     public void PlayTurboEffect()
     {
+        if(!boostAudioSource.isPlaying)
+            boostAudioSource.Play(0);
+
         foreach (var p in tubeTurboParticles)
             foreach (var pp in p)
                 pp.Play();
