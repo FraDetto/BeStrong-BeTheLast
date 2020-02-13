@@ -6,147 +6,137 @@ using UnityEngine.UI;
 public class LoadingScreen : MonoBehaviour
 {
     public Text loadingText;
-    public Transform UIsingle;
-    public Transform UImulti;
-    public List<Transform> characters;
-    public Transform spawnPoints;
+
+    public GameObject UI;
+    public List<GameObject> characters;
+    public GameObject spawnPoints;
+
+    public float pointSpawningTime=0.1f;
 
     private bool ready=false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        var gameManager = GameObject.Find("GameManager");
-        if(gameManager)
-        {
-            loadingText.text = "LOADING";
-            this.gameObject.SetActive(true);
-            StartCoroutine(LoadingPoints());
-            SetupGame();
-        }
-        else
-        {
-            if(UIsingle.gameObject.activeInHierarchy)
-                UIsingle.GetComponentInChildren<LapManager>().Start_();
-            else
-                foreach(var lapManager in UImulti.GetComponentsInChildren<LapManager>())
-                    lapManager.Start_();
+        DontDestroyOnLoad(this.gameObject);
+    }
 
-            this.gameObject.SetActive(false);
-        }
+    // Start is called before the first frame update
+    void OnEnable()
+    {
+        loadingText.text = "LOADING.";
+        StartCoroutine(LoadingPoints());
+        StartCoroutine(SetupGame());
     }
 
     public IEnumerator LoadingPoints()
     {
-        yield return new WaitForSeconds(1f);
-
-        if(loadingText.text.Contains("..."))
-            loadingText.text = "LOADING";
-        else
-            loadingText.text += ".";
-
-        if(!ready)
-            StartCoroutine(LoadingPoints());
-        else
+        while(true)
         {
-            if(GameManager.instance.player2added)
-            {
-                UIsingle.gameObject.SetActive(false);
-                UImulti.gameObject.SetActive(true);
-                foreach(var lapManager in UImulti.GetComponentsInChildren<LapManager>())
-                    lapManager.Start_();
-                foreach(var abilities in UImulti.GetComponentsInChildren<Abilities>())
-                    abilities.Start_();
-            }
+            if(loadingText.text.Contains("..."))
+                loadingText.text = "LOADING.";
             else
+                loadingText.text += ".";
+
+            if(ready)
             {
-                UIsingle.GetComponentInChildren<LapManager>().Start_();
-                UIsingle.GetComponentInChildren<Abilities>().Start_();
+                foreach(var lapmanager in UI.GetComponentsInChildren<LapManager>())
+                    lapmanager.Start_();
+
+                foreach(var abilities in UI.GetComponentsInChildren<Abilities>())
+                    abilities.Start_();
+
+                gameObject.SetActive(false);
+                break;
             }
-            
-            this.gameObject.SetActive(false); 
+            else yield return new WaitForSeconds(pointSpawningTime);
         }
     }
 
-    void SetupGame()
+    public IEnumerator SetupGame()
     {
-        var spawnPointCounter = 0;
-        var player1kart = characters.Find(character => character.name.Equals(GameManager.instance.player1choice));
-        player1kart.position = spawnPoints.GetChild(spawnPointCounter).position;
-        spawnPointCounter += 1;
-        characters.Remove(player1kart);
-
-        var p1kartController = player1kart.GetComponentInChildren<KartController>();
-        p1kartController.KCType = aKartController.eKCType.Human;
-        p1kartController.playerNumber = 1;
-
-        if(GameManager.instance.player2added)
+        while(true)
         {
-            var player2kart = characters.Find(character => character.name.Equals(GameManager.instance.player2choice));
-            player2kart.position = spawnPoints.GetChild(spawnPointCounter).position;
-            spawnPointCounter += 1;
-            characters.Remove(player2kart);
+            UI = GameObject.Find("UI");
+            spawnPoints = GameObject.Find("PlayersSpawnPositions");
 
-            var p2kartController = player2kart.GetComponentInChildren<KartController>();
-            p2kartController.KCType = aKartController.eKCType.Human;
-            p2kartController.playerNumber = 2;
+            foreach(var player in GameObject.FindGameObjectsWithTag("Player"))
+                if(!characters.Contains(player.transform.root.gameObject))
+                    characters.Add(player.transform.root.gameObject);
 
-            var p1VirtualCameras = UImulti.GetChild(0).GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
-            foreach(var virtualCamera in p1VirtualCameras)
+            if(UI && spawnPoints && characters.Count == 8)
             {
-                virtualCamera.m_Follow = p1kartController.transform;
-                virtualCamera.m_LookAt = p1kartController.transform;
+                var spawnPointCounter = 0;
+
+                var player1kart = characters.Find(character => character.name.Equals(GameManager.Instance.player1choice));
+                player1kart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                spawnPointCounter += 1;
+                characters.Remove(player1kart);
+
+                var p1kartController = player1kart.GetComponentInChildren<KartController>();
+                p1kartController.KCType = aKartController.eKCType.Human;
+                p1kartController.playerNumber = 1;
+
+                var p1virtualCamera = UI.transform.GetChild(0).GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+                p1virtualCamera.m_Follow = p1kartController.transform;
+                p1virtualCamera.m_LookAt = p1kartController.transform;
+
+                p1kartController.camera_ = UI.transform.GetChild(0).GetComponent<Camera>();
+                p1kartController.vCam = UI.transform.GetChild(0).GetComponentInChildren<Cinemachine.CinemachineImpulseSource>();
+
+                var p1canvas = UI.transform.GetChild(2);
+                p1canvas.GetComponent<LapManager>().player = player1kart.gameObject;
+                p1canvas.GetComponent<Abilities>().kartController = p1kartController;
+
+                if(GameManager.Instance.player2added)
+                {
+                    UI.transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 1, 1);
+                    UI.transform.GetChild(1).gameObject.SetActive(true);
+
+                    p1canvas.Find("PowerGaugePanel").GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, 225f, 0f);
+
+                    var minimap = UI.transform.Find("MinimapCanvas");
+                    minimap.GetChild(0).gameObject.SetActive(false);
+                    minimap.GetChild(1).gameObject.SetActive(true);
+
+                    var player2kart = characters.Find(character => character.name.Equals(GameManager.Instance.player2choice));
+                    player2kart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    spawnPointCounter += 1;
+                    characters.Remove(player2kart);
+
+                    var p2kartController = player2kart.GetComponentInChildren<KartController>();
+                    p2kartController.KCType = aKartController.eKCType.Human;
+                    p2kartController.playerNumber = 2;
+
+                    var p2virtualCamera = UI.transform.GetChild(1).GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+                    p2virtualCamera.m_Follow = p2kartController.transform;
+                    p2virtualCamera.m_LookAt = p2kartController.transform;
+
+                    p1kartController.camera_ = UI.transform.GetChild(1).GetComponent<Camera>();
+                    p1kartController.vCam = UI.transform.GetChild(1).GetComponentInChildren<Cinemachine.CinemachineImpulseSource>();
+
+                    var p2canvas = UI.transform.GetChild(3);
+                    p2canvas.gameObject.SetActive(true);
+                    p2canvas.GetComponent<LapManager>().player = player2kart.gameObject;
+                    p2canvas.GetComponent<Abilities>().kartController = p2kartController;
+                }
+
+                while(characters.Count > 0)
+                {
+                    var cpuKart = characters[Random.Range(0, characters.Count)];
+                    cpuKart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    spawnPointCounter += 1;
+                    characters.Remove(cpuKart);
+                    var cpuKartController = cpuKart.GetComponentInChildren<KartController>();
+                    cpuKartController.KCType = aKartController.eKCType.CPU;
+                    cpuKartController.playerNumber = 0;
+                    cpuKartController.camera_ = null;
+                    cpuKartController.vCam = null;
+                }
+
+                ready = true;
+                break;
             }
-
-            p1kartController.camera_ = UImulti.GetChild(0).GetComponent<Camera>();
-            p1kartController.vCam = UImulti.GetChild(0).GetComponentInChildren<Cinemachine.CinemachineImpulseSource>();
-
-            var p2VirtualCameras = UImulti.GetChild(1).GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
-            foreach(var virtualCamera in p2VirtualCameras)
-            {
-                virtualCamera.m_Follow = p2kartController.transform;
-                virtualCamera.m_LookAt = p2kartController.transform;
-            }
-
-            p1kartController.camera_ = UImulti.GetChild(1).GetComponent<Camera>();
-            p1kartController.vCam = UImulti.GetChild(1).GetComponentInChildren<Cinemachine.CinemachineImpulseSource>();
-
-            var lapManagers = UImulti.GetComponentsInChildren<LapManager>();
-            lapManagers[0].player = player1kart.gameObject;
-            lapManagers[1].player = player2kart.gameObject;
-
-            var abilities = UImulti.GetComponentsInChildren<Abilities>();
-            abilities[0].kartController = p1kartController;
-            abilities[1].kartController = p2kartController;
+            else yield return new WaitForSeconds(pointSpawningTime);
         }
-        else
-        {
-            var p1VirtualCameras = UIsingle.GetChild(0).GetComponentsInChildren<Cinemachine.CinemachineVirtualCamera>();
-            foreach(var virtualCamera in p1VirtualCameras)
-            {
-                virtualCamera.m_Follow = p1kartController.transform;
-                virtualCamera.m_LookAt = p1kartController.transform;
-            }
-
-            UIsingle.GetComponentInChildren<LapManager>().player = player1kart.gameObject;
-            UIsingle.GetComponentInChildren<Abilities>().kartController = p1kartController;
-            p1kartController.camera_ = UIsingle.GetChild(0).GetComponent<Camera>();
-            p1kartController.vCam = UIsingle.GetChild(0).GetComponentInChildren<Cinemachine.CinemachineImpulseSource>();
-        }
-
-        while(characters.Count > 0)
-        {
-            var cpuKart = characters[Random.Range(0, characters.Count)];
-            cpuKart.position = spawnPoints.GetChild(spawnPointCounter).position;
-            spawnPointCounter += 1;
-            characters.Remove(cpuKart);
-            var cpuKartController = cpuKart.GetComponentInChildren<KartController>();
-            cpuKartController.KCType = aKartController.eKCType.CPU;
-            cpuKartController.playerNumber = 0;
-            cpuKartController.camera_ = null;
-            cpuKartController.vCam = null;
-        }
-
-        ready = true;
     }
 }

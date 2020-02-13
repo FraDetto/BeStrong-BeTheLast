@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
 
-    internal bool player2added = false;
-    internal string player1choice;
-    internal string player2choice;
+    public bool player2added = false;
+    public string player1choice;
+    public string player2choice;
 
     private void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        if(!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 }

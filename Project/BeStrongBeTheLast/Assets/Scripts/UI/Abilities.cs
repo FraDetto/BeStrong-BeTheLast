@@ -34,6 +34,12 @@ public class Abilities : PausableMonoBehaviour
 
     private bool started;
 
+    private void Start()
+    {
+        var loading = GameObject.Find("Loading");
+        if(!loading)
+            Start_();
+    }
 
     public void Start_()
     {

@@ -23,6 +23,13 @@ public class LapManager : PausableMonoBehaviour
     public AudioSource count;
 
 
+    private void Start()
+    {
+        var loading = GameObject.Find("Loading");
+        if(!loading)
+            Start_();
+    }
+
     public void Start_()
     {
         countdown = countDownDuration;
