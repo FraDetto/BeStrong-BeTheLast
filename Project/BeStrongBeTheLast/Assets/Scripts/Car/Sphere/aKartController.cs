@@ -56,7 +56,6 @@ public abstract class aKartController : aCollisionManager
     public float distanzaYDallaSfera = 0.4f;
     private Vector3 vettoreCorrezioneSfera;
 
-
     [Header("AI")]
     public eKCType KCType = eKCType.Human;
 
@@ -227,7 +226,8 @@ public abstract class aKartController : aCollisionManager
         //Drift
         if (CanDrift() && jumpBDown && xAxis != 0)
         {
-            driftAudioSource.Play();
+            if(!driftAudioSource.isPlaying)
+                driftAudioSource.Play();
             drifting = true;
             driftDirection = xAxis > 0 ? 1 : -1;
 
