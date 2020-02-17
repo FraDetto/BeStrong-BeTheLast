@@ -26,8 +26,8 @@ public class TeleporterPortal : PausableMonoBehaviour
 
         if (GB.CompareORTags(go, "Player", "CPU") && endScriptCallback.corControl)
         {
-            endScriptCallback.TeleportCar(go);
-            endScriptCallback.corControl=false;
+            endScriptCallback.corControl = false;
+            endScriptCallback.TeleportCar(go);          
             ClosePortal();
         }
     }
