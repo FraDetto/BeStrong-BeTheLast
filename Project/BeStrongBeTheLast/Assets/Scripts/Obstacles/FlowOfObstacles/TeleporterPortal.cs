@@ -24,16 +24,17 @@ public class TeleporterPortal : PausableMonoBehaviour
     {
         var go = other.gameObject.transform.root.gameObject;
 
-        if (GB.CompareORTags(go, "Player", "CPU"))
+        if (GB.CompareORTags(go, "Player", "CPU") && endScriptCallback.corControl)
         {
             endScriptCallback.TeleportCar(go);
+            endScriptCallback.corControl=false;
             ClosePortal();
         }
     }
 
     public void ClosePortal()
     {
-        assignedSpline.ResetPortal();
+        //assignedSpline.ResetPortal();
         endScriptCallback.teleporterSpawned = false;
         Destroy(transform.root.gameObject);
     }

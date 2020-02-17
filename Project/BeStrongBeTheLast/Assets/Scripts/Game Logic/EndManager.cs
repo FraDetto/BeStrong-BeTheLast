@@ -6,6 +6,7 @@ Contributors:
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
@@ -19,6 +20,7 @@ public class EndManager : PausableMonoBehaviour
     public SceneField scena;
 
     public bool continueRaceWithoutPlayers = false;
+    public bool corControl;
 
     public GameObject portalPrefab;
     internal bool teleporterSpawned = false;
@@ -99,7 +101,20 @@ public class EndManager : PausableMonoBehaviour
 
         portalScript.endScriptCallback = this;
         teleporterSpawned = true;
+        corControl = true;
         return portalScript;
+    }
+
+    IEnumerator TimeForPortal(TeleporterPortal portal)
+    {
+        yield return new WaitForSeconds(5);
+        if (corControl)
+        {
+            corControl = false;
+            teleporterSpawned = false;
+            Destroy(portal.gameObject);
+        }
+
     }
 
     public void TeleportCar(GameObject car)
@@ -125,6 +140,7 @@ public class EndManager : PausableMonoBehaviour
         controller.rotateToSpline = true;
     }
 
+
     private void FixedUpdate()
     {
         if (GameState.Instance.activateRubberBanding)
@@ -145,7 +161,7 @@ public class EndManager : PausableMonoBehaviour
                     else
                         GameState.Instance.scoreBiasÇounter[car.name] = 0;
 
-                    if (GameState.Instance.scoreBiasÇounter[car.name] > 600)
+                    if (GameState.Instance.scoreBiasÇounter[car.name] > 400) //  era 600
                         if (!teleporterSpawned)
                         {
                             GameState.Instance.scoreBiasÇounter[car.name] = 0;
@@ -154,11 +170,15 @@ public class EndManager : PausableMonoBehaviour
                             var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
                             
                             int splineIndex2 = (currentSplineIndex + 3) % CPUSplineRoot.childCount;
-                            SplineObject splineObj = CPUSplineRoot.GetChild(splineIndex2).GetComponent<SplineObject>();
+                            //SplineObject splineObj = CPUSplineRoot.GetChild(splineIndex2).GetComponent<SplineObject>();
 
                             TeleporterPortal portal = SpawnPortal(splineTransform);
-                            portal.assignedSpline = splineObj;
-                            splineObj.ClosePortal(portal, car);
+                            StartCoroutine(TimeForPortal(portal));
+                                //********fai partire metodo con tempo per farlo scomparire se nessuno lo prende
+                                //********cancella le due righe sotto quindi non passare piu per la collisione con la spline successiva per la distruzione
+                                //********metti un bool che si attiva se il kart prende il portale altrimenti dopoo tot secondi scompare
+                            //portal.assignedSpline = splineObj;
+                            //splineObj.ClosePortal(portal, car);
                         }
                 }
             }
