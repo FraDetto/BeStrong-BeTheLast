@@ -125,6 +125,8 @@ public abstract class aKartController : aCollisionManager
 
     private int numberOfPlayers;
 
+    internal bool counterImmunity;
+
     protected void Start_()
     {
         if(vCam)
@@ -493,24 +495,27 @@ public abstract class aKartController : aCollisionManager
 
     public void Accelerate(float amount)
     {
-        float bonusBias = gameState.getScoreBiasBonus(PlayerName);
+        if(!counterImmunity)
+        {
+            float bonusBias = gameState.getScoreBiasBonus(PlayerName);
 
-        amount -= Mathf.Max(amount - (amount > 1 ? 1.1f : 0.1f), 0) * bonusBias;
+            amount -= Mathf.Max(amount - (amount > 1 ? 1.1f : 0.1f), 0) * bonusBias;
 
-        //if (amount > 1)
-        //    amount = amount - Mathf.Max(amount - 1.1f, 0) * bonusBias;
-        //else
-        //    amount = amount - Mathf.Max(amount - 0.1f, 0) * bonusBias;
+            //if (amount > 1)
+            //    amount = amount - Mathf.Max(amount - 1.1f, 0) * bonusBias;
+            //else
+            //    amount = amount - Mathf.Max(amount - 0.1f, 0) * bonusBias;
 
-        currentSpeed *= amount;
+            currentSpeed *= amount;
 
-        float speedCap = enableSpeedRubberbanding ? 200 - 60 * bonusBias : 200;
+            float speedCap = enableSpeedRubberbanding ? 200 - 60 * bonusBias : 200;
 
-        if (currentSpeed > speedCap)
-            currentSpeed = speedCap;
+            if(currentSpeed > speedCap)
+                currentSpeed = speedCap;
 
-        if (amount > 1)
-            PlayTurboEffect();
+            if(amount > 1)
+                PlayTurboEffect();
+        }
     }
 
     public void LimitSpeed(float speedLimit, int duration)

@@ -22,6 +22,7 @@ public class RotatingBehaviour : aAbilitiesBehaviour
         Start_();
 
         user = transform.root.gameObject;
+        user.GetComponentInChildren<KartController>().counterImmunity = true;
         collider_ = GetComponent<CapsuleCollider>();
     }
 
@@ -60,7 +61,7 @@ public class RotatingBehaviour : aAbilitiesBehaviour
 
     protected override void LifeTimeElapsed()
     {
-        // nothing
+        user.GetComponentInChildren<KartController>().counterImmunity = false;
     }
 
 }

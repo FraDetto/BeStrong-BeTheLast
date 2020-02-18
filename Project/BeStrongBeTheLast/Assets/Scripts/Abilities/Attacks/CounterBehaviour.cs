@@ -40,6 +40,8 @@ public class CounterBehaviour : aAbilitiesBehaviour
         Start_();
 
         var kartController = transform.root.GetComponentInChildren<KartController>();
+        kartController.counterImmunity = true;
+
         var ability = GB.FindTransformInChildWithName(transform, abilities[kartController.playerType]);
 
         ability.gameObject.SetActive(true);
@@ -64,7 +66,8 @@ public class CounterBehaviour : aAbilitiesBehaviour
 
     protected override void LifeTimeElapsed()
     {
-        // nothing
+        var kartController = transform.root.GetComponentInChildren<KartController>();
+        kartController.counterImmunity = false;
     }
 
 }
