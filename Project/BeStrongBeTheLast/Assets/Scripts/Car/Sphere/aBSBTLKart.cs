@@ -92,12 +92,12 @@ public abstract class aBSBTLKart : aKartController
     {
         abilities = new Dictionary<ePlayer, sAbilities>()
         {
-            { ePlayer.Bard, new sAbilities(homing, annoying) },
-            { ePlayer.EarthRestorer, new sAbilities(bouncing, rotating) },
+            { ePlayer.Hypogeum, new sAbilities(homing, annoying) },
+            { ePlayer.Kiddo, new sAbilities(bouncing, rotating) },
             { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
-            { ePlayer.Hypogeum, new sAbilities(null, tanking, attracting/*homing, tanking*/) },
+            { ePlayer.Bard, new sAbilities(null, tanking, attracting/*homing, tanking*/) },
             { ePlayer.Imps, new sAbilities(trishot, annoying) },
-            { ePlayer.Kiddo, new sAbilities(null, rotating, attracting) },
+            { ePlayer.EarthRestorer, new sAbilities(null, rotating, attracting) },
             { ePlayer.Politician, new sAbilities(trishot, blinding) },
             { ePlayer.Steamdunker, new sAbilities(homing, blinding/*null, blinding, attracting*/) },
         };
