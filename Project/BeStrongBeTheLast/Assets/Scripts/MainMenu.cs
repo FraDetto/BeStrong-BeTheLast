@@ -7,10 +7,16 @@ using Utilities;
 public class MainMenu : MonoBehaviour
 {
     public SceneField kartSelection;
+    public SceneField controls;
 
     public void PlayGame()
     {
         SceneManager.LoadScene(kartSelection);
+    }
+
+    public void Controls()
+    {
+        SceneManager.LoadScene(controls);
     }
 
     public void QuitGame()
