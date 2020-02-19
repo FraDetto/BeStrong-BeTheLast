@@ -161,7 +161,7 @@ public class EndManager : PausableMonoBehaviour
                     else
                         GameState.Instance.scoreBiasÇounter[car.name] = 0;
 
-                    if (GameState.Instance.scoreBiasÇounter[car.name] > 400) //  era 600
+                    if (GameState.Instance.scoreBiasÇounter[car.name] > 700) //  era 600
                         if (!teleporterSpawned)
                         {
                             GameState.Instance.scoreBiasÇounter[car.name] = 0;

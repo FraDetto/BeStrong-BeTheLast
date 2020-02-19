@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bff863c61034424f9ea328c75edf99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthTimeInSeconds: 10
+  lengthTimeInSeconds: 6
   UseScorBiasBonus: 1
   maxAnnoyingAmount: 1
-  annoyingAmount: 0.5
+  annoyingAmount: 0.7
 --- !u!82 &4036868328886643172
 AudioSource:
   m_ObjectHideFlags: 0
@@ -152,6 +152,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2817068305934105629}
     m_Modifications:
+    - target: {fileID: 2991249968582277459, guid: 8a815d8fce00c744f9436033f95b0eb0,
+        type: 3}
+      propertyPath: m_Name
+      value: BardSpecial
+      objectReference: {fileID: 0}
     - target: {fileID: 2991249968582277452, guid: 8a815d8fce00c744f9436033f95b0eb0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -206,11 +211,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2991249968582277459, guid: 8a815d8fce00c744f9436033f95b0eb0,
-        type: 3}
-      propertyPath: m_Name
-      value: BardSpecial
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a815d8fce00c744f9436033f95b0eb0, type: 3}
