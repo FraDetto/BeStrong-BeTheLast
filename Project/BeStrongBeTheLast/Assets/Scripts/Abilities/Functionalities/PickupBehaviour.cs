@@ -31,6 +31,9 @@ public class PickupBehaviour : PausableMonoBehaviour
 
     public void Update()
     {
+        if(Paused)
+            return;
+
         transform.Rotate(Vector3.up * 500f * Time.deltaTime);
     }
 

@@ -39,6 +39,9 @@ public class RotatingBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
+        if(Paused)
+            return;
+
         if (collider_.radius < targetRadius)
         {
             collider_.radius += Time.deltaTime;

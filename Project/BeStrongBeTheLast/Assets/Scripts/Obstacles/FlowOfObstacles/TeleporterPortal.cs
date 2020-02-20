@@ -20,6 +20,12 @@ public class TeleporterPortal : PausableMonoBehaviour
             throw new System.Exception($"Devi settare 'endScriptCallback' su teletrasporto: {name}!");
     }
 
+    private void Update()
+    {
+        if(Paused)
+            return;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var go = other.gameObject.transform.root.gameObject;

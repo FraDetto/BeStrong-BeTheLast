@@ -18,7 +18,7 @@ public class Abilities : PausableMonoBehaviour
     public Slider powerGauge;
     public Slider driftHeating;
     public Image warningImage;
-    public GameObject driftHeatingFill, panelRankings, blinding;
+    public GameObject driftHeatingFill, panelRankings, blinding, panelPause;
     public GameObject counterIcon, projectileIcon, specialIcon;
     public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
     public GameObject counterUI, projectileUI, specialUI;
@@ -172,6 +172,7 @@ public class Abilities : PausableMonoBehaviour
         selectedProjectileText.color = disabledColor;
         */
         kartController.rankPanel = panelRankings;
+        kartController.pausePanel = panelPause;
         started = true;
     }
 

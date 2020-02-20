@@ -24,6 +24,9 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
+        if(Paused)
+            return;
+
         if (attracting && !kartController.attracted && projectile)
         {
             projectile.transform.LookAt(transform);
