@@ -75,6 +75,9 @@ public class WanderingMob : aCollisionManager
 
     private void FixedUpdate()
     {
+        if(Paused)
+            return;
+
         AvoidingCheck();
 
         switch (phase)

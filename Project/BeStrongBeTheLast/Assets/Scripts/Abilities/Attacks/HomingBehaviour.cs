@@ -43,6 +43,9 @@ public class HomingBehaviour : aAbilitiesBehaviour
 
     private void Update()
     {
+        if(Paused)
+            return;
+
         if (target != null)
             transform.LookAt(target.transform);
 

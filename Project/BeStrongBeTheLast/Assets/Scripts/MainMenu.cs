@@ -8,6 +8,13 @@ public class MainMenu : MonoBehaviour
 {
     public SceneField kartSelection;
     public SceneField controls;
+    public SceneField credits;
+
+    private void Update()
+    {
+        if(Input.GetButtonDown("P1Special"))
+            SceneManager.LoadScene(credits);
+    }
 
     public void PlayGame()
     {

@@ -19,6 +19,7 @@ public sealed class KartController : aBSBTLKart
     private const float wrongWayMaxTimer = 1;
 
     internal GameObject rankPanel;
+    internal GameObject pausePanel;
     // ============== HUMAN ==============
 
 
@@ -129,6 +130,9 @@ public sealed class KartController : aBSBTLKart
 
                 if (GB.GetButtonDown(JoystickName + "MenuA") && rankPanel)
                     rankPanel.SetActive(!rankPanel.activeSelf);
+
+                if(GB.GetButtonDown(JoystickName + "Pause") && pausePanel)
+                    pausePanel.SetActive(!pausePanel.activeSelf);
 
                 break;
 

@@ -41,6 +41,9 @@ public class TrishotBehaviour : aAbilitiesBehaviour
 
     void Update()
     {
+        if(Paused)
+            return;
+
         foreach (var shot in shots)
             if (shot)
                 shot.transform.Translate(Vector3.forward * speed * Time.deltaTime);

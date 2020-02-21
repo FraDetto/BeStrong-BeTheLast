@@ -30,6 +30,9 @@ public class BouncingBehaviour : aAbilitiesBehaviour
 
     void Update()
     {
+        if(Paused)
+            return;
+
         if (rolling == null)
         {
             Destroy(gameObject);

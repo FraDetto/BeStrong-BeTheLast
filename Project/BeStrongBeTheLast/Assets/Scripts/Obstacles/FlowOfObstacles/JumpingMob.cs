@@ -45,6 +45,9 @@ public class JumpingMob : WanderingMob
 
     private void Update()
     {
+        if(Paused)
+            return;
+
         if (transform.localEulerAngles.x != 0 || transform.localEulerAngles.y != 0)
             transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }

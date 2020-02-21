@@ -16,6 +16,11 @@ public class radioTowerTrigger : PausableMonoBehaviour
     public int respawnElecTime;
     public GameObject[] particlesToDis;
 
+    private void Update()
+    {
+        if(Paused)
+            return;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
