@@ -24,7 +24,7 @@ public class TrackSelection : MonoBehaviour
         else
         {
             player2choice.transform.parent.gameObject.SetActive(false);
-            player1choice.transform.parent.Translate(Vector3.right * 300f);
+            //player1choice.transform.parent.Translate(Vector3.right * 300f);
         }
     }
 
