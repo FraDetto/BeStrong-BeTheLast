@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -27477,11 +27477,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782211, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 1284683510443141252, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -27493,6 +27488,11 @@ PrefabInstance:
       value: 0.179
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510443141257, guid: b71d46600b6f23446884b12b7facf4d9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782211, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
       propertyPath: m_TagString
       value: Player
@@ -31606,15 +31606,15 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2972246419650648268, guid: 5c7a67752a911df4b8adabe1e32586e2,
-        type: 3}
-      propertyPath: near clip plane
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 7241574539509310190, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972246419650648268, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c7a67752a911df4b8adabe1e32586e2, type: 3}
@@ -31788,7 +31788,7 @@ PrefabInstance:
     - target: {fileID: 1284683511250782237, guid: 5084738da03a1934a8189cf3ceff3313,
         type: 3}
       propertyPath: KCType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1284683511250782237, guid: 5084738da03a1934a8189cf3ceff3313,
         type: 3}
@@ -39281,7 +39281,7 @@ PrefabInstance:
     - target: {fileID: 1284683511250782237, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
         type: 3}
       propertyPath: KCType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1284683511250782237, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
         type: 3}

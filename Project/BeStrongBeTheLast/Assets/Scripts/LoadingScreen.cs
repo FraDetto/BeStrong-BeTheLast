@@ -68,7 +68,8 @@ public class LoadingScreen : MonoBehaviour
                 var spawnPointCounter = 0;
 
                 var player1kart = characters.Find(character => character.name.Equals(GameManager.Instance.player1choice));
-                player1kart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                var p1SpawnPointPos = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                player1kart.transform.position = new Vector3(p1SpawnPointPos.x, player1kart.transform.position.y, p1SpawnPointPos.z);
                 spawnPointCounter += 1;
                 characters.Remove(player1kart);
 
@@ -99,7 +100,8 @@ public class LoadingScreen : MonoBehaviour
                     minimap.GetChild(1).gameObject.SetActive(true);
 
                     var player2kart = characters.Find(character => character.name.Equals(GameManager.Instance.player2choice));
-                    player2kart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    var p2SpawnPointPos = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    player2kart.transform.position = new Vector3(p2SpawnPointPos.x, player2kart.transform.position.y, p2SpawnPointPos.z);
                     spawnPointCounter += 1;
                     characters.Remove(player2kart);
 
@@ -123,9 +125,11 @@ public class LoadingScreen : MonoBehaviour
                 while(characters.Count > 0)
                 {
                     var cpuKart = characters[Random.Range(0, characters.Count)];
-                    cpuKart.transform.position = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    var cpuSpawnPointPos = spawnPoints.transform.GetChild(spawnPointCounter).position;
+                    cpuKart.transform.position = new Vector3(cpuSpawnPointPos.x, cpuKart.transform.position.y, cpuSpawnPointPos.z);
                     spawnPointCounter += 1;
                     characters.Remove(cpuKart);
+
                     var cpuKartController = cpuKart.GetComponentInChildren<KartController>();
                     cpuKartController.KCType = aKartController.eKCType.CPU;
                     cpuKartController.playerNumber = 0;

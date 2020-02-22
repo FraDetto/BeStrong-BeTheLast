@@ -161,7 +161,7 @@ public abstract class aKartController : aCollisionManager
         if (!CurrentSplineObject)
             throw new Exception("Non hai settato CurrentSplineObject!");
 
-        numberOfPlayers = gameState.positions.Count - 1; //Formula goes from 0 to 7 insted of 1 to 8
+        numberOfPlayers = gameState.positions.Count - 1; //Formula goes from 0 to 7 instead of 1 to 8
     }
 
     protected void Update_(float xAxis, bool jumpBDown, bool jumpBUp)
