@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utilities;
+using UnityEngine.EventSystems;
 
 public class PauseGame : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PauseGame : MonoBehaviour
     public GameObject buttons;
     public GameObject AtoConfirm;
     public GameObject BtoBack;
+    public GameObject eventSytem;
     public Text title;
 
     private void Update()
@@ -24,6 +26,7 @@ public class PauseGame : MonoBehaviour
         else if(Input.GetButtonDown("P1Cancel") || Input.GetButtonDown("P2Cancel"))
         {
             SetControls(false);
+            StartCoroutine(selectButton());
         }
 
     }
@@ -33,6 +36,16 @@ public class PauseGame : MonoBehaviour
         Time.timeScale = 0;
         foreach(var pausable in FindObjectsOfType<PausableMonoBehaviour>())
             pausable.Paused = true;
+
+        StartCoroutine(selectButton());
+    }
+
+    public IEnumerator selectButton()
+    {
+        var es = eventSytem.GetComponent<EventSystem>();
+        es.SetSelectedGameObject(null);
+        yield return null;
+        es.SetSelectedGameObject(es.firstSelectedGameObject);
     }
 
     public void Resume()
@@ -42,7 +55,6 @@ public class PauseGame : MonoBehaviour
             pausable.Paused = false;
 
         SetControls(false);
-
         gameObject.SetActive(false);
     }
 
