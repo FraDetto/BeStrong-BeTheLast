@@ -27,27 +27,31 @@ coming soon
 ## IDE
 1. Visual Studio 2017 (http://visualstudio.microsoft.com)
 2. Unity 2018.3.7 (http://store.unity.com/download)
+ 
 
+## FJRM Games Team
 
-## BSBTL team
-
-### Development
+### Game Designers & Programmers
 * Francesco Dettori
 * Riccardo Lombardi
 * Michele Maione
 * Jacopo Frasson
 
-### VFX
+### VFX Artist
 * Andrea Marras
 
-### Sound
+### Sound Designer
 * Ettore Carlessi
 
-### Art
+### 3D/2D Artists
 * Eugenia Bernardi
 * Giulia Rossi
 * Eleonora Todaro
 
+### Videomaker
+* Lorenzo Renna
+
+#### Original concept by Francesco Dettori
 
 ## License
 Copyright 2019 (c). All rights reserved.
