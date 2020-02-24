@@ -37,18 +37,18 @@ coming soon
 * Michele Maione
 * Jacopo Frasson
 
-### VFX
+### VFX Artist
 * Andrea Marras
 
-### Sound
+### Sound Designer
 * Ettore Carlessi
 
-### Art
+### 3D/2D Artists
 * Eugenia Bernardi
 * Giulia Rossi
 * Eleonora Todaro
 
-### Video
+### VideoMaker
 * Lorenzo Renna
 
 ## License
