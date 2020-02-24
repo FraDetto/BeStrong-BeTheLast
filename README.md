@@ -48,6 +48,8 @@ coming soon
 * Giulia Rossi
 * Eleonora Todaro
 
+### Video
+* Lorenzo Renna
 
 ## License
 Copyright 2019 (c). All rights reserved.
