@@ -48,7 +48,7 @@ coming soon
 * Giulia Rossi
 * Eleonora Todaro
 
-### VideoMaker
+### Videomaker
 * Lorenzo Renna
 
 #### Original concept by Francesco Dettori
