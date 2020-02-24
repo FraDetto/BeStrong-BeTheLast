@@ -27,11 +27,9 @@ coming soon
 ## IDE
 1. Visual Studio 2017 (http://visualstudio.microsoft.com)
 2. Unity 2018.3.7 (http://store.unity.com/download)
+ 
 
-
-## BSBTL 
-
-### FJRM Games Team
+## FJRM Games Team
 
 ### Game Designers & Programmers
 * Francesco Dettori
