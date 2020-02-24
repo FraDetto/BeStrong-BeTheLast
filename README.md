@@ -29,9 +29,11 @@ coming soon
 2. Unity 2018.3.7 (http://store.unity.com/download)
 
 
-## BSBTL team
+## BSBTL 
 
-### Development
+### FJRM Games Team
+
+### Game Designers & Programmers
 * Francesco Dettori
 * Riccardo Lombardi
 * Michele Maione
@@ -50,6 +52,8 @@ coming soon
 
 ### VideoMaker
 * Lorenzo Renna
+
+#### Original concept by Francesco Dettori
 
 ## License
 Copyright 2019 (c). All rights reserved.
