@@ -15,6 +15,8 @@ public class LoadingScreen : MonoBehaviour
 
     private bool ready=false;
 
+    internal AudioClip songToBeLoaded;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -44,6 +46,10 @@ public class LoadingScreen : MonoBehaviour
 
                 foreach(var abilities in UI.GetComponentsInChildren<Abilities>())
                     abilities.Start_();
+
+                var audio = GameManager.Instance.GetComponent<AudioSource>();
+                audio.clip = songToBeLoaded;
+                audio.Play();
 
                 gameObject.SetActive(false);
                 break;
@@ -132,6 +138,8 @@ public class LoadingScreen : MonoBehaviour
 
                     var cpuKartController = cpuKart.GetComponentInChildren<KartController>();
                     cpuKartController.KCType = aKartController.eKCType.CPU;
+                    GameState.Instance.kartTypes.Remove(cpuKart.name);
+                    GameState.Instance.kartTypes.Add(cpuKart.name, "CPU");
                     cpuKartController.playerNumber = 0;
                     cpuKartController.camera_ = null;
                     cpuKartController.vCam = null;

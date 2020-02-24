@@ -90,10 +90,13 @@ public class KartSelection : PausableMonoBehaviour
             p1kart.GetComponent<Text>().text = player1selection.GetChild(0).GetComponent<Text>().text;
             player1selection.GetComponent<Button>().interactable = false;
             player1confirm.SetActive(false);
-            player2wait.SetActive(false);
-            player2confirm.SetActive(true);
-            p1controls.SetActive(!player1selected);
-            p2controls.SetActive(player1selected);
+            if(GameManager.Instance.player2added)
+            {
+                player2wait.SetActive(false);
+                player2confirm.SetActive(true);
+                p1controls.SetActive(!player1selected);
+                p2controls.SetActive(player1selected);
+            }            
         }
         else
         {

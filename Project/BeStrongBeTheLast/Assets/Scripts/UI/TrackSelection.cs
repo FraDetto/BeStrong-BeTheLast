@@ -16,6 +16,9 @@ public class TrackSelection : MonoBehaviour
 
     public GameObject loading;
 
+    public AudioClip futureSong;
+    public AudioClip natureSong;
+
     private void Start()
     {
         player1choice.GetComponent<Text>().text = GameManager.Instance.player1choice;
@@ -38,12 +41,16 @@ public class TrackSelection : MonoBehaviour
     public void FutureTrack()
     {
         loading.SetActive(true);
+        loading.GetComponent<LoadingScreen>().songToBeLoaded = futureSong;
+        GameManager.Instance.GetComponent<AudioSource>().volume = 0.5f;
         SceneManager.LoadScene(futureTrack);
     }
 
     public void NatureTrack()
     {
         loading.SetActive(true);
+        loading.GetComponent<LoadingScreen>().songToBeLoaded = natureSong;
+        GameManager.Instance.GetComponent<AudioSource>().volume = 0.75f;
         SceneManager.LoadScene(natureTrack);
     }
 }

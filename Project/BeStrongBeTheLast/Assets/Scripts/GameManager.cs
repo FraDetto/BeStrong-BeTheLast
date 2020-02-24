@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public bool player2added = false;
     public string player1choice;
     public string player2choice;
+    public AudioClip menuTrack;
 
     private void Awake()
     {
