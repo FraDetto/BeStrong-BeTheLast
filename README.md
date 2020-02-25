@@ -1,5 +1,7 @@
-# Be strong, be the last
+# <img src="http://www.maionemiky.it/public/BSBTL/icon64.png" alt="logo" /> Be strong, be the last
 The player is a car driver, and he has to compete on fantastic circuits with only one goal: to finish last!
+
+<img src="http://www.maionemiky.it/public/BSBTL/Screen340.png" alt="logo" />
 
 ## Introduction
 As said the game has a simple goal: to arrive last in a car race.
@@ -21,8 +23,7 @@ In the game you can play against AI or against friends in a local multiplayer.
 3. CPU with SSE2 instruction set support
 
 ## Download
-coming soon
-
+http://www.maionemiky.it/public/BSBTL/BeStrongBeTheLast.zip
 
 ## IDE
 1. Visual Studio 2017 (http://visualstudio.microsoft.com)
@@ -31,19 +32,25 @@ coming soon
 
 ## FJRM Games Team
 
-### Game Designers & Programmers
+<img src="http://www.maionemiky.it/public/BSBTL/FJRM320.png" alt="logo" />
+
+### Game creative director
 * Francesco Dettori
+
+### Game design, level design & programming
 * Riccardo Lombardi
-* Michele Maione
 * Jacopo Frasson
 
-### VFX Artist
+### Programming
+* Michele Maione
+
+### VFX artist
 * Andrea Marras
 
-### Sound Designer
+### Sound designer
 * Ettore Carlessi
 
-### 3D/2D Artists
+### 3D/2D artists
 * Eugenia Bernardi
 * Giulia Rossi
 * Eleonora Todaro
@@ -51,7 +58,6 @@ coming soon
 ### Videomaker
 * Lorenzo Renna
 
-#### Original concept by Francesco Dettori
 
 ## License
 Copyright 2019 (c). All rights reserved.
