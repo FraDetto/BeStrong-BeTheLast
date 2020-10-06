@@ -22,7 +22,7 @@ public class EndManager : PausableMonoBehaviour
     public bool continueRaceWithoutPlayers = false;
     public bool corControl;
 
-    public GameObject portalPrefab;
+    //public GameObject portalPrefab;
     internal bool teleporterSpawned = false;
     public int lapNumber = 3;
 
@@ -93,7 +93,7 @@ public class EndManager : PausableMonoBehaviour
 
         return true;
     }
-
+    /*
     private TeleporterPortal SpawnPortal(Transform transform)
     {
         var portal = Instantiate(portalPrefab, transform.position, transform.rotation);
@@ -139,7 +139,7 @@ public class EndManager : PausableMonoBehaviour
         sphere.transform.position = splineTransform.position;
         controller.rotateToSpline = true;
     }
-
+    */
 
     private void FixedUpdate()
     {
@@ -172,8 +172,14 @@ public class EndManager : PausableMonoBehaviour
                             int splineIndex2 = (currentSplineIndex + 3) % CPUSplineRoot.childCount;
                             //SplineObject splineObj = CPUSplineRoot.GetChild(splineIndex2).GetComponent<SplineObject>();
 
-                            TeleporterPortal portal = SpawnPortal(splineTransform);
-                            StartCoroutine(TimeForPortal(portal));
+
+                            //TeleporterPortal portal = SpawnPortal(splineTransform);
+
+
+
+                            //StartCoroutine(TimeForPortal(portal));
+
+
                                 //********fai partire metodo con tempo per farlo scomparire se nessuno lo prende
                                 //********cancella le due righe sotto quindi non passare piu per la collisione con la spline successiva per la distruzione
                                 //********metti un bool che si attiva se il kart prende il portale altrimenti dopoo tot secondi scompare

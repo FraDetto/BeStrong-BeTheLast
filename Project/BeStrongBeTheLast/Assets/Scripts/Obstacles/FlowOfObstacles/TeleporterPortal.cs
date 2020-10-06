@@ -11,6 +11,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class TeleporterPortal : PausableMonoBehaviour
 {
+    /*
     public EndManager endScriptCallback;
     public SplineObject assignedSpline;
 
@@ -44,5 +45,5 @@ public class TeleporterPortal : PausableMonoBehaviour
         endScriptCallback.teleporterSpawned = false;
         Destroy(transform.root.gameObject);
     }
-
+    */
 }
