@@ -86,6 +86,8 @@ public abstract class aKartController : aCollisionManager
     public float max_acceleration_change = 0.5f;
     public float acceleration = 30f;
     public float steering = 80f;
+    public float maxAngle = 30f;
+    public float wallsMultiplier = 25f;
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
     public bool enableSpeedRubberbanding;
@@ -126,6 +128,8 @@ public abstract class aKartController : aCollisionManager
     private int numberOfPlayers;
 
     internal bool counterImmunity;
+
+    internal bool touchingWall = false;
 
     protected void Start_()
     {
@@ -169,7 +173,7 @@ public abstract class aKartController : aCollisionManager
         if (Paused)
             return;
 
-        if (settingOnTrack)
+        /*if (settingOnTrack)
         {
             var hittingRight = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(0.4f, 0, 0.6f)), 2f, wallMask);
             var hittingLeft = Physics.Raycast(kartNormal.transform.position, kartNormal.transform.TransformDirection(new Vector3(-0.4f, 0, 0.6f)), 2f, wallMask);
@@ -201,6 +205,16 @@ public abstract class aKartController : aCollisionManager
                 Accelerate(2f);
                 settingOnTrack = false;
             }
+
+
+        } */
+
+        if(touchingWall)
+        {
+            var hittingRight = Physics.Raycast(transform.position, transform.right, 5f, wallMask);
+            var hittingLeft = Physics.Raycast(transform.position, -transform.right, 5f, wallMask);
+            if((hittingLeft && xAxis < 0) || (hittingRight && xAxis > 0))
+                xAxis = 0;
         }
 
         //Follow Collider
@@ -208,6 +222,9 @@ public abstract class aKartController : aCollisionManager
 
         //Accelerate       
         speed = acceleration; // auto-acceleration
+
+        //Rotating
+        //transform.rotation = Quaternion.Lerp(transform.rotation, CurrentSplineObject.transform.rotation, Time.deltaTime * 2f);
 
         if (driftDisabled)
         {
@@ -314,8 +331,15 @@ public abstract class aKartController : aCollisionManager
         //b) Wheels
         //frontWheels.localEulerAngles = new Vector3(0, (xAxis * 15), frontWheels.localEulerAngles.z);
         //frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
-        frontRightWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontRightWheel.localEulerAngles.z);
-        frontLeftWheel.localEulerAngles = new Vector3(0, xAxis * 15, frontLeftWheel.localEulerAngles.z);
+        frontRightWheel.localEulerAngles = new Vector3(0, xAxis * 25, frontRightWheel.localEulerAngles.z);
+        frontLeftWheel.localEulerAngles = new Vector3(0, xAxis * 25, frontLeftWheel.localEulerAngles.z);
+
+        /*if(camera_ != null)
+        {
+            camera_.localPosition = Vector3.Lerp(camera_.localPosition, new Vector3(-Input.GetAxis("P1Horizontal"), camera_.localPosition.y, camera_.localPosition.z), Time.deltaTime);
+            camera_.localRotation = Quaternion.Lerp(camera_.localRotation, Quaternion.Euler(new Vector3(camera_.localEulerAngles.x, Input.GetAxis("P1Horizontal") * 25, camera_.localEulerAngles.z)), Time.deltaTime);
+            camera_.rotation = Quaternion.Lerp(camera_.rotation, Quaternion.Euler(new Vector3(camera_.eulerAngles.x, CurrentSplineObject.transform.eulerAngles.y, camera_.eulerAngles.z)), Time.deltaTime * 2f);
+        }*/
 
         frontRightWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
         frontLeftWheel.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
@@ -330,11 +354,52 @@ public abstract class aKartController : aCollisionManager
 
     protected void FixedUpdate_()
     {
+        if(Paused)
+            return;
+        /*
         //Forward Acceleration        
         if (drifting)
             sphere.AddForce(kartNormal.forward * currentSpeed, ForceMode.Acceleration);
         else
             sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+        */
+
+        //Forward Acceleration
+        /*if (!drifting)
+            sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
+        else */
+
+        /*Vector3 wallNormal = Vector3.zero;
+
+        if(touchingWall)
+        {
+            
+            RaycastHit hit;
+            if(!Physics.Raycast(transform.position, transform.right, out hit, 5f, wallMask))
+                Physics.Raycast(transform.position, -transform.right, out hit, 5f, wallMask);
+
+            wallNormal = -Vector3.Reflect(hit.point, hit.normal);
+        } */
+
+        //Forward Acceleration
+        //sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+
+        //sphere.AddForce(transform.right * currentRotate, ForceMode.Acceleration);
+
+        //Wall Repulsion
+        if(touchingWall)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, CurrentSplineObject.transform.rotation, Time.deltaTime * 10f);
+            sphere.AddForce(transform.forward * currentSpeed * wallsMultiplier, ForceMode.Acceleration);
+            /*RaycastHit hit;
+            if(Physics.Raycast(transform.position, transform.forward, out hit, 5f, wallMask))
+                sphere.AddForce(transform.forward * currentSpeed + Vector3.Reflect(hit.point, hit.normal) * wallsMultiplier, ForceMode.Acceleration);
+            else
+                sphere.AddForce(transform.forward * currentSpeed * wallsMultiplier, ForceMode.Acceleration);*/
+        }
+        else
+            sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+
 
         //Gravity
         if (touchingGround) // premesso che questo booleano sia vero        
@@ -346,7 +411,23 @@ public abstract class aKartController : aCollisionManager
         //sphere.AddForce(Vector3.down * accelleration_gravity * gravityMultiplier, ForceMode.Acceleration);
 
         //Steering
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
+        var carSplineAngle = Vector3.Angle(transform.forward, CurrentSplineObject.transform.forward);
+        if(KCType == eKCType.Human)
+        {
+            Debug.Log(carSplineAngle);
+            Debug.Log(currentRotate);
+        }
+            
+        if(carSplineAngle < maxAngle && carSplineAngle > -maxAngle)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, transform.eulerAngles.y + currentRotate, 0)), Time.deltaTime * 5f);
+
+        /*if(carSplineAngle > 30f && xAxis > 1)
+            transform.rotation = Quaternion.Lerp(transform.rotation, CurrentSplineObject.transform.rotation, Time.deltaTime * 5f);
+        else if(carSplineAngle < -30f && xAxis < -1)
+            transform.rotation = Quaternion.Lerp(transform.rotation, CurrentSplineObject.transform.rotation, Time.deltaTime * 5f);*/
+
+        /*transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, transform.eulerAngles.y + currentRotate, 0)), Time.deltaTime * 5f);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + rotate, 0, 0), Time.deltaTime * 5f); */
 
         var theRay = transform.position + (transform.up * 0.1f);
         Physics.Raycast(theRay, Vector3.down, out hitNear, 2f, layerMask);
@@ -645,22 +726,24 @@ public abstract class aKartController : aCollisionManager
     {
         if (wrong)
         {
-            var dir = lookAtDestOriginal - transform.position;
-            var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
+            /* var dir = lookAtDestOriginal - transform.position;
+             var rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir, Vector3.up), 1f);
 
-            var eul = rot.eulerAngles;
-            eul.x = 0;
-            eul.z = 0;
+             var eul = rot.eulerAngles;
+             eul.x = 0;
+             eul.z = 0;
 
-            transform.eulerAngles = eul;
-            dir.y = 0; // giusto?
+             transform.eulerAngles = eul;
+             dir.y = 0; // giusto?
 
-            sphere.AddForce(dir.normalized * 10000f, ForceMode.Impulse);
-            Accelerate(4);
+             sphere.AddForce(dir.normalized * 10000f, ForceMode.Impulse);
+             Accelerate(4); */
+            //wallsMultiplier = wallsAcceleration;
         }
         else
         {
-            settingOnTrack = true;
+            //settingOnTrack = true;
+            //wallsMultiplier = 1f;
         }
     }
 
