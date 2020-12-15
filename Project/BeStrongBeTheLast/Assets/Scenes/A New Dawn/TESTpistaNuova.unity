@@ -2056,12 +2056,6 @@ Transform:
   m_Father: {fileID: 1056580851}
   m_RootOrder: 115
   m_LocalEulerAnglesHint: {x: 0, y: 55.393, z: 0}
---- !u!4 &54042316 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2606706433270395620, guid: b71d46600b6f23446884b12b7facf4d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1393067281}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &54110495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14894,7 +14888,7 @@ MonoBehaviour:
   splineType: 0
   probability: 0
   nextSplines:
-  - {fileID: 1662468051}
+  - {fileID: 2078958332}
   CanBeClosedByThisWall: {fileID: 0}
   CanBeClosedByThisWall_AlternativeFork: {fileID: 0}
   MostraInPlay: 0
@@ -43273,12 +43267,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!4 &1360562013 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2606706433270395818, guid: b71d46600b6f23446884b12b7facf4d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1393067281}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1364402718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43833,36 +43821,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Imp
       objectReference: {fileID: 0}
-    - target: {fileID: 1284683510941405287, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: regenSpeed
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: acceleration
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: driftPenalty
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: enableSpeedRubberbanding
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: CurrentSplineObject
-      value: 
-      objectReference: {fileID: 1056580853}
     - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
       propertyPath: camera_
@@ -43875,28 +43833,18 @@ PrefabInstance:
       objectReference: {fileID: 59576184}
     - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
-      propertyPath: KCType
-      value: 0
+      propertyPath: CurrentSplineObject
+      value: 
+      objectReference: {fileID: 1056580853}
+    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
+        type: 3}
+      propertyPath: steering
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
-      propertyPath: playerNumber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: frontRightWheel
-      value: 
-      objectReference: {fileID: 1360562013}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: frontLeftWheel
-      value: 
-      objectReference: {fileID: 54042316}
-    - target: {fileID: 1284683511250782237, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: distanzaYDallaSfera
-      value: 0.4
+      propertyPath: maxAngle
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510941405281, guid: b71d46600b6f23446884b12b7facf4d9,
         type: 3}
@@ -43952,41 +43900,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683510443141252, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.386
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683510443141252, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.179
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683510443141257, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284683511250782211, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606706433270395844, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.228
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606706433270395844, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.022
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606706433270395844, guid: b71d46600b6f23446884b12b7facf4d9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.066
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b71d46600b6f23446884b12b7facf4d9, type: 3}
@@ -49693,6 +49606,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3277735251135538735, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: eventSytem
+      value: 
+      objectReference: {fileID: 1089251152}
     - target: {fileID: 1214894212849521632, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -49723,11 +49641,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3277735251135538735, guid: 5c7a67752a911df4b8adabe1e32586e2,
-        type: 3}
-      propertyPath: eventSytem
-      value: 
-      objectReference: {fileID: 1089251152}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c7a67752a911df4b8adabe1e32586e2, type: 3}
 --- !u!1 &1541357065 stripped
@@ -68272,7 +68185,7 @@ MonoBehaviour:
   splineType: 0
   probability: 0
   nextSplines:
-  - {fileID: 1662468051}
+  - {fileID: 479211883}
   CanBeClosedByThisWall: {fileID: 0}
   CanBeClosedByThisWall_AlternativeFork: {fileID: 0}
   MostraInPlay: 0

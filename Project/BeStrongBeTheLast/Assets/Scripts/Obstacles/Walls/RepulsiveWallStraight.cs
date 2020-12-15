@@ -36,26 +36,8 @@ public class RepulsiveWallStraight : aCollisionManager
         if (audioData && GB.CompareORTags(collision.gameObject, "Player", "CPU"))
             audioData.Play(0);
 
-        if(AttivaCollisioniConMura && active)
-            if(collision.collider.gameObject.layer == 12)
-                kartController.touchingWall = true;
-
         if (GB.CompareORTags(collision.gameObject, "ShortcutWall"))
             kartController.NextSpline();
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if(AttivaCollisioniConMura && active)
-            if(collision.collider.gameObject.layer == 12)
-                kartController.touchingWall = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if(AttivaCollisioniConMura && active)
-            if(collision.collider.gameObject.layer == 12)
-                kartController.touchingWall = false;
     }
 
     public void SetEnabled(bool setting) =>
