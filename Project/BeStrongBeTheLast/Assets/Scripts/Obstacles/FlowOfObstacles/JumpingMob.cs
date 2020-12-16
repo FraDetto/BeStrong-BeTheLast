@@ -12,8 +12,8 @@ using UnityEngine;
 public class JumpingMob : WanderingMob
 {
     private bool jumped = false;
-    public float slowAmountSquished = 0.1f, squishedSpeedLimit = 30f;
-    public int squishDuration = 7;
+    public float slowAmountSquished = 0.5f, squishedSpeedLimit = 30f;
+    public int squishDuration = 2;
 
     public JumpingMob()
     {
@@ -116,8 +116,7 @@ public class JumpingMob : WanderingMob
                 case Phases.rotating:
                     var hitDirection = collision.collider.transform.position - transform.position;
 
-                    kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward, true);
-                    kartController.Accelerate(slowAmount);
+                    kartController.Accelerate(slowAmount, 2f);
                     kartController.SetObstacleDestroyed(gameObject);
 
                     phase = Phases.flying;
@@ -135,9 +134,8 @@ public class JumpingMob : WanderingMob
                 case Phases.moving:
                     if (thisRigidbody.velocity.y < 0)
                     {
-                        kartController.Accelerate(slowAmountSquished);
+                        kartController.Accelerate(slowAmountSquished, 2f);
                         kartController.BeSquished(squishDuration);
-                        kartController.LimitSpeed(squishedSpeedLimit, squishDuration);
                     }
                     break;
             }

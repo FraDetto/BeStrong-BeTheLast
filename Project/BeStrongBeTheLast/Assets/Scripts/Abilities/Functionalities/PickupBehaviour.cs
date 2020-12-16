@@ -43,7 +43,6 @@ public class PickupBehaviour : PausableMonoBehaviour
         {
             KartController kartController = other.transform.root.GetComponentInChildren<KartController>();
             string playerName = kartController.transform.parent.gameObject.name;
-            kartController.powerGaugeValue += (powerAmount + powerAmount * GameState.Instance.getScoreBiasBonus(playerName));
             collider_.enabled = false;
             mesh.enabled = false;
             particle.gameObject.SetActive(false);

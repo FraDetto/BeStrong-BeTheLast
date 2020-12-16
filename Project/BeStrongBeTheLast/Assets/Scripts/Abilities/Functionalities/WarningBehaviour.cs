@@ -33,14 +33,14 @@ public class WarningBehaviour : aCollisionManager
                 switch (myKartController.KCType)
                 {
                     case aKartController.eKCType.CPU:
-                        if (myKartController.canUseProjectile())
+                        if (myKartController.canUsePower())
                             switch (lato)
                             {
                                 case GB.ELato.Avanti:
-                                    myKartController.Projectile(myKartController.frontSpawnpoint);
+                                    myKartController.Power(myKartController.frontSpawnpoint);
                                     break;
                                 case GB.ELato.Dietro:
-                                    myKartController.Projectile(myKartController.rearSpawnpoint);
+                                    myKartController.Power(myKartController.rearSpawnpoint);
                                     break;
                             }
                         break;
@@ -49,22 +49,6 @@ public class WarningBehaviour : aCollisionManager
         }
         else if (GB.CompareORTags(other, "Projectile"))
         {
-            switch (myKartController.KCType)
-            {
-                case aKartController.eKCType.CPU:
-                    if (myKartController.canUseAttractor())
-                        switch (lato)
-                        {
-                            case GB.ELato.Avanti:
-                                myKartController.Attractor(myKartController.frontSpawnpoint);
-                                break;
-                            case GB.ELato.Dietro:
-                                myKartController.Attractor(myKartController.rearSpawnpoint);
-                                break;
-                        }
-                    break;
-            }
-
             if (!blinking && other.transform.forward != transform.forward)
                 if (
                     CheckIs<SingleShotBehaviour>(other, "SingleShot") ||

@@ -112,21 +112,15 @@ public sealed class KartController : aBSBTLKart
                     driftDisabled = true;
                 }
 
-                if (GB.GetButtonDown(JoystickName + "Counter") || GB.GetAxis(JoystickName + "Counter") != 0)
-                    Counter();
+                if (GB.GetButtonDown(JoystickName + "Shield") || GB.GetAxis(JoystickName + "Shield") != 0)
+                    Shield();
 
-                if (GB.GetButtonDown(JoystickName + "Projectile"))
+                if (GB.GetButtonDown(JoystickName + "Power"))
                 {
                     var direzione = Input.GetAxis(JoystickName + "Vertical") < 0 ? rearSpawnpoint : frontSpawnpoint;
 
-                    if (myAbility.myAttractor == null)
-                        Projectile(direzione);
-                    else
-                        Attractor(direzione);
+                    Power(direzione);
                 }
-
-                if (GB.GetButtonDown(JoystickName + "Special") || GB.GetAxis(JoystickName + "Special") != 0)
-                    Special();
 
                 if (GB.GetButtonDown(JoystickName + "MenuA") && rankPanel)
                     rankPanel.SetActive(!rankPanel.activeSelf);
@@ -242,32 +236,18 @@ public sealed class KartController : aBSBTLKart
         foreach (var car in AllCars)
             if (!Equals(car))
             {
-                if (canUseSpecial())
-                {
-                    Special();
-                    break;
-                }
-                else if (canUseCounter())
+                if (canUseShield())
                 {
                     var counterBehaviour = counter.GetComponent<CounterBehaviour>();
 
                     if (Vector3.Distance(transform.position, car.transform.position) < counterBehaviour.RaggioDiAzione)
                     {
-                        Counter();
+                        Shield();
                         break;
                     }
                 }
             }
     }
-
-    internal void FieldOfViewCollision(FieldOfViewCollider.eDirection direction, Collider collider) =>
-        onCollisionWithPlayer_or_CPU(collider, (kartController) =>
-        {
-            if (!Equals(kartController))
-            {
-                // si doveva usare ma non l'abbiamo usato ancora
-            }
-        });
 
     private void CPU_AI_Find_Obstacles(bool wrong)
     {

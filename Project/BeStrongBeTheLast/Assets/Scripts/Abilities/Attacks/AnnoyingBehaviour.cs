@@ -26,13 +26,14 @@ public class AnnoyingBehaviour : aAbilitiesBehaviour
 
     private void AnnoyCars(List<KartController> cars, float annoyingAmount, bool annoyed)
     {
-        var annoyingDiff = maxAnnoyingAmount - annoyingAmount;
+        /*var annoyingDiff = maxAnnoyingAmount - annoyingAmount;
         foreach (var car in cars)
             if (car != kartController)
                 if (annoyed)
                     car.annoyMe(car.EffectDistributionFormula(annoyingAmount, annoyingDiff), annoyed);
                 else
                     car.annoyMe(1f, annoyed);
+                    */
     }
 
     protected override void LifeTimeElapsed() =>

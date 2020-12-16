@@ -18,10 +18,7 @@ public abstract class aBSBTLKart : aKartController
     public Transform frontSpawnpoint;
     public Transform rearSpawnpoint;
 
-    [SerializeField] private float regenSpeed = 0.1f;
-    [SerializeField] private float counterCooldown = 2.5f;
-    [SerializeField] private float projectileCooldown = 5;
-    [SerializeField] private float specialCooldown = 15;
+    [SerializeField] private float powerCooldown = 5;
 
     public enum ePlayer
     {
@@ -64,24 +61,17 @@ public abstract class aBSBTLKart : aKartController
     public GameObject trishot;
     public GameObject homing;
     public GameObject bouncing;
-    public GameObject attracting;
     public GameObject blinding;
-    public GameObject annoying;
     public GameObject tanking;
     public GameObject rotating;
 
-    internal GameObject attractedWeapon;
     internal sAbilities myAbility;
-
-    internal bool attracted;
 
     internal Transform debuff;
 
-    internal bool counterRecharging;
-    internal bool projectileRecharging;
-    internal bool specialRecharging;
-
-    internal float powerGaugeValue;
+    internal bool powerRecharging;
+    internal bool powerEquipped;
+    internal GameObject equippedPower;
 
     internal bool iAmBlinded;
 
@@ -90,32 +80,6 @@ public abstract class aBSBTLKart : aKartController
 
     protected new void Start_()
     {
-        abilities = new Dictionary<ePlayer, sAbilities>()
-        {
-            { ePlayer.Hypogeum, new sAbilities(homing, annoying) },
-            { ePlayer.Kiddo, new sAbilities(bouncing, rotating) },
-            { ePlayer.Flapper, new sAbilities(bouncing, tanking) },
-            { ePlayer.Bard, new sAbilities(null, tanking, attracting/*homing, tanking*/) },
-            { ePlayer.Imps, new sAbilities(trishot, annoying) },
-            { ePlayer.EarthRestorer, new sAbilities(null, rotating, attracting) },
-            { ePlayer.Politician, new sAbilities(trishot, blinding) },
-            { ePlayer.Steamdunker, new sAbilities(homing, blinding/*null, blinding, attracting*/) },
-        };
-
-        // testing attracting
-        //abilities = new Dictionary<ePlayer, sAbilities>()
-        //{
-        //    { ePlayer.Bard, new sAbilities(null, tanking, attracting) },
-        //    { ePlayer.EarthRestorer, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Flapper, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Hypogeum, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Imps, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Kiddo, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Politician, new sAbilities(trishot, tanking) },
-        //    { ePlayer.Steamdunker, new sAbilities(trishot, tanking) },
-        //};
-
-        myAbility = abilities[playerType];
         debuff = kartNormal.transform.Find("Debuff");
 
         base.Start_();
@@ -126,116 +90,46 @@ public abstract class aBSBTLKart : aKartController
         if (Paused)
             return;
 
-        powerGaugeValue += regenSpeed * Mathf.Pow(2, driftMode) * (1 + GameState.Instance.getScoreBiasBonus(PlayerName)) * Time.deltaTime;
-
-        if (powerGaugeValue > 1)
-            powerGaugeValue = 1;
-
         base.Update_(xAxis, jumpBDown, jumpBUp);
     }
 
 
-    protected void Counter()
+    protected void Shield()
     {
-        if (canUseCounter())
+        if (canUseShield())
         {
             Instantiate(counter, transform);
-
-            powerGaugeValue -= 0.25f;
-            counterRecharging = true;
-            StartCoroutine(CounterCooldown());
+            powerRecharging = true;
+            StartCoroutine(PowerCooldown());
         }
     }
 
-    internal void Attractor(Transform spawnPoint)
+    internal void Power(Transform spawnPoint)
     {
-        if (canUseAttractor())
+        if (canUsePower())
         {
-            Instantiate(myAbility.myAttractor, spawnPoint.position, spawnPoint.rotation, transform);
+            if(equippedPower.GetComponent<aAbilitiesBehaviour>().needsAim)
+                Instantiate(equippedPower, spawnPoint.position, spawnPoint.rotation, transform);
+            else
+                Instantiate(equippedPower, transform);
 
-            //myAbility.myAttractor_inAction = true;
-            attracted = false;
-            powerGaugeValue -= 0.5f;
-            projectileRecharging = true;
-            StartCoroutine(ProjectileCooldown());
+            powerRecharging = true;
+            StartCoroutine(PowerCooldown());
         }
     }
 
-    internal void Projectile(Transform spawnPoint)
+    internal bool canUseShield() =>
+        !powerRecharging;
+
+    internal bool canUsePower() =>
+        powerEquipped && 
+        !powerRecharging;
+
+    IEnumerator PowerCooldown()
     {
-        if (canUseProjectile())
-        {
-            var weapon = attractedWeapon ?? myAbility.myProjectile;
-
-            Instantiate(weapon, spawnPoint.position, spawnPoint.rotation, transform);
-
-            if (weapon.Equals(attractedWeapon))
-            {
-                attractedWeapon = null;
-            }
-            else if (weapon.Equals(myAbility.myProjectile))
-            {
-                //myAbility.myProjectile_inAction = true;
-                powerGaugeValue -= 0.5f;
-                projectileRecharging = true;
-                StartCoroutine(ProjectileCooldown());
-            }
-        }
+        yield return new WaitForSeconds(powerCooldown);
+        powerRecharging = false;
     }
-
-    protected void Special()
-    {
-        if (canUseSpecial())
-        {
-            Instantiate(myAbility.mySpecial, transform);
-
-            //myAbility.mySpecial_inAction = true;
-            powerGaugeValue -= 0.75f;
-            specialRecharging = true;
-            StartCoroutine(SpecialCooldown());
-        }
-    }
-
-
-    internal bool canUseCounter() =>
-        powerGaugeValue >= 0.25f &&
-        !counterRecharging;
-
-    internal bool canUseAttractor() =>
-        myAbility.myAttractor &&
-        !myAbility.myAttractor_inAction &&
-        powerGaugeValue >= 0.5f;
-
-    internal bool canUseProjectile() =>
-        (myAbility.myProjectile || attractedWeapon) &&
-        !myAbility.myProjectile_inAction &&
-        powerGaugeValue >= 0.5f &&
-        !projectileRecharging;
-
-    internal bool canUseSpecial() =>
-        !myAbility.mySpecial_inAction &&
-        powerGaugeValue >= 0.75f &&
-        !specialRecharging;
-
-
-    IEnumerator CounterCooldown()
-    {
-        yield return new WaitForSeconds(counterCooldown);
-        counterRecharging = false;
-    }
-
-    IEnumerator ProjectileCooldown()
-    {
-        yield return new WaitForSeconds(projectileCooldown);
-        projectileRecharging = false;
-    }
-
-    IEnumerator SpecialCooldown()
-    {
-        yield return new WaitForSeconds(specialCooldown);
-        specialRecharging = false;
-    }
-
 
     internal void blindMe(bool blind)
     {
@@ -243,24 +137,4 @@ public abstract class aBSBTLKart : aKartController
 
         debuff.Find("Blinded").gameObject.SetActive(blind);
     }
-
-    internal void annoyMe(float annoyingAmount, bool annoy)
-    {
-        iAmAnnoyed = annoy;
-
-        debuff.Find("Annoyed").gameObject.SetActive(annoy);
-        drifting = annoy;
-
-        if (annoy)
-        {
-            this.annoyingAmount = annoyingAmount;
-            driftHeatingValue = 2f;
-        }
-        else
-        {
-            this.annoyingAmount = annoyingAmount;
-            driftHeatingValue = -1f;
-        }
-    }
-
 }

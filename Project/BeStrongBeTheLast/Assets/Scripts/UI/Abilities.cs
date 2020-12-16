@@ -15,22 +15,15 @@ public class Abilities : PausableMonoBehaviour
 
     public KartController kartController;
 
-    public Slider powerGauge;
-    public Slider driftHeating;
     public Image warningImage;
-    public GameObject driftHeatingFill, panelRankings, blinding, panelPause;
-    public GameObject counterIcon, projectileIcon, specialIcon;
-    public Sprite shieldAct, shieldInact, projectileAct, projectileInact, specialAct, specialInact;
-    public GameObject counterUI, projectileUI, specialUI;
+    public GameObject panelRankings, blinding, panelPause;
+    public GameObject shieldIcon, powerIcon;
+    public Sprite shieldAct, shieldInact, powerAct, powerInact;
+    public GameObject shieldUI, powerUI;
     public ParticleSystem particles;
-    public Material blindMat;
-    public float maxDissolveAmount = 0.5f;
-    public float dissolveAmount = 0f;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
-    //private Color heatedColor = new Color32(242, 66, 66, 255);
-    //private Color coldColor = new Color32(0, 57, 171, 255);
 
     private bool started;
 
@@ -48,83 +41,36 @@ public class Abilities : PausableMonoBehaviour
 
     private void Update()
     {
-        if (started)
+        /*if (started)
         {
-            //Color driftHeatingFill_Color;
+            var newCanUseShield = kartController.canUseShield();
+            var newCanUsePower = kartController.canUsePower();
 
-            float driftValue = kartController.driftHeatingValue;
-            float driftValueAdjusted = driftValue * 0.7f + 0.3f;
+            var shieldReady = shieldUI.transform.GetChild(0).gameObject;
+            var powerReady = powerUI.transform.GetChild(0).gameObject;
 
-            driftHeating.value = driftValueAdjusted;
-            powerGauge.value = kartController.powerGaugeValue;
+            var shieldUsed = shieldUI.transform.GetChild(1).gameObject;
+            var powerUsed = powerUI.transform.GetChild(1).gameObject;
 
-            /* if (driftValue > 0.7)
-                 driftHeatingFill_Color = heatedColor;
-             else if (driftValue < 0.3)
-                 driftHeatingFill_Color = coldColor;
-             else
-                 driftHeatingFill_Color = Color.Lerp(coldColor, heatedColor, (driftValue - 0.3f) * 2.5f);
+            if (shieldReady.activeInHierarchy)
+                shieldUsed.SetActive(kartController.powerRecharging);
 
-             driftHeatingFill.GetComponent<Image>().color = driftHeatingFill_Color; */
+            if (powerReady.activeInHierarchy)
+                powerUsed.SetActive(kartController.powerRecharging);
 
-            driftHeatingFill.transform.GetChild(0).gameObject.SetActive(kartController.driftCooldown);
+            shieldReady.SetActive(newCanUseShield);
+            powerReady.SetActive(newCanUsePower);
 
+            shieldIcon.GetComponent<Image>().sprite = newCanUseShield ? shieldAct : shieldInact;
+            powerIcon.GetComponent<Image>().sprite = newCanUsePower ? powerAct : powerInact;
 
-            var newCanUseCounter = kartController.canUseCounter();
-            var newCanUseProj = kartController.canUseProjectile() || kartController.canUseAttractor();
-            var newCanUseSpecial = kartController.canUseSpecial();
-
-            /*if(newCanUseCounter && newCanUseCounter != oldCanUseCounter)
-                counterUI.transform.GetChild(0).gameObject.SetActive(true);
-
-            if (newCanUseProj && newCanUseProj != oldCanUseProj)
-                projectileUI.transform.GetChild(0).gameObject.SetActive(true);
-
-            if (newCanUseSpecial && newCanUseSpecial != oldCanUseSpecial)
-                specialUI.transform.GetChild(0).gameObject.SetActive(true);*/
-
-            var counterReady = counterUI.transform.GetChild(0).gameObject;
-            var projectileReady = projectileUI.transform.GetChild(0).gameObject;
-            var specialReady = specialUI.transform.GetChild(0).gameObject;
-
-            var counterUsed = counterUI.transform.GetChild(1).gameObject;
-            var projectileUsed = projectileUI.transform.GetChild(1).gameObject;
-            var specialUsed = specialUI.transform.GetChild(1).gameObject;
-
-            if (counterReady.activeInHierarchy)
-                counterUsed.SetActive(kartController.counterRecharging);
-
-            if (projectileReady.activeInHierarchy)
-                projectileUsed.SetActive(kartController.projectileRecharging);
-
-            if (specialReady.activeInHierarchy)
-                specialUsed.SetActive(kartController.specialRecharging);
-
-            counterReady.SetActive(newCanUseCounter);
-            projectileReady.SetActive(newCanUseProj);
-            specialReady.SetActive(newCanUseSpecial);
-
-            counterIcon.GetComponent<Image>().sprite = newCanUseCounter ? shieldAct : shieldInact;
-            projectileIcon.GetComponent<Image>().sprite = newCanUseProj ? projectileAct : projectileInact;
-            specialIcon.GetComponent<Image>().sprite = newCanUseSpecial ? specialAct : specialInact;
-
-            oldCanUseCounter = kartController.canUseCounter();
-            oldCanUseProj = kartController.canUseProjectile();
-            oldCanUseSpecial = kartController.canUseSpecial();
+            oldCanUseCounter = kartController.canUseShield();
+            oldCanUseProj = kartController.canUsePower();
 
             warningImage.enabled = kartController.warning;
 
             blinding.SetActive(kartController.iAmBlinded);
-
-            /* Non funziona come dovrebbe. 
-
-            var dissolveDiff = maxDissolveAmount - dissolveAmount;
-            blindMat.SetFloat("_DissolvePower", kartController.EffectDistributionFormula(dissolveAmount, dissolveDiff));
-
-            blinding.GetComponent<Image>().material = blindMat;
-
-            */
-        }
+        }*/
     }
 
     private void PlayParticle(GameObject abilityUI, AudioSource sound)
@@ -148,9 +94,8 @@ public class Abilities : PausableMonoBehaviour
 
     private void disableParticleCameras()
     {
-        counterUI.transform.GetChild(0).gameObject.SetActive(false);
-        projectileUI.transform.GetChild(0).gameObject.SetActive(false);
-        specialUI.transform.GetChild(0).gameObject.SetActive(false);
+        shieldUI.transform.GetChild(0).gameObject.SetActive(false);
+        powerUI.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private IEnumerator delayedStart()
@@ -158,19 +103,6 @@ public class Abilities : PausableMonoBehaviour
         while (!kartController.started)
             yield return null;
 
-        /*
-        counterText.color = disabledColor;
-
-        if (kartController.myAbility.selectedProjectile)
-            selectedProjectileText.text = kartController.myAbility.selectedProjectile.name;
-        else if (kartController.myAbility.selectedAttractor)
-            selectedProjectileText.text = kartController.myAbility.selectedAttractor.name;
-
-        selectedProjectileText.color = disabledColor;
-
-        selectedSpecialText.text = kartController.myAbility.selectedSpecial.name;
-        selectedProjectileText.color = disabledColor;
-        */
         kartController.rankPanel = panelRankings;
         kartController.pausePanel = panelPause;
         started = true;

@@ -13,7 +13,7 @@ using UnityEngine;
 public class BoxMovement : aCollisionManager
 {
 
-    public float accelerationFromBox;
+    float accelerationFromBox = 1.25f;
     public float ImpulseFromBox;
     public bool automaticallyMove = true;
     public Transform kartModel;
@@ -39,7 +39,7 @@ public class BoxMovement : aCollisionManager
         onCollisionWithPlayer_or_CPU(collision.collider, (kartController) =>
         {
             kartController.AddForce(ImpulseFromBox, ForceMode.Impulse, -kartController.transform.forward, true);
-            kartController.Accelerate(accelerationFromBox);
+            kartController.Accelerate(accelerationFromBox, 2f);
 
             if (ImpulseFromBox == 0)
                 kartController.PlayTurboEffect();

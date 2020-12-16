@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class RotatingBehaviour : aAbilitiesBehaviour
 {
-    public float accelerationFromShot = 15f;
+    float accelerationFromShot = 1.25f;
     public float rotatingSpeed = 2f;
     public float targetRadius = 5f;
 
@@ -20,21 +20,11 @@ public class RotatingBehaviour : aAbilitiesBehaviour
 
     private void Start()
     {
-        var abilities = new Dictionary<aBSBTLKart.ePlayer, string>()
-        {
-            { aBSBTLKart.ePlayer.Kiddo, "KiddoSpecial" },
-            { aBSBTLKart.ePlayer.EarthRestorer, "RestorerSpecial" },
-        };
-
         Start_();
 
         user = transform.root.gameObject;
         user.GetComponentInChildren<KartController>().counterImmunity = true;
         collider_ = GetComponent<CapsuleCollider>();
-
-        var ability = GB.FindTransformInChildWithName(transform, abilities[kartController.playerType]);
-
-        ability.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -48,13 +38,6 @@ public class RotatingBehaviour : aAbilitiesBehaviour
             if (collider_.radius > targetRadius)
                 collider_.radius = targetRadius;
         }
-
-        /* Non funziona come dovrebbe
-         
-        var kartController = transform.root.GetComponentInChildren<KartController>();
-        kartController.ApplyRotation(rotatingSpeed);
-
-        */
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,7 +46,7 @@ public class RotatingBehaviour : aAbilitiesBehaviour
             if (!other.transform.root.gameObject.Equals(user))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(accelerationFromShot);
+                kartController.Accelerate(accelerationFromShot, 2f);
 
                 foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {

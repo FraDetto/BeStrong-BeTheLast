@@ -23,6 +23,7 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
     internal GameObject user;
 
     public float lengthTimeInSeconds = 5;
+    public bool needsAim;
 
     public bool UseScorBiasBonus = true;
 

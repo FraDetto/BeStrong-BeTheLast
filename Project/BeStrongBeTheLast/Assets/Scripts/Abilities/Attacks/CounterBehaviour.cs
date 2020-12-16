@@ -12,7 +12,7 @@ using UnityEngine;
 public class CounterBehaviour : aAbilitiesBehaviour
 {
 
-    public float accelerationFromCounter = 2f;
+    float accelerationFromCounter = 1.25f;
 
     public SphereCollider sphereCollider;
 
@@ -30,8 +30,8 @@ public class CounterBehaviour : aAbilitiesBehaviour
             { aBSBTLKart.ePlayer.Bard, "SoundWave" },
             { aBSBTLKart.ePlayer.EarthRestorer, "StungunHit" },
             { aBSBTLKart.ePlayer.Flapper, "GaseousState" },
-            { aBSBTLKart.ePlayer.Hypogeum, "LionRoar" },
-            { aBSBTLKart.ePlayer.Imps, "StungunHit" },
+            { aBSBTLKart.ePlayer.Imps, "LionRoar" },
+            { aBSBTLKart.ePlayer.Hypogeum, "StungunHit" },
             { aBSBTLKart.ePlayer.Kiddo, "StungunHit" },
             { aBSBTLKart.ePlayer.Politician, "Bribe" },
             { aBSBTLKart.ePlayer.Steamdunker, "SteamJet" },
@@ -54,7 +54,7 @@ public class CounterBehaviour : aAbilitiesBehaviour
             if (!other.transform.root.gameObject.Equals(transform.root.gameObject))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(accelerationFromCounter);
+                kartController.Accelerate(accelerationFromCounter, 2f);
 
                 foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {

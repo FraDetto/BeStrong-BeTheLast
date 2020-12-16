@@ -15,7 +15,7 @@ public class HomingBehaviour : aAbilitiesBehaviour
     public LayerMask roadMask, wallMask;
 
     public float speed = 50;
-    public float accelerationFromShot = 5;
+    float accelerationFromShot = 1.25f;
 
     private GameObject target;
     private SphereCollider range;
@@ -23,22 +23,12 @@ public class HomingBehaviour : aAbilitiesBehaviour
 
     private void Start()
     {
-        var abilities = new Dictionary<aBSBTLKart.ePlayer, string>()
-        {
-            { aBSBTLKart.ePlayer.Steamdunker, "BardProjectile" },
-            { aBSBTLKart.ePlayer.Hypogeum, "SharkFinTrail" },
-        };
-
         Start_();
 
         user = transform.root.gameObject;
         transform.parent = null;
 
         range = GetComponent<SphereCollider>();
-
-        var ability = GB.FindTransformInChildWithName(transform, abilities[kartController.playerType]);
-
-        ability.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -73,7 +63,7 @@ public class HomingBehaviour : aAbilitiesBehaviour
                 }
                 else if (target != null)
                 {
-                    target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot);
+                    target.transform.root.GetComponentInChildren<KartController>().Accelerate(accelerationFromShot, 2f);
 
                     foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                     {

@@ -12,12 +12,12 @@ using UnityEngine;
 public class SlowingRay : aCollisionManager
 {
 
-    public float slowingAmount;
+    float slowingAmount = 0.75f;
 
     private void OnTriggerEnter(Collider other) =>
         onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
-            kartController.Accelerate(slowingAmount);
+            kartController.Accelerate(slowingAmount, 2f);
             kartController.SetObstacleDestroyed(gameObject);
         });
 
