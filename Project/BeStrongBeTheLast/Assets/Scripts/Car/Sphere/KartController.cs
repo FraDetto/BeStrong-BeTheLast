@@ -100,14 +100,14 @@ public sealed class KartController : aBSBTLKart
 
                     Update_(
                         touchingGround ? GB.GetAxis(JoystickName + "Horizontal") : 0,
-                        GB.GetButton(JoystickName + "Drift"),
+                        GB.GetButtonDown(JoystickName + "Drift"),
                         GB.GetButtonUp(JoystickName + "Drift")
                     );
                 }
 
                 if (UsaWrongWay && wrong)
                 {
-                    SetOnTrack(true);
+                    //SetOnTrack(true);
                     wrongWayTimer = 0;
                     driftDisabled = true;
                 }
