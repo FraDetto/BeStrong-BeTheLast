@@ -39,7 +39,7 @@ public class ArrowPanelOnSpline : PausableMonoBehaviour
 
     private void OnTriggerEnter(Collider co)
     {
-        if (co.CompareTag("Player"))
+        /*if (co.CompareTag("Player"))
         {
             var player = co.transform.root.gameObject;
 
@@ -53,7 +53,7 @@ public class ArrowPanelOnSpline : PausableMonoBehaviour
 
                 StartCoroutine(compareImage());
             }
-        }
+        }*/
     }
 
     IEnumerator compareImage()

@@ -12,19 +12,13 @@ using UnityEngine;
 public class TrishotBehaviour : aAbilitiesBehaviour
 {
 
-    public float accelerationFromShot, speed;
+    internal float accelerationFromShot = 1.25f, speed;
 
     private List<GameObject> shots = new List<GameObject>();
 
 
     private void Start()
     {
-        var abilities = new Dictionary<aBSBTLKart.ePlayer, string>()
-        {
-            { aBSBTLKart.ePlayer.Imps, "lanciaImp" },
-            { aBSBTLKart.ePlayer.Politician, "PoliticianProjectile" },
-        };
-
         Start_();
 
         user = transform.root.gameObject;
@@ -34,8 +28,6 @@ public class TrishotBehaviour : aAbilitiesBehaviour
         {
             transform.GetChild(i).GetComponent<SingleShotBehaviour>().user = user;
             shots.Add(transform.GetChild(i).gameObject);
-            var ability = GB.FindTransformInChildWithName(transform.GetChild(i), abilities[kartController.playerType]);
-            ability.gameObject.SetActive(true);
         }
     }
 

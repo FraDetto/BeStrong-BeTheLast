@@ -61,8 +61,7 @@ public class LapManager : PausableMonoBehaviour
             foreach (var kartController in FindObjectsOfType<KartController>())
             {
                 kartController.Paused = false;
-                kartController.AddForce(25000f, ForceMode.Impulse, kartController.transform.forward, false);
-                kartController.Accelerate(5f);
+                kartController.Accelerate(2f, 2f);
             }
         }
     }

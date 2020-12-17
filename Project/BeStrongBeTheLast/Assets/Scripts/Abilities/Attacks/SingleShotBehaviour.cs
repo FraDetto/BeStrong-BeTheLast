@@ -40,7 +40,7 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
             if (!other.transform.root.gameObject.Equals(trishotBehaviour.user))
             {
                 var kartController = other.transform.parent.GetComponentInChildren<aKartController>();
-                kartController.Accelerate(trishotBehaviour.accelerationFromShot);
+                kartController.Accelerate(trishotBehaviour.accelerationFromShot, 2f);
 
                 foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {

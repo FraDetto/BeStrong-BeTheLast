@@ -47,7 +47,7 @@ public class KartCollision : aCollisionManager
             if (myKartController && kartController && myKartController != kartController)
             {
                 var speedDifference = Mathf.Abs(myKartController.currentSpeed - kartController.currentSpeed);
-                var forceModifier = speedDifference / Mathf.Max(0.01f, myKartController.currentSpeed > kartController.currentSpeed ? myKartController.currentSpeed : kartController.currentSpeed);
+                //var forceModifier = speedDifference / Mathf.Max(0.01f, myKartController.currentSpeed > kartController.currentSpeed ? myKartController.currentSpeed : kartController.currentSpeed);
                 var hitDirection = collider.transform.position - transform.position;
 
                 switch (mode)
@@ -55,19 +55,15 @@ public class KartCollision : aCollisionManager
                     case Mode.left:
                     case Mode.right:
                         if (!hitBy || !kartController.transform.root.gameObject)
-                            kartController.AddForce(2000 + 1000 * forceModifier, ForceMode.Impulse, hitDirection, true);
+                            myKartController.Accelerate(0.875f, 2f);
                         break;
 
                     case Mode.rear:
                         if (!hitBy || !kartController.transform.root.gameObject)
                             if (myKartController.CurrentSplineDistance <= kartController.CurrentSplineDistance && speedDifference > 1)
                             {
-                                myKartController.AddForce(200 * forceModifier, ForceMode.Impulse, hitDirection, true);
-                                kartController.AddForce(200 * forceModifier, ForceMode.Impulse, -hitDirection, true);
-
-                                //myKartController.Accelerate(1.1f + 1f * forceModifier); al mio paese 1 × Y = Y
-                                myKartController.Accelerate(1.1f + forceModifier);
-                                kartController.Accelerate(0.9f - 0.5f * forceModifier);
+                                myKartController.Accelerate(1.25f, 2f);
+                                kartController.Accelerate(0.75f, 2f);
                             }
                         break;
                 }

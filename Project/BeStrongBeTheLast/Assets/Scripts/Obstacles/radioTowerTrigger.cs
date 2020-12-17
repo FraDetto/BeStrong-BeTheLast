@@ -12,7 +12,7 @@ using UnityEngine;
 public class radioTowerTrigger : PausableMonoBehaviour
 {
 
-    public float acceleration;
+    float acceleration = 1.25f;
     public int respawnElecTime;
     public GameObject[] particlesToDis;
 
@@ -26,7 +26,7 @@ public class radioTowerTrigger : PausableMonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            other.transform.root.GetComponentInChildren<KartController>().Accelerate(acceleration);
+            other.transform.root.GetComponentInChildren<KartController>().Accelerate(acceleration, 2f);
             //StartCoroutine(disableElectricity());
         }
     }

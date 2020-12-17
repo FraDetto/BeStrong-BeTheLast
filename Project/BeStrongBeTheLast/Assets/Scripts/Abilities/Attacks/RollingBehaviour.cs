@@ -13,7 +13,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
 
     public LayerMask roadMask;
 
-    public float accelerationFromShot = 10;
+    float accelerationFromShot = 1.25f;
 
     private GameObject bouncing;
     public GameObject explosion;
@@ -42,7 +42,7 @@ public class RollingBehaviour : aAbilitiesBehaviour
         {
             if (!other.transform.root.gameObject.Equals(user))
             {
-                kartController.Accelerate(accelerationFromShot);
+                kartController.Accelerate(accelerationFromShot, 2f);
 
                 foreach (var c in other.transform.root.GetComponentsInChildren<KartCollision>())
                 {

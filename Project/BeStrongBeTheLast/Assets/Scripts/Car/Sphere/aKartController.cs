@@ -88,6 +88,7 @@ public abstract class aKartController : aCollisionManager
     public float steering = 80f;
     public float maxAngle = 30f;
     public float wallsMultiplier = 25f;
+    public float accelerationMultiplier = 1f;
     public float kartWallDistance = 5f; 
     public float heatingSpeed = 0.25f;
     public float driftPenalty = 1f;
@@ -115,9 +116,6 @@ public abstract class aKartController : aCollisionManager
     protected float currSplineDistance_t0, prevSplineDistance_t0;
 
     private readonly string[] tubes = { "Tube001", "Tube002" };
-
-    internal float driftHeatingValue, annoyingAmount = 1f; //gravityMultiplier = 1f;
-    internal bool driftCooldown, iAmAnnoyed, settingOnTrack, rotateToSpline = false;
 
     private AudioSource driftAudioSource;
     private AudioSource boostAudioSource;
@@ -203,13 +201,13 @@ public abstract class aKartController : aCollisionManager
         if (xAxis != 0)
         {
             var dir = xAxis > 0 ? 1 : -1;
-            var amount = Mathf.Abs(xAxis) * annoyingAmount;
+            var amount = Mathf.Abs(xAxis);
 
             Steer(dir, amount);
         }
 
         //Drift
-        if (CanDrift() && jumpBDown && xAxis != 0)
+        if (jumpBDown && xAxis != 0)
         {
             if(!driftAudioSource.isPlaying)
                 driftAudioSource.Play();
@@ -236,35 +234,6 @@ public abstract class aKartController : aCollisionManager
             driftPower += powerControl * TempestivityOfDriftGearChange;
 
             ColorDrift();
-
-            if (driftHeatingValue > 1f)
-            {
-                driftHeatingValue = 1f;
-                driftCooldown = true;
-                heatingSpeed *= driftPenalty;
-                ClearDrift();
-            }
-            else
-            {
-                driftHeatingValue += heatingSpeed * Time.deltaTime;
-            }
-        }
-        else
-        {
-            if (driftHeatingValue < 0f)
-            {
-                driftHeatingValue = 0f;
-
-                if (driftCooldown)
-                {
-                    driftCooldown = false;
-                    heatingSpeed /= driftPenalty;
-                }
-            }
-            else if (!iAmAnnoyed)
-            {
-                driftHeatingValue -= heatingSpeed / 2f * Time.deltaTime;
-            }
         }
 
         if (jumpBUp && drifting)
@@ -272,9 +241,6 @@ public abstract class aKartController : aCollisionManager
 
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 5f);
         speed = 0f;
-
-        if (limitSpeed && currentSpeed > limitSpeedValue)
-            currentSpeed = limitSpeedValue;
 
         currentRotate = Mathf.Lerp(currentRotate, rotate / (hardRotate ? 2 : 1), Time.deltaTime * 4f);
         rotate = 0f;
@@ -320,7 +286,7 @@ public abstract class aKartController : aCollisionManager
             PlayTurboEffect();
         }
         else
-            sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+            sphere.AddForce(transform.forward * currentSpeed * accelerationMultiplier, ForceMode.Acceleration);
 
 
         //Gravity
@@ -392,15 +358,13 @@ public abstract class aKartController : aCollisionManager
 
     void Boost()
     {
-        if (driftMode > 0)
-            switch (KCType)
-            {
-                case eKCType.Human:
-                    //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
-                    DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, 0.3f * driftMode, Speed); // per rallentare
-                    DOVirtual.Float(0, 1, 0.5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, 0.5f, ChromaticAmount));
-                    break;
-            }
+        if (driftMode == 3)
+        {
+            //DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed); // per accelerare
+            //DOVirtual.Float(currentSpeed * 0.65f, currentSpeed, driftMode, Speed); // per rallentare
+            //DOVirtual.Float(0, 1, 0.5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, 0.5f, ChromaticAmount));
+            Accelerate(0.875f, 2f);
+        }         
 
         ClearDrift();
     }
@@ -436,8 +400,9 @@ public abstract class aKartController : aCollisionManager
             third = true;
             currentDriftColor = turboColors[2];
             driftMode = 3;
-
+            
             PlayFlashParticle(currentDriftColor);
+            
         }
 
         foreach (var p in primaryParticles)
@@ -479,42 +444,13 @@ public abstract class aKartController : aCollisionManager
     void ChromaticAmount(float x) =>
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
 
-    public void Accelerate(float amount)
+    public void Accelerate(float amount, float time)
     {
-        if(!counterImmunity)
-        {
-            float bonusBias = gameState.getScoreBiasBonus(PlayerName);
+        accelerationMultiplier = amount;
+        StartCoroutine(RestoreSpeed(time));
 
-            amount -= Mathf.Max(amount - (amount > 1 ? 1.1f : 0.1f), 0) * bonusBias;
-
-            currentSpeed *= amount;
-
-            float speedCap = enableSpeedRubberbanding ? 200 - 60 * bonusBias : 200;
-
-            if(currentSpeed > speedCap)
-                currentSpeed = speedCap;
-
-            if(amount > 1)
-                PlayTurboEffect();
-        }
-    }
-
-    public void LimitSpeed(float speedLimit, int duration)
-    {
-        if (!limitSpeed)
-        {
-            LimitSpeed(speedLimit);
-            StartCoroutine(RestoreSpeedLimit(duration));
-        }
-    }
-
-    public void LimitSpeed(float speedLimit)
-    {
-        if (!limitSpeed)
-        {
-            limitSpeedValue = speedLimit;
-            limitSpeed = true;
-        }
+        if(amount > 1)
+            PlayTurboEffect();
     }
 
     public void RestoreSpeedLimit() =>
@@ -624,9 +560,6 @@ public abstract class aKartController : aCollisionManager
 
             lookAtDest = new Vector3(p.x + xRndError, p.y, p.z + zRndError);
             lookAtDestOriginal = lookAtDest;
-
-            if (rotateToSpline)
-                rotateToSpline = false;
         }
     }
 
@@ -636,13 +569,15 @@ public abstract class aKartController : aCollisionManager
         camera_.transform.GetChild(indexCamToDis).gameObject.SetActive(false);
     }
 
-    protected bool CanDrift() =>
-        !driftCooldown;
-
     /* To be used when you want effects changing depending on your rank:
      * Amount is the base amount of the effect (e.g. 0.5 for annoying amount)
      * AmountDiff is the difference between amount and the maxAmount (e.g. maxAmount is 1 for annoying, so amountDiff will be 0.5) */
     internal float EffectDistributionFormula(float amount, float amountDiff) =>
         amount + (amountDiff * ((numberOfPlayers - (gameState.getCurrentRanking(PlayerName) - 1)) / (float)numberOfPlayers));
 
+    IEnumerator RestoreSpeed(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        accelerationMultiplier = 1f;
+    }
 }

@@ -36,7 +36,7 @@ public class SlowingPuddle : aCollisionManager
     private void OnTriggerStay(Collider other) =>
         onCollisionWithPlayer_or_CPU(other, (kartController) =>
         {
-            kartController.LimitSpeed(speedLimit);
+            //kartController.LimitSpeed(speedLimit);
             kartController.EnableHardRotate(true);
         });
 

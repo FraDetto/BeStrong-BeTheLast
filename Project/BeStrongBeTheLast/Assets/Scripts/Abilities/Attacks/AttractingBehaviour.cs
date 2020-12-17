@@ -27,7 +27,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
         if(Paused)
             return;
 
-        if (attracting && !kartController.attracted && projectile)
+        /*if (attracting && !kartController.attracted && projectile)
         {
             projectile.transform.LookAt(transform);
             projectile.transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -40,12 +40,12 @@ public class AttractingBehaviour : aAbilitiesBehaviour
 
                 KillMe();
             }
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!attracting && other.CompareTag("Projectile"))
+        /*if (!attracting && other.CompareTag("Projectile"))
         {
             attracting = true;
 
@@ -70,7 +70,7 @@ public class AttractingBehaviour : aAbilitiesBehaviour
             }
 
             projectile = other.gameObject;
-        }
+        }*/
     }
 
     protected override void LifeTimeElapsed()

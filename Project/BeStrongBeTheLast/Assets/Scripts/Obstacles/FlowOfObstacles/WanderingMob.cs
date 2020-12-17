@@ -45,7 +45,7 @@ public class WanderingMob : aCollisionManager
 
     protected Phases phase;
 
-    public float slowAmount = 0.5f;
+    public float slowAmount = 0.75f;
     public float roadWidth;
     public List<avoidBehaviourOptions> avoidBehaviour = new List<avoidBehaviourOptions>();
 
@@ -203,7 +203,7 @@ public class WanderingMob : aCollisionManager
             var hitDirection = collision.collider.transform.position - transform.position;
 
             kartController.AddForce(200 * kartController.currentSpeed, ForceMode.Impulse, -kartController.transform.forward, true);
-            kartController.Accelerate(slowAmount);
+            kartController.Accelerate(slowAmount, 2f);
             kartController.SetObstacleDestroyed(gameObject);
 
             phase = Phases.flying;
