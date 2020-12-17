@@ -58080,18 +58080,12 @@ MonoBehaviour:
     m_Bits: 4096
   CurrentSplineObject: {fileID: 0}
   TempestivityOfDriftGearChange: 3
-  MaxKMH: 160
-  base_acceleration: 80
-  max_acceleration_change: 0.5
-  acceleration: 80
-  steering: 16
-  maxAngle: 30
-  wallsMultiplier: 25
+  acceleration: 200
+  steering: 15
+  maxAngle: 45
+  wallsMultiplier: 10
   accelerationMultiplier: 1
-  kartWallDistance: 5
-  heatingSpeed: 0.25
-  driftPenalty: 0.5
-  enableSpeedRubberbanding: 1
+  kartWallDistance: 1.5
   layerMask:
     serializedVersion: 2
     m_Bits: 2355
@@ -58112,6 +58106,7 @@ MonoBehaviour:
   powerCooldown: 5
   playerType: 6
   shield: {fileID: 4702895947007250410, guid: 81509e9adb1ed2248b181e5058f0093c, type: 3}
+  equippedPower: {fileID: 0}
   UsaWrongWay: 1
 --- !u!82 &4835921954716738383
 AudioSource:
