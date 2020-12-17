@@ -32,50 +32,21 @@ public abstract class aBSBTLKart : aKartController
         Bard
     }
 
-    public struct sAbilities
-    {
-        public bool myProjectile_inAction, mySpecial_inAction, myAttractor_inAction;
-        public GameObject myProjectile, mySpecial, myAttractor;
-
-
-        public sAbilities(GameObject myProjectile, GameObject mySpecial) : this(myProjectile, mySpecial, null) { }
-
-        public sAbilities(GameObject myProjectile, GameObject mySpecial, GameObject myAttractor)
-        {
-            myProjectile_inAction = false;
-            mySpecial_inAction = false;
-            myAttractor_inAction = false;
-
-            this.myProjectile = myProjectile;
-            this.mySpecial = mySpecial;
-            this.myAttractor = myAttractor;
-        }
-    }
-
     public ePlayer playerType = ePlayer.Kiddo;
 
-    private Dictionary<ePlayer, sAbilities> abilities;
-
     [Header("Abilities - Types")]
-    public GameObject counter;
-    public GameObject trishot;
-    public GameObject homing;
-    public GameObject bouncing;
-    public GameObject blinding;
-    public GameObject tanking;
-    public GameObject rotating;
-
-    internal sAbilities myAbility;
+    public GameObject shield;
 
     internal Transform debuff;
 
     internal bool powerRecharging;
-    internal bool powerEquipped;
-    internal GameObject equippedPower;
+    public GameObject equippedPower;
 
     internal bool iAmBlinded;
 
     internal bool warning;
+
+    internal bool slotMachine;
 
 
     protected new void Start_()
@@ -98,7 +69,7 @@ public abstract class aBSBTLKart : aKartController
     {
         if (canUseShield())
         {
-            Instantiate(counter, transform);
+            Instantiate(shield, transform);
             powerRecharging = true;
             StartCoroutine(PowerCooldown());
         }
@@ -113,6 +84,8 @@ public abstract class aBSBTLKart : aKartController
             else
                 Instantiate(equippedPower, transform);
 
+            equippedPower = null;
+
             powerRecharging = true;
             StartCoroutine(PowerCooldown());
         }
@@ -122,8 +95,11 @@ public abstract class aBSBTLKart : aKartController
         !powerRecharging;
 
     internal bool canUsePower() =>
-        powerEquipped && 
+        PowerEquipped() && 
         !powerRecharging;
+
+    internal bool PowerEquipped() =>
+        equippedPower != null;
 
     IEnumerator PowerCooldown()
     {

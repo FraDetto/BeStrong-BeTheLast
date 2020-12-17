@@ -42,7 +42,7 @@ public class BouncingBehaviour : aAbilitiesBehaviour
             var p1 = rolling.transform.position + rolling.GetComponent<CapsuleCollider>().center + Vector3.up * -rolling.GetComponent<CapsuleCollider>().height * 0.5f;
             var p2 = p1 + Vector3.up * rolling.GetComponent<CapsuleCollider>().height;
 
-            if (Physics.CapsuleCast(p1, p2, rolling.GetComponent<CapsuleCollider>().radius, transform.TransformDirection(Vector3.forward), out hit, 1f, wallMask))
+            if (Physics.CapsuleCast(p1, p2, rolling.GetComponent<CapsuleCollider>().radius, transform.TransformDirection(Vector3.forward), out hit, 2f, wallMask))
                 transform.forward = Vector3.Reflect(transform.forward, hit.normal);
 
             transform.Translate(Vector3.forward * speed * Time.deltaTime);

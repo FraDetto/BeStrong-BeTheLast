@@ -22,6 +22,10 @@ public class PickupBehaviour : PausableMonoBehaviour
     [SerializeField]
     private float powerAmount = 0.5f;
 
+    public GameObject[] powers;
+    
+    KartController kartController;
+
     private void Start()
     {
         collider_ = GetComponent<Collider>();
@@ -41,7 +45,8 @@ public class PickupBehaviour : PausableMonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
-            KartController kartController = other.transform.root.GetComponentInChildren<KartController>();
+            kartController = other.transform.root.GetComponentInChildren<KartController>();
+            StartCoroutine(Slotmachine());
             string playerName = kartController.transform.parent.gameObject.name;
             collider_.enabled = false;
             mesh.enabled = false;
@@ -58,4 +63,15 @@ public class PickupBehaviour : PausableMonoBehaviour
         particle.gameObject.SetActive(true);
     }
 
+    IEnumerator Slotmachine()
+    {
+        if(!kartController.slotMachine && !kartController.PowerEquipped())
+        {
+            kartController.slotMachine = true;
+            yield return new WaitForSeconds(2f);
+            int powerIndex = Random.Range(0, powers.Length);
+            kartController.equippedPower = powers[powerIndex];
+            kartController.slotMachine = false;
+        }
+    }
 }
