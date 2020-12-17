@@ -207,25 +207,17 @@ public class EndManager : PausableMonoBehaviour
 
             if (numPlayers > 0)
             {
-                foreach (var car in GameState.Instance.rankings)
+                foreach(var car in GameState.Instance.rankings)
                 {
                     var tempKartController = GameState.Instance.kartControllers[car.getTag()];
 
-                    if (numPlayersTemp == 0 && tempKartController.KCType == aKartController.eKCType.CPU)
+                    if(numPlayersTemp == 0 && tempKartController.KCType == aKartController.eKCType.CPU)
                         CPUsAhead.Add(tempKartController);
-                    else if (numPlayersTemp >= numPlayers && tempKartController.KCType == aKartController.eKCType.CPU)
+                    else if(numPlayersTemp >= numPlayers && tempKartController.KCType == aKartController.eKCType.CPU)
                         CPUsBehind.Add(tempKartController);
-                    else if (tempKartController.KCType == aKartController.eKCType.Human)
+                    else if(tempKartController.KCType == aKartController.eKCType.Human)
                         numPlayersTemp++;
-                    else
-                        tempKartController.acceleration = tempKartController.base_acceleration;
                 }
-
-                foreach (var car in CPUsAhead)
-                    car.acceleration = car.base_acceleration * (1 - (car.max_acceleration_change * GameState.Instance.getScorePenaltyCPUSpeed(car.PlayerName, Players[0].PlayerName)));
-
-                foreach (var car in CPUsBehind)
-                    car.acceleration = car.base_acceleration * (1 + (car.max_acceleration_change * GameState.Instance.getScoreBonusCPUSpeed(car.PlayerName, Players[numPlayers - 1].PlayerName)));
             }
         }
     }

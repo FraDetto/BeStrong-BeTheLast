@@ -90,9 +90,7 @@ public abstract class aKartController : aCollisionManager
     public float wallsMultiplier = 25f;
     public float accelerationMultiplier = 1f;
     public float kartWallDistance = 5f; 
-    public float heatingSpeed = 0.25f;
-    public float driftPenalty = 1f;
-    public bool enableSpeedRubberbanding;
+   
     public LayerMask layerMask;
 
     [Header("Model Parts")]
