@@ -12,7 +12,8 @@ using UnityEngine;
 public class TrishotBehaviour : aAbilitiesBehaviour
 {
 
-    internal float accelerationFromShot = 1.25f, speed;
+    internal float accelerationFromShot = 1.25f;
+    public float speed;
 
     private List<GameObject> shots = new List<GameObject>();
 

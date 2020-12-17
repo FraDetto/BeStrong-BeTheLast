@@ -27,7 +27,7 @@ public class SingleShotBehaviour : aAbilitiesBehaviour
             transform.Rotate(Vector3.right, 90f);
         }
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 2f, wallMask))
             KillMe();
     }
 

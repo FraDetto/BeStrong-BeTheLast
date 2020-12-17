@@ -58085,6 +58085,10 @@ MonoBehaviour:
   max_acceleration_change: 0.5
   acceleration: 80
   steering: 16
+  maxAngle: 30
+  wallsMultiplier: 25
+  accelerationMultiplier: 1
+  kartWallDistance: 5
   heatingSpeed: 0.25
   driftPenalty: 0.5
   enableSpeedRubberbanding: 1
@@ -58102,27 +58106,12 @@ MonoBehaviour:
   - {r: 0.2117647, g: 0.89920527, b: 1, a: 1}
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
+  touchingWall: 0
   frontSpawnpoint: {fileID: 1573634367110444934}
   rearSpawnpoint: {fileID: 5170522781035576951}
-  regenSpeed: 0.01
-  counterCooldown: 2.5
-  projectileCooldown: 5
-  specialCooldown: 30
+  powerCooldown: 5
   playerType: 1
-  counter: {fileID: 4702895947007250410, guid: 81509e9adb1ed2248b181e5058f0093c, type: 3}
-  trishot: {fileID: 6535925821718938808, guid: 22a1ac197d3f6e541907ba4299b88f4e, type: 3}
-  homing: {fileID: 1060716340684266996, guid: 156038ffd5efe0b40a3c92212ebfdbff, type: 3}
-  bouncing: {fileID: 5689535175888777058, guid: 605b68ec2c66c1f47a5372935324bc6a,
-    type: 3}
-  attracting: {fileID: 4437556481304381167, guid: 6d883bac64c818443bc39a94b27cc028,
-    type: 3}
-  blinding: {fileID: 3937913184368860993, guid: 1565fec0ba667934d831235762f24db9,
-    type: 3}
-  annoying: {fileID: 2288073003541870955, guid: fe31c3e4e590463439fa7de2dbabecff,
-    type: 3}
-  tanking: {fileID: 3128809539423854917, guid: 02721b404cf4de541a27957b9847da9b, type: 3}
-  rotating: {fileID: 4702895947007250410, guid: d0a53d487960f094f9e13440e54b5c48,
-    type: 3}
+  shield: {fileID: 4702895947007250410, guid: 81509e9adb1ed2248b181e5058f0093c, type: 3}
   UsaWrongWay: 1
 --- !u!82 &1995634396485058410
 AudioSource:
