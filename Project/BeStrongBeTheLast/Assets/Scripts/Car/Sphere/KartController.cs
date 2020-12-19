@@ -99,7 +99,7 @@ public sealed class KartController : aBSBTLKart
                     driftDisabled = !touchingGround;
 
                     Update_(
-                        touchingGround ? GB.GetAxis(JoystickName + "Horizontal") : 0,
+                        GB.GetAxis(JoystickName + "Horizontal"),
                         GB.GetButtonDown(JoystickName + "Drift"),
                         GB.GetButtonUp(JoystickName + "Drift")
                     );

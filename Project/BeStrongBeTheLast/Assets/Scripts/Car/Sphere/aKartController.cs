@@ -280,11 +280,11 @@ public abstract class aKartController : aCollisionManager
         if(touchingWall)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, CurrentSplineObject.transform.rotation, Time.deltaTime * 10f);
-            sphere.AddForce(transform.forward * currentSpeed * wallsMultiplier, ForceMode.Acceleration);
+            sphere.AddForce(kartNormal.forward * currentSpeed * wallsMultiplier, ForceMode.Acceleration);
             PlayTurboEffect();
         }
         else
-            sphere.AddForce(transform.forward * currentSpeed * accelerationMultiplier, ForceMode.Acceleration);
+            sphere.AddForce(kartNormal.forward * currentSpeed * accelerationMultiplier, ForceMode.Acceleration);
 
 
         //Gravity
