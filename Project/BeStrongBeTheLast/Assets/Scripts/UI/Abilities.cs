@@ -27,7 +27,7 @@ public class Abilities : PausableMonoBehaviour
     private float seconds = 5f;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
-    public AudioSource abilityReady, specialReady;
+    public AudioSource slotSound;
 
     private Color grayed;
 
@@ -42,7 +42,7 @@ public class Abilities : PausableMonoBehaviour
 
     public void Start_()
     {
-        grayed = new Color(0.1f, 0.1f, 0.1f);
+        grayed = new Color(0.25f, 0.25f, 0.25f);
         StartCoroutine(delayedStart());
         StartCoroutine(SlotMachine());
         StartCoroutine(Cooldown());
@@ -127,6 +127,9 @@ public class Abilities : PausableMonoBehaviour
         {
             if(kartController.slotMachine)
             {
+                if(!slotSound.isPlaying)
+                    slotSound.Play();
+
                 do
                     powerIndex = Random.Range(0, 6);
                 while(powerIndex == prevIndex);
@@ -136,6 +139,11 @@ public class Abilities : PausableMonoBehaviour
                 powerIcon.GetComponent<Image>().enabled = true;
                 powerIcon.GetComponent<Image>().sprite = powers[powerIndex];
                 yield return new WaitForSeconds(slotTimer);
+            }
+            else
+            {
+                if(slotSound.isPlaying)
+                    slotSound.Stop();
             }
 
             if(kartController.PowerEquipped())

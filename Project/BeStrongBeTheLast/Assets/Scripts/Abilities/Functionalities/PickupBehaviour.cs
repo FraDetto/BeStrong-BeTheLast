@@ -45,6 +45,7 @@ public class PickupBehaviour : PausableMonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("CPU"))
         {
+            GetComponent<AudioSource>().Play();
             kartController = other.transform.root.GetComponentInChildren<KartController>();
             StartCoroutine(Slotmachine());
             string playerName = kartController.transform.parent.gameObject.name;
