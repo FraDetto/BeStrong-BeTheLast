@@ -144,6 +144,8 @@ public class Abilities : PausableMonoBehaviour
             {
                 if(slotSound.isPlaying)
                     slotSound.Stop();
+
+                yield return null;
             }
 
             if(kartController.PowerEquipped())
