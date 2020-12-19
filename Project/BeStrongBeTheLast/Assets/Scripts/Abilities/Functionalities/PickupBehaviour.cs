@@ -69,8 +69,15 @@ public class PickupBehaviour : PausableMonoBehaviour
         {
             kartController.slotMachine = true;
             yield return new WaitForSeconds(2f);
-            int powerIndex = Random.Range(0, powers.Length);
-            kartController.equippedPower = powers[powerIndex];
+            do
+            {
+                int powerIndex = Random.Range(0, powers.Length);
+                kartController.equippedPower = powers[powerIndex];
+            }
+            while(kartController.equippedPower.Equals(kartController.prevEquippedPower));
+
+            kartController.prevEquippedPower = kartController.equippedPower;
+
             kartController.slotMachine = false;
         }
     }

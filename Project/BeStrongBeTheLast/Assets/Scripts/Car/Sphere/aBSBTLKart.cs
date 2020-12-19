@@ -41,6 +41,8 @@ public abstract class aBSBTLKart : aKartController
 
     internal bool powerRecharging;
     public GameObject equippedPower;
+    internal GameObject prevEquippedPower;
+
 
     internal bool iAmBlinded;
 

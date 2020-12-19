@@ -27,6 +27,7 @@ public abstract class aAbilitiesBehaviour : aCollisionManager
 
     public bool UseScorBiasBonus = true;
 
+    public Sprite icon;
 
     protected void Start_()
     {

@@ -15,15 +15,21 @@ public class Abilities : PausableMonoBehaviour
 
     public KartController kartController;
 
-    public Image warningImage;
     public GameObject panelRankings, blinding, panelPause;
     public GameObject shieldIcon, powerIcon;
-    public Sprite shieldAct, shieldInact, powerAct, powerInact;
+    public Sprite shieldAct;
     public GameObject shieldUI, powerUI;
     public ParticleSystem particles;
+    public Sprite[] powers;
+    public float slotTimer = 0.25f;
+    private int powerIndex, prevIndex;
+    public GameObject cooldown;
+    private float seconds = 5f;
 
     private bool particlesPlayed = false, oldCanUseCounter, oldCanUseProj, oldCanUseSpecial;
     public AudioSource abilityReady, specialReady;
+
+    private Color grayed;
 
     private bool started;
 
@@ -36,12 +42,15 @@ public class Abilities : PausableMonoBehaviour
 
     public void Start_()
     {
+        grayed = new Color(0.1f, 0.1f, 0.1f);
         StartCoroutine(delayedStart());
+        StartCoroutine(SlotMachine());
+        StartCoroutine(Cooldown());
     }
 
     private void Update()
     {
-        /*if (started)
+        if (started)
         {
             var newCanUseShield = kartController.canUseShield();
             var newCanUsePower = kartController.canUsePower();
@@ -52,25 +61,18 @@ public class Abilities : PausableMonoBehaviour
             var shieldUsed = shieldUI.transform.GetChild(1).gameObject;
             var powerUsed = powerUI.transform.GetChild(1).gameObject;
 
-            if (shieldReady.activeInHierarchy)
-                shieldUsed.SetActive(kartController.powerRecharging);
-
-            if (powerReady.activeInHierarchy)
-                powerUsed.SetActive(kartController.powerRecharging);
-
             shieldReady.SetActive(newCanUseShield);
             powerReady.SetActive(newCanUsePower);
 
-            shieldIcon.GetComponent<Image>().sprite = newCanUseShield ? shieldAct : shieldInact;
-            powerIcon.GetComponent<Image>().sprite = newCanUsePower ? powerAct : powerInact;
+            shieldIcon.GetComponent<Image>().color = newCanUseShield ? Color.white : grayed;
+
+            powerIcon.GetComponent<Image>().color = newCanUseShield ? Color.white : grayed;
 
             oldCanUseCounter = kartController.canUseShield();
             oldCanUseProj = kartController.canUsePower();
 
-            warningImage.enabled = kartController.warning;
-
             blinding.SetActive(kartController.iAmBlinded);
-        }*/
+        }
     }
 
     private void PlayParticle(GameObject abilityUI, AudioSource sound)
@@ -119,4 +121,54 @@ public class Abilities : PausableMonoBehaviour
         disableParticleCameras();
     }
 
+    private IEnumerator SlotMachine()
+    {
+        while(true)
+        {
+            if(kartController.slotMachine)
+            {
+                do
+                    powerIndex = Random.Range(0, 6);
+                while(powerIndex == prevIndex);
+
+                prevIndex = powerIndex;
+
+                powerIcon.GetComponent<Image>().enabled = true;
+                powerIcon.GetComponent<Image>().sprite = powers[powerIndex];
+                yield return new WaitForSeconds(slotTimer);
+            }
+
+            if(kartController.PowerEquipped())
+            {
+                powerIcon.GetComponent<Image>().sprite = kartController.equippedPower.GetComponent<aAbilitiesBehaviour>().icon;
+                yield return null;
+            }
+            else
+            {
+                powerIcon.GetComponent<Image>().enabled = false;
+                yield return null;
+            }
+        } 
+    }
+
+    private IEnumerator Cooldown()
+    {
+        while(true)
+        {
+            if(kartController.powerRecharging)
+            {
+                if(cooldown.GetComponent<Text>().text.Equals(""))
+                    seconds = 5;
+
+                cooldown.GetComponent<Text>().text = seconds.ToString();
+                seconds -= 1;
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+                cooldown.GetComponent<Text>().text = "";
+                yield return null;
+            }
+        }
+    }
 }
