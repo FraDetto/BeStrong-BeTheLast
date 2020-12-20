@@ -44,10 +44,13 @@ public class HomingBehaviour : aAbilitiesBehaviour
             transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.up, hit.normal, 1f), -transform.forward);
             transform.Rotate(Vector3.right, 90f);
         }
+        
+        if(target)
+            transform.Translate(Vector3.forward * (speed + 25f) * Time.deltaTime);
+        else
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 1f, wallMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 2f, wallMask))
             KillMe();
     }
 

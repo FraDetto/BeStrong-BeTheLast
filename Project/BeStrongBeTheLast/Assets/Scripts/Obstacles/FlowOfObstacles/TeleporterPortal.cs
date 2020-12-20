@@ -11,14 +11,13 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class TeleporterPortal : PausableMonoBehaviour
 {
-    /*
-    public EndManager endScriptCallback;
     public SplineObject assignedSpline;
+
+    private int kartPassed;
 
     private void Start()
     {
-        if (endScriptCallback == null)
-            throw new System.Exception($"Devi settare 'endScriptCallback' su teletrasporto: {name}!");
+        
     }
 
     private void Update()
@@ -31,10 +30,11 @@ public class TeleporterPortal : PausableMonoBehaviour
     {
         var go = other.gameObject.transform.root.gameObject;
 
-        if (GB.CompareORTags(go, "Player", "CPU") && endScriptCallback.corControl)
+        if (GB.CompareORTags(go, "Player", "CPU"))
         {
-            endScriptCallback.corControl = false;
-            endScriptCallback.TeleportCar(go);          
+            kartPassed += 1;
+            //endScriptCallback.corControl = false;
+            //endScriptCallback.TeleportCar(go);          
             ClosePortal();
         }
     }
@@ -42,8 +42,7 @@ public class TeleporterPortal : PausableMonoBehaviour
     public void ClosePortal()
     {
         //assignedSpline.ResetPortal();
-        endScriptCallback.teleporterSpawned = false;
+        //endScriptCallback.teleporterSpawned = false;
         Destroy(transform.root.gameObject);
     }
-    */
 }
