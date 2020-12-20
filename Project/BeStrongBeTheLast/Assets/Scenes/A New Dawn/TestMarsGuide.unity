@@ -30377,6 +30377,11 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 5138737576269963143, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 24375
+      objectReference: {fileID: 0}
     - target: {fileID: 4429372628687542873, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30617,15 +30622,55 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5138737576269963146, guid: 5c7a67752a911df4b8adabe1e32586e2,
+    - target: {fileID: 874437580509217640, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_AnchoredPosition.x
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 874437579755384037, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138737576269963146, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 874437579755384035, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 874437579755384035, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_IgnoreReversedGraphics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 874437580509217643, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138737575475443902, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138737575475443902, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138737576269963140, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: volumeLayer.m_Bits
+      value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 874437580509217641, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1536736067319527349, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
@@ -30662,16 +30707,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 874437579755384035, guid: 5c7a67752a911df4b8adabe1e32586e2,
-        type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 874437580509217640, guid: 5c7a67752a911df4b8adabe1e32586e2,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 960
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c7a67752a911df4b8adabe1e32586e2, type: 3}
@@ -30954,6 +30989,16 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1056580853}
+    - target: {fileID: 7839088322942564789, guid: 5084738da03a1934a8189cf3ceff3313,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7839088322942564789, guid: 5084738da03a1934a8189cf3ceff3313,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5084738da03a1934a8189cf3ceff3313, type: 3}
 --- !u!1 &1563751926
@@ -32618,6 +32663,11 @@ PrefabInstance:
         type: 3}
       propertyPath: KCType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284683511250782237, guid: acfec885d5c053e448d6eee25096fc23,
+        type: 3}
+      propertyPath: MaxKMH
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1284683510443141259, guid: acfec885d5c053e448d6eee25096fc23,
         type: 3}
@@ -38041,6 +38091,26 @@ PrefabInstance:
       propertyPath: CurrentSplineObject
       value: 
       objectReference: {fileID: 1056580853}
+    - target: {fileID: 7839088322942564789, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7839088322942564789, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7839088322942564789, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7839088322942564789, guid: 0b6de09d64a16d54a83cddaa044eaaeb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b6de09d64a16d54a83cddaa044eaaeb, type: 3}
 --- !u!1 &1952255091
