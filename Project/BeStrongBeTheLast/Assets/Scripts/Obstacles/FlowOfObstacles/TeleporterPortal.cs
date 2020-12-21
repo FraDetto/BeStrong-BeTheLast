@@ -11,6 +11,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class TeleporterPortal : PausableMonoBehaviour
 {
+    public Transform CPUSplineRoot;
     public SplineObject assignedSpline;
 
     private int kartPassed;
@@ -34,7 +35,7 @@ public class TeleporterPortal : PausableMonoBehaviour
         {
             kartPassed += 1;
             //endScriptCallback.corControl = false;
-            //endScriptCallback.TeleportCar(go);          
+            TeleportCar(go);          
             ClosePortal();
         }
     }
@@ -44,5 +45,28 @@ public class TeleporterPortal : PausableMonoBehaviour
         //assignedSpline.ResetPortal();
         //endScriptCallback.teleporterSpawned = false;
         Destroy(transform.root.gameObject);
+    }
+
+    public void TeleportCar(GameObject car)
+    {
+        var controller = car.GetComponentInChildren<KartController>();
+        var sphere = controller.sphere;
+
+        int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
+
+        splineScore = GameState.Instance.averageSplineScore;
+        lap = Mathf.FloorToInt(splineScore / (float)splineTot);
+        splineIndex = Mathf.Max(0, (splineScore - lap * splineTot) % splineTot);
+
+        // Debug.Log(splineIndex + "/" + splineTot);
+
+        var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+
+        if(splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
+            GameState.Instance.laps[controller.transform.root.gameObject.name]--;
+
+        // Miky: COSA FA?
+        sphere.transform.position = splineTransform.position;
+        //controller.rotateToSpline = true;
     }
 }

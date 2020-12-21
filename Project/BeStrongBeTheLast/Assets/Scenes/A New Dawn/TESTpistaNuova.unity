@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1759,7 +1759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32005908}
   m_LocalRotation: {x: 0.0026141019, y: 0.0812798, z: -0.016559208, w: -0.9965504}
-  m_LocalPosition: {x: 453.58, y: -48.4, z: 747.19}
+  m_LocalPosition: {x: 453.58, y: -61, z: 747.19}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -15186,7 +15186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344800550}
   m_LocalRotation: {x: 0.0016560798, y: 0.13853846, z: -0.01668227, w: -0.9902152}
-  m_LocalPosition: {x: 451.22, y: -48.6, z: 755.67}
+  m_LocalPosition: {x: 451.22, y: -61, z: 755.67}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -38257,7 +38257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871629042}
   m_LocalRotation: {x: 0, y: 0.2626863, z: -0, w: -0.9648813}
-  m_LocalPosition: {x: 445.21, y: -48.4, z: 769.11}
+  m_LocalPosition: {x: 445.21, y: -61, z: 769.11}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -43346,7 +43346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993823474}
   m_LocalRotation: {x: 0.0006850618, y: 0.19577636, z: -0.016750269, w: -0.98050535}
-  m_LocalPosition: {x: 448.2, y: -48.4, z: 764}
+  m_LocalPosition: {x: 448.2, y: -61, z: 764}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -52584,7 +52584,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175899858}
   m_LocalRotation: {x: -0.0012533108, y: 0.30766502, z: -0.016717358, w: -0.95134705}
-  m_LocalPosition: {x: 442.64, y: -48.7, z: 774.83}
+  m_LocalPosition: {x: 442.64, y: -61, z: 774.83}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -57966,8 +57966,8 @@ Transform:
   - {fileID: 619708038}
   - {fileID: 471767637}
   - {fileID: 1720042607}
-  - {fileID: 254078799}
   - {fileID: 1696173445}
+  - {fileID: 254078799}
   m_Father: {fileID: 906523305}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61263,7 +61263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385426776}
   m_LocalRotation: {x: -0.0021888653, y: 0.3605334, z: -0.01662076, w: -0.9325957}
-  m_LocalPosition: {x: 438.26, y: -49, z: 780}
+  m_LocalPosition: {x: 438.26, y: -61, z: 780}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -63900,7 +63900,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432713719}
   m_LocalRotation: {x: 0.0005833985, y: -0.02545542, z: -0.008119475, w: -0.99964285}
-  m_LocalPosition: {x: 453.6, y: -48.3, z: 740.1}
+  m_LocalPosition: {x: 453.6, y: -61, z: 740.1}
   m_LocalScale: {x: 35, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1056580851}
@@ -68826,6 +68826,11 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 5138737576269963143, guid: 5c7a67752a911df4b8adabe1e32586e2,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 24375
+      objectReference: {fileID: 0}
     - target: {fileID: 4429372628687542873, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -69069,7 +69074,7 @@ PrefabInstance:
     - target: {fileID: 874437580509217640, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -350
       objectReference: {fileID: 0}
     - target: {fileID: 8466272197615001798, guid: 5c7a67752a911df4b8adabe1e32586e2,
         type: 3}
@@ -77135,6 +77140,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6690335803654658913, guid: 56078ce8bf25ebe4fabd9a7d5efe8935,
+        type: 3}
+      propertyPath: CPUSplineRoot
+      value: 
+      objectReference: {fileID: 1056580851}
+    - target: {fileID: 6690335803654658913, guid: 56078ce8bf25ebe4fabd9a7d5efe8935,
+        type: 3}
+      propertyPath: assignedSpline
+      value: 
+      objectReference: {fileID: 1056580853}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56078ce8bf25ebe4fabd9a7d5efe8935, type: 3}
 --- !u!4 &1720581769 stripped
