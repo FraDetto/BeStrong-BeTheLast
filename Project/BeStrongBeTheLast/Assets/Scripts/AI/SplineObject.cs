@@ -81,7 +81,7 @@ public sealed class SplineObject : aCollisionManager, System.IComparable
         {
             foreach (var nextS in nextSplines)
                 if (!IsWallClosed(nextS, kartController))
-                    if (nextS.probability == 0 || Random.value < nextS.probability)
+                    if (nextS.probability == 0 || Random.value <= nextS.probability)
                     {
                         nextS.prev_Spline = this;
 
