@@ -7,12 +7,15 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider))]
 public class TeleporterPortal : PausableMonoBehaviour
 {
     public Transform CPUSplineRoot;
     public SplineObject assignedSpline;
+
+    public GameObject end;
 
     private int kartPassed;
 
@@ -37,14 +40,14 @@ public class TeleporterPortal : PausableMonoBehaviour
             //endScriptCallback.corControl = false;
             TeleportCar(go);
             if(kartPassed == 8)
-                ClosePortal();
+                StartCoroutine(ClosePortal());
         }
     }
 
-    public void ClosePortal()
+    private IEnumerator ClosePortal()
     {
-        //assignedSpline.ResetPortal();
-        //endScriptCallback.teleporterSpawned = false;
+        yield return new WaitForSeconds(5f);
+        end.transform.position = transform.position;
         gameObject.SetActive(false);
     }
 
@@ -53,21 +56,23 @@ public class TeleporterPortal : PausableMonoBehaviour
         var controller = car.GetComponentInChildren<KartController>();
         var sphere = controller.sphere;
 
-        int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
+        /*int lap, splineIndex, splineScore, splineTot = CPUSplineRoot.childCount;
 
         splineScore = GameState.Instance.averageSplineScore;
         lap = Mathf.FloorToInt(splineScore / (float)splineTot);
-        splineIndex = Mathf.Max(0, (splineScore - lap * splineTot) % splineTot);
+        splineIndex = Mathf.Max(0, (splineScore - lap * splineTot) % splineTot); */
 
         // Debug.Log(splineIndex + "/" + splineTot);
 
-        var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
+        /*var splineTransform = CPUSplineRoot.GetChild(splineIndex).transform;
 
         if(splineIndex >= controller.CurrentSplineObject.transform.GetSiblingIndex())
-            GameState.Instance.laps[controller.transform.root.gameObject.name]--;
+            GameState.Instance.laps[controller.transform.root.gameObject.name]--; */
+
+        sphere.transform.position = assignedSpline.transform.position;
 
         // Miky: COSA FA?
-        sphere.transform.position = assignedSpline.transform.position;
+
         //controller.rotateToSpline = true;
     }
 }
