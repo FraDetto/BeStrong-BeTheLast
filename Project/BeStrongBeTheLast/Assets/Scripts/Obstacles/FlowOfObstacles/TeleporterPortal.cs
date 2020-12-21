@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(BoxCollider))]
 public class TeleporterPortal : PausableMonoBehaviour
 {
     public Transform CPUSplineRoot;
@@ -35,8 +35,9 @@ public class TeleporterPortal : PausableMonoBehaviour
         {
             kartPassed += 1;
             //endScriptCallback.corControl = false;
-            TeleportCar(go);          
-            ClosePortal();
+            TeleportCar(go);
+            if(kartPassed == 8)
+                ClosePortal();
         }
     }
 
@@ -44,7 +45,7 @@ public class TeleporterPortal : PausableMonoBehaviour
     {
         //assignedSpline.ResetPortal();
         //endScriptCallback.teleporterSpawned = false;
-        Destroy(transform.root.gameObject);
+        gameObject.SetActive(false);
     }
 
     public void TeleportCar(GameObject car)
@@ -66,7 +67,7 @@ public class TeleporterPortal : PausableMonoBehaviour
             GameState.Instance.laps[controller.transform.root.gameObject.name]--;
 
         // Miky: COSA FA?
-        sphere.transform.position = splineTransform.position;
+        sphere.transform.position = assignedSpline.transform.position;
         //controller.rotateToSpline = true;
     }
 }

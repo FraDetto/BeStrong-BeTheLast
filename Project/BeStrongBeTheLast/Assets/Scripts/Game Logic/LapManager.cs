@@ -19,6 +19,7 @@ public class LapManager : PausableMonoBehaviour
     public Text lapText, posText, startText, endText;
     public GameObject player, pausePanel, endPanel;
     private int countdown;
+    private Color defaultColor, bronze, silver, gold;
 
     public AudioSource count;
 
@@ -33,6 +34,10 @@ public class LapManager : PausableMonoBehaviour
     public void Start_()
     {
         countdown = countDownDuration;
+        defaultColor = posText.color;
+        bronze = new Color(205f/255f, 127f/255f, 50f/255f);
+        silver = new Color(192f/255f, 192f/255f, 192f/255f);
+        gold = new Color(218f/255f, 165f/255f, 32f/255f);
         startLoop();
 
         if (count.isActiveAndEnabled)
@@ -80,15 +85,31 @@ public class LapManager : PausableMonoBehaviour
                 {
                     case 1:
                         posText.text = "1st";
+                        posText.color = Color.red;
                         break;
                     case 2:
                         posText.text = "2nd";
+                        posText.color = defaultColor;
                         break;
                     case 3:
                         posText.text = "3rd";
+                        posText.color = defaultColor;
+                        break;
+                    case 6:
+                        posText.text = "6th";
+                        posText.color = bronze;
+                        break;
+                    case 7:
+                        posText.text = "7th";
+                        posText.color = silver;
+                        break;
+                    case 8:
+                        posText.text = "8th";
+                        posText.color = gold;
                         break;
                     default:
                         posText.text = GameState.Instance.getCurrentRanking(player.name) + "th";
+                        posText.color = defaultColor;
                         break;
                 }
             }
