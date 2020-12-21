@@ -34,7 +34,7 @@ public class LapManager : PausableMonoBehaviour
     public void Start_()
     {
         countdown = countDownDuration;
-        defaultColor = posText.color;
+        defaultColor = new Color(98f / 255f, 98f / 255f, 210f / 255f);
         bronze = new Color(205f/255f, 127f/255f, 50f/255f);
         silver = new Color(192f/255f, 192f/255f, 192f/255f);
         gold = new Color(218f/255f, 165f/255f, 32f/255f);

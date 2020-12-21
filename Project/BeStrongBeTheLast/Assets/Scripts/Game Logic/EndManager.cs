@@ -50,9 +50,7 @@ public class EndManager : PausableMonoBehaviour
         {
             if(GameState.Instance.laps.ContainsKey(go.name))
             {
-                Debug.Log(GameState.Instance.laps[go.name]);
                 GameState.Instance.laps[go.name]++;
-                Debug.Log(GameState.Instance.laps[go.name]);
             }
             else
                 GameState.Instance.laps.Add(go.name, 0);
