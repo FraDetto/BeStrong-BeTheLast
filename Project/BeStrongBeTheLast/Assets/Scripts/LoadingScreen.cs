@@ -99,7 +99,9 @@ public class LoadingScreen : MonoBehaviour
                     UI.transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 1, 1);
                     UI.transform.GetChild(1).gameObject.SetActive(true);
 
-                    p1canvas.Find("PowerGaugePanel").GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, 225f, 0f);
+                    p1canvas.Find("shield").GetComponent<RectTransform>().anchoredPosition = new Vector3(280f, 385, 0f);
+                    p1canvas.Find("power").GetComponent<RectTransform>().anchoredPosition = new Vector3(80f, 385, 0f);
+                    p1canvas.Find("cooldown").GetComponent<RectTransform>().anchoredPosition = new Vector3(180f, 385, 0f);
 
                     var minimap = UI.transform.Find("MinimapCanvas");
                     minimap.GetChild(0).gameObject.SetActive(false);
