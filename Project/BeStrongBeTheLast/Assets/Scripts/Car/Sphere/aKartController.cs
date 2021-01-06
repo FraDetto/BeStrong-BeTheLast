@@ -128,6 +128,8 @@ public abstract class aKartController : aCollisionManager
 
     public bool touchingWall = false;
 
+    public LayerMask plane_;
+
     protected void Start_()
     {
         if(vCam)
@@ -172,8 +174,9 @@ public abstract class aKartController : aCollisionManager
 
         var hittingRight = Physics.Raycast(transform.position, transform.right, kartWallDistance, wallMask);
         var hittingLeft = Physics.Raycast(transform.position, -transform.right, kartWallDistance, wallMask);
+        var hittingFront = Physics.Raycast(transform.position, transform.forward, kartWallDistance, wallMask);
 
-        if(hittingLeft || hittingRight)
+        if(hittingLeft || hittingRight || hittingFront)
         {
             touchingWall = true;
             if((hittingLeft && xAxis < 0) || (hittingRight && xAxis > 0))
@@ -269,6 +272,13 @@ public abstract class aKartController : aCollisionManager
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(-25, 90, xAxis * 45);
+
+        if(!Physics.Raycast(transform.position, -transform.up, Mathf.Infinity, plane_))
+        {
+            transform.position = new Vector3(CurrentSplineObject.transform.position.x, CurrentSplineObject.transform.position.y + 2f, CurrentSplineObject.transform.position.z);
+            sphere.position = new Vector3(CurrentSplineObject.transform.position.x, CurrentSplineObject.transform.position.y + 2f + distanzaYDallaSfera, CurrentSplineObject.transform.position.z);
+        }
+            
     }
 
     protected void FixedUpdate_()

@@ -96,7 +96,7 @@ public sealed class KartController : aBSBTLKart
                 }
                 else
                 {
-                    driftDisabled = !touchingGround;
+                    driftDisabled = !touchingGround || touchingWall;
 
                     Update_(
                         GB.GetAxis(JoystickName + "Horizontal"),
@@ -187,14 +187,18 @@ public sealed class KartController : aBSBTLKart
 
     private float SteerAngle(Vector3 dest)
     {
-        dest.y = 0;
+        if(touchingGround)
+        {
+            dest.y = 0;
 
-        var lookPos = dest - transform.position;
-        lookPos.y = 0;
+            var lookPos = dest - transform.position;
+            lookPos.y = 0;
 
-        var rotation = Quaternion.LookRotation(lookPos);
+            var rotation = Quaternion.LookRotation(lookPos);
 
-        return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
+            return Mathf.DeltaAngle(rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
+        }
+        else return 0;
     }
 
     private bool WrongWayFromObstacle

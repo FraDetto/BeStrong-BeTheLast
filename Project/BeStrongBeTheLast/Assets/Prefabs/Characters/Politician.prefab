@@ -58080,6 +58080,9 @@ MonoBehaviour:
     m_Bits: 4096
   CurrentSplineObject: {fileID: 0}
   TempestivityOfDriftGearChange: 3
+  MaxKMH: 200
+  base_acceleration: 80
+  max_acceleration_change: 0.5
   acceleration: 200
   steering: 15
   maxAngle: 45
@@ -58101,6 +58104,9 @@ MonoBehaviour:
   - {r: 1, g: 0.68649673, b: 0.13679248, a: 1}
   - {r: 0.95119345, g: 0.2117647, b: 1, a: 1}
   touchingWall: 0
+  plane_:
+    serializedVersion: 2
+    m_Bits: 65536
   frontSpawnpoint: {fileID: 7006320093493715640}
   rearSpawnpoint: {fileID: 7032394487709575137}
   powerCooldown: 5
@@ -68153,7 +68159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.7058072, g: 0, b: 0.8396226, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

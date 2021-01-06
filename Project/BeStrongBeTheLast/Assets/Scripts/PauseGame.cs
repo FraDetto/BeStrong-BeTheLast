@@ -67,6 +67,7 @@ public class PauseGame : MonoBehaviour
     {
         Time.timeScale = 1;
         GameState.resetGame();
+        GameManager.Instance.player2added = false;
         var audio = GameManager.Instance.GetComponent<AudioSource>();
         audio.clip = GameManager.Instance.menuTrack;
         audio.volume = 1f;
